@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<client>
+	
+	<!-- client mode -->
+	<!-- available mode: 
+	 all-in-one : Altogether mode
+	 built-in-server : C/S mode
+	 distributed: all is separated
+	-->
+	<mode name="distributed" />
+	
+	<!-- 服务器地址 -->
+	<server-list>
+		<server default="true">
+			<name>my server</name>
+			<ip>127.0.0.1</ip>
+		</server>
+		<server>
+			<name>public server</name>
+			<ip>127.0.0.1</ip>
+			<!-- port 为可选, 没有指定则使用定义的默认端口号 -->
+			<port>1289</port>
+		</server>
+		<server>
+			<name>test server</name>
+			<ip>127.0.0.1</ip>
+		</server>
+	</server-list>
+	
+	<!-- 在默认服务器上搜索服务的端口 -->
+	<service-lookup>
+		<port>1299</port>
+	</service-lookup>
+</client>

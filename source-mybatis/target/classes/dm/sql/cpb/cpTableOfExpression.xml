@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.configparamter.TableOfExpressionMapper">
+
+    <!-- 隔天生效时，会导致修订新版本，老版本查询不到配置数据，因此暂时改为当天生效 -->
+    <select id="select" parameterType="map" resultType="dyna.common.bean.data.configparamter.TableOfExpression">
+		select a.*
+		  from ma_config_table_f a
+        <where>
+            <choose>
+                <when test="RELEASETIME != null and RELEASETIME != ''">
+                    and #RELEASETIME:DATE# >= a.releasetime
+                    and (a.obsoletetime is null or #RELEASETIME:DATE# <![CDATA[ < ]]> a.obsoletetime)
+                </when>
+                <otherwise>
+                    <if test="STATUS==null">
+                        and a.hasnextrevision = 'N'
+                    </if>
+                    <if test="STATUS== 'RLS'">
+                        and a.releasetime is not null and a.obsoletetime is null
+                    </if>
+                    <if test="STATUS!=null" >
+                        and a.hasnextrevision = 'N'
+                    </if>
+                </otherwise>
+            </choose>
+            and a.masterguid = #MASTERGUID#
+        </where>
+		 order by a.dataseq
+    </select>
+    
+    <select id="haveRLSData" parameterType="java.lang.String" resultType="dyna.common.bean.data.configparamter.TableOfExpression">
+        select case cnt
+                 when 0 then 'N'
+                 else 'Y'
+               end haverls
+          from (select count(guid) cnt
+		          from ma_config_table_f
+		         where releasetime is not null
+		           and masterguid = #MASTERGUID#
+               )
+    </select>
+    
+    <insert id="inserBatchList" parameterType="map">
+             into MA_CONFIG_TABLE_F(guid, 
+                                   masterguid, 
+                                   DATASEQ,
+                                   fnumber, 
+                                   drawvariable, 
+                                   formula, 
+                                   variableinformula,
+                                   
+                                   CREATEUSERGUID, 
+	                               CREATETIME, 
+	                               UPDATEUSERGUID, 
+	                               UPDATETIME) 
+                           values (#GUID#, 
+                                   #MASTERGUID#, 
+                                   #DATASEQ#,
+                                   #FNUMBER#, 
+                                   #DRAWVARIABLE#, 
+                                   #FORMULA#, 
+                                   #VARIABLEINFORMULA#,
+                                   
+                                   #CREATEUSERGUID:VARCHAR:NULL#,
+				                   #CURRENTTIME:TIMESTAMP#,
+								   #UPDATEUSERGUID:VARCHAR:NULL#,
+								   #CURRENTTIME:TIMESTAMP#)
+    </insert>
+    
+    
+    <update id="updateBatchList" parameterType="map">
+             update ma_config_table_f 
+               set UPDATEUSERGUID = #UPDATEUSERGUID:VARCHAR:NULL#,
+                   UPDATETIME = #CURRENTTIME:TIMESTAMP#,
+                   DATASEQ = #DATASEQ#,
+                   fnumber = #FNUMBER#,
+                   drawvariable = #DRAWVARIABLE#,
+                   formula = #FORMULA#,
+                   variableinformula = #VARIABLEINFORMULA#
+             where guid = #GUID#;
+    </update>
+    
+    <update id="updateNextRevisionBatchList" parameterType="map">
+        update ma_config_table_f 
+           set UPDATEUSERGUID = #UPDATEUSERGUID:VARCHAR:NULL#,
+               UPDATETIME = #CURRENTTIME:TIMESTAMP#,
+               hasnextrevision = 'Y'
+         where releasetime is not null 
+               and obsoletetime is null
+               and guid=#GUID#
+    </update>
+    
+    <!-- 按行删除配置数据 -->
+    <delete id="deleteLine" parameterType="java.lang.String">
+            delete from MA_CONFIG_TABLE_F a where releasetime is null and guid = #GUID#;
+    </delete>
+    
+    <!-- 删除对象时,同步删除配置数据 -->
+    <delete id="deleteByMaster" parameterType="java.lang.String">
+        delete from MA_CONFIG_TABLE_F a where masterguid = #MASTERGUID#
+    </delete>
+    
+    <!-- 删除工作版本对象时,同步删除配置数据 -->
+    <update id="clearWIP" parameterType="map">
+            update MA_CONFIG_TABLE_F 
+               set UPDATEUSERGUID = #UPDATEUSERGUID:VARCHAR:NULL#,
+                   UPDATETIME = $CURRENTTIME$,
+                   hasnextrevision = 'N'
+             where hasnextrevision = 'Y' and obsoletetime is null and masterguid = #MASTERGUID#;
+    </update>
+    
+    <!-- 删除工作版本对象时,同步删除配置数据 -->
+    <delete id="deleteWIP" parameterType="java.lang.String">
+ 	        delete from MA_CONFIG_TABLE_F where releasetime is null and masterguid = #MASTERGUID#;
+    </delete>
+</mapper>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.MyScheduleMapper">
+
+	<sql id="selectFeilds">
+		SELECT a.*,
+		(select t1.username from sa_user t1 where t1.guid = a.owneruserguid) OWNERUSERNAME
+	</sql>
+
+	<sql id="from">
+		FROM SA_USER_SCHEDULE a
+	</sql>
+
+	<sql id="orderby">
+		ORDER BY a.updatetime
+	</sql>
+
+	<select id="select" parameterType="map" resultType="dyna.common.dto.MySchedule">
+		<include refid="selectFeilds" />
+		<include refid="from" />
+		<where>
+			<if  test="GUID!=null">and a.guid=#GUID#</if>
+			<if  test="OWNERUSERGUID!=null">and a.owneruserguid=#OWNERUSERGUID#</if>
+			<if  test="SCHEDULETITLE!=null">and a.scheduletitle=#SCHEDULETITLE#</if>
+			<if  test="SCHEDULECONTENT!=null">and a.schedulecontent=#SCHEDULECONTENT#</if>
+			<if  test="SCHEDULEDATE!=null">and a.scheduledate=#SCHEDULEDATE#</if>
+			<if  test="CREATEUSER!=null">and a.createuser=#CREATEUSER#</if>
+			<if  test="CREATETIME!=null">and a.createtime=#CREATETIME#</if>
+			<if  test="UPDATEUSER!=null">and a.updateuser=#UPDATEUSER#</if>
+			<if  test="UPDATETIME!=null">and a.updatetime=#UPDATETIME#</if>
+		</where>
+		<include refid="orderby" />
+	</select>
+
+	<insert id="insert" parameterType="dyna.common.dto.MySchedule">
+		INSERT INTO SA_USER_SCHEDULE a 
+		(
+		a.guid,
+		a.owneruserguid,
+		a.scheduletitle,
+		a.schedulecontent,
+		a.scheduledate,
+		a.createuser,
+		a.createtime,
+		a.updateuser,
+		a.updatetime
+		)
+		VALUES(
+		#GUID#,
+		#OWNERUSERGUID:VARCHAR:NULL#,
+		#SCHEDULETITLE:VARCHAR:NULL#,
+		#SCHEDULECONTENT:VARCHAR:NULL#,
+		#SCHEDULEDATE:VARCHAR:NULL#,
+		#CREATEUSER:VARCHAR:NULL#,
+		#CURRENTTIME:TIMESTAMP#,
+		#UPDATEUSER:VARCHAR:NULL#,
+		#CURRENTTIME:TIMESTAMP#
+		)
+	</insert>
+
+	<update id="update" parameterType="dyna.common.dto.MySchedule">
+		UPDATE SA_USER_SCHEDULE 
+		<set>
+			updateuser = #UPDATEUSER#,
+			updatetime = #CURRENTTIME:TIMESTAMP#,
+			<if  test="OWNERUSERGUID!=null">a.owneruserguid=#OWNERUSERGUID#,</if>
+			<if  test="SCHEDULETITLE!=null">a.scheduletitle=#SCHEDULETITLE#,</if>
+			<if  test="SCHEDULECONTENT!=null">a.schedulecontent=#SCHEDULECONTENT#,</if>
+			<if  test="SCHEDULEDATE!=null">a.scheduledate=#SCHEDULEDATE#,</if>
+		</set>
+		WHERE guid = #GUID#
+		AND updatetime = #UPDATETIME#
+	</update>
+
+	<delete id="delete" parameterType="java.lang.String">
+		DELETE FROM SA_USER_SCHEDULE 
+		WHERE guid = #GUID#
+	</delete>
+
+</mapper>

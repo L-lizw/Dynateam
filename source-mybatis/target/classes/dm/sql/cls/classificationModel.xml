@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.model.cls.ClassificationModelMapper">
+	
+	<select id="selectItemData" parameterType="java.util.HashMap" resultType="dyna.common.bean.data.FoundationObjectImpl" statementType="STATEMENT">
+	    SELECT CF$$.GUID AS GUID$$,
+	           CF$$.FOUNDATIONFK,
+	           CF$$.CLASSIFICATIONITEMGUID AS CLASSIFICATION$$
+               $REVISIONCOLUMNS$
+	      from $CFTABLENAME$ CF$$
+	           <if test="TABLESQL!=null and TABLESQL !=''">
+	           $TABLESQL$
+	           </if>
+	      <where>
+			  CF$$.FOUNDATIONFK = #FOUNDATIONFK#
+	          <if test="CFITEMFK!=null and CFITEMFK != ''">AND CF$$.CLASSIFICATIONITEMGUID=#CFITEMFK#</if>
+	          <if test="WHERESQL!=null and WHERESQL!=''">$WHERESQL$</if>
+	      </where>
+	</select>
+	
+	<delete id="deleteClassificationData" parameterType="map">
+	    DELETE FROM $TABLE$
+	        <if test="WHERE!=null">$WHERE$</if>
+	</delete>
+	
+	<delete id="deleteOverflowCFIterationData" parameterType="java.util.Map">
+	    DELETE FROM $CFTABLENAME$_I 
+	     WHERE FOUNDATIONFK = #FOUNDATIONGUID#
+	       AND CLASSIFICATIONITEMGUID = #CLASSIFICATIONITEMGUID#
+	       AND ITERATIONID <![CDATA[<=]]> ($MAXITERATIONID$ - $LIMITITERATION$)
+	</delete>
+	
+	<insert id="insertCFIterationData" parameterType="java.util.Map">
+	    INSERT INTO $CFTABLENAME$_I(GUID, 
+	                                FOUNDATIONFK, 
+	                                ITERATIONID,
+	                                CLASSIFICATIONITEMGUID
+	                                $ITERATIONCOLUMNS$)
+	    SELECT #GUID#, 
+	           F$$.GUID, 
+	           #ITERATIONID#,
+	           B.CLASSIFICATIONITEMGUID
+	           $ITERATIONCOLUMNS$
+	      FROM $TABLENAME$ F$$,
+	           $CFTABLENAME$ B
+	     WHERE F$$.GUID = B.FOUNDATIONFK
+	       AND B.GUID = #CFGUID#
+	</insert>
+</mapper>

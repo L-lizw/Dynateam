@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.template.wft.WorkflowTemplateActClassRelationInfoMapper">
+    
+    <select id="selectForLoad" parameterType="map" resultType="dyna.common.dto.template.wft.WorkflowTemplateActClassRelationInfo">
+        SELECT *
+          FROM WF_TEMPLATE_ACTRT_BOVIEW A
+    </select>
+    
+    <select id="get" parameterType="java.lang.String" resultType="dyna.common.dto.template.wft.WorkflowTemplateActClassRelationInfo" statementType="STATEMENT">
+		SELECT A.* 
+		  FROM WF_TEMPLATE_ACTRT_BOVIEW A
+		 WHERE GUID=#GUID#
+	</select>
+
+    <insert id="insert" parameterType="dyna.common.dto.template.wft.WorkflowTemplateActClassRelationInfo">
+        INSERT INTO WF_TEMPLATE_ACTRT_BOVIEW
+                    (GUID, 
+                     TEMACTBOGUID, 
+                     RELATIONTYPE,
+                     RELATIONNAME, 
+                     SELECTRELATION, 
+                     EDITRELATION, 
+                     
+                     CREATEUSERGUID, 
+                     CREATETIME, 
+                     UPDATEUSERGUID, 
+                     UPDATETIME
+                    )
+        VALUES(#GUID:VARCHAR:NULL#,
+               #TEMACTBOGUID:VARCHAR:NULL#,
+               #RELATIONTYPE:VARCHAR:NULL#,
+               #RELATIONNAME:VARCHAR:NULL#,
+               #SELECTRELATION:VARCHAR:NULL#,
+               #EDITRELATION:VARCHAR:NULL#,
+               #CREATEUSERGUID:VARCHAR:NULL#,
+               #CURRENTTIME:TIMESTAMP#,
+               #UPDATEUSERGUID:VARCHAR:NULL#,
+               #CURRENTTIME:TIMESTAMP#
+              )
+    </insert>
+
+    <update id="update" parameterType="java.util.HashMap">
+        UPDATE WF_TEMPLATE_ACTRT_BOVIEW 
+               <set>
+                   UPDATEUSERGUID = #UPDATEUSERGUID#,
+                   UPDATETIME = #CURRENTTIME:TIMESTAMP#,
+                   <if test="TEMACTBOGUID!=null" >
+                       TEMACTBOGUID = #TEMACTBOGUID#,
+                   </if>
+                   <if test="RELATIONNAME!=null" >
+                       RELATIONNAME = #RELATIONNAME#,
+                   </if>
+                   <if test="SELECTRELATION!=null" >
+                       SELECTRELATION = #SELECTRELATION#,
+                   </if>
+                   <if test="EDITRELATION!=null" >
+                       EDITRELATION = #EDITRELATION#,
+                   </if>
+               </set>
+         WHERE GUID = #GUID#
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        DELETE FROM WF_TEMPLATE_ACTRT_BOVIEW
+         WHERE GUID = #GUID#
+    </delete>
+    
+</mapper>

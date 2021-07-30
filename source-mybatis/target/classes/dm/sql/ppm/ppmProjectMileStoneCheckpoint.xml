@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+        "../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.ppm.CheckpointConfigMapper">
+
+    <sql id="where">
+            <if  test="GUID!=null">
+                and  guid = #GUID#
+            </if>
+            <if  test="TYPEGUID!=null">
+                and  typeguid = #TYPEGUID#
+            </if>
+            <if  test="OWNERTYPE!=null">
+                and  OWNERTYPE = #OWNERTYPE#
+            </if>
+            <if  test="RELATEDTASKOBJECT!=null">
+                and relatedtaskobject = #RELATEDTASKOBJECT#
+            </if>
+            <if  test="CHECKPOINTNAME!=null">
+                and  CHECKPOINTNAME = #CHECKPOINTNAME#
+            </if>
+            <if  test="DATASEQ!=null">
+                and dataseq = #DATASEQ#
+            </if>
+    </sql>
+
+    <select id="selectClassOfMilestoneCheckpoint" parameterType="map" resultType="dyna.common.bean.data.ppms.CheckpointConfig">
+        select m.*
+        from ppm_milestone_checkpoint m
+        where 1=1
+        <include refid="where"/>
+    </select>
+
+    <select id="select" parameterType="map" resultType="dyna.common.bean.data.ppms.CheckpointConfig">
+        select m.*,
+        m.RELATEDTASKOBJECTCLASS RELATEDTASKOBJECT$$CLASS,
+        task.classguid relatedtaskobject$$class,
+        task.masterfk relatedtaskobject$$master
+        from ppm_milestone_checkpoint m
+        left join $tablename$ task
+        on m.relatedtaskobject = task.guid
+        where m.relatedtaskobjectclass = #RELATEDTASKOBJECT$CLASS#
+        <include refid="where"/>
+    </select>
+
+    <select id="selectOnly" parameterType="map" resultType="dyna.common.bean.data.ppms.CheckpointConfig">
+        select m.*,
+        m.RELATEDTASKOBJECTCLASS RELATEDTASKOBJECT$$CLASS
+        from ppm_milestone_checkpoint m
+        where 1=1
+        <include refid="where"/>
+    </select>
+
+    <insert id="insert" parameterType="dyna.common.bean.data.ppms.CheckpointConfig">
+        insert into ppm_milestone_checkpoint
+        (guid,
+        typeguid,
+        OWNERTYPE,
+        relatedtaskobject,
+        relatedtaskobjectclass,
+        CHECKPOINTNAME,
+        description,
+        color,
+        DATASEQ,
+        actualfinishtime,
+        planfinishtime,
+        completionrate,
+
+        createuserguid,
+        createtime,
+        updateuserguid,
+        updatetime)
+        values (#GUID#,
+        #TYPEGUID#,
+        #OWNERTYPE#,
+        #RELATEDTASKOBJECT#,
+        #RELATEDTASKOBJECT$CLASS#,
+        #CHECKPOINTNAME:VARCHAR:NULL#,
+        #DESCRIPTION:VARCHAR:NULL#,
+        #COLOR:VARCHAR:NULL#,
+        #DATASEQ#,
+        #ACTUALFINISHTIME:DATE#,
+        #PLANFINISHTIME:DATE#,
+        #COMPLETIONRATE:NUMERIC#,
+
+        #CREATEUSERGUID#,
+        #CURRENTTIME:TIMESTAMP#,
+        #UPDATEUSERGUID#,
+        #CURRENTTIME:TIMESTAMP#)
+    </insert>
+
+    <update id="update" parameterType="dyna.common.bean.data.ppms.CheckpointConfig">
+        update ppm_milestone_checkpoint
+             <set>
+                <if test="TYPEGUID!=null">TYPEGUID = #TYPEGUID#,</if>
+                <if test="OWNERTYPE!=null">OWNERTYPE = #OWNERTYPE#,</if>
+                <if test="CHECKPOINTNAME!=null">CHECKPOINTNAME = #CHECKPOINTNAME#,</if>
+                <if test="DESCRIPTION!=null">DESCRIPTION = #DESCRIPTION#,</if>
+                <if test="COLOR!=null">COLOR = #COLOR#,</if>
+                <if test="DATASEQ!=null">DATASEQ = #DATASEQ#,</if>
+                <if test="RELATEDTASKOBJECT!=null">RELATEDTASKOBJECT = #RELATEDTASKOBJECT#,</if>
+                <if test="RELATEDTASKOBJECTCLASS!=null">RELATEDTASKOBJECTCLASS = #RELATEDTASKOBJECT$CLASS#,</if>
+                <if test="ACTUALFINISHTIME!=null">ACTUALFINISHTIME = #ACTUALFINISHTIME#,</if>
+                <if test="PLANFINISHTIME!=null">PLANFINISHTIME = #PLANFINISHTIME#,</if>
+                <if test="COMPLETIONRATE!=null">COMPLETIONRATE = #COMPLETIONRATE#,</if>
+            </set>
+        updatetime = #CURRENTTIME:TIMESTAMP#,
+        updateuserguid = #UPDATEUSERGUID#
+        where guid = #GUID#
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from ppm_milestone_checkpoint where guid = #GUID#
+    </delete>
+    <delete id="deleteByTypeGuid" parameterType="java.lang.String">
+        delete from ppm_milestone_checkpoint where TYPEGUID = #TYPEGUID#
+    </delete>
+</mapper>

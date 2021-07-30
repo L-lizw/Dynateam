@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+		PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+		"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.model.bmbo.BOInfoMapper">
+
+	<select id="selectForLoad" parameterType="map" resultType="dyna.common.dto.model.bmbo.BOInfo">
+		SELECT B.GUID,
+		B.CLASSGUID,
+		(SELECT D.CLASSNAME FROM MA_CLASS D WHERE D.GUID = B.CLASSGUID) CLASSNAME,
+		(SELECT K.ICONPATH FROM MA_CLASS K WHERE K.GUID = B.CLASSGUID) ICONPATH,
+		(SELECT K.ICONPATH32 FROM MA_CLASS K WHERE K.GUID = B.CLASSGUID) ICONPATH32,
+		B.CLASSIFICATIONGUID,
+		(SELECT H.ITEMNAME FROM MA_CODE_DETAIL H WHERE H.GUID = B.CLASSIFICATIONGUID AND H.ISCLASSIFICATION = 'Y') CLASSIFICATIONNAME,
+		B.BONAME,
+		B.TITLE,
+		B.DESCRIPTION,
+		B.BOTYPE,
+		B.SHOWCLASSIFICATION,
+		(SELECT E.ABSTRACT FROM MA_CLASS E WHERE E.GUID = B.CLASSGUID) ISABSTRACT,
+		(SELECT E.ISCREATETABLE FROM MA_CLASS E WHERE E.GUID = B.CLASSGUID) ISCREATETABLE,
+		B.MODELTYPE,
+		B.bmguid,			        
+		B.DATASEQ,
+		B.parentboguid
+		FROM SA_BUSINESSOBJECT B
+	</select>
+
+	<select id="get" parameterType="java.lang.String" resultType="dyna.common.dto.model.bmbo.BOInfo" statementType="STATEMENT">
+		SELECT *
+		FROM SA_BUSINESSOBJECT
+		WHERE GUID=#GUID#
+	</select>
+
+	<insert id="insert" parameterType="dyna.common.dto.model.bmbo.BOInfo">
+		insert into SA_BUSINESSOBJECT
+		(guid,
+		boname,
+		title,
+
+		classguid,
+		classificationguid,
+		modeltype,
+
+		botype,
+		showclassification,
+		description,
+		
+		bmguid,
+		DATASEQ,
+		parentboguid,
+
+		createuserguid,
+		createtime,
+		updateuserguid,
+		updatetime)
+		values (#GUID#,
+		#BONAME#,
+		#TITLE:VARCHAR:NULL#,
+
+		#CLASSGUID:VARCHAR:NULL#,
+		#CLASSIFICATIONGUID:VARCHAR:NULL#,
+		#MODELTYPE:VARCHAR:NULL#,
+		
+		#BOTYPE:VARCHAR:NULL#,
+		#SHOWCLASSIFICATION:VARCHAR:NULL#,
+		#DESCRIPTION:VARCHAR:NULL#,
+		
+		#BMGUID:VARCHAR:NULL#,
+		#DATASEQ#,
+		#PARENTBOGUID:VARCHAR:NULL#,
+
+		#CREATEUSERGUID:VARCHAR:NULL#,
+		#CURRENTTIME:TIMESTAMP#,
+		#UPDATEUSERGUID:VARCHAR:NULL#,
+		#CURRENTTIME:TIMESTAMP#)
+	</insert>
+
+	<update id="update" parameterType="dyna.common.dto.model.bmbo.BOInfo">
+		update sa_businessobject  set
+		<set>
+			updatetime = #CURRENTTIME:TIMESTAMP#,
+			updateuserguid = #UPDATEUSERGUID#,
+			<if test="BONAME!=null">boname = #BONAME#,</if>
+			<if test="TITLE!=null">title = #TITLE#,</if>
+			<if test="CLASSGUID!=null">classguid = #CLASSGUID#,</if>
+			<if test="CLASSIFICATIONGUID!=null">classificationguid = #CLASSIFICATIONGUID#,</if>
+			<if test="MODELTYPE!=null">modeltype = #MODELTYPE#,</if>
+			<if test="BOTYPE!=null">BOTYPE = #BOTYPE#,</if>
+			<if test="SHOWCLASSIFICATION!=null">showclassification = #SHOWCLASSIFICATION#,</if>
+			<if test="DESCRIPTION!=null">description = #DESCRIPTION#,</if>
+			<if test="BMGUID!=null">bmguid = #BMGUID#,</if>
+		    <if test="DATASEQ!=null">DATASEQ = #DATASEQ#,</if>
+		    <if test="PARENTBOGUID!=null">parentboguid = #PARENTBOGUID#,</if>
+		</set>
+		where guid = #GUID#
+	</update>
+
+	<delete id="delete" parameterType="java.lang.String">
+		delete from sa_businessobject where guid = #GUID#
+	</delete>
+
+</mapper>

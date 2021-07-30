@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+		PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+		"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.model.wf.WorkflowEventInfoMapper">
+
+	<select id="selectForLoad" resultType="dyna.common.dto.model.wf.WorkflowEventInfo" statementType="STATEMENT">
+		select a.*
+		from ma_wf_event a
+		order by wffk, SCRIPTTYPE, DATASEQ
+	</select>
+
+	<select id="get" resultType="dyna.common.dto.model.wf.WorkflowEventInfo" statementType="STATEMENT">
+		select a.*
+		from ma_wf_event a
+		where guid=#GUID#
+	</select>
+
+	<insert id="insert" parameterType="dyna.common.dto.model.wf.WorkflowEventInfo">
+		insert into ma_wf_event
+		(
+		guid,
+		WFFK,
+		SCRIPTTYPE,
+		EVENTNAME,
+		DESCRIPTION,
+		EVENTTYPE,
+		RUNAT,
+		SCRIPT,
+		TITLE,
+		FEEDBACK,
+		UI,
+		MESSAGEICON,
+		ISFIXED,
+		FIXEDMESSAGE,
+		PARENTGUID,
+		DATASEQ,
+
+		FULLNAME,
+		FILENAME,
+		ICONPATH,
+
+		createtime,
+		createuserguid,
+		updatetime,
+		updateuserguid
+		)
+		values (
+		#GUID:VARCHAR:NULL#,
+		#WFFK:VARCHAR:NULL#,
+		#SCRIPTTYPE:VARCHAR:NULL#,
+		#EVENTNAME:VARCHAR:NULL#,
+		#DESCRIPTION:VARCHAR:NULL#,
+		#EVENTTYPE:VARCHAR:NULL#,
+		#RUNAT:VARCHAR:NULL#,
+		#SCRIPT:VARCHAR:NULL#,
+		#TITLE:VARCHAR:NULL#,
+		#FEEDBACK:VARCHAR:NULL#,
+		#UI:VARCHAR:NULL#,
+		#MESSAGEICON:VARCHAR:NULL#,
+		#ISFIXED:VARCHAR:NULL#,
+		#FIXEDMESSAGE:VARCHAR:NULL#,
+		#PARENTGUID:VARCHAR:NULL#,
+		#DATASEQ#,
+
+		#FULLNAME:VARCHAR:NULL#,
+		#FILENAME:VARCHAR:NULL#,
+		#ICONPATH:VARCHAR:NULL#,
+
+		#CURRENTTIME:TIMESTAMP#,
+		#CREATEUSERGUID:VARCHAR:NULL#,
+		#CURRENTTIME:TIMESTAMP#,
+		#UPDATEUSERGUID:VARCHAR:NULL#
+		)
+	</insert>
+
+	<update id="update" parameterType="dyna.common.dto.model.wf.WorkflowEventInfo">
+		update ma_wf_event
+		<set>
+			UPDATETIME=#CURRENTTIME:TIMESTAMP#,
+			UPDATEUSERGUID=#UPDATEUSERGUID#,
+			<if  test="WFFK!=null">WFFK=#WFFK#,</if>
+			<if  test="SCRIPTTYPE!=null">SCRIPTTYPE=#SCRIPTTYPE#,</if>
+			<if  test="EVENTNAME!=null">EVENTNAME=#EVENTNAME#,</if>
+			<if  test="DESCRIPTION!=null">DESCRIPTION=#DESCRIPTION#,</if>
+			<if  test="EVENTTYPE!=null">EVENTTYPE=#EVENTTYPE#,</if>
+			<if  test="RUNAT!=null">RUNAT=#RUNAT#,</if>
+			<if  test="SCRIPT!=null">SCRIPT=#SCRIPT#,</if>
+			<if  test="TITLE!=null">TITLE=#TITLE#,</if>
+			<if  test="FEEDBACK!=null">FEEDBACK=#FEEDBACK#,</if>
+			<if  test="UI!=null">UI=#UI#,</if>
+			<if  test="MESSAGEICON!=null">MESSAGEICON=#MESSAGEICON#,</if>
+			<if  test="ISFIXED!=null">ISFIXED=#ISFIXED#,</if>
+			<if  test="FIXEDMESSAGE!=null">FIXEDMESSAGE=#FIXEDMESSAGE#,</if>
+			<if  test="PARENTGUID!=null">PARENTGUID=#PARENTGUID#,</if>
+			<if  test="DATASEQ!=null">DATASEQ=#DATASEQ#,</if>
+			<if  test="FULLNAME!=null">FULLNAME=#FULLNAME#,</if>
+			<if  test="FILENAME!=null">FILENAME=#FILENAME#,</if>
+			<if  test="ICONPATH!=null">ICONPATH=#ICONPATH#,</if>
+		</set>
+		WHERE guid = #GUID#
+	</update>
+
+	<delete id="delete" parameterType="java.lang.String">
+		delete from ma_wf_event
+		where guid = #GUID#
+	</delete>
+</mapper>

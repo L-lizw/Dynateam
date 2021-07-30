@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.ppm.DeliverableItemMapper">
+
+    <sql id="where">
+        <where>
+            <if  test="GUID!=null">
+                and  guid = #GUID#
+            </if>
+            <if  test="TASKGUID!=null">
+                and  TASKGUID = #TASKGUID#
+            </if>
+            <if  test="CLASSGUID!=null">
+                and  CLASSGUID = #CLASSGUID#
+            </if>
+            <if  test="PROJECTGUID!=null">
+                and  PROJECTGUID = #PROJECTGUID#
+            </if>
+            <if  test="CLASSIFICATION!=null">
+                and  CLASSIFICATION = #CLASSIFICATION#
+            </if>
+            <if  test="ISNEED!=null">
+                and  ISNEED = #ISNEED#
+            </if>
+            <if  test="ISRELEASE!=null">
+                and  ISRELEASE = #ISRELEASE#
+            </if>
+        </where>
+    </sql>
+    
+    <select id="select" parameterType="map" resultType="dyna.common.bean.data.ppms.DeliverableItem">
+        select m.*
+          from ppm_deliverableitem m
+          <include refid="where"/>
+    </select>
+    
+    <insert id="insert" parameterType="dyna.common.bean.data.ppms.DeliverableItem">
+        insert into ppm_deliverableitem
+			       (GUID,
+                    TASKGUID,
+                    CLASSGUID,
+                    projectguid,
+                    CLASSIFICATION,
+                    ISNEED,
+                    ISRELEASE,
+                    REMARK,
+
+			        createuserguid,
+			        createtime,
+			        updateuserguid,
+			        updatetime)
+	        values (#GUID#,
+			        #TASKGUID#,
+					#CLASSGUID#,
+					#PROJECTGUID#,
+					#CLASSIFICATION#,
+					#ISNEED#,
+					#ISRELEASE#,
+					#REMARK#,
+					
+					#CREATEUSERGUID#,
+					#CURRENTTIME:TIMESTAMP#,
+					#UPDATEUSERGUID#,
+					#CURRENTTIME:TIMESTAMP#)
+    </insert>
+    
+    <update id="update" parameterType="dyna.common.bean.data.ppms.DeliverableItem">
+        update ppm_deliverableitem 
+            <set>
+	               <if test="TASKGUID!=null">TASKGUID = #TASKGUID#,</if>
+	               <if test="CLASSGUID!=null">CLASSGUID = #CLASSGUID#,</if>
+	               <if test="PROJECTGUID!=null">PROJECTGUID = #PROJECTGUID#,</if>
+	               <if test="CLASSIFICATION!=null">CLASSIFICATION = #CLASSIFICATION#,</if>
+	               <if test="ISNEED!=null">ISNEED = #ISNEED#,</if>
+	               <if test="REMARK!=null">REMARK = #REMARK#,</if>
+	               <if test="ISRELEASE!=null">ISRELEASE = #ISRELEASE#,</if>
+               </set>
+               updatetime = #CURRENTTIME:TIMESTAMP#,
+               updateuserguid = #UPDATEUSERGUID#
+         	   where GUID=#GUID#
+    </update>
+    
+    <delete id="delete" parameterType="java.lang.String">
+        delete from ppm_deliverableitem  where GUID=#GUID#
+    </delete>
+</mapper>

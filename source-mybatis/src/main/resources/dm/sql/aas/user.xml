@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.aas.UserMapper">
+
+    <select id="selectForLoad" parameterType="map" resultType="dyna.common.dto.aas.User">
+        select *
+          from sa_user a
+    </select>
+    
+    <insert id="insert" parameterType="dyna.common.dto.aas.User">
+        insert into sa_user(
+        guid,
+        userid,
+        username,
+        password,
+        isactive,
+           tel,
+           fax,
+           email,
+           defaultgroupguid,
+           defaultroleguid,
+           createtime,
+           createuserguid,
+           updatetime,
+           updateuserguid,
+           latestlogintime,
+           country,
+           state,
+           city,
+           zipcode,
+           address,
+           mobile,
+           isshield,
+           useridwx)
+        values (#GUID#,
+                #USERID#,
+                #USERNAME:VARCHAR:NULL#,
+                #PASSWORD#,
+                <choose>
+                    <when test="ISACTIVE!=null">#ISACTIVE#,</when>
+                    <otherwise>'Y',</otherwise>
+                </choose>
+                #TEL:VARCHAR:NULL#,
+                #FAX:VARCHAR:NULL#,
+                #EMAIL:VARCHAR:NULL#,
+                #DEFAULTGROUPGUID:VARCHAR:NULL#,
+                   #DEFAULTROLEGUID:VARCHAR:NULL#,
+                   #CURRENTTIME:TIMESTAMP#,
+                   #CURRENTTIME:TIMESTAMP#,
+                   #CURRENTTIME:TIMESTAMP#,
+                   #CREATEUSERGUID:VARCHAR:NULL#,
+                   #CURRENTTIME:TIMESTAMP#,
+                   #COUNTRY:VARCHAR:NULL#,
+                   #STATE:VARCHAR:NULL#,
+                   #CITY:VARCHAR:NULL#,
+                   #ZIPCODE:VARCHAR:NULL#,
+                   #ADDRESS:VARCHAR:NULL#,
+                   #MOBILE:VARCHAR:NULL#,
+                   #ISSHIELD:VARCHAR:NULL#,
+                   #USERIDWX#)
+    </insert>
+    
+    
+    <update id="update" parameterType="dyna.common.dto.aas.User">
+        update sa_user
+           <set>
+               updatetime = #CURRENTTIME:TIMESTAMP#, updateuserguid = #UPDATEUSERGUID#,
+               <if test="USERID!=null">
+               userid = #USERID#,
+               </if>
+               <if test="USERNAME!=null">
+               username = #USERNAME#,
+               </if>
+               <if test="PASSWORD!=null">
+               password = #PASSWORD#,
+               </if>
+               <if test="ISACTIVE!=null">
+               isactive = #ISACTIVE#,
+               </if>
+               <if test="TE!=nullL">
+               tel = #TEL#,
+               </if>
+               <if test="FAX!=null">
+               fax = #FAX#,
+               </if>
+               <if test="EMAIL!=null">
+               email = #EMAIL#,
+               </if>
+               <if test="DEFAULTGROUPGUID!=null">
+               defaultgroupguid = #DEFAULTGROUPGUID#,
+               </if>
+               <if test="DEFAULTROLEGUID!=null">
+               defaultroleguid = #DEFAULTROLEGUID#,
+               </if>
+               <if test="LATESTLOGINTIME!=null">
+               latestlogintime = #CURRENTTIME:TIMESTAMP#,
+               </if>
+               <if test="COUNTRY!=null">
+               country = #COUNTRY#,
+               </if>
+               <if test="STATE!=null">
+               state = #STATE#,
+               </if>
+               <if test="CITY!=null">
+               city = #CITY#,
+               </if>
+               <if test="ZIPCODE!=null">
+               zipcode = #ZIPCODE#,
+               </if>
+               <if test="ADDRESS!=null">
+               address = #ADDRESS#,
+               </if>
+               <if test="MOBILE!=null">
+               mobile = #MOBILE#,
+               </if>
+               <if test="ISSHIELD!=null">
+               isshield = #ISSHIELD#,
+               </if>
+               <if test="USERIDWX!=null">
+               useridwx = #USERIDWX#,
+               </if>
+           </set>
+        where guid = #GUID#
+    </update>
+    
+    <delete id="delete" parameterType="java.lang.String">
+        delete from sa_user
+         where guid = #GUID#
+    </delete>
+    
+	<select id="get" parameterType="java.lang.String" resultType="dyna.common.dto.aas.User" statementType="STATEMENT">
+		SELECT a.* 
+		  FROM sa_user a
+		 WHERE guid=#guid#
+	</select>
+    
+</mapper>

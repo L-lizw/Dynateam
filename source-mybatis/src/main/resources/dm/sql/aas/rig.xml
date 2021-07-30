@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.aas.RIGMapper">
+
+	<select id="selectForLoad" parameterType="map" resultType="dyna.common.dto.aas.RIG">
+		SELECT a.*,
+		       b.roleid AS roleId,
+		       b.rolename AS roleName,
+		       c.groupid AS groupId,
+		       c.groupname AS groupName
+		  FROM sa_role_group a, sa_role b, sa_group c
+		 WHERE a.roleguid = b.guid
+		   AND a.groupguid = c.guid
+	</select>
+    
+	<insert id="insert" parameterType="dyna.common.dto.aas.RIG">
+		INSERT INTO sa_role_group(guid,roleguid,groupguid,createtime,createuserguid,updatetime,updateuserguid,isvalid)
+		VALUES(#GUID#,#ROLEGUID#,#GROUPGUID#,#CURRENTTIME:TIMESTAMP#,#CREATEUSERGUID#,#CURRENTTIME:TIMESTAMP#,#CREATEUSERGUID#,
+		<choose>
+			<when test="ISVALID!=null">#ISVALID#</when>
+			<otherwise>'Y'</otherwise>
+		</choose>
+		)
+	</insert>
+	
+	<update id="update" parameterType="dyna.common.dto.aas.RIG">
+		update sa_role_group
+			<set>
+				updatetime = #CURRENTTIME:TIMESTAMP#
+				<if  test="ROLEGUID!=null">roleguid=#ROLEGUID#,</if>
+				<if  test="GROUPGUID!=null">groupguid=#GROUPGUID#,</if>
+				<if  test="CREATETIME!=null">createtime=#CREATETIME#,</if>
+				<if  test="CREATEUSERGUID!=null">createuserguid=#CREATEUSERGUID#,</if>
+				<if  test="UPDATEUSERGUID!=null">updateuserguid=#UPDATEUSERGUID#,</if>
+				<if  test="ISVALID!=null">isvalid=#ISVALID#,</if>
+			</set>
+		 where guid = #GUID#
+	</update>
+	
+	
+
+	<delete id="delete" parameterType="java.lang.String">
+		DELETE FROM sa_role_group
+		WHERE guid = #GUID#	
+	</delete>
+	
+	<select id="get" parameterType="java.lang.String" resultType="dyna.common.dto.aas.RIG" statementType="STATEMENT">
+		SELECT a.* ,
+		       b.roleid AS roleId,
+		       b.rolename AS roleName,
+		       c.groupid AS groupId,
+		       c.groupname AS groupName
+		  FROM sa_role_group a, sa_role b, sa_group c
+		WHERE a.roleguid = b.guid
+		   AND a.groupguid = c.guid
+		   and a.guid=#guid#
+	</select>
+
+</mapper>

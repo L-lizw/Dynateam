@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.ppm.RptMilestoneMapper">
+
+    <sql id="where">
+        <if  test="USERGUID!=null">
+            and (P.USERGUID = #USERGUID# OR A.CREATEUSER = #USERGUID#)
+        </if>
+            <if  test="MD_ID!=null">
+                and A.MD_ID LIKE '%$MD_ID$%'
+            </if>
+            <if  test="MD_NAME!=null">
+                and A.MD_NAME LIKE '%$MD_NAME$%'
+            </if>
+            <if  test="MANAGER!=null">
+                and  A.EXECUTOR = #MANAGER#
+            </if>
+            <if  test="DEPT!=null">
+                and A.OWNERGROUP = #DEPT#
+            </if>
+            <if  test="IMPORTANCE!=null">
+                and A.IMPORTANCELEVEL = #IMPORTANCE#
+            </if>
+            <if  test="STATE!=null">
+                and A.EXECUTESTATUS = #STATE#
+            </if>
+            <if  test="ONTIMESTATE!=null">
+                and  <![CDATA[
+			    (CASE 
+			        WHEN (A.PLANSTARTTIME > #CURRENTTIMESTR:DATE# AND G.ITEMNAME = 'INI') 
+			              OR G.ITEMNAME = 'SSP' THEN '0'
+			        WHEN (G.ITEMNAME = 'COP' AND A.ACTUALFINISHTIME > A.PLANFINISHTIME) 
+			              OR (A.ACTUALFINISHTIME IS NULL AND #CURRENTTIMESTR:DATE# > A.PLANFINISHTIME) THEN '1'
+			        WHEN (A.PLANSTARTTIME < #CURRENTTIMESTR:DATE# AND G.ITEMNAME = 'INI')
+			              OR (G.ITEMNAME = 'RUN' AND A.SPI < 1) THEN '2'
+			        WHEN (G.ITEMNAME = 'RUN' AND A.SPI >= 1)
+			              OR (G.ITEMNAME = 'COP' AND A.PLANFINISHTIME >= A.ACTUALFINISHTIME) THEN '3'
+			    END) = #ONTIMESTATE#
+			    ]]>
+            </if>
+            <if  test="PROJECTTYPE!=null">
+                and  A.PROJECTTYPE = #PROJECTTYPE#
+            </if>
+            <if  test="PLANSTARTTIMEFROM!=null">
+                and A.PLANSTARTTIME BETWEEN #PLANSTARTTIMEFROM:TIMESTAMP# AND #PLANSTARTTIMETO:TIMESTAMP#
+            </if>
+            <if  test="PLANFINISHTIMEFROM!=null">
+                and A.PLANFINISHTIME BETWEEN #PLANFINISHTIMEFROM:TIMESTAMP# AND #PLANSTARTTIMETO:TIMESTAMP#
+            </if>
+            <if  test="ACTUALSTARTTIMEFROM!=null">
+                and A.ACTUALSTARTTIME BETWEEN #ACTUALSTARTTIMEFROM:TIMESTAMP# AND #ACTUALSTARTTIMETO:TIMESTAMP#
+            </if>
+            <if  test="ACTUALFINISHTIMEFROM!=null">
+                and A.ACTUALFINISHTIME BETWEEN #ACTUALFINISHTIMEFROM:TIMESTAMP# AND #ACTUALFINISHTIMETO:TIMESTAMP#
+            </if>
+    </sql>
+
+    <select id="select" parameterType="map" resultType="dyna.common.bean.data.ppms.RptMilestone">
+        SELECT DISTINCT * 
+          FROM (SELECT A.GUID,
+                       A.MD_ID,
+                       A.MD_NAME,
+				       A.PLANNEDDURATION,
+				       A.COMPLETIONRATE  PRJCOMPLETIONRATE,
+				       A.PLANSTARTTIME TASKPLANSTARTTIME,
+				       A.PLANFINISHTIME TASKPLANFINISHTIME,
+				       A.ACTUALFINISHTIME TASKACTUALFINISHTIME,
+				       A.SPI,
+				       D.CHECKPOINTNAME CHECKPOINTNAME,
+				       D.ACTUALFINISHTIME,
+				       D.PLANFINISHTIME,
+				       D.COMPLETIONRATE,
+		               C.ITEMNAME ONTIMESTATENAME,
+		               C.TITLE ONTIMESTATETITLE,
+				       G.ITEMNAME EXECUTESTATUSNAME,
+				       G.TITLE EXECUTESTATUSTITLE,
+				       H.TITLE IMPORTANCELEVELTITLE
+                  FROM $PROJECTTABLENAME$ A
+            INNER JOIN PPM_MILESTONE_CHECKPOINT D
+                    ON A.GUID = D.TYPEGUID
+            INNER JOIN PPM_PROJECTROLE O
+                    ON A.GUID = O.TYPEGUID
+			INNER JOIN PPM_ROLEMEMBERS P
+		            ON O.GUID = P.PROJECTROLEGUID
+		     LEFT JOIN MA_CODE_DETAIL C
+		            ON A.ONTIMESTATE = C.GUID
+		     LEFT JOIN MA_CODE_DETAIL G
+		            ON A.EXECUTESTATUS = G.GUID
+			 LEFT JOIN MA_CODE_DETAIL H
+			        ON A.IMPORTANCELEVEL = H.GUID
+		         WHERE D.OWNERTYPE = '2'
+		           AND A.PROJECTTYPE = #TYPEGUID#
+                   <include refid="where" />
+          ORDER BY A.PLANSTARTTIME DESC,
+                   A.GUID,
+                   D.DATASEQ) X
+    </select>
+
+    <select id="receiverSelect" parameterType="map" resultType="dyna.common.bean.data.ppms.RptMilestone">
+        SELECT A.GUID,
+        	   A.MD_ID,
+        	   A.MD_NAME,
+               A.PLANNEDDURATION,
+               A.COMPLETIONRATE PRJCOMPLETIONRATE,
+               A.PLANSTARTTIME TASKPLANSTARTTIME,
+               A.SPI,
+               D.CHECKPOINTNAME CHECKPOINTNAME,
+               D.ACTUALFINISHTIME,
+               D.PLANFINISHTIME,
+               D.COMPLETIONRATE,
+               C.ITEMNAME ONTIMESTATENAME,
+               C.TITLE ONTIMESTATETITLE,
+		       G.ITEMNAME EXECUTESTATUSNAME,
+		       G.TITLE EXECUTESTATUSTITLE,
+		       H.TITLE IMPORTANCELEVELTITLE
+          FROM $PROJECTTABLENAME$ A
+    INNER JOIN PPM_MILESTONE_CHECKPOINT D
+            ON A.GUID = D.TYPEGUID
+     LEFT JOIN MA_CODE_DETAIL C
+            ON A.ONTIMESTATE = C.GUID
+     LEFT JOIN MA_CODE_DETAIL G
+            ON A.EXECUTESTATUS = G.GUID
+	 LEFT JOIN MA_CODE_DETAIL H
+	        ON A.IMPORTANCELEVEL = H.GUID
+         WHERE D.OWNERTYPE = '2'
+	       AND A.PROJECTTYPE = #TYPEGUID#
+	       <include refid="where" />
+	     ORDER BY A.PLANSTARTTIME DESC,A.GUID,D.DATASEQ
+    </select>
+
+</mapper>

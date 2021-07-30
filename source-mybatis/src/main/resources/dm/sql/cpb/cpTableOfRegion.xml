@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.configparamter.TableOfRegionMapper">
+
+    <select id="select" parameterType="map" resultType="dyna.common.bean.data.configparamter.TableOfRegion">
+        select a.*
+          from MA_CONFIG_TABLE_AERQ a
+        <where>
+            <if test="RELEASETIME==null">
+                <if test="STATUS==null">
+                    and a.hasnextrevision = 'N'
+                </if>
+                <if test="STATUS == 'RLS'">
+                   and a.releasetime is not null and a.obsoletetime is null
+                </if>
+                <if test="STATUS != 'RLS'">
+                   and a.hasnextrevision = 'N'
+                </if>
+            </if>
+            <if test="RELEASETIME!=null">
+                and #RELEASETIME:TIMESTAMP# >= a.releasetime
+                and (a.obsoletetime is null or #RELEASETIME:TIMESTAMP# <![CDATA[ < ]]> a.obsoletetime)
+            </if>
+            <if test="TABLETYPE!=null">
+                and a.tabletype = #TABLETYPE#
+            </if>
+            and a.masterguid = #MASTERGUID#
+        </where>
+		 order by a.DATASEQ
+    </select>
+    
+    <select id="haveRLSData" parameterType="java.lang.String" resultType="dyna.common.bean.data.configparamter.TableOfRegion">
+        select case cnt
+                 when 0 then 'N'
+                 else 'Y'
+               end haverls
+          from (select count(1) cnt
+		          from MA_CONFIG_TABLE_AERQ
+		         where releasetime is not null
+		           and masterguid = #MASTERGUID#
+               )
+    </select>
+    
+    <insert id="inserBatchList" parameterType="map">
+            INTO MA_CONFIG_TABLE_AERQ(GUID, 
+            	                      MASTERGUID, 
+            	                      UNIQUEVALUE, 
+            	                      TABLETYPE, 
+            	                      DATASEQ, 
+                                      VARIABLE1, 
+                                      LOWERLIMIT1, 
+                                      UPPERLIMIT1, 
+                                      VARIABLE2, 
+                                      LOWERLIMIT2, 
+                                      UPPERLIMIT2, 
+                                      HASNEXTREVISION,
+                                      
+                                      CREATEUSERGUID, 
+		                              CREATETIME, 
+		                              UPDATEUSERGUID, 
+		                              UPDATETIME) 
+          values (#GUID#, 
+                  #MASTERGUID#, 
+                  #UNIQUEVALUE#, 
+                  #TABLETYPE#, 
+                  #DATASEQ#, 
+                  #VARIABLE1#, 
+                  #LOWERLIMIT1#, 
+                  #UPPERLIMIT1#, 
+                  #VARIABLE2#, 
+                  #LOWERLIMIT2#, 
+                  #UPPERLIMIT2#, 
+                  'N',
+                  
+                  #CREATEUSERGUID:VARCHAR:NULL#,
+                  #CURRENTTIME:TIMESTAMP#,
+				  #UPDATEUSERGUID:VARCHAR:NULL#,
+				  #CURRENTTIME:TIMESTAMP#)
+    </insert>
+    
+    
+    <update id="updateBatchList" parameterType="map">
+            update MA_CONFIG_TABLE_AERQ 
+               set UPDATEUSERGUID = #UPDATEUSERGUID:VARCHAR:NULL#,
+                   UPDATETIME = #CURRENTTIME:TIMESTAMP#,
+                   DATASEQ = #DATASEQ#,
+                   VARIABLE1 = #VARIABLE1#,
+                   LOWERLIMIT1 = #LOWERLIMIT1#,
+                   UPPERLIMIT1 = #UPPERLIMIT1#,
+                   VARIABLE2 = #VARIABLE2#,
+                   LOWERLIMIT2 = #LOWERLIMIT2#,
+                   UPPERLIMIT2 = #UPPERLIMIT2#
+             where guid = #GUID#;
+    </update>
+    
+    <update id="updateNextRevisionBatchList" parameterType="map">
+        update MA_CONFIG_TABLE_AERQ 
+           set UPDATEUSERGUID = #UPDATEUSERGUID:VARCHAR:NULL#,
+               UPDATETIME = #CURRENTTIME:TIMESTAMP#,
+               hasnextrevision = 'Y'
+        where releasetime is not null 
+               and obsoletetime is null
+               and guid = #GUID# 
+    </update>
+    
+    <update id="updateCustNextRevisionBatchList" parameterType="map">
+            update MA_CONFIG_TABLE_CUSTM_AERQ 
+               set UPDATEUSERGUID = #UPDATEUSERGUID:VARCHAR:NULL#,
+                   UPDATETIME = #CURRENTTIME:TIMESTAMP#,
+                   hasnextrevision = 'Y'
+             where releasetime is not null 
+               and obsoletetime is null
+               and masterfk = #MASTERGUID# 
+               and masterguid=#ITEMMASTERGUID# 
+    </update>
+    
+    <delete id="deleteLine" parameterType="java.lang.String">
+            delete from MA_CONFIG_TABLE_AERQ  where releasetime is null and guid = #GUID# 
+    </delete>
+    <delete id="deleteCustLine" parameterType="map">
+            delete from MA_CONFIG_TABLE_CUSTM_AERQ  where releasetime is null and masterfk = #MASTERGUID#  and masterguid=#ITEMMASTERGUID# 
+    </delete>
+
+    <!-- 根据列名废弃自定义列 -->
+    <update id="obsoleteColumnByTitle" parameterType="map">
+        update MA_CONFIG_TABLE_CUSTM_AERQ 
+           set UPDATEUSERGUID = #UPDATEUSERGUID:VARCHAR:NULL#,
+               UPDATETIME = #CURRENTTIME:TIMESTAMP#,
+               HASNEXTREVISION = 'Y'
+         where releasetime is not null 
+           and obsoletetime is null
+           and TITLEGUID in
+           <foreach collection= "TITLELIST" open="(" close=")" separator="," item="TEMP">#TEMP#</foreach>
+           and masterguid = #MASTERGUID#
+    </update>
+    
+    <!-- 根据列名删除自定义列 -->
+    <delete id="deleteColumnByTitle" parameterType="map">
+        delete MA_CONFIG_TABLE_CUSTM_AERQ 
+         where releasetime is null
+           and TITLEGUID in
+           <foreach collection= "TITLELIST" open="(" close=")" separator="," item="TEMP">#TEMP#</foreach>
+           and masterguid = #MASTERGUID#
+    </delete>
+    
+    <!-- 删除对象时,同步删除配置数据 -->
+    <delete id="deleteByMaster" parameterType="map">
+            delete from MA_CONFIG_TABLE_AERQ  where masterguid = #MASTERGUID#
+            <if test="TABLETYPELIST!=null" >
+		        and tabletype in ($TABLETYPELIST$)
+		     </if>
+    </delete>
+    
+    <!-- 删除对象时,同步删除配置数据 -->
+    <delete id="deleteCustByMaster" parameterType="map">
+            delete from MA_CONFIG_TABLE_CUSTM_AERQ  where masterguid = #MASTERGUID#
+            <if test="TABLETYPELIST!=null" >
+		        and exists(select 1 from MA_CONFIG_TABLE_AERQ b
+		                  where masterfk = uniquevalue
+		                    and tabletype in ($TABLETYPELIST$)
+		              )
+		     </if>
+    </delete>
+     <!-- 删除对象时,同步删除配置数据 -->
+    <delete id="deleteInfoByMaster" parameterType="map">
+            delete from MA_CONFIG_TABLE_INFO  where masterguid = #MASTERGUID#
+            <if test="TABLETYPELIST!=null">
+		        and tabletype in ($TABLETYPELIST$)
+		     </if>
+    </delete>
+    
+    <!-- 删除工作版本对象时,同步删除配置数据 -->
+    <update id="clearWIP" parameterType="map">
+            update MA_CONFIG_TABLE_AERQ  
+               set UPDATEUSERGUID = #UPDATEUSERGUID:VARCHAR:NULL#,
+                   UPDATETIME = $CURRENTTIME$,
+                   hasnextrevision = 'N'
+             where hasnextrevision = 'Y' and obsoletetime is null and masterguid = #MASTERGUID#;
+    </update>
+        <!-- 删除工作版本对象时,同步删除配置数据 -->
+    <delete id="deleteWIP" parameterType="java.lang.String">
+            delete from MA_CONFIG_TABLE_AERQ  where releasetime is null and masterguid = #MASTERGUID#;
+    </delete>
+        <!-- 删除工作版本对象时,同步删除配置数据 -->
+    <update id="clearCustWIP" parameterType="map">
+            update MA_CONFIG_TABLE_CUSTM_AERQ 
+               set UPDATEUSERGUID = #UPDATEUSERGUID:VARCHAR:NULL#,
+                   UPDATETIME = $CURRENTTIME$,
+                   hasnextrevision = 'N'
+             where hasnextrevision = 'Y' and obsoletetime is null and masterguid = #MASTERGUID#;
+    </update>
+        <!-- 删除工作版本对象时,同步删除配置数据 -->
+    <delete id="deleteCustWIP" parameterType="java.lang.String">
+            delete from MA_CONFIG_TABLE_CUSTM_AERQ  where releasetime is null and masterguid = #MASTERGUID#;
+    </delete>
+    
+</mapper>

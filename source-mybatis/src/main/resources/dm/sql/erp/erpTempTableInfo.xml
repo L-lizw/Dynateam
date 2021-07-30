@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.erp.tmptab.ERPTempTableInfoMapper">
+
+	<select id= "selectBaseTable" parameterType="map" resultType="dyna.common.dto.erp.tmptab.ERPTempTableInfo">
+		SELECT * FROM TEMP_ERP_TOTAL a
+		<where>
+			<if  test="ERPTYPE!=null">
+				and a.ERPTYPE = #ERPTYPE#
+			</if>
+			<if  test="FACTORY!=null">
+				and a.FACTORY = #FACTORY#
+			</if>
+			<if  test="SERVERIP!=null">
+				and a.SERVERIP = #SERVERIP#
+			</if>
+			<if  test="GUID!=null">
+				and a.GUID = #GUID#
+			</if>
+		</where>
+	</select>
+	
+	<insert id="insert" parameterType="dyna.common.dto.erp.tmptab.ERPTempTableInfo">
+		INSERT INTO TEMP_ERP_TOTAL (GUID, ERPTYPE,FACTORY,SERVERIP,BASETABLENAME)
+		VALUES(#GUID#, #ERPTYPE#,#FACTORY#,#SERVERIP#,#BASETABLENAME#)
+	</insert>
+	
+	<update id="createTable" parameterType="map">
+	create table $table$
+	(
+		$fielda$ not null,
+		$fieldb$ not null,
+		$fieldc$ ,
+		$fieldd$ ,
+		$fielde$ 
+	)
+	</update>
+	<update id="createTableIndex" parameterType="map">
+		CREATE UNIQUE INDEX $indexname$ ON $table$ (itemguid, category)
+	</update>
+</mapper>

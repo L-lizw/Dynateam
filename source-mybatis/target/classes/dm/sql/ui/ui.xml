@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+		PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+		"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.model.ui.UIObjectInfoMapper">
+
+	<select id="selectForLoad" resultType="dyna.common.dto.model.ui.UIObjectInfo" statementType="STATEMENT">
+		select a.*
+		from ma_class_ui a
+		order by a.DATASEQ
+	</select>
+
+	<select id="get" parameterType="java.lang.String" resultType="dyna.common.dto.model.ui.UIObjectInfo" statementType="STATEMENT">
+		SELECT *
+		FROM ma_class_ui
+		WHERE GUID=#GUID#
+	</select>
+
+	<insert id="insert" parameterType="dyna.common.dto.model.ui.UIObjectInfo">
+		insert into ma_class_ui
+		(guid,
+		classfk,
+		uiname,
+
+		title,
+		uitype,
+		inherited,
+
+		businessmodels,
+		dataseq,
+		visible,
+
+		templatename,
+		templatetypes,
+
+		sortfield1,
+		sortvalue1,
+		sortfield2,
+		sortvalue2,
+		sortfield3,
+		sortvalue3,
+
+		groupfield,
+		position,
+
+		createuserguid,
+		createtime,
+		updateuserguid,
+		updatetime)
+		values (#GUID#,
+		#CLASSFK#,
+		#UINAME:VARCHAR:NULL#,
+
+		#TITLE:VARCHAR:NULL#,
+		#UITYPE:VARCHAR:NULL#,
+
+
+		#INHERITED:VARCHAR:NULL#,
+		#BUSINESSMODELS:VARCHAR:NULL#,
+		#DATASEQ#,
+
+		#VISIBLE:VARCHAR:NULL#,
+		#TEMPLATENAME:VARCHAR:NULL#,
+		#TEMPLATETYPES:VARCHAR:NULL#,
+
+		#SORTFIELD1:VARCHAR:NULL#,
+		#SORTVALUE1:VARCHAR:NULL#,
+		#SORTFIELD2:VARCHAR:NULL#,
+		#SORTVALUE2:VARCHAR:NULL#,
+		#SORTFIELD3:VARCHAR:NULL#,
+		#SORTVALUE3:VARCHAR:NULL#,
+
+		#GROUPFIELD:VARCHAR:NULL#,
+		#POSITION:VARCHAR:NULL#,
+
+		#CREATEUSERGUID:VARCHAR:NULL#,
+		#CURRENTTIME:TIMESTAMP#,
+		#UPDATEUSERGUID:VARCHAR:NULL#,
+		#CURRENTTIME:TIMESTAMP#)
+	</insert>
+
+	<update id="update" parameterType="dyna.common.dto.model.ui.UIObjectInfo">
+		update ma_class_ui
+		<set>
+			<if test="CLASSFK!=null">classfk = #CLASSFK#,</if>
+			<if test="UINAME!=null">uiname = #UINAME#,</if>
+			<if test="TITLE!=null">title = #TITLE#,</if>
+			<if test="UITYPE!=null">UITYPE = #UITYPE#,</if>
+			<if test="INHERITED!=null">inherited = #INHERITED#,</if>
+			<if test="BUSINESSMODELS!=null">businessmodels = #BUSINESSMODELS#,</if>
+			<if test="DATASEQ!=null">DATASEQ = #DATASEQ#,</if>
+			<if test="VISIBLE!=null">visible = #VISIBLE#,</if>
+			<if test="TEMPLATENAME!=null">templatename = #TEMPLATENAME#,</if>
+			<if test="TEMPLATETYPES!=null">templatetypes = #TEMPLATETYPES#,</if>
+			<if test="SORTFIELD1!=null">sortfield1 = #SORTFIELD1#,</if>
+			<if test="SORTVALUE1!=null">sortvalue1 = #SORTVALUE1#,</if>
+			<if test="SORTFIELD2!=null">sortfield2 = #SORTFIELD2#,</if>
+			<if test="SORTVALUE2!=null">sortvalue2 = #SORTVALUE2#,</if>
+			<if test="SORTFIELD3!=null">sortfield3 = #SORTFIELD3#,</if>
+			<if test="SORTVALUE3!=null">sortvalue3 = #SORTVALUE3#,</if>
+			<if test="GROUPFIELD!=null">groupfield = #GROUPFIELD#,</if>
+			<if test="POSITION!=null">position = #POSITION#,</if>
+		</set>
+		updatetime = #CURRENTTIME:TIMESTAMP#,
+		updateuserguid = #UPDATEUSERGUID#
+		where guid = #GUID#
+	</update>
+
+	<delete id="delete" parameterType="java.lang.String">
+		delete from ma_class_ui  where guid = #GUID#
+	</delete>
+
+</mapper>

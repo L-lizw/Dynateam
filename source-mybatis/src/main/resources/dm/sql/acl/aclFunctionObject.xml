@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.acl.ACLFunctionObjectMapper">
+
+	<select id="select" parameterType="map" resultType="dyna.common.dto.acl.ACLFunctionObject">
+	   SELECT * FROM sa_acl_function_master
+       <where>
+	       <if  test="GUID!=null">
+	       and guid = #GUID#
+	       </if>
+	       <if  test="FUNCTIONNAME!=null">
+	       and functionname = #FUNCTIONNAME#
+	       </if>
+	       <if  test="PARENTGUID!=null">
+	       and parentguid = #PARENTGUID#
+	       </if>
+	       <if  test="POSITION!=null">
+	       and position = #POSITION#
+	       </if>
+	       <if  test="FUNCTIONTYPE!=null">
+	       and functiontype = #FUNCTIONTYPE#
+	       </if>
+       </where>
+    </select>
+
+    <select id="getRootACLSubjectByLIB"  resultType="dyna.common.dto.acl.ACLFunctionObject">
+		SELECT *
+		  FROM sa_acl_function_master
+		 WHERE parentguid is null
+	</select>
+
+    <select id="getSubACLSubject" parameterType="map" resultType="dyna.common.dto.acl.ACLFunctionObject">
+		SELECT *
+		  FROM sa_acl_function_master
+		 WHERE parentguid = #PARENTGUID#
+	</select>
+
+	<insert id="insert" parameterType="dyna.common.dto.acl.ACLFunctionObject">
+		INSERT INTO sa_acl_function_master
+			(guid,
+			parentguid,
+			functionname,
+			position,
+			createtime,
+			createuserguid,
+			updatetime,
+			updateuserguid,
+			functiontype)
+		VALUES(
+			#GUID#,
+			#PARENTGUID:VARCHAR:NULL#,
+	        #FUNCTIONNAME:VARCHAR:NULL#,
+	        #POSITION#,
+	        #CURRENTTIME:TIMESTAMP#,
+	        #CREATEUSERGUID:VARCHAR:NULL#,
+	        #CURRENTTIME:TIMESTAMP#,
+	        #CREATEUSERGUID:VARCHAR:NULL#,
+	        #FUNCTIONTYPE:VARCHAR:NULL#)
+	</insert>
+
+	<update id="update" parameterType="dyna.common.dto.acl.ACLFunctionObject">
+		UPDATE sa_acl_function_master 
+		<set>
+			updateuserguid = #UPDATEUSERGUID#,
+			updatetime = #CURRENTTIME:TIMESTAMP#
+			<if  test="PARENTGUID!=null">parentguid=#PARENTGUID#,</if>
+			<if  test="FUNCTIONNAME!=null">functionname=#FUNCTIONNAME#,</if>
+			<if  test="POSITION!=null">position=#POSITION#,</if>
+			<if  test="FUNCTIONTYPE!=null">functiontype=#FUNCTIONTYPE#,</if>
+		</set>
+	   WHERE guid = #GUID#	
+	</update>	
+	
+	<delete id="delete" parameterType="java.lang.String">
+		DELETE FROM sa_acl_function_master WHERE guid = #GUID#
+	</delete>
+
+</mapper>

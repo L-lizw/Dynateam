@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.aas.URIGMapper">
+
+	<select id="selectForLoad" parameterType="map" resultType="dyna.common.dto.aas.URIG">
+		SELECT b.guid, 
+			   b.rolegroupguid, 
+			   b.userguid, 
+			   a.userid AS userid, 
+			   a.username AS username, 
+			   d.guid AS roleguid, 
+			   d.roleid AS roleid,
+			   e.guid AS groupguid, 
+			   e.groupid AS groupid,
+			   d.rolename AS rolename, 
+			   e.groupname AS groupname,
+			   b.isvalid
+		  FROM sa_user a,
+		       sa_grouprole_user b,
+		       sa_role_group c,
+		       sa_role d,
+		       sa_group e
+		 WHERE a.guid = b.userguid
+		   AND b.rolegroupguid = c.guid
+		   AND c.roleguid = d.guid
+		   AND c.groupguid = e.guid
+	</select>
+	
+	<insert id="insert" parameterType="dyna.common.dto.aas.URIG">
+		INSERT INTO sa_grouprole_user(guid,rolegroupguid,userguid,createtime,createuserguid,updatetime,updateuserguid,isvalid)
+		VALUES(#GUID#,#ROLEGROUPGUID#,#USERGUID#,#CURRENTTIME:TIMESTAMP#,#CREATEUSERGUID#,#CURRENTTIME:TIMESTAMP#,#CREATEUSERGUID#,
+		<choose>
+			<when test="ISVALID!=null">#ISVALID#</when>
+			<otherwise>'Y'</otherwise>
+		</choose>
+		)
+	</insert>
+
+	<update id="update" parameterType="dyna.common.dto.aas.URIG">
+		update sa_grouprole_user  
+		   <set>
+			   updatetime = #CURRENTTIME:TIMESTAMP#,
+				<if  test="ROLEGROUPGUID">rolegroupguid=#ROLEGROUPGUID#,</if>
+				<if  test="USERGUID">userguid=#USERGUID#,</if>
+				<if  test="CREATETIME">createtime=#CREATETIME#,</if>
+				<if  test="CREATEUSERGUID">createuserguid=#CREATEUSERGUID#,</if>
+				<if  test="UPDATETIME">updatetime=#UPDATETIME#,</if>
+				<if  test="UPDATEUSERGUID">updateuserguid=#UPDATEUSERGUID#,</if>
+				<if  test="ISVALID">isvalid=#ISVALID#</if>
+		   </set>
+		 where guid = #GUID#
+	</update>
+
+	<delete id="delete" parameterType="java.lang.String">
+		DELETE FROM sa_grouprole_user
+		WHERE guid = #GUID#
+	</delete>
+	<select id="get" parameterType="java.lang.String" resultType="dyna.common.dto.aas.URIG">
+		SELECT b.guid, 
+			   b.rolegroupguid, 
+			   b.userguid, 
+			   a.userid AS userid, 
+			   a.username AS username, 
+			   d.guid AS roleguid, 
+			   d.roleid AS roleid,
+			   e.guid AS groupguid, 
+			   e.groupid AS groupid,
+			   d.rolename AS rolename, 
+			   e.groupname AS groupname
+		  FROM sa_user a,
+		       sa_grouprole_user b,
+		       sa_role_group c,
+		       sa_role d,
+		       sa_group e
+		 WHERE a.guid = b.userguid
+		   AND b.rolegroupguid = c.guid
+		   AND c.roleguid = d.guid
+		   AND c.groupguid = e.guid
+		   AND b. guid = #GUID#
+	</select>
+
+</mapper>

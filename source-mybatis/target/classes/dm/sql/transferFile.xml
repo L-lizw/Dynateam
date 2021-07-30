@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+		PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+		"../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.DSSFileTransMapper">
+
+	<sql id="selectfields">
+		SELECT b.*,
+		a.username,
+		a.password,
+		a.CMDTYPE,
+		(select relativepath from bi_file c where c.guid = b.filefk) relativepath
+		FROM bi_transfer_file a,
+		bi_trans_detail b
+	</sql>
+
+	<select id="select" parameterType="map" resultType="dyna.common.dto.DSSFileTrans">
+		<include refid="selectfields"/>
+		WHERE a.guid = b.masterfk
+		and a.isinvalid = 'N'
+		and b.isinvalid = 'N'
+			<if  test="MASTERFK!=null">and a.guid=#MASTERFK#</if>
+			<if  test="USERNAME!=null">and a.username=#USERNAME#</if>
+			<if  test="PASSWORD!=null">and a.password=#PASSWORD#</if>
+			<if  test="CMDTYPE!=null">and a.CMDTYPE=#CMDTYPE#</if>
+
+			<if  test="GUID!=null">and b.guid=#GUID#</if>
+			<if  test="CREATETIME!=null">and b.createtime=#CREATETIME#</if>
+			<if  test="CREATEUSERGUID!=null">and b.createuserguid=#CREATEUSERGUID#</if>
+			<if  test="FILEFK!=null">and b.filefk=#FILEFK#</if>
+			<if  test="PARAMFILE!=null">and b.paramfile=#PARAMFILE#</if>
+			<if  test="REALPATH!=null">and b.realpath=#REALPATH#</if>
+			<if  test="FILENAME!=null">and b.filename=#FILENAME#</if>
+			<if  test="REALFILE!=null">and b.realfile=#REALFILE#</if>
+			<if  test="STORAGEID!=null">and b.storageid=#STORAGEID#</if>
+			<if  test="SITEID!=null">and b.siteid=#SITEID#</if>
+	</select>
+
+	<select id="selectUser" parameterType="java.lang.String" resultType="dyna.common.dto.DSSFileTrans">
+		SELECT *
+		FROM bi_transfer_file a
+		WHERE a.username = #USERNAME#
+		and a.isinvalid = 'N'
+	</select>
+
+	<select id="selectDNLUPL" parameterType="map" resultType="dyna.common.dto.DSSFileTrans">
+		<include refid="selectfields"/>
+		WHERE a.guid = b.masterfk
+		and (a.CMDTYPE = 'DNL' OR a.CMDTYPE = 'UPL')
+		and a.isinvalid = 'N'
+		and b.isinvalid = 'N'
+	</select>
+
+	<insert id="insertMaster" parameterType="dyna.common.dto.DSSFileTrans">
+		INSERT INTO bi_transfer_file  (
+		guid,
+		username,
+		password,
+		createtime,
+		CMDTYPE,
+		createuserguid,
+		isinvalid
+		)
+		VALUES(
+		#GUID#,
+		#USERNAME:VARCHAR:NULL#,
+		#PASSWORD:VARCHAR:NULL#,
+		#CURRENTTIME:TIMESTAMP#,
+		#CMDTYPE:VARCHAR:NULL#,
+		#CREATEUSERGUID:VARCHAR:NULL#,
+		'N'
+		)
+	</insert>
+
+	<insert id="insertDetail" parameterType="dyna.common.dto.DSSFileTrans">
+		INSERT INTO bi_trans_detail (
+		guid,
+		createtime,
+		createuserguid,
+		paramfile,
+		realpath,
+		filename,
+		realfile,
+		storageid,
+		siteid,
+		masterfk,
+		filefk,
+		isinvalid
+		)
+		VALUES(
+		#GUID#,
+		#CURRENTTIME:TIMESTAMP#,
+		#CREATEUSERGUID:VARCHAR:NULL#,
+		#PARAMFILE:VARCHAR:NULL#,
+		#REALPATH:VARCHAR:NULL#,
+		#FILENAME:VARCHAR:NULL#,
+		#REALFILE:VARCHAR:NULL#,
+		#STORAGEID:VARCHAR:NULL#,
+		#SITEID:VARCHAR:NULL#,
+		#MASTERFK:VARCHAR:NULL#,
+		#FILEFK:VARCHAR:NULL#,
+		'N'
+		)
+	</insert>
+	<delete id="deleteTranFiles" parameterType="map">
+		delete from bi_transfer_file where createtime <![CDATA[  <   ]]> #CREATETIME#
+	</delete>
+	<delete id="deleteMaster" parameterType="java.lang.String">
+		DELETE FROM bi_transfer_file
+		WHERE guid = #GUID#
+	</delete>
+
+	<delete id="deleteDetail" parameterType="map">
+		DELETE FROM bi_trans_detail
+		WHERE guid = #GUID#
+	</delete>
+
+	<update id="updateMaster" parameterType="map">
+		update bi_transfer_file
+		set isinvalid = case
+		(select count(1)
+		from bi_trans_detail
+		where masterfk = #GUID#
+		and isinvalid = 'N')
+		when 0 then
+		'Y'
+		else
+		'N'
+		end
+		where guid = #GUID#
+	</update>
+
+	<update id="updateDetail" parameterType="java.lang.String">
+		update bi_trans_detail
+		set isinvalid = 'Y'
+		where guid = #GUID#
+	</update>
+</mapper>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.EmailServerMapper">
+
+	<select id="select" parameterType="map" resultType="dyna.common.dto.EmailServer">
+		select *
+		  from bi_config_rule_mailserver a
+		<where>
+			<if  test="GUID!=null">
+				and a.guid = #GUID#
+			</if>
+			<if  test="USERNAME!=null">
+				and a.username=#USERNAME#
+			</if>
+			<if  test="SMTP!=null">
+				and a.smtp=#SMTP#
+			</if>
+			<if  test="ISSHOWWARN!=null">
+				and a.isshowwarn=#ISSHOWWARN#
+			</if>
+			<if  test="FROMADDRESS!=null">
+				and a.fromaddress=#FROMADDRESS#
+			</if>
+		</where>
+	order by a.username
+	</select>
+		
+	<insert id="insert" parameterType="dyna.common.dto.EmailServer">
+		insert into bi_config_rule_mailserver
+		(
+			guid,
+			username,
+			password,
+			smtp,
+		   	createuserguid,
+		   	createtime,
+		   	updateuserguid,
+		   	updatetime,
+		   	isshowwarn,
+		   	fromaddress
+	   	)
+		select  #GUID#,
+				#USERNAME#,
+				#PASSWORD#,
+		       	#SMTP#,
+				#CREATEUSERGUID:VARCHAR:NULL#,
+				#CURRENTTIME:TIMESTAMP#,
+				#CREATEUSERGUID:VARCHAR:NULL#,
+				#CURRENTTIME:TIMESTAMP#,
+				#ISSHOWWARN:VARCHAR:NULL#,
+				#FROMADDRESS# 
+	</insert>
+	
+	<update id="update" parameterType="dyna.common.dto.EmailServer">
+		update bi_config_rule_mailserver
+	       <set>
+	       <if test="USERNAME!=null">
+	       username = #USERNAME#,
+	       </if>
+	       <if test="PASSWORD!=null">
+	       password = #PASSWORD#,
+	       </if>
+	       <if test="SMTP!=null">
+	       smtp = #SMTP#,
+	       </if>
+	       <if test="ISSHOWWARN!=null">
+	       isshowwarn = #ISSHOWWARN#,
+	       </if>
+	       <if test="FROMADDRESS!=null">
+	       fromaddress = #FROMADDRESS#,
+	       </if>
+	       </set>
+	       updateuserguid = #UPDATEUSERGUID#,
+	       updatetime = #CURRENTTIME:TIMESTAMP#
+		where guid = #GUID#
+	</update>
+	
+	<delete id="delete" parameterType="java.lang.String">
+		delete from bi_config_rule_mailserver
+		 where guid = #GUID#
+	</delete>
+	
+</mapper>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+		PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+		"../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.FolderMapper">
+
+	<select id="selectForLoad" parameterType="map" resultType="dyna.common.dto.Folder">
+		select a.*,
+		a.path hierarchy
+		from ma_folder a
+	</select>
+
+	<select id="get" parameterType="java.lang.String" resultType="dyna.common.dto.Folder">
+		select a.*,
+		a.path hierarchy
+		from ma_folder a
+		WHERE a.guid = #GUID#
+	</select>
+
+	<insert id="insert" parameterType="dyna.common.dto.Folder">
+		insert into ma_folder
+		(guid,
+		folderid,
+		foldername,
+		parentguid,
+		classification,
+		owneruserguid,
+		createuserguid,
+		createtime,
+		updateuserguid,
+		updatetime,
+		storageguid,
+		isshared,
+		sharedname,
+		description,
+		searchlimit,
+		isvalid    ,
+		libraryuser,
+		path
+		)
+
+		values(#GUID#,
+		#FOLDERID:VARCHAR:NULL#,
+		#FOLDERNAME:VARCHAR:NULL#,
+		#PARENTGUID:VARCHAR:NULL#,
+		#CLASSIFICATION#,
+		#OWNERUSERGUID:VARCHAR:NULL#,
+		#CREATEUSERGUID#,
+		#CURRENTTIME:TIMESTAMP#,
+		#CREATEUSERGUID#,
+		#CURRENTTIME:TIMESTAMP#,
+		#STORAGEGUID:VARCHAR:NULL#,
+		<if test="ISSHARED==null">'N'</if>
+		<if test="ISSHARED!=null">#ISSHARED#</if>,
+		#SHAREDNAME:VARCHAR:NULL#,
+		#DESCRIPTION:VARCHAR:NULL#,
+		<if test="SEARCHLIMIT==null">0</if>
+		<if test="SEARCHLIMIT!=null">$ISVALID$</if>,
+		#ISVALID:VARCHAR:NULL#,
+		<if test="LIBRARYUSER==null">#GUID#</if>
+		<if test="LIBRARYUSER!=null">#LIBRARYUSER#</if>,
+		#HIERARCHY:VARCHAR:NULL#)
+	</insert>
+
+	<update id="update" parameterType="dyna.common.dto.Folder">
+		update ma_folder
+		 <set>
+			<if test="PARENTGUID!=null">parentguid=#PARENTGUID#,</if>
+			<if test="CLASSIFICATION!=null">classification=#CLASSIFICATION#,</if>
+			<if test="FOLDERID!=null">folderid=#FOLDERID#,</if>
+			<if test="FOLDERNAME!=null">foldername=#FOLDERNAME#,</if>
+			<if test="DESCRIPTION!=null">description=#DESCRIPTION#,</if>
+			<if test="OWNERUSERGUID!=null">owneruserguid=#OWNERUSERGUID#,</if>
+			<if test="ISSHARED!=null">isshared=#ISSHARED#,</if>
+			<if test="SHAREDNAME!=null">sharedname=#SHAREDNAME#,</if>
+			<if test="STORAGEGUID!=null">storageguid=#STORAGEGUID#,</if>
+			<if test="LIBRARYUSER!=null">libraryuser=#LIBRARYUSER#,</if>
+			<if test="SEARCHLIMIT!=null">searchlimit=#SEARCHLIMIT#,</if>
+			<if test="ISVALID!=null">isvalid=#ISVALID#,</if>
+			<if test="HIERARCHY!=null">hierarchy=#HIERARCHY#,</if>
+		</set>
+		updatetime=#CURRENTTIME:TIMESTAMP#,
+		updateuserguid=#UPDATEUSERGUID#
+		WHERE guid = #GUID#
+	</update>
+
+	<delete id="delete" parameterType="java.lang.String">
+		delete from ma_folder 
+		where guid = #GUID#
+	</delete>
+</mapper>

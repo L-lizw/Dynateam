@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.bean.data.ppms.PMCalendarSpecialDate">
+
+    <sql id="where">
+        <where>
+            <if  test="GUID!=null">
+                and  pcsd.guid = #GUID#
+            </if>
+            <if  test="SPECIALID!=null">
+                and pcsd.specialid = #SPECIALID#
+            </if>
+            <if  test="SPECIALNAME!=null">
+                and  pcsd.specialname = #SPECIALNAME#
+            </if>
+            <if  test="BEGINDATE!=null">
+                and  pcsd.begindate = #BEGINDATE#
+            </if>
+            <if  test="ENDDATE!=null">
+                and   pcsd.enddate = #ENDDATE#
+            </if>
+            <if  test="ISNONWORKDAY!=null">
+                and  pcsd.isnonworkday = #ISNONWORKDAY#
+            </if>
+            <if  test="REPEATMODE!=null">
+                and  pcsd.repeatmode = #REPEATMODE#
+            </if>
+            <if  test="GAPDAY!=null">
+                and  pcsd.gapday = #GAPDAY#
+            </if>
+            <if  test="WEEKLYDAYS!=null">
+                and  pcsd.weeklydays = #WEEKLYDAYS#
+            </if>
+            <if  test="MONTHLYDAYS!=null">
+                and pcsd.monthlydays = #MONTHLYDAYS#
+            </if>
+            <if  test="YEARLYMONTHS!=null">
+                and pcsd.yearlymonths = #YEARLYMONTHS#
+            </if>
+            <if  test="CALENDARGUID!=null">
+                and pcsd.calendarguid = #CALENDARGUID#
+            </if>
+            <if  test="CREATEUSERGUID!=null">
+                and  pcsd.createuserguid = #CREATEUSERGUID#
+            </if>
+            <if  test="UPDATEUSERGUID!=null">
+                and pcsd.updateuserguid = #UPDATEUSERGUID#
+            </if>
+        </where>
+    </sql>
+    
+    <select id="select" parameterType="map" resultType="dyna.common.bean.data.ppms.PMCalendarSpecialDate">
+        select pcsd.*
+          from ppm_calendar_special_date pcsd
+        <include refid="where"/>
+        order by pcsd.createtime desc
+    </select>
+    
+    <insert id="insert" parameterType="dyna.common.bean.data.ppms.PMCalendarSpecialDate">
+        insert into ppm_calendar_special_date
+			       (guid,
+			        specialid,
+			        specialname,
+			        
+			        begindate,
+			        enddate,
+			        isnonworkday,
+			        
+			        repeatmode,
+			        gapday,
+			        calendarguid,
+			        
+			        weeklydays,
+			        monthlydays,			        
+			        yearlymonths,
+			        
+			        createuserguid,
+			        createtime,
+			        updateuserguid,
+			        updatetime)
+        values
+			       (#GUID#,
+			        #SPECIALID#,
+					#SPECIALNAME:VARCHAR:NULL#,
+					
+				    #BEGINDATE:DATE#,
+					#ENDDATE:DATE#,
+					#ISNONWORKDAY:VARCHAR:NULL#,
+					
+					#REPEATMODE:NUMERIC#,
+					#GAPDAY:NUMERIC#,
+					#CALENDARGUID:VARCHAR:NULL#,
+					
+					#WEEKLYDAYS:VARCHAR:NULL#,
+					#MONTHLYDAYS:VARCHAR:NULL#,					
+					#YEARLYMONTHS:VARCHAR:NULL#,
+					
+					#CREATEUSERGUID:VARCHAR:NULL#,
+					#CURRENTTIME:TIMESTAMP#,
+					#UPDATEUSERGUID:VARCHAR:NULL#,
+					#CURRENTTIME:TIMESTAMP#)
+    </insert>
+    
+    <update id="update" parameterType="dyna.common.bean.data.ppms.PMCalendarSpecialDate">
+        update ppm_calendar_special_date
+        <set>
+	        <if test="SPECIALID!=null">specialid = #SPECIALID#,</if>
+	        <if test="SPECIALNAME!=null">specialname = #SPECIALNAME#,</if>
+	        <if test="BEGINDATE!=null">begindate = #BEGINDATE#,</if>
+	        <if test="ENDDATE!=null">enddate = #ENDDATE#,</if>
+	        <if test="ISNONWORKDAY!=null">isnonworkday = #ISNONWORKDAY#,</if>
+	        <if test="REPEATMODE!=null">repeatmode = #REPEATMODE#,</if>
+	        <if test="GAPDAY!=null">gapday = #GAPDAY#,</if>
+	        <if test="WEEKLYDAYS!=null">weeklydays = #WEEKLYDAYS#,</if>
+	        <if test="MONTHLYDAYS!=null">monthlydays = #MONTHLYDAYS#,</if>
+	        <if test="YEARLYMONTHS!=null">yearlymonths = #YEARLYMONTHS#,</if>
+	        <if test="CALENDARGUID!=null">calendarguid = #CALENDARGUID#,</if>
+        </set>
+               updatetime = #CURRENTTIME:TIMESTAMP#,
+               updateuserguid = #UPDATEUSERGUID#
+         where guid = #GUID#
+    </update>
+    
+    <delete id="delete" parameterType="map">
+        delete from ppm_calendar_special_date where guid = #GUID#
+    </delete>
+    
+    <delete id="deleteSpecialDateByCal" parameterType="java.lang.String">
+        delete from ppm_calendar_special_date where calendarguid = #CALENDARGUID#
+    </delete>
+</mapper>

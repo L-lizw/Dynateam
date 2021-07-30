@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.wf.ProcTrackAttachMapper">
+
+    <insert id="insert" parameterType="dyna.common.dto.wf.ProcTrackAttach">
+        insert into wf_trackattach(guid, 
+                                   procrtguid, 
+                                   actrtguid, 
+                                   comments, 
+                                   attachguid,
+                                   createuserguid, 
+                                   createtime, 
+                                   updateuserguid, 
+                                   updatetime, 
+                                   finishtime, 
+                                   perfguid,
+                                   quotecomments
+                                  )
+        values(#GUID:VARCHAR:NULL#, 
+               #PROCRTGUID:VARCHAR:NULL#, 
+               #ACTRTGUID:VARCHAR:NULL#, 
+               #COMMENTS:VARCHAR:NULL#, 
+               #ATTACHGUID:VARCHAR:NULL#,
+               #CREATEUSERGUID:VARCHAR:NULL#, 
+               #CURRENTTIME:TIMESTAMP#, 
+               #UPDATEUSERGUID:VARCHAR:NULL#, 
+               #CURRENTTIME:TIMESTAMP#, 
+               #CURRENTTIME:TIMESTAMP#, 
+               #PERFGUID:VARCHAR:NULL#,
+               #QUOTECOMMENTS:VARCHAR:NULL#
+              )
+    </insert>
+
+
+    <sql id="where">
+        <where>
+            <if  test="GUID!=null">
+                and b.guid = #GUID#
+            </if>
+            <if  test="PROCRTGUID!=null">
+                and b.procrtguid = #PROCRTGUID#
+            </if>
+            <if  test="ACTRTGUID!=null">
+                and b.actrtguid = #ACTRTGUID#
+            </if>
+            <if  test="DECIDE!=null">
+                and b.decide = #DECIDE#
+            </if>
+            <if  test="ATTACHGUID!=null">
+                and b.attachguid = #ATTACHGUID#
+            </if>
+            <if  test="PERFGUID!=null">
+                and b.perfguid = #PERFGUID#
+            </if>
+        </where>
+    </sql>
+
+    <select id="select" parameterType="java.util.HashMap" resultType="dyna.common.dto.wf.ProcTrackAttach">
+        select b.guid,
+               b.procrtguid,
+               b.actrtguid,
+               b.attachguid,
+               b.comments,
+               b.createuserguid,
+               b.createtime,
+               b.updateuserguid,
+               b.updatetime,
+               b.finishtime,
+               b.perfguid,
+               b.quotecomments
+          from wf_trackattach b
+          <include refid="where"/>
+         order by b.updatetime desc
+    </select>
+
+    <update id="update" parameterType="java.util.HashMap">
+        update wf_trackattach
+               <set>
+                   updatetime = #CURRENTTIME:TIMESTAMP#,
+                   <if test="COMMENTS!=null" >
+                       comments = #COMMENTS#,
+                   </if>
+                   <if test="UPDATEUSERGUID!=null" >
+                       updateuserguid = #UPDATEUSERGUID#,
+                   </if>
+                   <if test="PERFGUID!=null" >
+                       perfguid = #PERFGUID#,
+                   </if>
+                   <if test="QUOTECOMMENTS!=null" >
+                       quotecomments = #QUOTECOMMENTS#,
+                   </if>
+               </set>
+          where guid = #GUID#
+    </update>
+    
+    
+    <delete id="delete" parameterType="map">
+        delete from wf_trackattach where procrtguid = #PROCRTGUID# and attachguid = #ATTACHGUID#
+    </delete>
+    
+    
+    <delete id="deleteGuid" parameterType="java.lang.String">
+        delete from wf_trackattach where guid = #GUID#
+    </delete>
+    
+</mapper>

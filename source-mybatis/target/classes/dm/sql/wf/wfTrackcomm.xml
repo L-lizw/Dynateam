@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.wf.ProcTrackCommMapper">
+
+    <insert id="insert" parameterType="dyna.common.dto.wf.ProcTrackComm">
+         
+        insert into wf_trackcomm(guid, 
+                                 comments,
+                                 createuserguid, 
+                                 createtime, 
+                                 updateuserguid, 
+                                 updatetime
+                                )
+        values(#GUID:VARCHAR:NULL#, 
+               #COMMENTS:VARCHAR:NULL#,
+               #CREATEUSERGUID:VARCHAR:NULL#, 
+               #CURRENTTIME:TIMESTAMP#, 
+               #UPDATEUSERGUID:VARCHAR:NULL#, 
+               #CURRENTTIME:TIMESTAMP#
+              )
+    </insert>
+	
+    <sql id="where">
+        <where>
+            <if  test="GUID!=null">
+                and b.guid = #GUID#
+            </if>
+            <if  test="CREATEUSERGUID!=null">
+                and b.createuserguid = #CREATEUSERGUID#
+            </if>
+            <if  test="UPDATEUSERGUID!=null">
+                and  b.updateuserguid = #UPDATEUSERGUID#
+            </if>
+        </where>
+    </sql>
+	
+	
+	
+    <select id="select" parameterType="java.util.HashMap" resultType="dyna.common.dto.wf.ProcTrackComm">
+        select b.guid,
+               b.comments,
+               b.createuserguid,
+               b.createtime,
+               b.updateuserguid,
+               b.updatetime
+          from wf_trackcomm b
+          <include refid="where"/>
+         order by b.updatetime
+    </select>
+	
+
+    <update id="update" parameterType="java.util.HashMap">
+        update wf_trackcomm 
+               <set>
+                   updatetime = #CURRENTTIME:TIMESTAMP#,
+                   <if test="COMMENTS!=null" >
+                       comments = #COMMENTS#,
+                   </if>
+                   <if test="CREATEUSERGUID!=null" >
+                       createuserguid = #CREATEUSERGUID#,
+                   </if>
+                   <if test="UPDATEUSERGUID!=null" >
+                       updateuserguid = #UPDATEUSERGUID#,
+                   </if>
+               </set>
+          where guid = #GUID#
+    </update>
+	
+	
+    <delete id="delete" parameterType="map">
+        delete from wf_trackcomm where guid = #GUID# 
+    </delete>
+	
+</mapper>

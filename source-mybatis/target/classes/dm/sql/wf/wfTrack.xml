@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.wf.ProcTrackMapper">
+
+    <insert id="insert" parameterType="dyna.common.dto.wf.ProcTrack">
+        insert into wf_track(guid, 
+                             procrtguid, 
+                             actrtguid, 
+                             decide, 
+                             comments,
+                             createuserguid, 
+                             createtime, 
+                             updateuserguid, 
+                             updatetime, 
+                             finishtime, 
+                             perfguid,
+                             startnumber,
+                             agentguid
+                            )
+        values(#GUID:VARCHAR:NULL#, 
+               #PROCRTGUID:VARCHAR:NULL#, 
+               #ACTRTGUID:VARCHAR:NULL#, 
+               #DECIDE:VARCHAR:NULL#, 
+               #COMMENTS:VARCHAR:NULL#, 
+               #CREATEUSERGUID:VARCHAR:NULL#, 
+               #CURRENTTIME:TIMESTAMP#,
+               #UPDATEUSERGUID:VARCHAR:NULL#, 
+               #CURRENTTIME:TIMESTAMP#,
+               #CURRENTTIME:TIMESTAMP#,
+               #PERFGUID:VARCHAR:NULL#,
+               #STARTNUMBER#,
+               #AGENTGUID:VARCHAR:NULL#
+              )
+    </insert>
+
+    <sql id="where">
+        <where>
+            <if  test="GUID!=null">
+                and b.guid = #GUID#
+            </if>
+            <if  test="PROCRTGUID!=null">
+                and b.procrtguid = #PROCRTGUID#
+            </if>
+            <if  test="ACTRTGUID!=null">
+                and b.actrtguid = #ACTRTGUID#
+            </if>
+            <if  test="DECIDE!=null">
+                and b.decide = #DECIDE#
+            </if>
+            <if  test="PERFGUID!=null">
+                and  b.perfguid = #PERFGUID#
+            </if>
+            <if  test="STARTNUMBER!=null">
+                and b.startnumber = #STARTNUMBER#
+            </if>
+        </where>
+    </sql>
+
+    <select id="select" parameterType="java.util.HashMap" resultType="dyna.common.dto.wf.ProcTrack">
+        select distinct b.guid,
+               b.procrtguid,
+               b.actrtguid,
+               (select c.title from wf_actrt c where c.guid = b.actrtguid) actrttitle,
+               b.decide,
+               b.comments,
+               b.createuserguid,
+               b.createtime,
+               b.updateuserguid,
+               b.updatetime,
+               b.finishtime,
+               b.perfguid,
+               (select c.deadline from wf_actrt c where c.guid = b.actrtguid) deadline,
+               b.startnumber,
+               (case
+                 when m.guid is not null then 'Y'
+		         else 'N'
+		        end
+               ) hasfile,
+               b.agentguid
+          from wf_track b
+     left join bi_wf_file m
+            on m.activityguid = b.actrtguid
+           and m.startnumber = b.startnumber
+           and m.createuserguid = b.createuserguid
+          <include refid="where"/>
+         order by b.updatetime, b.decide asc
+    </select>
+
+</mapper>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.PreferenceMapper">
+
+	<sql id="selectFeilds">
+		SELECT a.*
+	</sql>
+
+	<sql id="from">
+		FROM sa_preference_master a
+	</sql>
+
+	<sql id="orderby">
+	</sql>
+
+	<select id="select" parameterType="map" resultType="dyna.common.dto.Preference">
+		<include refid="selectFeilds" />
+		<include refid="from" />
+		<where>
+			<if  test="GUID!=null">and a.guid=#GUID#</if>
+			<if  test="USERGUID!=null">and a.userguid=#USERGUID#</if>
+			<if  test="CONFIGTYPE!=null">and a.configtype=#CONFIGTYPE#</if>
+		</where>
+		<include refid="orderby" />
+	</select>
+
+	<insert id="insert" parameterType="dyna.common.dto.Preference">
+		INSERT INTO sa_preference_master
+		(
+		guid,
+		userguid,
+		configtype,
+		createuserguid,
+		createtime,
+		updateuserguid,
+		updatetime
+		)
+		VALUES(
+		#GUID#,
+		#USERGUID:VARCHAR:NULL#,
+		#CONFIGTYPE:VARCHAR:NULL#,
+		#CREATEUSERGUID:VARCHAR:NULL#,
+		#CURRENTTIME:TIMESTAMP#,
+		#CREATEUSERGUID:VARCHAR:NULL#,
+		#CURRENTTIME:TIMESTAMP#
+		)
+	</insert>
+
+	<update id="update" parameterType="dyna.common.dto.Preference">
+		UPDATE sa_preference_master 
+		<set>
+			updateuserguid = #UPDATEUSERGUID#,
+			updatetime = #CURRENTTIME:TIMESTAMP#,
+			<if  test="GUID!=null">guid=#GUID#,</if>
+			<if  test="USERGUID!=null">userguid=#USERGUID#,</if>
+			<if  test="CONFIGTYPE!=null">configtype=#CONFIGTYPE#,</if>
+		</set>
+		WHERE guid = #GUID#
+	</update>
+
+	<delete id="delete" parameterType="java.lang.String">
+		DELETE FROM sa_preference_master 
+		WHERE guid = #GUID#
+	</delete>
+
+	<delete id="deleteByType"  parameterType="map">
+		DELETE FROM sa_preference_master 
+		WHERE userguid = #USERGUID# AND configtype=#CONFIGTYPE#
+	</delete>
+
+</mapper>

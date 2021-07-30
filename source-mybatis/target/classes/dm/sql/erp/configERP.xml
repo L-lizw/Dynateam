@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.erp.ERPServiceConfigMapper">
+
+    <select id="listERPConfigForNoClass" parameterType="java.lang.String" resultType="dyna.common.dto.erp.ERPServiceConfig">
+        select a.*
+        from bi_config_erp a
+        where a.bmguid = 'ALL'
+        union
+        select distinct a.*
+        from bi_config_erp a, sa_businessmodel b, sa_group c
+        where a.bmguid = b.guid
+        and b.guid = c.bmguid
+        and c.guid = #GROUPGUID#
+    </select>
+
+    <select id="select" parameterType="map" resultType="dyna.common.dto.erp.ERPServiceConfig">
+        select b.*
+        from bi_config_erp b
+        <include refid="where"/>
+        order by b.erptype, b.templatename
+    </select>
+
+    <select id="selectBOConfig" parameterType="map" resultType="dyna.common.dto.erp.ERPServiceConfig">
+        select b.* from bi_config_erp_acl_bo b
+        where b.templateguid = #TEMPLATEGUID#
+        and (b.bmguid = 'ALL' or b.bmguid = #BMGUID#)
+    </select>
+
+    <insert id="insert" parameterType="dyna.common.dto.erp.ERPServiceConfig">
+        insert into bi_config_erp
+                       (guid,
+				       erptype,
+				       isinuse,
+				       templatename,
+				       erpserverlocation,
+				       
+				       serviceip,
+				       serviceport,
+				       isbycross,
+				       servicename,
+				       soapservice,
+				       
+				       namespace,
+				       bmguid,
+				       createuserguid,
+				       createtime,
+				       updateuserguid,
+				       
+				       updatetime,
+				       ispermitcustom,
+				       schemaname
+                    )
+        values (#GUID:VARCHAR#, 
+                #ERPTYPE:VARCHAR#, 
+                #ISINUSE:VARCHAR#, 
+                #TEMPLATENAME:VARCHAR#, 
+                #ERPSERVERLOCATION:VARCHAR#,
+                 
+                #SERVICEIP:VARCHAR#, 
+                #SERVICEPORT:VARCHAR#, 
+                #ISBYCROSS:VARCHAR#, 
+                #SERVICENAME:VARCHAR#, 
+                #SOAPSERVICE:VARCHAR#,
+                
+                #NAMESPACE:VARCHAR#, 
+                #BMGUID:VARCHAR#, 
+                #CREATEUSERGUID:VARCHAR#, 
+                #CURRENTTIME:TIMESTAMP#, 
+                #UPDATEUSERGUID:VARCHAR#, 
+                
+                #CURRENTTIME:TIMESTAMP#,
+                #ISPERMITCUSTOM:VARCHAR#,
+                #SCHEMANAME:VARCHAR#
+               )
+    </insert>
+
+    <sql id="where">
+        <where>
+            <if  test="GUID!=null">
+                and b.guid = #GUID#
+            </if>
+            <if  test="ERPTYPE!=null">
+                and b.erptype = #ERPTYPE#
+            </if>
+            <if  test="ISINUSE!=null">
+                and b.isinuse = #ISINUSE#
+            </if>
+            <if  test="TEMPLATENAME!=null">
+                and b.templatename = #TEMPLATENAME#
+            </if>
+            <if  test="ERPSERVERLOCATION!=null">
+                and b.erpserverlocation = #ERPSERVERLOCATION#
+            </if>
+            
+            <if  test="SERVICEIP!=null">
+                and b.serviceip = #SERVICEIP#
+            </if>
+            <if  test="SERVICEPORT!=null">
+                and b.serviceport = #SERVICEPORT#
+            </if>
+            <if  test="ISBYCROSS!=null">
+                and b.isbycross = #ISBYCROSS#
+            </if>
+            <if  test="SERVICENAME!=null">
+                and b.servicename = #SERVICENAME#
+            </if>
+            <if  test="SOAPSERVICE!=null">
+                and b.soapservice = #SOAPSERVICE#
+            </if>
+            
+            <if  test="NAMESPACE!=null">
+                and b.namespace = #NAMESPACE#
+            </if>
+            <if  test="BMGUID!=null">
+                and b.BMGUID = #BMGUID#
+            </if>
+            <if  test="CREATEUSERGUID!=null">
+                and b.createuserguid = #CREATEUSERGUID#
+            </if>
+            <if  test="UPDATEUSERGUID!=null">
+                and b.updateuserguid = #UPDATEUSERGUID#
+            </if>
+            
+             <if  test="ISPERMITCUSTOM!=null">
+                 and b.ispermitcustom = #ISPERMITCUSTOM#
+            </if>
+            
+             <if  test="SCHEMANAME!=null">
+                 and b.schemaname = #SCHEMANAME#
+            </if>
+        </where>
+    </sql>
+
+    <update id="update" parameterType="dyna.common.dto.erp.ERPServiceConfig">
+        update bi_config_erp 
+        <set>
+            updateuserguid = #UPDATEUSERGUID#,
+            updatetime = #CURRENTTIME:TIMESTAMP#,
+            <if  test="ERPTYPE!=null">erptype=#ERPTYPE#,</if>
+            <if  test="ISINUSE!=null">isinuse=#ISINUSE#,</if>
+            <if  test="TEMPLATENAME!=null">templatename=#TEMPLATENAME#,</if>
+            <if  test="ERPSERVERLOCATION!=null">erpserverlocation=#ERPSERVERLOCATION#,</if>
+            <if  test="SERVICEIP!=null">serviceip=#SERVICEIP#,</if>
+            
+            <if  test="SERVICEPORT!=null">serviceport=#SERVICEPORT#,</if>
+            <if  test="ISBYCROSS!=null">isbycross=#ISBYCROSS#,</if>
+            <if  test="SERVICENAME!=null">servicename=#SERVICENAME#,</if>
+            <if  test="SOAPSERVICE!=null">soapservice=#SOAPSERVICE#,</if>
+            <if  test="NAMESPACE!=null">namespace=#NAMESPACE#,</if>
+            <if  test="BMGUID!=null">bmguid=#BMGUID#,</if>
+            
+            <if  test="ISPERMITCUSTOM!=null">ispermitcustom=#ISPERMITCUSTOM#,</if>
+            <if  test="SCHEMANAME!=null">schemaname=#SCHEMANAME#,</if>
+        </set>
+        where guid = #GUID#
+    </update>
+     
+    <delete id="delete" parameterType="java.lang.String">
+        delete from bi_config_erp  where guid = #GUID#
+    </delete>
+
+</mapper>

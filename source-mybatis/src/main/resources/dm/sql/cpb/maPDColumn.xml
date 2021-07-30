@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.configparamter.IOPColumnValueMapper">
+
+    <select id="listAllVirableOfValue" parameterType="map" resultType="dyna.common.bean.data.iopconfigparamter.IOPColumnValue">
+        select b.*,a.title title
+          from ma_pd_columntitle a,
+               MA_PD_COLUMNVALUE b
+        <where>
+            <if test="RELEASETIME == null" >
+                <if test="STATUS==null">
+                   and a.hasnextrevision = 'N' and b.hasnextrevision = 'N'
+                </if>
+                <if test="STATUS == 'RLS'" >
+                   and a.releasetime is not null and a.obsoletetime is null and b.releasetime is not null and b.obsoletetime is null
+                </if>
+                <if test="STATUS!= 'RLS'">
+                   and a.hasnextrevision = 'N' and b.hasnextrevision = 'N'
+                </if>
+            </if>
+            <if test="RELEASETIME!=null">
+                and #RELEASETIME:TIMESTAMP# >= a.releasetime
+                and (a.obsoletetime is null or #RELEASETIME:TIMESTAMP# <![CDATA[ < ]]> a.obsoletetime)
+                and #RELEASETIME:TIMESTAMP# >= b.releasetime
+                and (b.obsoletetime is null or #RELEASETIME:TIMESTAMP# <![CDATA[ < ]]> b.obsoletetime)
+            </if>
+            and a.masterguid = b.masterguid
+            and a.md_name = b.MD_NAME
+            and b.masterguid = #MASTERGUID#
+        </where>
+         order by b.DATASEQ
+    </select>
+    
+       <select id="listColumnValue" parameterType="map" resultType="dyna.common.bean.data.iopconfigparamter.IOPColumnValue">
+        select b.*
+        from ma_pd_columnvalue b
+           <where>
+               <if test="RELEASETIME == null">
+                   <if test="STATUS==null">
+                       and a.hasnextrevision = 'N' and b.hasnextrevision = 'N'
+                   </if>
+                   <if test="STATUS == 'RLS'">
+                       and a.releasetime is not null and a.obsoletetime is null
+                   </if>
+                   <if test="STATUS != 'RLS'">
+                       and a.hasnextrevision = 'N' and b.hasnextrevision = 'N'
+                   </if>
+               </if>
+               <if test="RELEASETIME!=null">
+                   and #RELEASETIME:TIMESTAMP# >= b.releasetime
+                   and (b.obsoletetime is null or #RELEASETIME:TIMESTAMP# <![CDATA[ < ]]> b.obsoletetime)
+               </if>
+               <if test="VARNAME!=null">and b.VARNAME=#VARNAME#</if>
+               and b.masterguid = #MASTERGUID#
+           </where>
+         order by b.DATASEQ
+    </select>     
+        
+    <insert id="inserBatchList" parameterType="map">
+            into ma_pd_columnvalue(GUID, 
+                                   MASTERGUID, 
+                                   VARNAME,
+                                   VARVALUE, 
+                                   DATASEQ,
+                                   
+                                   CREATEUSERGUID, 
+	                               CREATETIME, 
+	                               UPDATEUSERGUID, 
+	                               UPDATETIME)
+          values (#GUID#, 
+                  #MASTERGUID#, 
+                  #VARNAME#,
+                  #VARVALUE#,  
+                  #DATASEQ#,
+                  
+                  #CREATEUSERGUID:VARCHAR:NULL#,
+                  #CURRENTTIME:TIMESTAMP#,
+				  #UPDATEUSERGUID:VARCHAR:NULL#,
+				  #CURRENTTIME:TIMESTAMP#)
+    </insert>
+    
+    <update id="updateBatchList" parameterType="map">
+            update ma_pd_columnvalue 
+               set UPDATEUSERGUID = #UPDATEUSERGUID:VARCHAR:NULL#,
+                   UPDATETIME = #CURRENTTIME:TIMESTAMP#,
+                   VARVALUE = #VARVALUE#
+             where guid = #GUID#;
+    </update>
+    
+    <update id="updateNextRevisionBatchList" parameterType="map">
+        update ma_pd_columnvalue
+           set UPDATEUSERGUID = #UPDATEUSERGUID:VARCHAR:NULL#,
+               UPDATETIME = #CURRENTTIME:TIMESTAMP#,
+               hasnextrevision = 'Y'
+         where guid = #GUID#;
+    </update>
+    
+    <delete id="delete" parameterType="java.lang.String">
+         delete ma_pd_columnvalue 
+          where guid = #GUID#;
+    </delete>
+    
+    <update id="releaseCustColumn" parameterType="map">
+		update ma_pd_columnvalue 
+		   set UPDATEUSERGUID = #UPDATEUSERGUID:VARCHAR:NULL#,
+               UPDATETIME = $CURRENTTIME$,
+		       releasetime = $CURRENTTIME$
+		 where releasetime is null
+		   and masterguid = #MASTERGUID#
+    </update>
+    
+    <update id="obsoleteCustColumn" parameterType="map">
+		update ma_pd_columnvalue 
+		   set UPDATEUSERGUID = #UPDATEUSERGUID:VARCHAR:NULL#,
+               UPDATETIME = $CURRENTTIME$,
+		       obsoletetime = $CURRENTTIME$
+		 where releasetime is not null
+		   and hasnextrevision = 'Y'
+		   and masterguid = #MASTERGUID#
+    </update>
+    
+    <delete id="deleteByMaster" parameterType="java.lang.String">
+        delete from ma_pd_columnvalue  where masterguid = #MASTERGUID#
+    </delete>
+    
+    <update id="clearWIP" parameterType="map">
+            update ma_pd_columnvalue
+               set UPDATEUSERGUID = #UPDATEUSERGUID:VARCHAR:NULL#,
+                   UPDATETIME = $CURRENTTIME$,
+                   hasnextrevision = 'N'
+             where hasnextrevision = 'Y' 
+               and obsoletetime is null 
+               and masterguid = #MASTERGUID#;
+    </update>
+    
+    <delete id="deleteWIP" parameterType="java.lang.String">
+	        delete from ma_pd_columnvalue 
+	         where releasetime is null
+	           and masterguid = #MASTERGUID#;
+    </delete>
+</mapper>

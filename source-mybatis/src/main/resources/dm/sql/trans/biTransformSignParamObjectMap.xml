@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.trans.TransformSignObjectMapMapper">
+
+	<select id="select" parameterType="map" resultType="dyna.common.bean.data.trans.TransformSignObjectMap">
+        select a.*,
+		       ( select f.description from ma_class b ,ma_field f where b.guid=f.classguid and b.guid = a.classguid and f.fieldname = a.fieldname) fielddescription     			           	   
+          from BI_TRANSFORM_SIGN_OBJECT_MAP a
+        <where>
+			<if  test="SIGNPARAMGUID!=null">and a.SIGNPARAMGUID=#SIGNPARAMGUID#</if>
+			<if  test="CLASSGUID!=null">and a.CLASSGUID=#CLASSGUID#</if>
+			<if  test="FIELDNAME!=null">and a.FIELDNAME=#FIELDNAME#</if>
+			<if  test="GUID!=null">and a.GUID=#GUID#</if>
+		</where>
+		order by a.createtime
+	</select>
+	
+	<insert id="insert" parameterType="dyna.common.bean.data.trans.TransformSignObjectMap">
+		INSERT INTO BI_TRANSFORM_SIGN_OBJECT_MAP  (
+			guid,
+			SIGNPARAMGUID,
+			CLASSGUID,
+			FIELDNAME,
+			createtime,
+			createuserguid,
+			updatetime,
+			updateuserguid
+
+		)
+		select
+			#GUID:VARCHAR:NULL#,
+			#SIGNPARAMGUID:VARCHAR:NULL#,
+			#CLASSGUID:VARCHAR:NULL#,
+			#FIELDNAME:VARCHAR:NULL#,
+			#CURRENTTIME:TIMESTAMP#,
+			#CREATEUSERGUID:VARCHAR:NULL#,
+			#CURRENTTIME:TIMESTAMP#,
+			#UPDATEUSERGUID:VARCHAR:NULL#
+	</insert>
+
+	<update id="update" parameterType="dyna.common.bean.data.trans.TransformSignObjectMap">
+		UPDATE BI_TRANSFORM_SIGN_OBJECT_MAP
+		<set>
+			updatetime=#CURRENTTIME:TIMESTAMP#,
+			updateuserguid=#UPDATEUSERGUID#,
+			<if  test="SIGNPARAMGUID!=null">SIGNPARAMGUID=#SIGNPARAMGUID#,</if>
+			<if  test="FIELDNAME!=null">FIELDNAME=#FIELDNAME#,</if>
+			<if  test="CLASSGUID!=null">CLASSGUID=#CLASSGUID#,</if>
+		</set>
+		WHERE a.guid = #GUID#
+	</update>
+
+	<delete id="delete" parameterType="java.lang.String">
+		DELETE FROM BI_TRANSFORM_SIGN_OBJECT_MAP 
+		WHERE guid = #GUID#
+	</delete>
+	<delete id="deleteAll" parameterType="java.lang.String">
+		DELETE FROM BI_TRANSFORM_SIGN_OBJECT_MAP 
+		WHERE SIGNPARAMGUID = #SIGNPARAMGUID#
+	</delete>
+</mapper>

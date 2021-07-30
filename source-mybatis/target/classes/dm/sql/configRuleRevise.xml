@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.ConfigRuleReviseMapper">
+
+	<sql id="selectfields">
+		SELECT A.GUID, A.CREATETIME, A.CREATEUSERGUID, A.UPDATETIME, A.UPDATEUSERGUID, A.REVISETYPE, A.REVISEVALUE
+	</sql>
+
+	<select id="select" parameterType="map" resultType="dyna.common.dto.ConfigRuleRevise">
+		<include refid="selectfields" />
+		FROM bi_config_rule_revise a
+		<where>
+			<if  test="GUID!=null">and a.guid=#GUID#</if>
+			<if  test="CREATETIME!=null">and a.createtime=#CREATETIME#</if>
+			<if  test="CREATEUSERGUID!=null">and a.createuserguid=#CREATEUSERGUID#</if>
+			<if  test="UPDATETIME!=null">and a.updatetime=#UPDATETIME#</if>
+			<if  test="UPDATEUSERGUID!=null">and a.updateuserguid=#UPDATEUSERGUID#</if>
+			<if  test="REVISETYPE!=null">and a.REVISETYPE=#REVISETYPE#</if>
+			<if  test="REVISEVALUE!=null">and a.REVISEVALUE=#REVISEVALUE#</if>
+		</where>
+		ORDER BY a.UPDATETIME
+	</select>
+
+	
+
+	<insert id="insert" parameterType="dyna.common.dto.ConfigRuleRevise">
+		INSERT INTO bi_config_rule_revise  (
+					guid,
+					createtime,
+					createuserguid,
+					updatetime,
+					updateuserguid,
+		            REVISETYPE,
+		            REVISEVALUE
+					)
+		values (#GUID:VARCHAR:NULL#,
+				#CURRENTTIME:TIMESTAMP#,
+				#CREATEUSERGUID:VARCHAR:NULL#,
+				#CURRENTTIME:TIMESTAMP#,
+				#UPDATEUSERGUID:VARCHAR:NULL#,
+				#REVISETYPE:VARCHAR:NULL#,
+				#REVISEVALUE:VARCHAR:NULL#
+		        )
+	</insert>
+
+	<delete id="delete" parameterType="java.lang.String">
+		DELETE FROM bi_config_rule_revise  WHERE guid = #GUID#
+	</delete>
+	
+	<update id="update" parameterType="dyna.common.dto.ConfigRuleRevise">
+		UPDATE bi_config_rule_revise
+		<set>
+			updatetime=#CURRENTTIME:TIMESTAMP#,
+			updateuserguid=#UPDATEUSERGUID#,
+			<if  test="REVISETYPE!=null">REVISETYPE=#REVISETYPE#,</if>
+			<if  test="REVISEVALUE!=null">REVISEVALUE=#REVISEVALUE#,</if>
+		</set>
+		WHERE guid = #GUID#
+	</update>
+
+</mapper>

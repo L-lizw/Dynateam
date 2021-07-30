@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.model.lf.LifecycleInfoMapper">
+
+    <select id="selectForLoad" parameterType="map" resultType="dyna.common.dto.model.lf.LifecycleInfo">
+        SELECT GUID,
+		       LCMNAME,
+		       DESCRIPTION,		       
+		       CREATETIME,
+		       CREATEUSERGUID,
+		       UPDATETIME,
+		       UPDATEUSERGUID
+		  FROM MA_LIFECYCLE_MASTER
+    </select>
+    
+	<select id="get" parameterType="java.lang.String" resultType="dyna.common.dto.model.lf.LifecycleInfo" statementType="STATEMENT">
+		SELECT GUID,
+		       LCMNAME,
+		       DESCRIPTION,		       
+		       CREATETIME,
+		       CREATEUSERGUID,
+		       UPDATETIME,
+		       UPDATEUSERGUID
+		  FROM MA_LIFECYCLE_MASTER
+		 WHERE GUID=#GUID#
+	</select>
+	
+	 <insert id="insert" parameterType="dyna.common.dto.model.lf.LifecycleInfo">
+        insert into MA_LIFECYCLE_MASTER
+			       (guid,
+			        lcmname,
+			         
+			        description,
+			        
+			        createuserguid,
+			        createtime,
+			        updateuserguid,
+			        updatetime)
+	        values (#GUID:VARCHAR#,
+			        #LCMNAME:VARCHAR:NULL#,
+					
+					#DESCRIPTION:VARCHAR:NULL#,
+					
+					#CREATEUSERGUID:VARCHAR:NULL#,
+					#CURRENTTIME:TIMESTAMP#,
+					#UPDATEUSERGUID:VARCHAR:NULL#,
+					#CURRENTTIME:TIMESTAMP#)
+    </insert>
+	
+	<update id="update" parameterType="dyna.common.dto.model.lf.LifecycleInfo">
+		update MA_LIFECYCLE_MASTER
+			<set>
+				updatetime = #CURRENTTIME:TIMESTAMP#,
+				updateuserguid = #UPDATEUSERGUID#,
+		        <if test="LCMNAME!=null">lcmname = #LCMNAME#,</if>
+		        <if test="DESCRIPTION!=null">description = #DESCRIPTION#,</if>
+       		 </set>
+
+         where guid = #GUID#
+	</update>
+	
+	<delete id="delete" parameterType="java.lang.String">
+		delete from MA_LIFECYCLE_MASTER  where guid = #GUID# 
+	</delete>
+    
+</mapper>

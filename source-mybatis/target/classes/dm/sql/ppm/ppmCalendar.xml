@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.bean.data.ppms.PMCalendar">
+
+    <sql id="where">
+        <where>
+            <if  test="GUID!=null">
+				and pc.guid = #GUID#
+            </if>
+            <if  test="CALENDARID!=null">
+				and pc.calendarid = #CALENDARID#
+            </if>
+            <if  test="CALENDARNAME!=null">
+				and  pc.calendarname = #CALENDARNAME#
+            </if>
+            <if  test="BOFWEEK!=null">
+				and pc.bofweek = #BOFWEEK#
+            </if>
+            <if  test="BEGINTIME!=null">
+				and pc.begintime = #BEGINTIME#
+            </if>
+            <if  test="ENDTIME!=null">
+				and  pc.endtime = #ENDTIME#
+            </if>
+            <if  test="DAILYWORKHOURS!=null">
+				and pc.dailyworkhours = #DAILYWORKHOURS#
+            </if>
+            <if  test="FISCALYEAR!=null">
+				and pc.fiscalyear = #FISCALYEAR#
+            </if>
+            <if  test="CODEBYSTARTYEAR!=null">
+				and pc.codebystartyear = #CODEBYSTARTYEAR#
+            </if>
+            <if  test="NONWORKDAYS!=null">
+				and pc.nonworkdays = #NONWORKDAYS#
+            </if>
+            <if  test="WEEKLYWORKHOURS!=null">
+				and  pc.weeklyworkhours = #WEEKLYWORKHOURS#
+            </if>
+            <if  test="MONTHLYWORKDAYS!=null">
+				and  pc.monthlyworkdays = #MONTHLYWORKDAYS#
+            </if>
+            <if  test="CREATEUSERGUID!=null">
+				and pc.createuserguid = #CREATEUSERGUID#
+            </if>
+            <if  test="UPDATEUSERGUID!=null">
+				and pc.updateuserguid = #UPDATEUSERGUID#
+            </if>
+            <if  test="ISVALID!=null">
+				and  pc.isvalid = #ISVALID#
+            </if>
+            <if test="PROJECT!=null">
+	            <if  test="PROJECT!=null">
+					and pc.project = #PROJECT#
+	            </if>
+	            <if  test="PROJECT==null">
+					and pc.project is null
+		        </if>
+			</if>
+            <if  test="PROJECT$CLASS!=null">
+				and  pc.project$$class = #PROJECT$CLASS#
+            </if>
+            <if  test="PROJECT$MASTER!=null">
+				and pc.project$$master = #PROJECT$MASTER#
+            </if>
+        </where>
+    </sql>
+    
+    <select id="select" parameterType="map" resultType="dyna.common.bean.data.ppms.PMCalendar">
+        select pc.*
+         from ppm_calendar pc
+        <include refid="where"/>
+    </select>
+    
+    <!-- 查询指定用户在当月内的所有任务 -->
+    <select id="selectTaskOfUserInMonth" parameterType="java.util.HashMap" resultType="dyna.common.bean.data.ppms.PMCalendar">
+        select taskguid, 
+        	   planstarttime, 
+        	   planfinishtime, 
+        	   userid
+		  from (
+		        <!--我负责的任务 -->
+		        select f$$.guid taskguid, 
+		               f$$.planstarttime, 
+		               f$$.planfinishtime, 
+		               u.userid userid
+		          from pmtask_0 f$$
+		         inner join sa_user u
+		            on u.guid = f$$.executor
+		         where f$$.latestrevision like '%m%'
+		           and f$$.boguid = #BOGUID#
+		           and (f$$.obsoletetime is null or f$$.obsoletetime > #CURRENTDATE:TIMESTAMP#)
+		           and u.userid in ($USERID$)
+		        union
+		        <!--我参与的任务-->
+		        select f$$.guid taskguid, 
+		               f$$.planstarttime, 
+		               f$$.planfinishtime, 
+		               u.userid userid
+		          from pmtask_0 f$$
+		         inner join ppm_taskresource b
+		            on b.taskguid = f$$.guid
+		         inner join sa_user u
+		            on u.guid = b.userguid
+		         where f$$.latestrevision like '%m%'
+		           and f$$.boguid = #BOGUID#
+		           and (f$$.obsoletetime is null or f$$.obsoletetime > #CURRENTDATE:TIMESTAMP#)
+		           and u.userid in ($USERID$)
+		       ) x
+		 where planstarttime between #STARTTIME:TIMESTAMP#  and #ENDTIME:TIMESTAMP#
+		                                            
+      order by planstarttime,
+               userid
+    </select>
+    
+    <!-- 查询指定用户在当天内的所有任务 -->
+    <select id="selectTaskOfUserInDate" parameterType="java.util.HashMap" resultType="dyna.common.bean.data.ppms.PMCalendar">
+        select taskguid, 
+        	   planstarttime, 
+        	   planfinishtime, 
+        	   userid
+		  from (
+		        <!--我负责的任务 -->
+		        select f$$.guid taskguid, 
+		               f$$.planstarttime, 
+		               f$$.planfinishtime, 
+		               u.userid userid
+		          from pmtask_0 f$$
+		         inner join sa_user u
+		            on u.guid = f$$.executor
+		         where f$$.latestrevision like '%m%'
+		           and f$$.boguid = #BOGUID#
+		           and (f$$.obsoletetime is null or f$$.obsoletetime > #CURRENTDATE:TIMESTAMP#)
+		           and u.userid in ($USERID$)
+		        union
+		        <!--我参与的任务-->
+		        select f$$.guid taskguid, 
+		               f$$.planstarttime, 
+		               f$$.planfinishtime, 
+		               u.userid userid
+		          from pmtask_0 f$$
+		         inner join ppm_taskresource b
+		            on b.taskguid = f$$.guid
+		         inner join sa_user u
+		            on u.guid = b.userguid
+		         where f$$.latestrevision like '%m%'
+		           and f$$.boguid = #BOGUID#
+		           and (f$$.obsoletetime is null or f$$.obsoletetime > #CURRENTDATE:TIMESTAMP#)
+		           and u.userid in ($USERID$)
+		       ) x
+		 where planstarttime between #STARTTIME:TIMESTAMP# and #ENDTIME:TIMESTAMP#
+		                                             
+      order by planstarttime,
+               userid
+    </select>
+    
+    <insert id="insert" parameterType="dyna.common.bean.data.ppms.PMCalendar">
+        insert into ppm_calendar
+			       (guid,
+			        calendarid,
+			        calendarname,
+			         
+			        bofweek,
+			        begintime,
+			        endtime,
+			        
+			        dailyworkhours,
+			        weeklyworkhours,
+			        monthlyworkdays,
+			         
+			        fiscalyear,
+			        codebystartyear,
+			        nonworkdays,
+			        isvalid,
+			        
+			        project,
+			        project$$class,
+			        project$$master,
+			        
+			        createuserguid,
+			        createtime,
+			        updateuserguid,
+			        updatetime)
+	        values (#GUID#,
+			        #CALENDARID#,
+					#CALENDARNAME:VARCHAR:NULL#,
+					
+					#BOFWEEK:NUMERIC#,
+					#BEGINTIME:VARCHAR:NULL#,
+					#ENDTIME:VARCHAR:NULL#,
+					
+					#DAILYWORKHOURS:NUMERIC#,
+					#WEEKLYWORKHOURS:NUMERIC#,
+					#MONTHLYWORKDAYS:NUMERIC#,
+					
+					#FISCALYEAR:NUMERIC#,
+					#CODEBYSTARTYEAR:VARCHAR:NULL#,
+					#NONWORKDAYS:VARCHAR:NULL#,
+					'1',
+					
+					#PROJECT:VARCHAR:NULL#,
+					#PROJECT$CLASS:VARCHAR:NULL#,
+					#PROJECT$MASTER:VARCHAR:NULL#,
+					
+					#CREATEUSERGUID:VARCHAR:NULL#,
+					#CURRENTTIME:TIMESTAMP#,
+					#UPDATEUSERGUID:VARCHAR:NULL#,
+					#CURRENTTIME:TIMESTAMP#)
+    </insert>
+    
+    <update id="update" parameterType="dyna.common.bean.data.ppms.PMCalendar">
+        update ppm_calendar
+        <set>
+	        <if test="CALENDARID!=null">calendarid = #CALENDARID#,</if>
+	        <if test="CALENDARNAME!=null">calendarname = #CALENDARNAME#,</if>
+	        <if test="BOFWEEK!=null">bofweek = #BOFWEEK#,</if>
+	        <if test="BEGINTIME!=null">begintime = #BEGINTIME#,</if>
+	        <if test="ENDTIME!=null">endtime = #ENDTIME#,</if>
+	        <if test="DAILYWORKHOURS!=null">dailyworkhours = #DAILYWORKHOURS#,</if>
+	        <if test="FISCALYEAR!=null">fiscalyear = #FISCALYEAR#,</if>
+	        <if test="CODEBYSTARTYEAR!=null">codebystartyear = #CODEBYSTARTYEAR#,</if>
+	        <if test="NONWORKDAYS!=null">nonworkdays = #NONWORKDAYS#,</if>
+	        <if test="ISVALID!=null">isvalid = #ISVALID#,</if>
+	        <if test="PROJECT!=null">project = #PROJECT#,</if>
+	        <if test="PROJECT$CLASS!=null">project$$class = #PROJECT$CLASS#,</if>
+	        <if test="PROJECT$MASTER!=null">project$$master = #PROJECT$MASTER#,</if>
+        </set>
+               updatetime = #CURRENTTIME:TIMESTAMP#,
+               updateuserguid = #UPDATEUSERGUID#
+         where guid = #GUID#
+    </update>
+    
+    <delete id="delete" parameterType="map">
+        delete from ppm_calendar where guid = #GUID#
+    </delete>
+</mapper>

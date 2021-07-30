@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.erp.ERPBOConfigMapper">
+
+	<sql id="selectFeilds">
+		SELECT a.*,
+		(select n.title 
+                  from sa_bm_bo m,
+                       sa_businessobject n
+                 where m.boguid = n.guid
+                   and m.bmguid = #GROUPBMGUID#
+                   and n.boname = a.boname) BOTITLE
+	</sql>
+
+	<sql id="from">
+		FROM bi_config_erp_acl_bo a
+	</sql>
+
+	<sql id="orderby">
+	</sql>
+
+	<select id="select" parameterType="map" resultType="dyna.common.dto.erp.ERPBOConfig">
+		<include refid="selectFeilds" />
+		<include refid="from" />
+		<where>
+			<if  test="GUID!=null">and a.guid=#GUID#</if>
+			<if  test="TEMPLATEGUID!=null">aand .templateguid=#TEMPLATEGUID#</if>
+			<if  test="END2BONAME!=null">and a.boname=#BONAME#</if>
+			<if  test="BMGUID!=null">and a.BMGUID=#BMGUID#</if>
+			<if  test="CREATEUSERGUID!=null">and a.createuserguid=#CREATEUSERGUID#</if>
+			<if  test="CREATETIME!=null">and a.createtime=#CREATETIME#</if>
+		</where>
+		<include refid="orderby" />
+	</select>
+	
+	<insert id="insert" parameterType="dyna.common.dto.erp.ERPBOConfig">
+		INSERT INTO bi_config_erp_acl_bo 
+		(
+		guid,
+		templateguid,
+		boname,
+		bmguid,
+		createuserguid,
+		
+		createtime,
+		updateuserguid,
+		updatetime
+		)
+		VALUES(
+		#GUID#,
+		#TEMPLATEGUID:VARCHAR:NULL#,
+		#BONAME:VARCHAR:NULL#,
+		#BMGUID:VARCHAR:NULL#,
+		#CREATEUSERGUID:VARCHAR:NULL#,
+		
+		#CURRENTTIME:TIMESTAMP#,
+		#UPDATEUSERGUID:VARCHAR:NULL#,
+		#CURRENTTIME:TIMESTAMP#
+		)
+	</insert>
+
+	<update id="update" parameterType="dyna.common.dto.erp.ERPBOConfig">
+		UPDATE bi_config_erp_acl_bo 
+		<set>
+			updateuserguid = #UPDATEUSERGUID#,
+			updatetime = #CURRENTTIME:TIMESTAMP#,
+			<if  test="GUID!=null">and guid=#GUID#,</if>
+			<if  test="TEMPLATEGUID!=null">and templateguid=#TEMPLATEGUID#,</if>
+			<if  test="BONAME!=null">and BONAME=#BONAME#,</if>
+			<if  test="BMGUID!=null">and BMGUID=#BMGUID#,</if>
+		</set>
+		WHERE guid = #GUID#
+	</update>
+
+	<delete id="delete" parameterType="java.lang.String">
+		DELETE FROM bi_config_erp_acl_bo 
+		WHERE guid = #GUID#
+	</delete>
+	
+	<delete id="deleteWithMasterfk" parameterType="map">
+		DELETE FROM bi_config_erp_acl_bo 
+		WHERE templateguid = #TEMPLATEGUID#
+	</delete>
+
+</mapper>

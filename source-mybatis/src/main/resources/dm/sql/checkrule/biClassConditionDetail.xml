@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.checkrule.ClassConditionDetailDataMapper">
+
+	<select id="select" parameterType="map" resultType="dyna.common.bean.data.checkrule.ClassConditionDetailData">
+        select a.*
+          from BI_RULE_CLASS_CONDITION_DETAIL a
+        <where>
+			<if  test="MASTERGUID!=null">and a.MASTERGUID=#MASTERGUID#</if>
+			<if  test="PARENTGUID!=null">and a.PARENTGUID=#PARENTGUID#</if>
+			<if  test="CONDITIONNAME!=null">and a.CONDITIONNAME=#CONDITIONNAME#</if>
+			<if  test="FIELDNAME!=null">and a.FIELDNAME=#FIELDNAME#</if>
+			<if  test="OPERATOR!=null">and a.OPERATOR=#OPERATOR#</if>
+			<if  test="ITEMVALUE!=null">and a.ITEMVALUE=#ITEMVALUE#</if>
+			<if  test="JOINTYPE!=null">and a.JOINTYPE=#JOINTYPE#</if>
+			<if  test="DATASEQ!=null">and a.DATASEQ=#DATASEQ#</if>
+			<if  test="GUID!=null">and a.GUID=#GUID#</if>
+		</where>
+		order by DATASEQ
+	</select>
+	
+	<insert id="insert" parameterType="dyna.common.bean.data.checkrule.ClassConditionDetailData">
+		INSERT INTO BI_RULE_CLASS_CONDITION_DETAIL  (
+			guid,
+			masterguid,
+			parentguid,
+			conditionname,
+			fieldname,
+			operator,
+		    ITEMVALUE,
+			jointype,
+			DATASEQ,
+			
+			createtime,
+			createuserguid,
+			updatetime,
+			updateuserguid
+		)
+		select
+			#GUID:VARCHAR:NULL#,
+			#MASTERGUID:VARCHAR:NULL#,
+			#PARENTGUID:VARCHAR:NULL#,
+			#CONDITIONNAME:VARCHAR:NULL#,
+			#FIELDNAME:VARCHAR:NULL#,
+			#OPERATOR:VARCHAR:NULL#,
+			#ITEMVALUE:VARCHAR:NULL#,
+			#JOINTYPE:VARCHAR:NULL#,
+			#DATASEQ:NUMERIC#,
+
+			#CURRENTTIME:TIMESTAMP#,
+			#CREATEUSERGUID:VARCHAR:NULL#,
+			#CURRENTTIME:TIMESTAMP#,
+			#UPDATEUSERGUID:VARCHAR:NULL#
+	</insert>
+	
+	<update id="update" parameterType="dyna.common.bean.data.checkrule.ClassConditionDetailData">
+		UPDATE BI_RULE_CLASS_CONDITION_DETAIL
+		<set>
+			updatetime=#CURRENTTIME:TIMESTAMP#,
+			updateuserguid=#UPDATEUSERGUID#,
+			<if  test="MASTERGUID!=null">MASTERGUID=#MASTERGUID#,</if>
+			<if  test="PARENTGUID!=null">PARENTGUID=#PARENTGUID#,</if>
+			<if  test="CONDITIONNAME!=null">CONDITIONNAME=#CONDITIONNAME#,</if>
+			<if  test="FIELDNAME!=null">FIELDNAME=#FIELDNAME#,</if>
+			<if  test="OPERATOR!=null">OPERATOR=#OPERATOR#,</if>
+			<if  test="ITEMVALUE!=null">ITEMVALUE=#ITEMVALUE#,</if>
+			<if  test="JOINTYPE!=null">JOINTYPE=#JOINTYPE#,</if>
+			<if  test="DATASEQ!=null">DATASEQ=#DATASEQ#,</if>
+		</set>
+		WHERE guid = #GUID#
+	</update>
+
+	<delete id="delete" parameterType="java.lang.String">
+		DELETE FROM BI_RULE_CLASS_CONDITION_DETAIL 
+		WHERE guid = #GUID#
+	</delete>
+	
+	<delete id="deleteByMaster" parameterType="java.lang.String">
+		DELETE FROM BI_RULE_CLASS_CONDITION_DETAIL 
+		WHERE masterguid = #MASTERGUID#
+	</delete>
+	
+	<delete id="deleteAll">
+	    DELETE FROM BI_RULE_CLASS_CONDITION_DETAIL 
+	</delete>
+</mapper>

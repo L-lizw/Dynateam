@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.SaLicenseOccupiedMapper">
+
+    <sql id="selectFields">
+		o.guid,
+		o.sessiontype,
+		o.logtime,
+		o.createtime,
+		o.createuserguid,
+		(select u.username from sa_user u where u.guid = o.createuserguid) createusername,
+		o.updatetime,
+		o.updateuserguid,
+		(select u.username from sa_user u where u.guid = o.updateuserguid) updateusername,
+		
+		o.h0,
+		o.h1,
+		o.h2,
+		o.h3,
+		o.h4,
+		o.h5,
+		o.h6,
+		o.h7,
+		o.h8,
+		o.h9,
+		o.h10,
+		o.h11,
+		o.h12,
+		o.h13,
+		o.h14,
+		o.h15,
+		o.h16,
+		o.h17,
+		o.h18,
+		o.h19,
+		o.h20,
+		o.h21,
+		o.h22,
+		o.h23
+    </sql>
+    
+    <select id="select" parameterType="map" resultType="dyna.common.dto.SaLicenseOccupied">
+        select <include refid="selectFields"/>
+		  from sa_license_occupied o
+	    <where>
+	        <if  test="SESSIONTYPE!=null">
+	             and o.sessiontype = #SESSIONTYPE#
+	        </if>
+	        <if  test="LOGTIME!=null">
+				and o.logtime = #LOGTIME#
+	        </if>
+	        <if  test="TIMEFROM!=null">
+				and o.logtime >= #TIMEFROM#
+	        </if>
+	        <if  test="TIMETO!=null">
+				and o.logtime <![CDATA[<=]]> #TIMETO#
+	        </if>
+	    </where>
+    </select>
+
+    <insert id="insert" parameterType="dyna.common.dto.SaLicenseOccupied">
+        insert into sa_license_occupied
+                       (guid,
+						sessiontype,
+						logtime,
+						
+						h0,
+						h1,
+						h2,
+						h3,
+						h4,
+						h5,
+						h6,
+						h7,
+						h8,
+						h9,
+						h10,
+						h11,
+						h12,
+						h13,
+						h14,
+						h15,
+						h16,
+						h17,
+						h18,
+						h19,
+						h20,
+						h21,
+						h22,
+						h23,
+						
+						createuserguid,
+						createtime,
+						updateuserguid,
+						updatetime
+                    )
+        values (#GUID#,
+        		#SESSIONTYPE:VARCHAR:NULL#,
+				#LOGTIME:VARCHAR:NULL#,
+				
+				#H0:NUMERIC#,
+				#H1:NUMERIC#,
+				#H2:NUMERIC#,
+				#H3:NUMERIC#,
+				#H4:NUMERIC#,
+				#H5:NUMERIC#,
+				#H6:NUMERIC#,
+				#H7:NUMERIC#,
+				#H8:NUMERIC#,
+				#H9:NUMERIC#,
+				#H10:NUMERIC#,
+				#H11:NUMERIC#,
+				#H12:NUMERIC#,
+				#H13:NUMERIC#,
+				#H14:NUMERIC#,
+				#H15:NUMERIC#,
+				#H16:NUMERIC#,
+				#H17:NUMERIC#,
+				#H18:NUMERIC#,
+				#H19:NUMERIC#,
+				#H20:NUMERIC#,
+				#H21:NUMERIC#,
+				#H22:NUMERIC#,
+				#H23:NUMERIC#,
+				
+				#CREATEUSERGUID:VARCHAR:NULL#,
+				#CURRENTTIME:TIMESTAMP#,
+				#UPDATEUSERGUID:VARCHAR:NULL#,
+				#CURRENTTIME:TIMESTAMP#
+               )
+    </insert>
+        
+    <update id="update" parameterType="dyna.common.dto.SaLicenseOccupied">
+        update sa_license_occupied  
+        <set>
+			updateuserguid = #UPDATEUSERGUID#,
+			updatetime = #CURRENTTIME:TIMESTAMP#,
+            <if  test="H0!=null">h0=#H0#,</if>
+            <if  test="H1!=null">h1=#H1#,</if>
+			<if  test="H2!=null">h2=#H2#,</if>
+			<if  test="H3!=null">h3=#H3#,</if>
+			<if  test="H4!=null">h4=#H4#,</if>
+			<if  test="H5!=null">h5=#H5#,</if>
+			<if  test="H6!=null">h6=#H6#,</if>
+			<if  test="H7!=null">h7=#H7#,</if>
+			<if  test="H8!=null">h8=#H8#,</if>
+			<if  test="H9!=null">h9=#H9#,</if>
+			<if  test="H10!=null">h10=#H10#,</if>
+			<if  test="H11!=null">h11=#H11#,</if>
+			<if  test="H12!=null">h12=#H12#,</if>
+			<if  test="H13!=null">h13=#H13#,</if>
+			<if  test="H14!=null">h14=#H14#,</if>
+			<if  test="H15!=null">h15=#H15#,</if>
+			<if  test="H16!=null">h16=#H16#,</if>
+			<if  test="H17!=null">h17=#H17#,</if>
+			<if  test="H18!=null">h18=#H18#,</if>
+			<if  test="H19!=null">h19=#H19#,</if>
+			<if  test="H20!=null">h20=#H20#,</if>
+			<if  test="H21!=null">h21=#H21#,</if>
+			<if  test="H22!=null">h22=#H22#,</if>
+			<if  test="H23!=null">h23=#H23#,</if>
+        </set>
+        <where>
+            <if  test="GUID!=null">guid=#GUID#</if>
+            <if  test="SESSIONTYPE!=null">SESSIONTYPE=#SESSIONTYPE#</if>
+            <if  test="TIME!=null">logtime=#TIME#</if>
+        </where>
+    </update>
+    
+    <update id="addOccupation" parameterType="dyna.common.dto.SaLicenseOccupied">
+        update sa_license_occupied 
+        <set>
+			updateuserguid = #UPDATEUSERGUID#,
+			updatetime = #CURRENTTIME:TIMESTAMP#,
+            <if test="CURRENTHOUR='0'" >h0=h0+1</if>
+            <if test="CURRENTHOUR=='1'" >h1=h1+1</if>
+			<if test="CURRENTHOUR=='2'" >h2=h2+1</if>
+			<if test="CURRENTHOUR=='3'" >h3=h3+1</if>
+			<if test="CURRENTHOUR=='4'" >h4=h4+1</if>
+			<if test="CURRENTHOUR=='5'" >h5=h5+1</if>
+			<if test="CURRENTHOUR=='6'" >h6=h6+1</if>
+			<if test="CURRENTHOUR=='7'" >h7=h7+1</if>
+			<if test="CURRENTHOUR=='8'" >h8=h8+1</if>
+			<if test="CURRENTHOUR=='9'" >h9=h9+1</if>
+			<if test="CURRENTHOUR=='10'" >h10=h10+1</if>
+			<if test="CURRENTHOUR=='11'" >h11=h11+1</if>
+			<if test="CURRENTHOUR=='12'" >h12=h12+1</if>
+			<if test="CURRENTHOUR=='13'" >h13=h13+1</if>
+			<if test="CURRENTHOUR=='14'" >h14=h14+1</if>
+			<if test="CURRENTHOUR=='15'" >h15=h15+1</if>
+			<if test="CURRENTHOUR=='16'" >h16=h16+1</if>
+			<if test="CURRENTHOUR=='17'" >h17=h17+1</if>
+			<if test="CURRENTHOUR=='18'" >h18=h18+1</if>
+			<if test="CURRENTHOUR=='19'" >h19=h19+1</if>
+			<if test="CURRENTHOUR=='20'" >h20=h20+1</if>
+			<if test="CURRENTHOUR=='21'" >h21=h21+1</if>
+			<if test="CURRENTHOUR=='22'" >h22=h22+1</if>
+			<if test="CURRENTHOUR=='23'" >h23=h23+1</if>
+        </set>
+        where sessiontype=#SESSIONTYPE# 
+          and logtime=#LOGTIME#
+    </update>
+     
+    <delete id="delete" parameterType="java.lang.String">
+        delete from sa_license_occupied where guid = #GUID#
+    </delete>
+    
+    <delete id="deleteBy" parameterType="map">
+        delete from sa_license_occupied 
+        <where>
+            <if  test="GUID!=null">and guid=#GUID#</if>
+            <if  test="SESSIONTYPE!=null">and sessiontype=#SESSIONTYPE#</if>
+            <if  test="LOGTIME!=null">and logtime=#LOGTIME#</if>
+        </where>
+    </delete>
+</mapper>

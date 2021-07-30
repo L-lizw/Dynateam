@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.itf.InterfaceClassDataMapper">
+
+    <select id="selectForLoad" parameterType="map" resultType="dyna.common.dto.model.itf.InterfaceClassData">
+        SELECT GUID,
+               INTERFACEGUID,
+		       CLASSGUID
+		  FROM MA_INTERFACE_CLASS
+    </select>
+    
+	<insert id="insert" parameterType="map">
+	    INSERT INTO MA_INTERFACE_CLASS(GUID, INTERFACEGUID, CLASSGUID)
+	    VALUES(#GUID#, #INTERFACEGUID#, #CLASSGUID#)
+	</insert>
+	
+	<delete id="delete" parameterType="java.lang.String">
+        DELETE FROM MA_INTERFACE_CLASS WHERE GUID = #GUID#
+    </delete>
+    
+    <delete id="deleteBy" parameterType="map">
+        DELETE FROM MA_INTERFACE_CLASS 
+        <where>
+            1=2,
+            <if  test="INTERFACEGUID!=null">
+                or INTERFACEGUID=#INTERFACEGUID#
+            </if>
+            <if  test="CLASSGUID!=null">
+                or CLASSGUID=#CLASSGUID#
+            </if>
+        </where>
+       
+    </delete>
+    
+    <delete id="deleteAll">
+        DELETE FROM MA_INTERFACE_CLASS
+    </delete>
+</mapper>

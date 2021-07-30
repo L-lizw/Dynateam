@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.model.wf.WorkflowTransitionInfoMapper">
+
+	<select id="selectForLoad" resultType="dyna.common.dto.model.wf.WorkflowTransitionInfo" statementType="STATEMENT">
+		select a.*
+		from ma_wf_trans a
+		order by a.DATASEQ
+	</select>
+	
+	<select id="get" resultType="dyna.common.dto.model.wf.WorkflowTransitionInfo" statementType="STATEMENT">
+		select a.*
+		from ma_wf_trans a
+		where guid=#GUID#
+	</select>
+	
+	<insert id="insert" parameterType="dyna.common.dto.model.wf.WorkflowTransitionInfo">
+		insert into ma_wf_trans 
+		(
+		guid,
+		WFFK,
+		transname,
+		description,
+		actfromguid,
+		acttoguid,
+		transtype,
+		DATASEQ,
+		createtime,
+		createuserguid,
+		updatetime,
+		updateuserguid
+
+		)
+		values (
+		#GUID:VARCHAR:NULL#,
+		#WFFK:VARCHAR:NULL#,
+		#TRANSNAME:VARCHAR:NULL#,
+		#DESCRIPTION:VARCHAR:NULL#,
+		#ACTFROMGUID:VARCHAR:NULL#,
+		#ACTTOGUID:VARCHAR:NULL#,
+		#TRANSTYPE:VARCHAR:NULL#,
+		#DATASEQ#,
+
+		#CURRENTTIME:TIMESTAMP#,
+		#CREATEUSERGUID:VARCHAR:NULL#,
+		#CURRENTTIME:TIMESTAMP#,
+		#UPDATEUSERGUID:VARCHAR:NULL#
+		)
+	</insert>
+	
+	<update id="update" parameterType="dyna.common.dto.model.wf.WorkflowTransitionInfo">
+		update ma_wf_trans 
+		<set>
+			updatetime=#CURRENTTIME:TIMESTAMP#,
+			updateuserguid=#UPDATEUSERGUID#,
+			<if  test="WFFK!=null">WFFK=#WFFK#,</if>
+			<if  test="TRANSNAME!=null">transname=#TRANSNAME#,</if>
+			<if  test="DESCRIPTION!=null">description=#DESCRIPTION#,</if>
+			<if  test="ACTFROMGUID!=null">actfromguid=#ACTFROMGUID#,</if>
+			<if  test="ACTTOGUID!=null">acttoguid=#ACTTOGUID#,</if>
+			<if  test="TRANSTYPE!=null">transtype=#TRANSTYPE#,</if>
+			<if  test="DATASEQ!=null">DATASEQ=#DATASEQ#,</if>
+		</set>
+		WHERE guid = #GUID#
+	</update>
+	
+	<delete id="delete" parameterType="java.lang.String">
+		delete from ma_wf_trans 
+		where guid = #GUID#
+	</delete>
+</mapper>

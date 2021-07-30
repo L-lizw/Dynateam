@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.erp.ERPMoreCompaniesMapper">
+
+	<select id="selectForAll" parameterType="map" resultType="dyna.common.dto.erp.ERPMoreCompanies">
+		 select * from 
+		 	bi_config_erp_corp  a
+		<where>
+			<if  test="GUID!=null">and a.guid=#GUID#</if>
+			<if  test="COMPANYDH!=null">and a.companydh=#COMPANYDH#</if>
+			<if  test="COMPANYJC!=null">and a.companyjc=#COMPANYJC#</if>
+			<if  test="CREATEUSERGUID!=null">and a.createuserguid=#CREATEUSERGUID#</if>
+			<if  test="ERPTYPEFLAG!=null">and a.erptypeflag=#ERPTYPEFLAG#</if>
+		</where>
+	</select>
+	
+	<select id="selectForAcl" parameterType="map" resultType="dyna.common.dto.erp.ERPMoreCompanies">
+		 select * from 
+		 	bi_config_erp_acl_corp a
+		<where>
+			<if  test="GUID!=null">and a.guid=#GUID#</if>
+			<if  test="TEMPLATEGUID!=null">and a.templateguid=#TEMPLATEGUID#</if>
+			<if  test="COMPANYDH!=null">and a.companydh=#COMPANYDH#</if>
+			<if  test="CREATEUSERGUID!=null">and a.createuserguid=#CREATEUSERGUID#</if>
+		</where>
+	</select>
+	
+	<insert id="insertForAll" parameterType="dyna.common.dto.erp.ERPMoreCompanies">
+		insert into bi_config_erp_corp 
+		(
+		guid,
+		companydh,
+		companyjc,
+		createuserguid,
+		
+		createtime,
+		updateuserguid,
+		updatetime,
+		erptypeflag
+		)
+		VALUES(
+		#GUID#,
+		#COMPANYDH:VARCHAR:NULL#,
+		#COMPANYJC:VARCHAR:NULL#,
+		#CREATEUSERGUID:VARCHAR:NULL#,
+		
+		#CURRENTTIME:TIMESTAMP#,
+		#UPDATEUSERGUID:VARCHAR:NULL#,
+		#CURRENTTIME:TIMESTAMP#,
+		#ERPTYPEFLAG:VARCHAR:NULL#
+		)
+	</insert>
+	
+	<insert id="insertForAcl" parameterType="dyna.common.dto.erp.ERPMoreCompanies">
+		insert into bi_config_erp_acl_corp 
+		(
+		guid,
+		templateguid,
+		companydh,
+		createuserguid,
+		
+		createtime,
+		updateuserguid,
+		updatetime
+		)
+		VALUES(
+		#GUID#,
+		#TEMPLATEGUID:VARCHAR:NULL#,
+		#COMPANYDH:VARCHAR:NULL#,
+		#CREATEUSERGUID:VARCHAR:NULL#,
+		
+		#CURRENTTIME:TIMESTAMP#,
+		#UPDATEUSERGUID:VARCHAR:NULL#,
+		#CURRENTTIME:TIMESTAMP#
+		)
+	</insert>
+	
+	<delete id="deleteForAll" parameterType="java.lang.String">
+		delete from bi_config_erp_corp  
+		 where erptypeflag=#ERPTYPEFLAG#
+	</delete>
+	
+	<delete id="deleteForAcl" parameterType="java.lang.String">
+		DELETE FROM bi_config_erp_acl_corp 
+		WHERE templateguid = #TEMPLATEGUID#
+	</delete> 
+</mapper>

@@ -1,0 +1,555 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.FoundationObjectMapper">
+
+    <sql id="selectSysfields">
+       f$$.guid                                                               guid$$,
+       f$$.masterfk                                                           masterfk$$,
+       f$$.md_id                                                              id$$,
+       f$$.md_name                                                            name$$,
+       f$$.alterid                                                            alterid$$,
+       f$$.classguid                                                          classguid$$,
+       f$$.boguid                                                             boguid$$,
+       f$$.classification                                                     classification$$,
+       f$$.revisionid                                                         revisionid$$,
+       f$$.revisionidsequence                                                 revisionidsequence$$,
+       f$$.latestrevision                                                     latestrevision$$,
+       
+       f$$.iterationid                                                        iterationid$$,
+       f$$.ischeckout                                                         ischeckout$$,
+       f$$.checkoutuser                                                       checkoutuser$$,
+       f$$.checkouttime                                                       checkouttime$$,
+       f$$.locationlib                                                        locationlib$$,
+         
+       f$$.status                                                             status$$,
+       f$$.lifecyclephase                                                     lifecyclephase$$,
+       f$$.releasetime                                                        releasetime$$,
+       f$$.obsoletetime                                                       obsoletetime$$,
+       f$$.obsoleteuser                                                       obsoleteuser$$,
+       f$$.owneruser                                                          owneruser$$,
+       
+       f$$.ownergroup                                                         ownergroup$$,
+       f$$.createuser                                                         createuser$$,
+       f$$.createtime                                                         createtime$$,
+       f$$.updateuser                                                         updateuser$$,
+       f$$.updatetime                                                         updatetime$$,
+       f$$.fileguid                                                           fileguid$$,
+       f$$.filename                                                           filename$$,
+       f$$.filetype                                                           filetype$$,
+       f$$.ecflag                                                             ecflag$$,
+       
+       f$$.ecflag$$class                                                      ecflag$$classguid,
+       f$$.ecflag$$master                                                     ecflag$$masterfk,
+       f$$.isexporttoerp                                                      isexporttoerp$$,
+       
+       (select title
+          from ma_code_detail
+         where guid = f$$.classification)                                     classification$$title,
+       (select classname from ma_class where guid = f$$.classguid)            classname$$,
+       
+       f$$.uniques                                                             uniques$$,
+       f$$.repeatvalue                                                         repeat$$,
+       f$$.md5                                                                 md5$$
+    </sql>
+    
+    <select id="selectHistoryView" parameterType="map" resultType="dyna.common.bean.data.FoundationObjectImpl">
+        select b.guid                 GUID$$,
+               b.classguid            CLASSGUID$$,
+               a.CREATETIME           CREATETIME$$,
+               b.md_id                   ID$$,
+               b.md_name                 NAME$$,
+               b.alterid              ALTERID$$,
+               b.revisionid           REVISIONID$$,
+               b.iterationid          ITERATIONID$$,
+               b.classification       CLASSIFICATION$$,
+               b.filename             FILENAME$$,
+               b.ischeckout	          ISCHECKOUT$$,
+               b.status               STATUS$$,
+               b.lifecyclephase       LIFECYCLEPHASE$$,
+               b.updatetime           UPDATETIME$$,
+               b.owneruser            OWNERUSER$$,
+               b.CHECKOUTUSER         CHECKOUTUSER$$,
+               b.CHECKOUTTIME         CHECKOUTTIME$$,
+               b.OBSOLETEUSER         OBSOLETEUSER$$,
+               b.OBSOLETETIME         OBSOLETETIME$$,
+               b.RELEASETIME          RELEASETIME$$
+          from bi_view_history a, 
+               $tablename$     b, 
+               sa_businessobject        c, 
+               sa_group        d
+        where a.instanceguid = b.guid
+           and b.boguid = c.guid
+           and c.bmguid = d.bmguid
+           and d.guid = #GROUPGUID#
+           and a.instanceclassguid = #CLASSGUID#
+      
+        <if  test="INSTANCEGUID!=null">and a.instanceguid=#INSTANCEGUID#</if>
+        <if  test="CREATEUSER!=null">and a.createuser=#CREATEUSER#</if>
+        <if  test="CREATETIME!=null">and a.createtime=#CREATETIME#</if>
+    </select>
+
+    <sql id="orderby">
+            <if test="ORDERBY!=null">
+                $ORDERBY$
+            </if>
+    </sql>
+    
+    <select id="getWIPFOCount" parameterType="map" resultType="dyna.common.bean.data.FoundationObjectImpl">
+        select count(1) count
+          from $tablename$ t
+         where t.masterfk = #MASTERFK#
+           and t.obsoletetime is null
+           and t.releasetime is null
+           and (t.status ='WIP' or t.status = 'PRE' or t.status = 'ECP')
+    </select>
+    
+    <select id="selectIteration" parameterType="java.util.HashMap" resultType="dyna.common.bean.data.FoundationObjectImpl" statementType="STATEMENT">
+        select $FIELDLIST$ 
+        from $TABLE$_I I$$, $TABLE$_0 F$$
+        	<if test="TABLES!=null">
+            	$TABLES$
+            </if>
+        where I$$.foundationfk = #FOUNDATIONFK#
+        and I$$.foundationfk = F$$.guid
+        <if test="ITERATIONID!=null">
+        and I$$.iterationid = #ITERATIONID#
+        </if>
+        <if test="ITERATIONID==null">
+        and I$$.iterationid <![CDATA[ < ]]> F$$.iterationid
+        </if>
+        <if test="WHERES!=null">
+        $WHERES$
+        </if>
+        order by I$$.iterationid
+    </select>
+    
+    <select id="listFoundationByGuid" parameterType="java.util.HashMap" resultType="dyna.common.bean.data.FoundationObjectImpl">
+         select <include refid="selectSysfields"/>
+         from $tablename$ f$$
+         where f$$.guid  in 
+         <foreach collection= "GUIDLIST" open="(" close=")" separator="," item="TEMP">#TEMP#</foreach>
+    </select>
+    
+    <select id="getFoundationByGuid" parameterType="java.util.HashMap" resultType="dyna.common.bean.data.FoundationObjectImpl">
+         select <include refid="selectSysfields"/>
+         from $tablename$ f$$
+         where f$$.guid = #GUID#
+    </select>
+
+    <select id="selectViewbyEnd1" parameterType="java.util.HashMap" resultType="dyna.common.bean.data.FoundationObjectImpl">
+        select guid guid$$, classguid classguid$$, masterfk masterfk$$ from $tablename$ where end1 = #end1#
+    </select>
+
+    <select id="hasRevision" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+        select count(1) cnt from $tablename$_0 where masterfk = #masterfk#
+    </select>
+
+    <delete id="deleteRevisionByGuid" parameterType="java.util.HashMap">
+        delete from $tablename$ where foundationfk = #GUID#
+    </delete>
+
+    <delete id="deleteStrucByViewGuid" parameterType="java.util.HashMap">
+        delete from $tablename$ where viewfk = #GUID#
+    </delete>
+
+    <delete id="deleteStrucByEnd2MASTER" parameterType="java.util.HashMap">
+        delete from $tablename$ where end2$$master = #END2MASTER#
+    </delete>
+    
+    <delete id="deleteStrucByEnd2GUID" parameterType="java.util.HashMap">
+        delete from $tablename$ where end2 = #END2#
+    </delete>
+
+    <delete id="deleteByGuid" parameterType="java.util.HashMap">
+        delete from $tablename$ where guid = #GUID#
+    </delete>
+
+      <select id="getMaxRevisionIdSequence" parameterType="java.util.HashMap" resultType="dyna.common.bean.data.FoundationObjectImpl">
+          select max(revisionidsequence) as revisionidsequence
+            from (select revisionidsequence + (case
+                                                 when custstartrevidsequence is null then 0
+                                                 else custstartrevidsequence
+                                               end
+                                              ) as revisionidsequence
+                    from $tablename$ w
+                   where w.masterfk = #MASTERGUID#
+                 ) a
+      </select>
+      
+      <select id="getFoundationByMaster" parameterType="java.util.HashMap" resultType="dyna.common.bean.data.FoundationObjectImpl">
+        select <include refid="selectSysfields"/>
+          from $tablename$ f$$
+          where f$$.masterfk = #MASTERGUID#
+             and latestrevision like 'm%'
+      </select>
+      
+    <select id="getFoundationByTime" parameterType="java.util.HashMap" resultType="dyna.common.bean.data.FoundationObjectImpl" statementType="STATEMENT">
+		select <include refid="selectSysfields"/>
+		  from $tablename$ f$$
+		 where f$$.masterfk = #MASTERGUID#
+		   and f$$.releasetime is not null
+		   <if  test="RULETIME!=null">
+               and f$$.releasetime <![CDATA[<=]]> #RULETIME:DATE#
+	           and (f$$.NEXTREVISIONRLSTIME is null or f$$.NEXTREVISIONRLSTIME > #RULETIME:DATE#)
+	       </if>
+	       <if  test="RULETIME==null">
+               and f$$.latestrevision like '%r%'
+	       </if>
+    </select>
+
+    <select id="selectSubTask" parameterType="map" resultType="dyna.common.bean.data.FoundationObjectImpl" statementType="STATEMENT">
+      select guid guid$$
+        from $TABLENAME$
+       where parenttask = #PARENTTASKGUID#
+    </select>
+    
+    <update id="updateFoundationPhase" parameterType="java.util.HashMap">
+       update $tablename$
+         set lifecyclephase = #LIFECYCLEPHASE#
+         where guid= #FOUNDATIONGUID#
+    </update>
+    
+    <update id="updateFoundationQuick" parameterType="java.util.HashMap">
+       update $TABLENAME$
+         set updatetime = #CURRENTTIME:TIMESTAMP#
+         <if test="UPDATEUSER!=null" >
+             updateuser = #UPDATEUSER#,
+         </if>
+         <if test="LIFECYCLEPHASE!=null" >
+             lifecyclephase = #LIFECYCLEPHASE#,
+         </if>
+         <if test="STATUS!=null" >
+             status = #STATUS#,
+         </if>
+         <if test="ISRELEASE == 'Y'"  >
+             releasetime = #CURRENTTIME:TIMESTAMP#,
+         </if>
+         <if test="FIELDSQL!=null" >
+             $FIELDSQL$,
+         </if>
+         where guid= #GUID#
+         <if test="UPDATETIME!=null" >
+             and  updatetime = #UPDATETIME:TIMESTAMP#
+         </if>
+         <if test="LIFECYCLEPHASEFROM!=null" >
+             and lifecyclephase = #LIFECYCLEPHASEFROM#
+         </if>
+    </update>
+
+    <select id="selectCFGuid" parameterType="map" resultType="dyna.common.bean.data.FoundationObjectImpl">
+           select GUID,FOUNDATIONFK,CLASSIFICATIONITEMGUID
+          from  $TABLENAME$ m
+         where m.foundationfk =#FOUNDATIONGUID#
+          <if  test="ITERATIONID!=null">
+               m.ITERATIONID = #ITERATIONID#
+          </if>
+    </select>
+    
+    <select id="getUniqueFoundation" parameterType="java.util.HashMap" resultType="dyna.common.bean.data.FoundationObjectImpl" statementType="STATEMENT">
+        select f.*,
+               f.guid guid$$,
+               f.masterfk masterfk$$
+          from $tablename$ f
+         where f.classguid = #CLASSGUID#
+           and f.uniques = #UNIQUES#
+    </select>
+    
+    <select id="listEnd2ClassOfStruc" parameterType="java.util.HashMap" resultType="dyna.common.bean.data.FoundationObjectImpl" statementType="STATEMENT">
+        select distinct d.end2$$class class$$
+          from $STRUCTABLE$ d
+         where d.viewfk = #VIEWGUID#
+    </select>
+
+    <update id="updateEND2OfEND1StructureInProc" parameterType="java.util.HashMap">
+        update $STRUCTABLE$ 
+           set end2 = (select m.guid
+                           from $END2TABLE$ m
+                          where m.latestrevision like '%m%'
+                            and m.masterfk = d.end2$$master)
+         where end2$$class = #END2CLASSGUID#
+           and viewfk = #VIEWGUID#
+    </update>
+    
+    <select id="listSameEnd2MasterInBOM" parameterType="java.util.HashMap" resultType="dyna.common.bean.data.FoundationObjectImpl" statementType="STATEMENT">
+            SELECT s.guid guid$$
+            FROM $STRUCTABLE$ s , $VIEWTABLE$  v 
+            WHERE s.end2$$master=#END2MASTERGUID#
+            AND s.viewfk=v.guid 
+            AND v.guid=#VIEWFK#                    
+    </select>
+    
+    <select id="selectCFRollbackRevisionData" parameterType="java.util.HashMap" resultType="dyna.common.bean.data.FoundationObjectImpl" statementType="STATEMENT">
+		select $REVCOL$ from cf_$BASETABLENAME$_i c
+                              where c.iterationid = #ITERATIONID#
+                                and c.foundationfk = #FOUNDATIONFK#
+    </select>
+     
+    <update id="updateToCFRollbackRevision" parameterType="java.util.HashMap">
+		update cf_$BASETABLENAME$ 
+		   set ($REVCOL$) = (select $REVCOL$
+                               from cf_$BASETABLENAME$_i c
+                              where c.iterationid = #ITERATIONID#
+                                and c.foundationfk = #FOUNDATIONFK#)
+		 where foundationfk = #FOUNDATIONFK#
+    </update>
+    
+    <delete id="deleteCFOverIteration" parameterType="java.util.HashMap">
+		delete from CF_$BASETABLENAME$_I 
+		 where foundationfk = #FOUNDATIONFK#
+		   and iterationid >= #ITERATIONID#
+    </delete>
+    
+    <delete id="deleteOverIteration" parameterType="java.util.HashMap">
+		delete from $TABLENAME$_I 
+		 where foundationfk = #GUID#
+		   and iterationid >= #ITERATIONID#
+    </delete>
+    
+    <delete id="deleteOverflowIteration" parameterType="java.util.HashMap">
+		delete from $TABLENAME$_I 
+		 where foundationfk = #GUID#
+		   and iterationid <![CDATA[<=]]> #ITERATIONID#
+    </delete>
+    
+    <update id="updateMainToRollbackRevision" parameterType="java.util.HashMap">
+        update $TABLENAME$ 
+           set (ISCHECKOUT, CHECKOUTUSER, CHECKOUTTIME
+                $COLUMNS$
+               ) = (select 'N',
+                           null,
+                           null
+                           $COLUMNS$ 
+                      from $BASETABLENAME$_I c
+                     where c.foundationfk = #GUID#
+                       and c.iterationid = #ITERATIONID#
+                   )
+         where guid = #GUID#
+         <if  test="ISOWNERONLY == 'Y'">
+           and checkoutuser = #CHECKOUTUSER#
+         </if>
+    </update>
+    
+    <update id="updateToRollbackRevision" parameterType="java.util.HashMap">
+        update $TABLENAME$ 
+           set ($COLUMNS$) = (select $COLUMNS$ 
+                                from $BASETABLENAME$_I c
+                               where c.foundationfk = #GUID#
+                                 and c.iterationid = #ITERATIONID#
+                             )
+         where foundationfk = #GUID#
+    </update>
+    
+    <update id="updateValOfMaster" parameterType="java.util.HashMap">
+        update $BASETABLE$_MAST
+		   set md_id = (select f.md_id
+				         from $BASETABLE$_0 f
+				        where f.masterfk = #MASTERGUID#
+				          and f.latestrevision like 'm%'),
+			   uniques = (select case 
+					                 when f.uniques is null then f.masterfk
+					                 else f.uniques
+					               end
+					          from $BASETABLE$_0 f
+					         where f.masterfk = #MASTERGUID#
+					           and f.latestrevision like 'm%')
+		 where guid = #MASTERGUID#
+    </update>
+    
+    <update id="updateShort" parameterType="java.util.HashMap">
+        update $table$ set $updatesql$ where $wheresql$
+    </update>
+    
+    <select id="selectCount" parameterType="java.util.HashMap" resultType="java.lang.Integer" statementType="STATEMENT">
+        select count(f$$.guid) ROWCOUNT$$ from $TABLENAME$ where $WHERESQL$
+    </select>
+
+    <select id="selectDynamic" parameterType="dyna.common.sqlbuilder.plmdynamic.select.DynamicSelectParamData" resultType="dyna.common.bean.data.FoundationObjectImpl" statementType="STATEMENT">
+        $DYNAMICSQL$
+    </select>
+
+    <select id="selectShort" parameterType="java.util.HashMap" resultType="dyna.common.bean.data.FoundationObjectImpl" statementType="STATEMENT">
+        select <include refid="selectSysfields"/>
+               $FIELDS$
+          from $TABLENAME$
+         where $WHERESQL$
+         <if test="ORDERBY!=null">
+             ORDER BY $ORDERBY$
+         </if>
+         <if test="ORDERBY==null">
+             ORDER BY GUID$$
+         </if>
+    </select>
+    
+    <select id="selectOneShort" parameterType="java.util.HashMap" resultType="dyna.common.bean.data.FoundationObjectImpl" statementType="STATEMENT">
+        select <include refid="selectSysfields"/>
+               $FIELDS$
+          from $TABLENAME$
+         where $WHERESQL$
+    </select>
+    
+    <select id="selectOneShortHalf" parameterType="java.util.HashMap" resultType="dyna.common.bean.data.FoundationObjectImpl" statementType="STATEMENT">
+        select $FIELDS$
+          from $TABLENAME$
+         where $WHERESQL$
+    </select>
+    
+    <select id="selectMultiClassQuickSearch" parameterType="java.util.HashMap" resultType="dyna.common.bean.data.FoundationObjectImpl" statementType="STATEMENT">
+        select <include refid="selectSysfields"/>, 
+         from (select * 
+                 from (<foreach collection="TABLES" separator=" union all " item="TABLE">
+                       select <include refid="selectSysfields"/>
+                              $FIELDS$
+                         from #TABLE# f$$
+                        where f$$.classguid in ($CLASSGUIDS$)
+                          and f$$.latestrevision like ''m%''
+                          $WHERESQL$
+                       </foreach>
+                      ) a
+                order by a.updatetime$$ desc, a.id$$ asc
+              ) f 
+    </select>
+    
+    <select id="selectDataCountForMultiClassQuickSearch" parameterType="java.util.HashMap" resultType="java.lang.Integer" statementType="STATEMENT">
+        select count(a.guid) ROWCOUNT$$
+          from (<foreach collection="TABLES" separator=" union all " item="TABLE">
+                select f$$.guid
+                  from #TABLE# f$$
+                 where f$$.classguid in ($CLASSGUIDS$)
+                   and f$$.latestrevision like ''m%''
+                   $WHERESQL$
+                </foreach>
+               ) a
+    </select>
+    
+    <delete id="deleteAllProjectRole" parameterType="java.util.HashMap">
+           delete from ppm_projectrole 
+           where exists (select 1
+                           from $TASKBASETABLENAME$_0 b
+                          where typeguid = b.guid
+                            and b.ownerproject = #PROJECTGUID#
+                        )
+    </delete>
+ 
+    <delete id="deleteAllTaskDI" parameterType="java.util.HashMap">
+          delete from ppm_deliverableitem 
+           where exists(select 1 
+                          from $TASKBASETABLENAME$_0 r
+                         where taskguid = r.guid
+                           and r.ownerproject = #PROJECTGUID#
+                       )
+    </delete>
+    
+    <delete id="deleteAllTask_I" parameterType="java.util.HashMap">
+          delete from $TASKBASETABLENAME$_i  
+           where exists (select 1
+                           from $TASKBASETABLENAME$_0 b
+                          where foundationfk = b.guid
+                            and b.ownerproject = #PROJECTGUID#
+                         )
+    </delete>
+
+    <delete id="deleteAllTask_M" parameterType="java.util.HashMap">
+          delete from $TASKBASETABLENAME$_mast  
+           where exists (select 1
+                           from pmtask_0 b
+                          where guid = b.masterfk 
+                            and b.ownerproject = #PROJECTGUID#
+                        )
+    </delete>
+     
+    
+    <delete id="deleteAllTask" parameterType="java.util.HashMap">
+          delete from $TASKBASETABLENAME$_0 
+           where ownerproject = #PROJECTGUID#
+    </delete>
+    
+    <update id="clearRelationProject" parameterType="java.util.HashMap">
+        update $TASKBASETABLENAME$_0
+          set relationproject = null,
+              relationproject$$class = null,
+              relationproject$$master = null
+        where relationproject = #PROJECTGUID#
+    </update>
+    
+    <delete id="clearErrDataInMast" parameterType="java.util.HashMap">
+        delete from $BASETABLENAME$_MAST 
+         where not exists (select 1 from $BASETABLENAME$_0 B where guid = b.masterfk)
+    </delete>
+    
+    <update id="setInstanceCheckout" parameterType="java.util.HashMap">
+        update $TABLENAME$
+           set ischeckout = 'Y',
+               checkoutuser = #CHECKOUTUSERGUID#,
+               iterationid = iterationid + 1
+               <if test="ISAUTOCHECKOUT == 'N'">
+               checkouttime = #CURRENTTIME:TIMESTAMP#,
+               </if>
+         where guid = #FOUNDATIONGUID#
+           and (status = 'WIP' or status = 'ECP')
+           <if test="ISAUTOCHECKOUT == 'N'" >
+           and updatetime = #UPDATETIME:TIMESTAMP#
+           and (ischeckout is null or ischeckout = 'N')
+           </if>
+    </update>
+    
+    <select id="selectAllRevisionShort" parameterType="java.util.HashMap" resultType="dyna.common.bean.data.FoundationObjectImpl" statementType="STATEMENT">
+        select guid guid$$,
+               masterfk masterfk$$,
+               revisionidsequence revisionidsequence$$,
+               status status$$,
+               releasetime releasetime$$
+          from $TABLENAME$
+         where masterfk = #MASTERGUID#
+    </select>
+    
+    <update id="updateLatestRev" parameterType="java.util.HashMap">
+        update $TABLENAME$ 
+           set latestrevision = (case when revisionidsequence = #MAXREVSEQ# and revisionidsequence = #MAXRLSREVSEQ#
+                                            then 'mr'
+                                            when revisionidsequence = #MAXREVSEQ# and revisionidsequence = #MAXWIPREVSEQ#
+                                            then 'mw'
+                                            when revisionidsequence = #MAXREVSEQ#
+                                            then 'm'
+                                            when revisionidsequence = #MAXRLSREVSEQ#
+                                            then 'r'
+                                            when revisionidsequence = #MAXWIPREVSEQ#
+                                            then 'w'
+                                            else null
+                                        end
+                                      )
+            where masterfk = #MASTERGUID#
+              and (revisionidsequence in ($UPDATEREVSEQS$) or latestrevision is not null)
+    </update>
+    
+    <update id="updateNextRlsTime" parameterType="java.util.HashMap">
+        update $TABLENAME$ 
+           set nextrevisionrlstime = (select b.releasetime
+                                        from $TABLENAME$ b
+                                       where b.masterfk = #MASTERGUID#
+                                         and b.revisionidsequence = revisionidsequence + 1)
+        where masterfk = #MASTERGUID#
+    </update>
+
+    <update id="updateStatusByCustomize" parameterType="map">
+        update $TABLENAME$
+        set updateuser = #UPDATEUSER#,
+        updatetime = #CURRENTTIME#
+        <if test="STATUS != null">
+            ,status = #STATUS#
+        </if>
+        <if test="LIFECYCLEPHASE!=null">
+            ,lifecyclephase = #LIFECYCLEPHASE#
+        </if>
+        <if test="RELEASETIME!=null">
+            ,releasetime = #RELEASETIME#
+        </if>
+        where guid = #GUID#
+        <if test="STATUS != null">
+            and ((#STATUS# = 'RLS' and status != 'RLS')
+            or (#STATUS# = 'ECP' and status != 'ECP')
+            )
+        </if>
+    </update>
+</mapper>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.acl.ACLFunctionItemMapper">
+
+    <select id="select" parameterType="map" resultType="dyna.common.dto.acl.ACLFunctionItem">
+        SELECT *
+          FROM sa_acl_function_detail 
+            <where>
+                <if  test="GUID!=null">
+                    and guid = #GUID#
+                </if>
+                <if  test="MASTERFK=null">
+                    and masterfk = #MASTERFK#
+                </if>
+                <if  test="TYPEVALUE=null">
+                    and typevalue = #TYPEVALUE#
+                </if>
+                 <if  test="TYPEVALUENAME=null">
+                    and typevaluename = #TYPEVALUENAME#
+                </if>
+            </where>
+    </select>
+    
+    <select id="selectItemByUser" parameterType="map" resultType="dyna.common.dto.acl.ACLFunctionItem">
+        SELECT a.*
+          FROM sa_acl_function_master m, sa_acl_function_detail a
+            <where>
+                m.guid = a.masterfk
+                <if  test="POSITION!=null">
+                    and m.position = #POSITION#
+                </if>
+                <if  test="FUNCTIONTYPE!=null">
+                    and m.functiontype = #FUNCTIONTYPE#
+                </if>
+                <if  test="TYPEVALUE!=null">
+                    and a.typevalue = #TYPEVALUE#
+                </if>
+            </where>
+    </select>
+    
+    <insert id="insert" parameterType="dyna.common.dto.acl.ACLFunctionItem">
+        insert into sa_acl_function_detail (
+	        guid,
+			masterfk,
+			createuserguid,
+			createtime,
+			updateuserguid,
+			updatetime,
+			
+			typevalue,
+			typevaluename,
+			aclvalue
+		)
+        values(
+	        #GUID:VARCHAR:NULL#,
+			#MASTERFK:VARCHAR:NULL#,
+			#CREATEUSERGUID:VARCHAR:NULL#,
+			#CURRENTTIME:TIMESTAMP#,
+			#UPDATEUSERGUID:VARCHAR:NULL#,
+			#CURRENTTIME:TIMESTAMP#,
+			
+			#TYPEVALUE:VARCHAR:NULL#,
+			#TYPEVALUENAME:VARCHAR:NULL#,
+			#ACLVALUE:VARCHAR:NULL#
+		)
+    </insert>
+    
+    <update id="update" parameterType="dyna.common.dto.acl.ACLFunctionItem">
+        update sa_acl_function_detail  
+		<set>
+            updatetime=#CURRENTTIME:TIMESTAMP#,
+            updateuserguid=#UPDATEUSERGUID#
+			<if  test="MASTERFK!=null">masterfk=#MASTERFK#,</if>
+			<if  test="TYPEVALUE!=null">typevalue=#TYPEVALUE#,</if>
+			<if  test="TYPEVALUENAME!=null">typevaluename=#TYPEVALUENAME#,</if>
+			<if  test="ACLVALUE!=null">aclvalue=#ACLVALUE#</if>
+		</set>
+		where guid = #GUID#
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from sa_acl_function_detail
+         where guid = #GUID# 
+    </delete>
+
+</mapper>

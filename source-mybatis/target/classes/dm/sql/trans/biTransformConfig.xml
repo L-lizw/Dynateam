@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.trans.TransformConfigMapper">
+
+	<select id="select" parameterType="map" resultType="dyna.common.bean.data.trans.TransformConfig">
+        select a.*,
+               (select b.classname from ma_class b where b.guid = a.TRANSFORMCLASS) TRANSFORMCLASSNAME,
+			   (select b.classname from ma_class b where b.guid = a.MAPPINGCLASS) MAPPINGCLASSNAME 
+          from bi_transform_config a
+        <where>
+			<if  test="TRANSFORMCLASS!=null">and a.TRANSFORMCLASS=#TRANSFORMCLASS#</if>
+			<if  test="TRANSFORMTYPE!=null">and a.TRANSFORMTYPE=#TRANSFORMTYPE#</if>
+			<if  test="RESULTTYPE!=null">and a.RESULTTYPE=#RESULTTYPE#</if>
+			<if  test="ISWORKFLOW!=null">and a.ISWORKFLOW=#ISWORKFLOW#</if>
+			<if  test="ISWORKFLOW!=null">and a.ISWORKFLOW=#ISWORKFLOW#</if>
+			<if  test="ISOBJECT!=null">and a.ISOBJECT=#ISOBJECT#</if>
+			<if  test="ISMANUAL!=null">and a.ISMANUAL=#ISMANUAL#</if>
+			<if  test="GUID!=null">and a.GUID=#GUID#</if>
+			<if  test="MAPPINGCLASS!=null">and a.MAPPINGCLASS=#MAPPINGCLASS#</if>
+
+		</where>
+		order by TRANSFORMCLASSNAME,createtime
+	</select>
+	
+	<insert id="insert" parameterType="dyna.common.bean.data.trans.TransformConfig">
+		INSERT INTO bi_transform_config  (
+			guid,
+			transformclass,
+			mappingclass,
+			transformtype,
+			resulttype,
+			isworkflow,
+			isobject,
+			ismanual,
+			createtime,
+			createuserguid,
+			updatetime,
+			updateuserguid
+
+		)
+		select
+			#GUID:VARCHAR:NULL#,
+			#TRANSFORMCLASS:VARCHAR:NULL#,
+			#MAPPINGCLASS:VARCHAR:NULL#,
+			#TRANSFORMTYPE:VARCHAR:NULL#,
+			#RESULTTYPE:VARCHAR:NULL#,
+			#ISWORKFLOW:VARCHAR:NULL#,
+			#ISOBJECT:VARCHAR:NULL#,
+			#ISMANUAL:VARCHAR:NULL#,
+
+			#CURRENTTIME:TIMESTAMP#,
+			#CREATEUSERGUID:VARCHAR:NULL#,
+			#CURRENTTIME:TIMESTAMP#,
+			#UPDATEUSERGUID:VARCHAR:NULL#
+	</insert>
+	
+	<update id="update" parameterType="dyna.common.bean.data.trans.TransformConfig">
+		UPDATE bi_transform_config
+		<set>
+			updatetime=#CURRENTTIME:TIMESTAMP#,
+			updateuserguid=#UPDATEUSERGUID#,
+			<if  test="TRANSFORMCLASS!=null">TRANSFORMCLASS=#TRANSFORMCLASS#,</if>
+			<if  test="TRANSFORMTYPE!=null">TRANSFORMTYPE=#TRANSFORMTYPE#,</if>
+			<if  test="RESULTTYPE!=null">RESULTTYPE=#RESULTTYPE#,</if>
+			<if  test="ISWORKFLOW!=null">ISWORKFLOW=#ISWORKFLOW#,</if>
+			<if  test="ISOBJECT!=null">ISOBJECT=#ISOBJECT#,</if>
+			<if  test="ISMANUAL!=null">ISMANUAL=#ISMANUAL#,</if>
+			<if  test="MAPPINGCLASS!=null">MAPPINGCLASS=#MAPPINGCLASS#,</if>
+		</set>
+		WHERE guid = #GUID#
+	</update>
+
+	<delete id="delete" parameterType="java.lang.String">
+		DELETE FROM bi_transform_config 
+		WHERE guid = #GUID#
+	</delete>
+</mapper>

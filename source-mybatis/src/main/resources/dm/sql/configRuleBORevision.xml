@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.ConfigRuleBOPhaseSetMapper">
+
+	<select id="select" parameterType="map" resultType="dyna.common.dto.ConfigRuleBOPhaseSet">
+        select a.*
+	     from bi_config_rule_bo_revision a
+        <where>
+			<if  test="GUID!=null">and a.guid=#GUID#</if>
+			<if  test="BOLMGUID!=null">and a.bolmguid=#BOLMGUID#</if>
+			<if  test="LCPHASEGUID!=null">and a.lcphaseguid=#LCPHASEGUID#</if>
+			<if  test="ISREVISION!=null">and a.isrevision=#ISREVISION#</if>
+		</where>
+	</select>
+	
+	<insert id="insert" parameterType="dyna.common.dto.ConfigRuleBOPhaseSet">
+		INSERT INTO bi_config_rule_bo_revision  (
+			guid,
+			bolmguid,
+			lcphaseguid,
+			isrevision
+		)
+		VALUES(
+			#GUID:VARCHAR:NULL#,
+			#BOLMGUID:VARCHAR:NULL#,
+			#LCPHASEGUID:VARCHAR:NULL#,
+			#ISREVISION:VARCHAR:NULL#
+		)
+	</insert>
+	
+	<update id="update" parameterType="dyna.common.dto.ConfigRuleBOPhaseSet">
+		UPDATE bi_config_rule_bo_revision 
+		<set>
+			<if  test="BOLMGUID!=null">bolmguid=#BOLMGUID#,</if>
+			<if  test="LCPHASEGUID!=null">lcphaseguid=#LCPHASEGUID#,</if>
+			<if  test="ISREVISION!=null">isrevision=#ISREVISION#,</if>
+		</set>
+		WHERE guid = #GUID#
+	</update>
+
+	<delete id="delete" parameterType="java.lang.String">
+		DELETE FROM bi_config_rule_bo_revision 
+		WHERE guid = #GUID#
+	</delete>
+
+	<delete id="deleteWithBolmguid" parameterType="java.lang.String">
+		DELETE FROM bi_config_rule_bo_revision 
+		WHERE bolmguid = #BOLMGUID#
+	</delete>
+</mapper>

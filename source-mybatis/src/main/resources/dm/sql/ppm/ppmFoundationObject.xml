@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.ppm.PPMFoundationObjectUtilMapper">
+
+    <!-- 查询指定用户在当月内的所有任务 -->
+    <select id="selectTaskOfUserInMonth" parameterType="java.util.HashMap" resultType="dyna.common.bean.data.ppms.PPMFoundationObjectUtil">
+        select taskguid, 
+        	   planstarttime, 
+        	   planfinishtime, 
+        	   userid
+		  from (
+		        <!--我负责的任务 -->
+		        select f$$.guid taskguid, 
+		               f$$.planstarttime, 
+		               f$$.planfinishtime, 
+		               u.userid userid
+		          from pmtask_0 f$$
+		         inner join sa_user u
+		            on u.guid = r$$.executor
+		         where f$$.latestrevision like '%m%'
+		           and f$$.boguid = #BOGUID#
+		           and (f$$.obsoletetime is null or f$$.obsoletetime > #CURRENTTIME:TIMESTAMP#)
+		           and u.userid in ($USERID$)
+		        union
+		        <!--我参与的任务-->
+		        select f$$.guid taskguid, 
+		               f$$.planstarttime, 
+		               f$$.planfinishtime, 
+		               u.userid userid
+		          from pmtask_0 f$$
+		         inner join ppm_taskresource b
+		            on b.taskguid = f$$.guid
+		         inner join sa_user u
+		            on u.guid = b.userguid
+		         where f$$.latestrevision like '%m%'
+		           and f$$.boguid = #BOGUID#
+		           and (f$$.obsoletetime is null or f$$.obsoletetime > #CURRENTTIME:TIMESTAMP#)
+		           and u.userid in ($USERID$)
+		       )
+		 where planstarttime between #STARTTIME:TIMESTAMP#  and #ENDTIME:TIMESTAMP#
+		                                             
+      order by planstarttime,
+               userid
+    </select>
+    
+    <!-- 查询指定用户在当天内的所有任务 -->
+    <select id="selectTaskOfUserInDate" parameterType="java.util.HashMap" resultType="dyna.common.bean.data.ppms.PPMFoundationObjectUtil">
+        select taskguid, 
+        	   planstarttime, 
+        	   planfinishtime, 
+        	   userid
+		  from (
+		        <!--我负责的任务 -->
+		        select f$$.guid taskguid, 
+		               f$$.planstarttime, 
+		               f$$.planfinishtime, 
+		               u.userid userid
+		          from pmtask_0 f$$
+		         inner join sa_user u
+		            on u.guid = r$$.executor
+		         where f$$.latestrevision like '%m%'
+		           and f$$.boguid = #BOGUID#
+		           and (f$$.obsoletetime is null or f$$.obsoletetime > #CURRENTTIME:TIMESTAMP#)
+		           and u.userid in ($USERID$)
+		        union
+		        <!--我参与的任务-->
+		        select f$$.guid taskguid, 
+		               f$$.planstarttime, 
+		               f$$.planfinishtime, 
+		               u.userid userid
+		          from pmtask_0 f$$
+		         inner join ppm_taskresource b
+		            on b.taskguid = f$$.guid
+		         inner join sa_user u
+		            on u.guid = b.userguid
+		         where f$$.latestrevision like '%m%'
+		           and f$$.boguid = #BOGUID#
+		           and (f$$.obsoletetime is null or f$$.obsoletetime > #CURRENTTIME:TIMESTAMP#)
+		           and u.userid in ($USERID$)
+		       )
+		 where planstarttime between #STARTTIME:TIMESTAMP#  and #ENDTIME:TIMESTAMP#
+		                                             
+      order by planstarttime,
+               userid
+    </select>
+</mapper>

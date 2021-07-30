@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.model.ui.UIActionMapper">
+
+    <select id="selectForLoad" resultType="dyna.common.dto.model.ui.UIAction" statementType="STATEMENT">
+		select a.*
+		from ma_class_ui_action a
+	</select>
+    
+	<select id="get" parameterType="java.lang.String" resultType="dyna.common.dto.model.ui.UIAction" statementType="STATEMENT">
+		SELECT *
+		  FROM ma_class_ui_action
+		 WHERE GUID=#GUID#
+	</select>
+	
+	 <insert id="insert" parameterType="dyna.common.dto.model.ui.UIAction">
+        insert into ma_class_ui_action
+			       (guid,
+			        uiguid,
+			        actionguid,
+			        actionname,
+			        title,
+			         
+			        notinhert,
+			        
+			        createuserguid,
+			        createtime,
+			        updateuserguid,
+			        updatetime)
+	        values (#GUID#,
+			        #UIGUID#,
+					#ACTIONGUID:VARCHAR:NULL#,
+					
+					#ACTIONNAME:VARCHAR:NULL#,
+					#TITLE:VARCHAR:NULL#,
+
+					#NOTINHERIT:VARCHAR:NULL#,
+										
+					#CREATEUSERGUID:VARCHAR:NULL#,
+					#CURRENTTIME:TIMESTAMP#,
+					#UPDATEUSERGUID:VARCHAR:NULL#,
+					#CURRENTTIME:TIMESTAMP#)
+    </insert>
+	
+	<update id="update" parameterType="dyna.common.dto.model.ui.UIAction">
+		update ma_class_ui_action
+			<set>
+		        <if test="UIGUID!=null">uiguid = #UIGUID#,</if>
+		        <if test="TITLE!=null">title = #TITLE#,</if>
+		        <if test="ACTIONGUID!=null">actionguid = #ACTIONGUID#,</if>
+		        <if test="ACTIONNAME!=null">actionname = #ACTIONNAME#,</if>
+		        <if test="NOTINHERIT!=null">notinherit = #NOTINHERIT#,</if>
+       		 </set>
+               updatetime = #CURRENTTIME:TIMESTAMP#,
+               updateuserguid = #UPDATEUSERGUID#
+         where guid = #GUID#
+	</update>
+	
+	<delete id="delete" parameterType="java.lang.String">
+		delete from ma_class_ui_action  where guid = #GUID# 
+	</delete>
+    
+</mapper>

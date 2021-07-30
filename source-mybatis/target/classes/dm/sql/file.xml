@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.DSSFileInfoMapper">
+
+    <select id="select" parameterType="map" resultType="dyna.common.dto.DSSFileInfo">
+        select c.*,
+               (select f.icon16 from ma_filetype f where f.typeid =c.filetype) icon16,
+               (select f.icon32 from ma_filetype f where f.typeid =c.filetype) icon32,
+               count(c.guid) over() rowcount$$
+          from (select b.*
+                  from (select a.* 
+                          from bi_file a
+                           <where>
+                               <if  test="GUID!=null">and a.guid=#GUID#</if>
+                               <if  test="DSSFILENAME!=null">and a.dssfilename=#DSSFILENAME#</if>
+                               <if  test="FILENAME!=null">and a.filename=#FILENAME#</if>
+                               <if  test="ISPRIMARY!=null">and a.isprimary=#ISPRIMARY#</if>
+                               <if  test="ISUPLOAD!=null">and a.isupload=#ISUPLOAD#</if>
+                               <if  test="FILESIZE!=null">and a.filesize=#FILESIZE#</if>
+                               <if  test="FILEPATH!=null">and a.filepath=#FILEPATH#</if>
+                               <if  test="FILETYPE!=null">and a.filetype=#FILETYPE#</if>
+                               <if  test="EXTENTIONNAME!=null">and a.extentionname=#EXTENTIONNAME#</if>
+                               <if  test="DESCRIPTION!=null">and a.description=#DESCRIPTION#</if>
+                               <if  test="CLASSGUID!=null">and a.classguid=#CLASSGUID#</if>
+                               <if  test="REVISIONGUID!=null">and a.revisionguid=#REVISIONGUID#</if>
+                               <if  test="CREATETIME!=null">and a.createtime=#CREATETIME#</if>
+                               <if  test="CREATEUSERGUID!=null">and a.createuserguid=#CREATEUSERGUID#</if>
+                               <if  test="UPDATETIME!=null">and a.updatetime=#UPDATETIME#</if>
+                               <if  test="UPDATEUSERGUID!=null">and a.updateuserguid=#UPDATEUSERGUID#</if>
+                               <if  test="STORAGEID!=null">and a.storageid = #STORAGEID#</if>
+                               <if  test="SITEID!=null">and a.siteid = #SITEID#</if>
+                               <if  test="MD5!=null">and a.md5 = #MD5#</if>
+                               <if  test="LASTACCESSTIME!=null">and a.lastaccesstime = #LASTACCESSTIME#</if>
+                               <if  test="LASTACCESSUSERGUID!=null">and a.lastaccessuserguid = #LASTACCESSUSERGUID#</if>
+                               <if  test="ECASTATUS!=null">and a.ecastatus = #ECASTATUS#</if>
+                               <if  test="ITERATIONID!=null">
+                                   and a.iterationid = #ITERATIONID#
+                               </if>
+                               <if  test="UNPREVIEWFILE!=null">
+                                   and a.filetype != 'PREVIEW_FILE' AND a.filetype != 'ICON_FILE' AND a.filetype != 'NOTE'
+                               </if>
+                           </where>
+            ) b ) c 
+           <if test="ORDERBY">
+              $ORDERBY$
+          </if>
+    </select>
+    <select id="selectForCopy" parameterType="map" resultType="dyna.common.dto.DSSFileInfo">
+		   select a.* 
+           from bi_file a
+           <where>
+               <if  test="GUID!=null">and a.guid=#GUID#</if>
+               <if  test="DSSFILENAME!=null">and a.dssfilename=#DSSFILENAME#</if>
+               <if  test="FILENAME!=null">and a.filename=#FILENAME#</if>
+               <if  test="ISPRIMARY!=null">and a.isprimary=#ISPRIMARY#</if>
+               <if  test="ISUPLOAD!=null">and a.isupload=#ISUPLOAD#</if>
+               <if  test="FILESIZE!=null">and a.filesize=#FILESIZE#</if>
+               <if  test="FILEPATH!=null">and a.filepath=#FILEPATH#</if>
+               <if  test="FILETYPE!=null">and a.filetype=#FILETYPE#</if>
+               <if  test="EXTENTIONNAME!=null">and a.extentionname=#EXTENTIONNAME#</if>
+               <if  test="DESCRIPTION!=null">and a.description=#DESCRIPTION#</if>
+               <if  test="CLASSGUID!=null">and a.classguid=#CLASSGUID#</if>
+               <if  test="REVISIONGUID!=null">and a.revisionguid=#REVISIONGUID#</if>
+               <if  test="CREATETIME!=null">and a.createtime=#CREATETIME#</if>
+               <if  test="CREATEUSERGUID!=null">and a.createuserguid=#CREATEUSERGUID#</if>
+               <if  test="UPDATETIME!=null">and a.updatetime=#UPDATETIME#</if>
+               <if  test="UPDATEUSERGUID!=null">and a.updateuserguid=#UPDATEUSERGUID#</if>
+               <if  test="STORAGEID!=null">and a.storageid = #STORAGEID#</if>
+               <if  test="SITEID!=null">and a.siteid = #SITEID#</if>
+               <if  test="MD5!=null">and a.md5 = #MD5#</if>
+               <if  test="LASTACCESSTIME!=null">aand .lastaccesstime = #LASTACCESSTIME#</if>
+               <if  test="LASTACCESSUSERGUID!=null">and a.lastaccessuserguid = #LASTACCESSUSERGUID#</if>
+               <if  test="ECASTATUS!=null">and a.ecastatus = #ECASTATUS#</if>
+               <if  test="ITERATIONID!=null">
+                   and a.iterationid = #ITERATIONID#
+               </if>
+               <if  test="UNPREVIEWFILE!=null">
+                   and a.filetype != 'PREVIEW_FILE' AND a.filetype != 'ICON_FILE' AND a.filetype != 'NOTE'
+               </if>
+           </where>
+           <if test="ORDERBY">
+               $ORDERBY$
+           </if>
+    </select>
+    
+    <insert id="insert" parameterType="dyna.common.dto.DSSFileInfo">
+        insert into bi_file  (guid,
+                               dssfilename,
+                               filename,
+                               isprimary,
+                               isupload,
+                               filesize,
+                               filepath,
+                               filetype,
+                               extentionname,
+                               description,
+                               classguid,
+                               revisionguid,
+                               iterationid,
+                               createtime,
+                               createuserguid,
+                               updatetime,
+                               updateuserguid,
+                               storageid,
+                               siteid,
+                               RELATIVEPATH,
+                               md5,
+                               ECASTATUS,
+                               localfilepath
+                               )
+        VALUES(#GUID#,
+               #DSSFILENAME:VARCHAR:NULL#,
+               #FILENAME:VARCHAR:NULL#,
+               <if test="ISPRIMARY!=null">#ISPRIMARY#,</if>
+               <if test="ISPRIMARY==null">'N',</if>
+               <if test="ISUPLOAD!=null">#ISUPLOAD#,</if>
+               <if test="ISUPLOAD==null">'Y',</if>
+               <if test="FILESIZE">#FILESIZE#,</if>
+               <if test="FILESIZE==null">'0',</if>
+               #FILEPATH:VARCHAR:NULL#,
+               #FILETYPE:VARCHAR:NULL#,
+               #EXTENTIONNAME:VARCHAR:NULL#,
+               #DESCRIPTION:VARCHAR:NULL#,
+               #CLASSGUID:VARCHAR:NULL#,
+               #REVISIONGUID:VARCHAR:NULL#,
+               #ITERATIONID:INTEGER:1#,
+               #CURRENTTIME:TIMESTAMP#,
+               #CREATEUSERGUID:VARCHAR:NULL#,
+               #CURRENTTIME:TIMESTAMP#,
+               #CREATEUSERGUID:VARCHAR:NULL#,
+               #STORAGEID:VARCHAR:NULL#,
+               #SITEID:VARCHAR:NULL#,
+               #RELATIVEPATH:VARCHAR:NULL#,
+               #MD5:VARCHAR:NULL#,
+               #ECASTATUS:VARCHAR:NULL#,
+               #LOCALFILEPATH:VARCHAR:NULL#
+               )
+    </insert>
+        
+    <update id="updatePrimaryFileAfterCopyOnly" parameterType="dyna.common.dto.DSSFileInfo">
+        update $TABLENAME$ 
+		   set  fileguid=
+		       (select guid 
+		          from bi_file a
+		         where a.revisionguid = guid
+		           and a.iterationid = iterationid
+		           and a.isprimary = 'Y'),
+		   	   filename =
+		       (select a.filename 
+		          from bi_file a
+		         where a.revisionguid = guid
+		           and a.iterationid = iterationid
+		           and a.isprimary = 'Y'),
+		       filetype =
+		       (select  a.filetype
+		          from bi_file a
+		         where a.revisionguid = guid
+		           and a.iterationid = iterationid
+		           and a.isprimary = 'Y')
+		 where guid = #DESTREVISIONGUID#
+    </update>
+    
+    <update id="resetPrimary" parameterType="map">
+        update bi_file  
+           set updatetime=#CURRENTTIME:TIMESTAMP#,
+               updateuserguid=#UPDATEUSERGUID#, 
+               isprimary='N'
+         where classguid=#CLASSGUID# 
+           and revisionguid=#REVISIONGUID#
+           and iterationid=#ITERATIONID#
+    </update>
+
+    <update id="setPrimary" parameterType="map">
+        update bi_file 
+           set updatetime=#CURRENTTIME:TIMESTAMP#,
+               updateuserguid=#UPDATEUSERGUID#, 
+               isprimary='Y'
+         where guid = #GUID#
+    </update>
+
+    <update id="update" parameterType="dyna.common.dto.DSSFileInfo">
+        update bi_file 
+        <set>
+            updatetime=#CURRENTTIME:TIMESTAMP#,
+            updateuserguid=#UPDATEUSERGUID#,
+            <if  test="GUID!=null">guid=#GUID#,</if>
+            <if  test="DSSFILENAME!=null">dssfilename=#DSSFILENAME#,</if>
+            <if  test="FILENAME!=null">filename=#FILENAME#,</if>
+            <if  test="ISPRIMARY!=null">isprimary=#ISPRIMARY#,</if>
+            <if  test="ISUPLOAD!=null">isupload=#ISUPLOAD#,</if>
+            <if  test="FILESIZE!=null">filesize=#FILESIZE#,</if>
+            <if  test="FILEPATH!=null">filepath=#FILEPATH#,</if>
+            <if  test="FILETYPE!=null">filetype=#FILETYPE#,</if>
+            <if  test="EXTENTIONNAME!=null">extentionname=#EXTENTIONNAME#,</if>
+            <if  test="DESCRIPTION!=null">description=#DESCRIPTION#,</if>
+            <if  test="CLASSGUID!=null">classguid=#CLASSGUID#,</if>
+            <if  test="REVISIONGUID!=null">revisionguid=#REVISIONGUID#,</if>
+            <if  test="ITERATIONID!=null">iterationid=#ITERATIONID#,</if>
+            <if  test="STORAGEID!=null">storageid = #STORAGEID#,</if>
+            <if  test="SITEID!=null">siteid = #SITEID#,</if>
+            <if  test="MD5!=null">md5 = #MD5#,</if>
+            <if  test="RELATIVEPATH!=null">relativepath = #RELATIVEPATH#,</if>
+            <if  test="ECASTATUS!=null">ecastatus = #ECASTATUS#,</if>
+            <if  test="LOCALFILEPATH!=null">localfilepath = #LOCALFILEPATH#,</if>
+            <if  test="LASTACCESSUSERGUID!=null">
+                lastaccessuserguid = #LASTACCESSUSERGUID#, lastaccesstime=#CURRENTTIME:TIMESTAMP#,
+            </if>
+        </set>
+        where guid = #GUID#
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from bi_file where guid = #GUID#
+    </delete>
+    
+    
+	<select id="checkUploadFiles" parameterType="map" resultType="dyna.common.dto.DSSFileInfo">
+              select f.* from bi_file f ,BI_TRANS_DETAIL t
+                where t.filefk=f.guid 
+                and t.masterfk= #MASTERFK#
+               and f.isupload = 'N'
+	</select>
+	
+    <select id="selectAnyTableFile" parameterType="map" resultType="dyna.common.dto.DSSFileInfo">
+        select c.*
+                from bi_any_table_file c
+		 <where>
+		     <if  test="TABNAME!=null">and c.tabname = #TABNAME#</if>
+		     <if  test="TABFKGUID!=null">and c.tabfkguid = #TABFKGUID#</if>
+		     <if  test="GUID!=null">and c.guid = #GUID#</if>
+             <if  test="ID!=null">and c.dssfilename=#DSSFILENAME#</if>
+		 </where>
+    </select>
+
+    <select id="selectWfFile" parameterType="map" resultType="dyna.common.dto.DSSFileInfo">
+        select c.*
+        from bi_wf_file c
+        <where>
+            <if  test="PROCESSGUID!=null">and c.processguid = #PROCESSGUID#</if>
+            <if  test="STARTNUMBER!=null">and c.startnumber = #STARTNUMBER#</if>
+            <if  test="ACTIVITYGUID!=null">and c.activityguid = #ACTIVITYGUID#</if>
+            <if  test="GUID!=null">and c.guid = #GUID#</if>
+            <if  test="CREATEUSERGUID!=null">and c.createuserguid=#CREATEUSERGUID#</if>
+            <if  test="DSSFILENAME!=null">and c.dssfilename=#DSSFILENAME#</if>
+        </where>
+    </select>
+    
+    <delete id="deleteAnyTableFile" parameterType="java.lang.String">
+        delete from bi_any_table_file  where guid = #GUID#
+    </delete>
+     <update id="updateAnyTableFile" parameterType="dyna.common.dto.DSSFileInfo">
+        update bi_any_table_file 
+        <set>
+            updatetime=#CURRENTTIME:TIMESTAMP#,
+            updateuserguid=#UPDATEUSERGUID#,
+            <if  test="GUID!=null">guid=#GUID#,</if>
+            <if  test="DSSFILENAME!=null">dssfilename=#DSSFILENAME#,</if>
+            <if  test="FILENAME!=null">filename=#FILENAME#,</if>
+            <if  test="ISPRIMARY!=null">isprimary=#ISPRIMARY#,</if>
+            <if  test="ISUPLOAD!=null">isupload=#ISUPLOAD#,</if>
+            <if  test="FILESIZE!=null">filesize=#FILESIZE#,</if>
+            <if  test="FILEPATH!=null">filepath=#FILEPATH#,</if>
+            <if  test="FILETYPE!=null">filetype=#FILETYPE#,</if>
+            <if  test="EXTENTIONNAME!=null">extentionname=#EXTENTIONNAME#,</if>
+            <if  test="DESCRIPTION!=null">description=#DESCRIPTION#,</if>
+            <if  test="STORAGEID!=null">storageid = #STORAGEID#,</if>
+            <if  test="SITEID!=null">siteid = #SITEID#,</if>
+            <if  test="MD5!=null">md5 = #MD5#,</if>
+            <if  test="RELATIVEPATH!=null">relativepath = #RELATIVEPATH#,</if>
+            <if  test="ECASTATUS!=null">ecastatus = #ECASTATUS#,</if>
+            <if  test="TABNAME!=null">tabname = #TABNAME#,</if>
+            <if  test="TABFKGUID!=null">tabfkguid = #TABFKGUID#,</if>
+             <if  test="LOCALFILEPATH!=null">localfilepath = #LOCALFILEPATH#,</if>
+            <if  test="LASTACCESSUSERGUID!=null">
+                lastaccessuserguid = #LASTACCESSUSERGUID#, lastaccesstime=#CURRENTTIME:TIMESTAMP#,
+            </if>
+        </set>
+        where guid = #GUID#
+    </update>
+       <insert id="insertAnyTableFile" parameterType="dyna.common.dto.DSSFileInfo">
+        insert into bi_any_table_file (guid,
+                               dssfilename,
+                               filename,
+                               isprimary,
+                               isupload,
+                               filesize,
+                               filepath,
+                               filetype,
+                               extentionname,
+                               description,
+                               createtime,
+                               createuserguid,
+                               updatetime,
+                               updateuserguid,
+                               storageid,
+                               siteid,
+                               RELATIVEPATH,
+                               md5,
+                               ECASTATUS,
+                               TABNAME,
+                               TABFKGUID,
+                               localfilepath
+                               )
+        VALUES(#GUID#,
+               #DSSFILENAME:VARCHAR:NULL#,
+               #FILENAME:VARCHAR:NULL#,
+               <if test="ISPRIMARY!=null">#ISPRIMARY#,</if>
+               <if test="ISPRIMARY==null">'N',</if>
+               <if test="ISUPLOAD!=null">#ISUPLOAD#,</if>
+               <if test="ISUPLOAD==null">'Y',</if>
+               <if test="FILESIZE!=null">#FILESIZE#,</if>
+               <if test="FILESIZE==null">'0',</if>
+               #FILEPATH:VARCHAR:NULL#,
+               #FILETYPE:VARCHAR:NULL#,
+               #EXTENTIONNAME:VARCHAR:NULL#,
+               #DESCRIPTION:VARCHAR:NULL#,
+               #CURRENTTIME:TIMESTAMP#,
+               #CREATEUSERGUID:VARCHAR:NULL#,
+               #CURRENTTIME:TIMESTAMP#,
+               #CREATEUSERGUID:VARCHAR:NULL#,
+               #STORAGEID:VARCHAR:NULL#,
+               #SITEID:VARCHAR:NULL#,
+               #RELATIVEPATH:VARCHAR:NULL#,
+               #MD5:VARCHAR:NULL#,
+               #ECASTATUS:VARCHAR:NULL#,
+               #TABNAME:VARCHAR:NULL#,
+               #TABFKGUID:VARCHAR:NULL#,
+               #LOCALFILEPATH:VARCHAR:NULL#
+               )
+    </insert>
+    
+    <delete id="deleteWfFile" parameterType="java.lang.String" >
+        delete from bi_wf_file  where guid = #GUID#
+    </delete>
+     <update id="updateWfFile" parameterType="dyna.common.dto.DSSFileInfo">
+        update bi_wf_file  
+        <set>
+            updatetime=#CURRENTTIME:TIMESTAMP#,
+            updateuserguid=#UPDATEUSERGUID#,
+            <if  test="GUID!=null">guid=#GUID#,</if>
+            <if  test="DSSFILENAME!=null">dssfilename=#DSSFILENAME#,</if>
+            <if  test="FILENAME!=null">filename=#FILENAME#,</if>
+            <if  test="ISPRIMARY!=null">isprimary=#ISPRIMARY#,</if>
+            <if  test="ISUPLOAD!=null">isupload=#ISUPLOAD#,</if>
+            <if  test="FILESIZE!=null">filesize=#FILESIZE#,</if>
+            <if  test="FILEPATH!=null">filepath=#FILEPATH#,</if>
+            <if  test="FILETYPE!=null">filetype=#FILETYPE#,</if>
+            <if  test="EXTENTIONNAME!=null">extentionname=#EXTENTIONNAME#,</if>
+            <if  test="DESCRIPTION!=null">description=#DESCRIPTION#,</if>
+            <if  test="STORAGEID!=null">storageid = #STORAGEID#,</if>
+            <if  test="SITEID!=null">siteid = #SITEID#,</if>
+            <if  test="MD5!=null">md5 = #MD5#,</if>
+            <if  test="RELATIVEPATH!=null">relativepath = #RELATIVEPATH#,</if>
+            <if  test="ECASTATUS!=null">ecastatus = #ECASTATUS#,</if>
+            <if  test="PROCESSGUID!=null">processguid = #PROCESSGUID#,</if>
+            <if  test="ACTIVITYGUID!=null">activityguid = #ACTIVITYGUID#,</if>
+            <if  test="STARTNUMBER!=null">startnumber = #STARTNUMBER#,</if>
+             <if  test="LOCALFILEPATH!=null">localfilepath = #LOCALFILEPATH#,</if>
+            <if  test="LASTACCESSUSERGUID!=null">
+                lastaccessuserguid = #LASTACCESSUSERGUID#, lastaccesstime=#CURRENTTIME:TIMESTAMP#,
+            </if>
+        </set>
+        where guid = #GUID#
+    </update>
+       <insert id="insertWfFile" parameterType="dyna.common.dto.DSSFileInfo">
+        insert into bi_wf_file  (guid,
+                               dssfilename,
+                               filename,
+                               isprimary,
+                               isupload,
+                               filesize,
+                               filepath,
+                               filetype,
+                               extentionname,
+                               description,
+                               createtime,
+                               createuserguid,
+                               updatetime,
+                               updateuserguid,
+                               storageid,
+                               siteid,
+                               RELATIVEPATH,
+                               md5,
+                               ECASTATUS,
+                               PROCESSGUID,
+                               ACTIVITYGUID,
+                               STARTNUMBER,
+                               localfilepath
+                               )
+        VALUES(#GUID#,
+               #DSSFILENAME:VARCHAR:NULL#,
+               #FILENAME:VARCHAR:NULL#,
+               <if test="ISPRIMARY!=null">#ISPRIMARY#,</if>
+               <if test="ISPRIMARY==null">'N',</if>
+               <if test="ISUPLOAD!=null">#ISUPLOAD#,</if>
+               <if test="ISUPLOAD==null">'Y',</if>
+               <if test="FILESIZE!=null">#FILESIZE#,</if>
+               <if test="FILESIZE==null">'0',</if>
+               #FILEPATH:VARCHAR:NULL#,
+               #FILETYPE:VARCHAR:NULL#,
+               #EXTENTIONNAME:VARCHAR:NULL#,
+               #DESCRIPTION:VARCHAR:NULL#,
+               #CURRENTTIME:TIMESTAMP#,
+               #CREATEUSERGUID:VARCHAR:NULL#,
+               #CURRENTTIME:TIMESTAMP#,
+               #CREATEUSERGUID:VARCHAR:NULL#,
+               #STORAGEID:VARCHAR:NULL#,
+               #SITEID:VARCHAR:NULL#,
+               #RELATIVEPATH:VARCHAR:NULL#,
+               #MD5:VARCHAR:NULL#,
+               #ECASTATUS:VARCHAR:NULL#,
+               #PROCESSGUID:VARCHAR:NULL#,
+               #ACTIVITYGUID:VARCHAR:NULL#,
+               #STARTNUMBER#,
+               #LOCALFILEPATH:VARCHAR:NULL#
+               )
+    </insert>
+    
+</mapper>

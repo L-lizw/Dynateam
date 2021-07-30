@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.ModelSyncMapper">
+
+	<select id="select" parameterType="map" resultType="dyna.common.dto.ModelSync">
+        select a.*
+          from MA_SYNC a
+        <where>
+			<if  test="VERSION!=null">and a.VERSION=#VERSION#</if>
+			<if  test="OMNAME!=null">and a.OMNAME=#OMNAME#</if>
+			<if  test="MODELNAME!=null">and a.MODELNAME=#MODELNAME#</if>
+			<if  test="OMGUID!=null">and a.OMGUID=#OMGUID#</if>
+		</where>
+	</select>
+
+	<insert id="insert" parameterType="dyna.common.dto.ModelSync">
+		INSERT INTO MA_SYNC(GUID,
+		                    MODELNAME,
+		                    DESCRIPTION,
+		                    VERSION,
+		                    OMGUID,
+		                    SYNCIP,
+		                    REMARKS,
+		                    OMNAME, 
+		                    CREATEUSERGUID,
+		                    CREATETIME,
+		                    UPDATEUSERGUID,
+		                    UPDATETIME
+		                   )
+		             VALUES(#GUID#,
+		                    #MODELNAME:VARCHAR:NULL#,
+		                    #DESCRIPTION:VARCHAR:NULL#,
+		                    #VERSION:VARCHAR:NULL#,
+		                    #OMGUID:VARCHAR:NULL#,
+		                    #SYNCIP:VARCHAR:NULL#,
+		                    #REMARKS:VARCHAR:NULL#,
+		                    #OMNAME:VARCHAR:NULL#, 
+		                    #CREATEUSERGUID:VARCHAR#,
+		                    #CURRENTTIME:TIMESTAMP#,
+		                    #UPDATEUSERGUID:VARCHAR#,
+		                    #CURRENTTIME:TIMESTAMP#
+		                   )
+	</insert>
+
+    <select id="getSync" parameterType="java.util.HashMap" resultType="dyna.common.dto.ModelSync" statementType="STATEMENT">
+		select a.*,
+			   (select username from sa_user b where b.guid = a.updateuserguid) updateusername
+		from MA_SYNC a
+		<where>
+			<if  test="GUID!=null">and a.guid=#GUID#</if>
+			<if  test="MODELNAME!=null">aand .modelname=#MODELNAME#</if>
+			<if  test="DESCRIPTION!=null">and a.description=#DESCRIPTION#</if>
+			<if  test="VERSION!=null">and a.version=#VERSION#</if>
+			<if  test="ISLASTER!=null">
+				and a.updatetime = (select max(updatetime)
+								  from MA_SYNC 
+						<if  test="OMGUID!=null">
+								 where OMGUID = #OMGUID:VARCHAR:NULL#
+						</if>
+								 )
+			</if>
+			<if  test="CREATETIME!=null">and a.CREATETIME=#CREATETIME#</if>
+			<if  test="CREATEUSERGUID!=null">and a.createuserguid=#CREATEUSERGUID#</if>
+			<if  test="UPDATETIME!=null">and a.UPDATETIME=#UPDATETIME#</if>
+			<if  test="UPDATEUSERGUID!=null">and a.updateuserguid=#UPDATEUSERGUID#</if>
+			<if  test="OMGUID!=null">and .omguid=#OMGUID#</if>
+			<if  test="SYNCIP!=null">and a.syncip=#SYNCIP#</if>
+			<if  test="REMARKS!=null">and a.remarks=#REMARKS#</if>
+			<if  test="OMNAME!=null">and a.OMNAME=#OMNAME#</if>
+		order by version desc
+		</where>
+	</select>
+</mapper>

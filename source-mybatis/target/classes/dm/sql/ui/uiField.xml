@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.model.ui.UIFieldMapper">
+
+    <select id="selectForLoad" resultType="dyna.common.dto.model.ui.UIField" statementType="STATEMENT">
+		SELECT A.*
+		  FROM MA_CLASS_UI_FIELD A
+	  ORDER BY A.ROWAMOUNT,A.COLUMAMOUNT
+	</select>
+    
+	<select id="get" parameterType="java.lang.String" resultType="dyna.common.dto.model.ui.UIField" statementType="STATEMENT">
+		SELECT *
+		  FROM MA_CLASS_UI_FIELD
+		 WHERE GUID=#GUID#
+	</select>
+    
+    <insert id="insert" parameterType="dyna.common.dto.model.ui.UIField">
+        INSERT INTO MA_CLASS_UI_FIELD (GUID,
+                                       UIGUID,
+                                       FIELDGUID,
+                                       DATASEQ,
+                                       FIELDNAME,
+                                       TITLE,
+                                       SHOWTITLE,
+                                       READONLY,
+                                       FROZE,
+                                       WIDTH,
+                                       HEIGHT,
+                                       ROWAMOUNT,
+                                       COLUMAMOUNT,
+                                       COLUMNSPAN,
+                                       COLUMNNAME,
+                                       NOTINHERIT,
+                                       CREATETIME,
+                                       CREATEUSERGUID,
+                                       UPDATETIME,
+                                       UPDATEUSERGUID,
+                                       FORMAT,
+                                       MANDATORY,
+                                       SHOWVALWHENNOAUTH)
+                               VALUES (#GUID#,
+                                       #UIGUID:VARCHAR#,
+                                       #FIELDGUID:VARCHAR:NULL#,
+                                       #DATASEQ:NUMBERIC#,
+                                       #FIELDNAME:VARCHAR#,
+                                       #TITLE:VARCHAR:NULL#,
+                                       #SHOWTITLE:VARCHAR:NULL#,
+                                       #READONLY:VARCHAR:NULL#,
+                                       #FROZE:VARCHAR:NULL#,
+                                       #WIDTH:VARCHAR:NULL#,
+                                       #HEIGHT:VARCHAR:NULL#,
+                                       #ROWAMOUNT:VARCHAR:NULL#,
+                                       #COLUMAMOUNT:VARCHAR:NULL#,
+                                       #COLUMNSPAN:VARCHAR:NULL#,
+                                       #COLUMNNAME:VARCHAR:NULL#,
+                                       #NOTINHERIT:VARCHAR:NULL#,
+                                       #CURRENTTIME:TIMESTAMP#,
+                                       #CREATEUSERGUID:VARCHAR:NULL#,
+                                       #CURRENTTIME:TIMESTAMP#,
+                                       #UPDATEUSERGUID:VARCHAR:NULL#,
+                                       #FORMAT:VARCHAR:NULL#,
+                                       #MANDATORY:VARCHAR:NULL#,
+                                       #SHOWVALWHENNOAUTH:VARCHAR:NULL#
+                                      )
+    </insert>
+    
+    <update id="update" parameterType="dyna.common.dto.model.ui.UIField">
+        UPDATE MA_CLASS_UI_FIELD
+		<set>
+            UPDATETIME=#CURRENTTIME:TIMESTAMP#,
+            UPDATEUSERGUID=#UPDATEUSERGUID#,
+			<if  test="DATASEQ!=null">DATASEQ=#DATASEQ#,</if>
+			<if  test="TITLE!=null">TITLE=#TITLE#,</if>
+			<if  test="SHOWTITLE!=null">SHOWTITLE=#SHOWTITLE#,</if>
+			<if  test="READONLY!=null">READONLY=#READONLY#,</if>
+			<if  test="FROZE!=null">FROZE=#FROZE#,</if>
+			<if  test="WIDTH!=null">WIDTH=#WIDTH#,</if>
+			<if  test="HEIGHT!=null">HEIGHT=#HEIGHT#,</if>
+			<if  test="ROWAMOUNT!=null">ROWAMOUNT=#ROWAMOUNT#,</if>
+			<if  test="COLUMAMOUNT!=null">COLUMAMOUNT=#COLUMAMOUNT#,</if>
+			<if  test="COLUMNSPAN!=null">COLUMNSPAN=#COLUMNSPAN#,</if>
+			<if  test="NOTINHERIT!=null">NOTINHERIT=#NOTINHERIT#,</if>
+			<if  test="FORMAT!=null">FORMAT=#FORMAT#,</if>
+			<if  test="MANDATORY!=null">MANDATORY=#MANDATORY#,</if>
+			<if  test="SHOWVALWHENNOAUTH!=null">SHOWVALWHENNOAUTH=#SHOWVALWHENNOAUTH#,</if>
+		</set>
+		WHERE GUID = #GUID#
+    </update>
+    
+    <delete id="delete" parameterType="java.lang.String">
+        DELETE FROM MA_CLASS_UI_FIELD
+         WHERE GUID = #GUID#
+    </delete>
+</mapper>

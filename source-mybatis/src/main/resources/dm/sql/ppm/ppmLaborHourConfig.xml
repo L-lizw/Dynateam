@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.ppm.LaborHourConfigMapper">
+
+    <sql id="where">
+        <where>
+            <if test="GUID!=null">
+                and guid = #GUID#
+            </if>
+        </where>
+    </sql>
+    
+    <select id="select" parameterType="map" resultType="dyna.common.bean.data.ppms.LaborHourConfig">
+        select m.*
+          from ppm_laborhourconfig m
+          <include refid="where"/>
+    </select>
+    
+    <insert id="insert" parameterType="dyna.common.bean.data.ppms.LaborHourConfig">
+        insert into ppm_laborhourconfig
+			       (guid,
+			        standardhour,
+                    overloadhour,
+                    underloadhour,
+                    freezetime,
+                    issaveaspersonallog,
+                    ismodificationaudithour,
+
+			        createuserguid,
+			        createtime,
+			        updateuserguid,
+			        updatetime)
+	        values (#GUID#,
+	         		#STANDARDHOUR#,
+	                #OVERLOADHOUR#,
+	                #UNDERLOADHOUR#,
+	                #FREEZETIME#,
+					#ISSAVEASPERSONALLOG#,
+					#ISMODIFICATIONAUDITHOUR#,
+					
+					#CREATEUSERGUID#,
+					#CURRENTTIME:TIMESTAMP#,
+					#UPDATEUSERGUID#,
+					#CURRENTTIME:TIMESTAMP#)
+    </insert>
+    
+    <update id="update" parameterType="dyna.common.bean.data.ppms.LaborHourConfig">
+        update ppm_laborhourconfig 
+                <set>
+	               <if test="STANDARDHOUR!=null">STANDARDHOUR = #STANDARDHOUR#,</if>
+	               <if test="OVERLOADHOUR!=null">OVERLOADHOUR = #OVERLOADHOUR#,</if>
+	               <if test="UNDERLOADHOUR!=null">UNDERLOADHOUR = #UNDERLOADHOUR#,</if>
+	               <if test="FREEZETIME!=null">FREEZETIME = #FREEZETIME#,</if>
+	               <if test="ISSAVEASPERSONALLOG!=null">ISSAVEASPERSONALLOG = #ISSAVEASPERSONALLOG#,</if>
+	               <if test="ISMODIFICATIONAUDITHOUR!=null">ISMODIFICATIONAUDITHOUR = #ISMODIFICATIONAUDITHOUR#,</if>
+               </set>
+               updatetime = #CURRENTTIME:TIMESTAMP#,
+               updateuserguid = #UPDATEUSERGUID#
+          	   <include refid="where"/>
+    </update>
+    
+    <delete id="delete" parameterType="map">
+        delete from laborHourConfig <include refid="where"/>
+    </delete>
+</mapper>

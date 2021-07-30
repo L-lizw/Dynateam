@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"../../mybatis-3-mapper.dtd">
+
+<mapper namespace="dyna.common.dtomapper.aas.GroupMapper">
+
+	<!-- 二级缓存原则，FIFO-先进先出 -->
+	<cache eviction="FIFO"/>
+
+	<select id="selectForLoad"   parameterType="map" resultType="dyna.common.dto.aas.Group" >
+		SELECT A.*,C.BMNAME,C.TITLE BMTITLE
+		FROM SA_GROUP A
+		LEFT JOIN SA_BUSINESSMODEL C
+		ON A.BMGUID = C.GUID
+	</select>
+
+	<select id="get" parameterType="java.lang.String" resultType="dyna.common.dto.aas.Group">
+		SELECT A.*,C.BMNAME,C.TITLE BMTITLE
+		FROM SA_GROUP A
+		LEFT JOIN SA_BUSINESSMODEL C
+		ON A.BMGUID = C.GUID
+		WHERE A.GUID = #GUID#
+	</select>
+
+	<insert id="insert" parameterType="dyna.common.dto.aas.Group">
+		insert into sa_group
+		(
+		guid,
+		parentgroupguid,
+		groupid,
+		groupname,
+		bmguid,
+
+		isadmin,
+		createtime,
+		createuserguid,
+		updatetime,
+		updateuserguid,
+
+		isvalid,
+		description,
+		storageid,
+
+		siteid,
+		libraryguid,
+		calendarguid
+		)
+		VALUES(
+		#GUID#,
+		#PARENTGROUPGUID:VARCHAR:NULL#,
+		#GROUPID#,
+		#GROUPNAME#,
+		#BMGUID#,
+
+		<choose>
+			<when test="ISADMIN != null">
+				#ISADMIN#,
+			</when>
+			<otherwise>
+				'N',
+			</otherwise>
+		</choose>
+		#CURRENTTIME:TIMESTAMP#,
+		#CREATEUSERGUID:VARCHAR:NULL#,
+		#CURRENTTIME:TIMESTAMP#,
+		#CREATEUSERGUID:VARCHAR:NULL#,
+
+		<choose>
+			<when test="ISVALID != null">
+				#ISVALID#,
+			</when>
+			<otherwise>
+				'Y',
+			</otherwise>
+		</choose>
+
+		#DESCRIPTION:VARCHAR:NULL#,
+		#STORAGEID:VARCHAR:NULL#,
+
+		#SITEID:VARCHAR:NULL#,
+		#LIBRARYGUID#,
+		#CALENDARGUID#
+		)
+	</insert>
+
+	<update id="update" parameterType="dyna.common.dto.aas.Group">
+		update sa_group
+		<set>
+			updatetime = #CURRENTTIME:TIMESTAMP#
+			<if test="PARENTGROUPGUID!=null">parentgroupguid = #PARENTGROUPGUID#,</if>
+			<if test="GROUPID!=null">groupid = #GROUPID#,</if>
+			<if test="GROUPNAME!=null">groupname = #GROUPNAME#,</if>
+			<choose>
+				<when test="ISADMIN!=null">isadmin = #ISADMIN#,</when>
+				<otherwise>isadmin = 'N',</otherwise>
+			</choose>
+			<choose>
+				<when test="ISVALID!=null">isvalid = #ISVALID#,</when>
+				<otherwise>isvalid = 'Y',</otherwise>
+			</choose>
+			<if test="DESCRIPTION!=null">description = #DESCRIPTION#,</if>
+			<if test="BMGUID!=null">BMGUID = #BMGUID#,</if>
+			<if test="STORAGEGUID!=null">storageguid = #STORAGEGUID#,</if>
+			<if test="UPDATEUSERGUID!=null">updateuserguid = #UPDATEUSERGUID#,</if>
+			<if test="STORAGEID!=null">storageid = #STORAGEID#,</if>
+			<if test="SITEID!=null">siteid = #SITEID#,</if>
+			<if test="LIBRARYGUID!=null">libraryguid = #LIBRARYGUID#,</if>
+			<if test="CALENDARGUID!=null">calendarguid = #CALENDARGUID#,</if>
+		</set>
+		where guid = #GUID#
+
+	</update>
+
+	<delete id="delete" parameterType="java.lang.String">
+		delete from sa_group where guid =#GUID#
+	</delete>
+
+</mapper>

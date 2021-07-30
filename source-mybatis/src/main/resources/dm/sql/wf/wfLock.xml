@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.wf.ProcLockObjectMapper">
+
+    <insert id="insert" parameterType="dyna.common.dto.wf.ProcLockObject">
+        insert into wf_lock (
+                             procrtguid, 
+                             instanceguid
+                            )
+        values (
+                #PROCRTGUID:VARCHAR:NULL#, 
+                #INSTANCEGUID:VARCHAR:NULL#
+               )
+    </insert>
+
+    <sql id="where">
+        <where>
+            <if  test="PROCRTGUID!=null">
+                and b.procrtguid = #PROCRTGUID#
+            </if>
+            <if  test="INSTANCEGUID!=null">
+                and b.instanceguid = #INSTANCEGUID#
+            </if>
+        </where>
+    </sql>
+
+    <select id="select" parameterType="java.util.HashMap" resultType="dyna.common.dto.wf.ProcLockObject">
+        select b.procrtguid,
+               b.instanceguid
+          from wf_lock b
+          <include refid="where"/>
+    </select>
+
+    <delete id="delete" parameterType="map">
+        delete from wf_lock where procrtguid = #PROCRTGUID# 
+    </delete>
+    
+    <insert id="lock" parameterType="map">
+        insert into wf_lock (
+                             procrtguid, 
+                             instanceguid
+                            )
+        select b.procrtguid,
+               b.instanceguid
+          from wf_freshattach b
+         where b.isinvalid = 'N'
+           and not exists (select 1
+                             from wf_freshattach a
+                            where a.procrtguid in ($SUBPROCGUIDLIST$)
+                              and a.isinvalid = 'N'
+                              and a.instanceguid = b.instanceguid
+                          )
+           and b.procrtguid = #PROCRTGUID#
+    </insert>
+    
+</mapper>

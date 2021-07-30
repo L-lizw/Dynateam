@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.configparamter.TableOfListMapper">
+
+    <select id="selectAllList" parameterType="map" resultType="dyna.common.bean.data.configparamter.TableOfList">
+        select b.*
+          from ma_config_table_l_group b
+         <where>
+             <if test="RELEASETIME!=null" >
+	             and #RELEASETIME:TIMESTAMP# >= b.releasetime
+	             and (b.obsoletetime is null or #RELEASETIME:TIMESTAMP# <![CDATA[ < ]]> b.obsoletetime)
+	         </if>
+	         <if test="RELEASETIME==null">
+		   	   <if test="STATUS==null">
+		       		and b.hasnextrevision = 'N'
+		       </if>
+		       <if test="STATUS == 'RLS'">
+		       		and b.releasetime is not null and b.obsoletetime is null
+		       </if>
+		       <if test="STATUS != 'RLS'">
+		       		and b.hasnextrevision = 'N'
+		       </if>
+	         </if>
+	         <if test="TABLETYPE!=null">
+	             and b.tabletype = #TABLETYPE#
+	         </if>
+	         <if test="LNUMBER!=null">
+	             and b.lnumber = #LNUMBER#
+	         </if>
+	         <if test="GROUPGUIDLIST!=null">
+	             and b.groupguid in
+	             <foreach collection= "GROUPGUIDLIST" open="(" close=")" separator="," item="TEMP">#TEMP#</foreach>
+	         </if>
+	         <if test="MASTERGUID!=null">
+	             and b.masterguid = #MASTERGUID#
+	         </if>
+	         <if test="SN!=null">
+	             and b.sn = #SN#
+	         </if>
+         </where>
+       order by b.lnumber
+    </select>
+    
+    <!-- 同一个分组内有多于一个的L番号 -->
+    <select id="listMoreThanOneGroupOfLNumber" parameterType="map" resultType="dyna.common.bean.data.configparamter.TableOfList">
+        select groupname from(
+        select count(1) groupcnt,
+               b.groupname
+          from ma_config_table_l_group b
+        <where>
+            <if test="RELEASETIME != null">
+                and #RELEASETIME:TIMESTAMP# >= b.releasetime
+                and (b.obsoletetime is null or #RELEASETIME:TIMESTAMP# <![CDATA[ < ]]> b.obsoletetime)
+            </if>
+            <if test="RELEASETIME==null">
+                <if test="STATUS==null">
+                    and b.hasnextrevision = 'N'
+                </if>
+                <if test="STATUS == 'RLS'">
+                    and b.releasetime is not null and b.obsoletetime is null
+                </if>
+                <if test="STATUS!= 'RLS'">
+                    and b.hasnextrevision = 'N'
+                </if>
+            </if>
+            and b.lnumber in
+            <foreach collection="LNUMBERLIST" open="(" close=")" separator="," item="TEMP">#TEMP#</foreach>
+            and b.masterguid = #MASTERGUID#
+        </where>
+         group by b.groupname) where groupcnt > 1
+    </select>
+    
+    <select id="listDuplicateLNumber" parameterType="map" resultType="dyna.common.bean.data.configparamter.TableOfList">
+        select lnumber
+		  from (select count(1) cnt,
+		               lnumber
+		          from MA_CONFIG_TABLE_L_GROUP b
+		         where b.hasnextrevision = 'N'
+		           and b.masterguid = #MASTERGUID#
+		           <if test="ISONLYL00 == 'Y'">
+		           and b.lnumber = 'L00'
+		           and b.tabletype = #TABLETYPE#
+		           </if>
+		           <if test="ISONLYL00 != 'Y'">
+		           and b.lnumber <![CDATA[ <> ]]> 'L00'
+		           </if>
+		         group by b.lnumber)
+		 where cnt > 1
+    </select>
+    
+    <select id="haveRLSData" parameterType="java.lang.String" resultType="dyna.common.bean.data.configparamter.TableOfList">
+        select case cnt
+                 when 0 then 'N'
+                 else 'Y'
+               end haverls
+          from (select count(1) cnt
+		          from MA_CONFIG_TABLE_L_GROUP
+		         where releasetime is not null
+		           and masterguid = #MASTERGUID#
+               )
+    </select>
+    
+    <select id="isDuplicateSN" parameterType="map" resultType="dyna.common.bean.data.configparamter.TableOfList">
+        select distinct*
+		  from (select 'Y'
+		          from ma_config_table_l_group a
+		         where a.groupname is not null
+		           and a.sn is not null
+				   and a.HASNEXTREVISION = 'N'
+		           and a.masterguid = #MASTERGUID#
+		         group by a.groupname
+		        having count(distinct sn) > 1
+		        union
+		        select 'Y'
+		          from ma_config_table_l_group a
+		         where a.sn is not null
+				   and a.HASNEXTREVISION = 'N'
+		           and a.masterguid = #MASTERGUID#
+		         group by a.sn
+		        having count(distinct a.groupname) > 1        
+		        union
+		        select 'Y'
+		          from ma_config_table_l_group a
+		         where a.sn is not null
+		           and exists (select 1
+			                     from ma_config_table_g b
+			                    where a.sn = b.sn
+								   and b.HASNEXTREVISION = 'N'
+			                       and b.masterguid = #MASTERGUID#
+			                  )
+				   and a.HASNEXTREVISION = 'N'
+		           and a.masterguid = #MASTERGUID#
+		        union
+		        select 'Y'
+		          from ma_config_table_l_group a
+		         where a.sn is not null
+		           and exists (select 1
+					             from ma_config_table_inputvariable b
+					            where a.sn = b.sn					              
+								  and b.HASNEXTREVISION = 'N'
+								  and b.masterguid = #MASTERGUID#
+					           )				   
+				   and a.HASNEXTREVISION = 'N'
+				   and a.masterguid = #MASTERGUID#
+		       )
+    </select>
+    
+    
+    <insert id="inserBatchList" parameterType="map">
+            INTO MA_CONFIG_TABLE_L_GROUP(GUID, 
+                                         MASTERGUID, 
+                                         UNIQUEVALUE, 
+                                         GROUPNAME, 
+                                         TABLETYPE, 
+                                         LNUMBER, 
+                                         SN, 
+                                         DESCRIPTION, 
+                                         HASNEXTREVISION,
+                                         
+                                         CREATEUSERGUID, 
+		                                 CREATETIME, 
+		                                 UPDATEUSERGUID, 
+		                                 UPDATETIME) 
+          values (#GUID#, 
+                  #MASTERGUID#, 
+                  #UNIQUEVALUE#, 
+                  #GROUPNAME#, 
+                  #TABLETYPE#, 
+                  #LNUMBER#, 
+                  #SN#, 
+                  #DESCRIPTION#, 
+                  'N',
+                  
+                  #CREATEUSERGUID:VARCHAR:NULL#,
+                  #CURRENTTIME:TIMESTAMP#,
+				  #UPDATEUSERGUID:VARCHAR:NULL#,
+				  #CURRENTTIME:TIMESTAMP#
+                  )
+    </insert>
+    
+    <update id="updateBatchList" parameterType="map">
+            update MA_CONFIG_TABLE_L_GROUP 
+               set UPDATEUSERGUID = #UPDATEUSERGUID:VARCHAR:NULL#,
+                   UPDATETIME = #CURRENTTIME:TIMESTAMP#,
+                   GROUPNAME = #GROUPNAME#,
+                   LNUMBER = #LNUMBER#,
+                   DESCRIPTION = #DESCRIPTION#,
+                   SN = #SN#
+             where guid = #GUID#;
+    </update>
+    
+    <update id="updateNextRevisionBatchList" parameterType="map">
+        update MA_CONFIG_TABLE_L_GROUP 
+           set UPDATEUSERGUID = #UPDATEUSERGUID:VARCHAR:NULL#,
+               UPDATETIME = #CURRENTTIME:TIMESTAMP#,
+               hasnextrevision = 'Y'
+         where releasetime is not null 
+               and obsoletetime is null
+               and guid = #GUID#
+    </update>
+    <update id="updateCustNextRevisionBatchList" parameterType="map">
+            update MA_CONFIG_TABLE_CUSTM_L 
+               set UPDATEUSERGUID = #UPDATEUSERGUID:VARCHAR:NULL#,
+                   UPDATETIME = #CURRENTTIME:TIMESTAMP#,
+                   hasnextrevision = 'Y'
+             where releasetime is not null 
+               and obsoletetime is null
+               and masterfk = #MASTERGUID#
+               and masterguid=#ITEMMASTERGUID# 
+    </update>
+    
+    <delete id="deleteLine" parameterType="java.lang.String">
+            delete from MA_CONFIG_TABLE_L_GROUP 
+             where releasetime is null and guid = #GUID# 
+    </delete>
+    
+    <delete id="deleteCustLine" parameterType="map">
+            delete from MA_CONFIG_TABLE_CUSTM_L  
+             where releasetime is null and masterfk = #MASTERGUID#  and masterguid=#ITEMMASTERGUID# 
+    </delete>
+    
+    <!-- 根据列名废弃自定义列 -->
+    <update id="obsoleteColumnByTitle" parameterType="map">
+        update MA_CONFIG_TABLE_CUSTM_L
+           set UPDATEUSERGUID = #UPDATEUSERGUID:VARCHAR:NULL#,
+               UPDATETIME = #CURRENTTIME:TIMESTAMP#,
+               HASNEXTREVISION = 'Y'
+         where releasetime is not null 
+           and obsoletetime is null
+           and TITLEGUID in
+           <foreach collection="TITLELIST" open="(" close=")" separator="," item="TEMP">#TEMP#</foreach>
+           and masterguid = #MASTERGUID#
+    </update>
+    
+    <!-- 根据列名删除自定义列 -->
+    <delete id="deleteColumnByTitle" parameterType="map">
+        delete MA_CONFIG_TABLE_CUSTM_L 
+         where releasetime is null
+           and TITLEGUID in
+           <foreach collection="TITLELIST" open="(" close=")" separator="," item="TEMP">#TEMP#</foreach>
+           and masterguid = #MASTERGUID#
+    </delete>
+    
+    <!-- 删除对象时,同步删除配置数据 -->
+    <delete id="deleteByMaster" parameterType="java.lang.String">
+            delete from MA_CONFIG_TABLE_L_GROUP  where masterguid = #MASTERGUID#;
+    </delete>
+    <!-- 删除对象时,同步删除配置数据 -->
+    <delete id="deleteCustByMaster" parameterType="java.lang.String">
+            delete from MA_CONFIG_TABLE_CUSTM_L  where masterguid = #MASTERGUID#;
+    </delete>
+    <!-- 删除对象时,同步删除配置数据 -->
+    <delete id="deleteInfoByMaster" parameterType="java.lang.String">
+            delete from MA_CONFIG_TABLE_INFO  where masterguid = #MASTERGUID# and tabletype = 'L';
+    </delete>
+    
+    <!-- 删除工作版本对象时,同步删除配置数据 -->
+    <update id="clearWIP" parameterType="map">
+            update MA_CONFIG_TABLE_L_GROUP 
+               set UPDATEUSERGUID = #UPDATEUSERGUID:VARCHAR:NULL#,
+                   UPDATETIME = $CURRENTTIME$,
+                   hasnextrevision = 'N'
+             where hasnextrevision = 'Y' and obsoletetime is null and masterguid = #MASTERGUID#;
+    </update>
+        <!-- 删除工作版本对象时,同步删除配置数据 -->
+    <delete id="deleteWIP" parameterType="java.lang.String">
+            delete from MA_CONFIG_TABLE_L_GROUP  where releasetime is null and masterguid = #MASTERGUID#;
+    </delete>
+        <!-- 删除工作版本对象时,同步删除配置数据 -->
+    <update id="clearCustWIP" parameterType="map">
+            update MA_CONFIG_TABLE_CUSTM_L
+               set UPDATEUSERGUID = #UPDATEUSERGUID:VARCHAR:NULL#,
+                   UPDATETIME = $CURRENTTIME$,
+                   hasnextrevision = 'N'
+             where hasnextrevision = 'Y' and obsoletetime is null and masterguid = #MASTERGUID#;
+    </update>
+        <!-- 删除工作版本对象时,同步删除配置数据 -->
+    <delete id="deleteCustWIP" parameterType="java.lang.String">
+            delete from MA_CONFIG_TABLE_CUSTM_L  where releasetime is null and masterguid = #MASTERGUID#;
+    </delete>
+</mapper>

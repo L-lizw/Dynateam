@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.ppm.TaskRelationMapper">
+
+    <sql id="where">
+            <if  test="GUID!=null">
+                and   guid = #GUID#
+            </if>
+            <if  test="PROJECTGUID!=null">
+                and   PROJECTGUID = #PROJECTGUID#
+            </if>
+            <if  test="PROJECTGUID$CLASS!=null">
+                and   PROJECTGUID$$CLASS = #PROJECTGUID$CLASS#
+            </if>
+            <if  test="PRETASKGUID!=null">
+                and   PRETASKGUID = #PRETASKGUID#
+            </if>
+            <if  test="PRETASKGUID$CLASS!=null">
+                and   PRETASKGUID$$CLASS = #PRETASKGUID$CLASS#
+            </if>
+            <if  test="TASKGUID!=null">
+                and   TASKGUID = #TASKGUID#
+            </if>
+            <if  test="TASKGUID$CLASS!=null">
+                and  TASKGUID$$CLASS = #TASKGUID$CLASS#
+            </if>
+    </sql>
+    
+    <select id="select" parameterType="map" resultType="dyna.common.bean.data.ppms.TaskRelation">
+        select t.*,
+               (select m.classname from ma_class m where m.guid = t.projectguid$$class) projectguid$$classname,
+               (select m.classname from ma_class m where m.guid = t.pretaskguid$$class) pretaskguid$$classname,
+               (select m.classname from ma_class m where m.guid = t.taskguid$$class) taskguid$$classname
+          from ppm_TaskRelation t
+          <include refid="where"/>
+    </select>
+    
+    <insert id="insert" parameterType="dyna.common.bean.data.ppms.TaskRelation">
+        insert into ppm_TaskRelation
+			       (GUID,
+                    PROJECTGUID,
+                    PROJECTGUID$$CLASS,
+                    PRETASKGUID,
+                    PRETASKGUID$$CLASS,
+                    TASKGUID,
+                    TASKGUID$$CLASS,
+                    PRETASKTYPE,
+                    DELAYTIME,
+
+			        createuserguid,
+			        createtime,
+			        updateuserguid,
+			        updatetime)
+	        values (#GUID:VARCHAR:NULL#,
+			        #PROJECTGUID:VARCHAR:NULL#,
+			        #PROJECTGUID$CLASS:VARCHAR:NULL#,
+					#PRETASKGUID:VARCHAR:NULL#,
+					#PRETASKGUID$CLASS:VARCHAR:NULL#,
+					#TASKGUID:VARCHAR:NULL#,
+					#TASKGUID$CLASS:VARCHAR:NULL#,
+					#PRETASKTYPE#,
+					#DELAYTIME#,
+					
+					#CREATEUSERGUID:VARCHAR:NULL#,
+					#CURRENTTIME:TIMESTAMP#,
+					#UPDATEUSERGUID:VARCHAR:NULL#,
+					#CURRENTTIME:TIMESTAMP#)
+    </insert>
+    
+    <update id="update" parameterType="dyna.common.bean.data.ppms.TaskRelation">
+        update ppm_TaskRelation 
+                 <set>
+	               <if test="PROJECTGUID!=null">PROJECTGUID = #PROJECTGUID#,</if>
+	               <if test="PROJECTGUID!=null">PROJECTGUID$$CLASS = #PROJECTGUID$CLASS#,</if>
+	               <if test="PRETASKGUID!=null">PRETASKGUID = #PRETASKGUID#,</if>
+	               <if test="PRETASKGUID!=null">PRETASKGUID$$CLASS = #PRETASKGUID$CLASS#,</if>
+	               <if test="TASKGUID!=null">TASKGUID = #TASKGUID#,</if>
+	               <if test="TASKGUID!=null">TASKGUID$$CLASS = #TASKGUID$CLASS#,</if>
+	               <if test="PRETASKTYPE!=null">PRETASKTYPE = #PRETASKTYPE#,</if>
+	               
+	               <if test="DELAYTIME!=null">DELAYTIME = #DELAYTIME#,</if>
+               </set>
+               updatetime = #CURRENTTIME:TIMESTAMP#,
+               updateuserguid = #UPDATEUSERGUID#
+         	   <include refid="where"/>
+    </update>
+    
+    <delete id="delete" parameterType="map">
+        delete from ppm_TaskRelation <include refid="where"/>
+    </delete>
+</mapper>

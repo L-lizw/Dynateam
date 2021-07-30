@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.SaCustomColumnsPreferenceMapper">
+
+    <sql id="where">
+        <where>
+            <if  test="USERGUID!=null">
+                and m.userguid = #USERGUID#
+            </if>
+            <if  test="TABLETYPE!=null">
+                and m.tabletype = #TABLETYPE#
+            </if>
+            <if  test="CLASSIFICATIONFK!=null">
+                and m.classificationfk = #CLASSIFICATIONFK#
+            </if>
+            <if  test="CLASSIFICATIONFK==null">
+                and m.classificationfk is null
+            </if>
+            <if  test="CLASSFK!=null">
+                and m.classfk = #CLASSFK# 
+            </if>
+             <if  test="CLASSFK==null">
+                 and m.classfk is null
+            </if>
+            <if  test="CREATEUSERGUID!=null">
+                and m.createuserguid = #CREATEUSERGUID#
+            </if>
+            <if  test="UPDATEUSERGUID!=null">
+                and m.updateuserguid = #UPDATEUSERGUID#
+            </if>
+        </where>
+    </sql>
+    
+    <select id="select" parameterType="map" resultType="dyna.common.dto.SaCustomColumnsPreference">
+        select m.*,
+              (select u.username from sa_user u where u.guid = m.userguid) username
+         from sa_custom_columns_master m
+        <include refid="where"/>
+    </select>
+    
+    <insert id="insert" parameterType="dyna.common.dto.SaCustomColumnsPreference">
+        insert into sa_custom_columns_master
+			       (guid,
+			        userguid,
+			        tabletype,
+			        classificationfk,
+			        classfk,
+			        createuserguid,
+			        createtime,
+			        updateuserguid,
+			        updatetime)
+	        values (#GUID#,
+			        #USERGUID#,
+					#TABLETYPE:VARCHAR:NULL#,
+			        #CLASSIFICATIONFK:VARCHAR:NULL#,
+			        #CLASSFK:VARCHAR:NULL#,
+					#CREATEUSERGUID:VARCHAR:NULL#,
+					#CURRENTTIME:TIMESTAMP#,
+					#UPDATEUSERGUID:VARCHAR:NULL#,
+					#CURRENTTIME:TIMESTAMP#)
+    </insert>
+    
+    <update id="update" parameterType="dyna.common.dto.SaCustomColumnsPreference">
+        update sa_custom_columns_master
+        <set>
+	        <if test="USERGUID!=null">userguid = #USERGUID#,</if>
+	        <if test="TABLETYPE!=null">tabletype = #TABLETYPE#,</if>
+	        <if test="CLASSIFICATIONFK!=null">classificationfk = #CLASSIFICATIONFK#,</if>
+	        <if test="CLASSFK!=null">classfk = #CLASSFK#,</if>
+        </set>
+               updatetime = #CURRENTTIME:TIMESTAMP#,
+               updateuserguid = #UPDATEUSERGUID#
+         where guid = #GUID#
+    </update>
+    
+    <delete id="delete" parameterType="map">
+        delete from sa_custom_columns_master where guid = #GUID#
+    </delete>
+</mapper>

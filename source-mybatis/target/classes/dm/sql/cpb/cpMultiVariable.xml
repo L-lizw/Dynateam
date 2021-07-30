@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.configparamter.DynamicOfMultiVariableMapper">
+
+    <select id="listMultiVariable" parameterType="map" resultType="dyna.common.bean.data.configparamter.DynamicOfMultiVariable">
+        select *
+          from MA_CONFIG_TABLE_M a
+        <where>
+            a.masterguid = #MASTERGUID#
+            <choose>
+                <when test="RELEASETIME != null and RELEASETIME != ''">
+                    and #RELEASETIME:DATE# >= a.releasetime
+                    and (a.obsoletetime is null or #RELEASETIME:DATE# <![CDATA[ < ]]> a.obsoletetime)
+                </when>
+                <otherwise>
+                    <if test="STATUS==null">
+                        and a.hasnextrevision = 'N'
+                    </if>
+                    <if test="STATUS == 'RLS'">
+                        and a.releasetime is not null and a.obsoletetime is null
+                    </if>
+                    <if test="STATUS != 'RLS'">
+                        and a.hasnextrevision = 'N'
+                    </if>
+                </otherwise>
+            </choose>
+        </where>
+           order by  a.DATASEQ asc, a.colsequence asc
+    </select>
+        
+    <insert id="inserBatchList" parameterType="map">
+            into MA_CONFIG_TABLE_M(GUID, 
+                                   MASTERGUID, 
+                                   VARNAME,
+                                   VARVALUE,
+                                   CONDITIONJSON1,
+                                   CONDITIONJSON2, 
+                                   CONDITIONJSON3, 
+                                   CONDITIONJSON4, 
+                                   CONDITIONJSON5, 
+                                   CONDITIONJSON6, 
+                                   CONDITIONJSON7, 
+                                   CONDITIONJSON8,  
+                                   HASNEXTREVISION,
+                                   COLSEQUENCE,
+                                   DATASEQ,
+                                   
+                                   CREATEUSERGUID,
+                                   CREATETIME,
+                                   UPDATEUSERGUID,
+                                   UPDATETIME)
+                           values (#GUID#, 
+                                   #MASTERGUID#, 
+                                   #VARNAME#,
+                                   #VARVALUE#, 
+                                   #CONDITIONJSON1#,
+                                   #CONDITIONJSON2#,
+                                   #CONDITIONJSON3#,
+                                   #CONDITIONJSON4#,
+                                   #CONDITIONJSON5#,
+                                   #CONDITIONJSON6#,
+                                   #CONDITIONJSON7#,
+                                   #CONDITIONJSON8#,
+                                   'N',
+                                   #COLSEQUENCE#,
+                                   #DATASEQ#,
+                                   
+                                   #CREATEUSERGUID:VARCHAR:NULL#,
+				                   #CURRENTTIME:TIMESTAMP#,
+								   #UPDATEUSERGUID:VARCHAR:NULL#,
+								   #CURRENTTIME:TIMESTAMP#
+                                   )
+    </insert>
+    
+    <update id="updateBatchList" parameterType="map">
+            update MA_CONFIG_TABLE_M 
+               set UPDATEUSERGUID = #UPDATEUSERGUID:VARCHAR:NULL#,
+                   UPDATETIME = #CURRENTTIME:TIMESTAMP#,
+                   varname=#VARNAME#,
+               	   VARVALUE = #VARVALUE#,
+               	   conditionjson1= #CONDITIONJSON1#,
+               	   conditionjson2= #CONDITIONJSON2#,
+               	   conditionjson3= #CONDITIONJSON3#,
+               	   conditionjson4= #CONDITIONJSON4#,
+               	   conditionjson5= #CONDITIONJSON5#,
+               	   conditionjson6= #CONDITIONJSON6#,
+               	   conditionjson7= #CONDITIONJSON7#,
+               	   conditionjson8= #CONDITIONJSON8#,
+               	   colsequence=#COLSEQUENCE#,
+               	   DATASEQ=#DATASEQ#
+             where guid = #GUID#;
+    </update>
+    
+    <update id="updateNextRevisionBatchList" parameterType="map">
+        update MA_CONFIG_TABLE_M 
+           set UPDATEUSERGUID = #UPDATEUSERGUID:VARCHAR:NULL#,
+               UPDATETIME = #CURRENTTIME:TIMESTAMP#,
+               hasnextrevision = 'Y'
+         where releasetime is not null 
+               and obsoletetime is null
+               and guid = #GUID#;
+    </update>
+    
+    <update id="releaseCustColumn" parameterType="map">
+		update MA_CONFIG_TABLE_M 
+		   set UPDATEUSERGUID = #UPDATEUSERGUID:VARCHAR:NULL#,
+               UPDATETIME = $CURRENTTIME$,
+		       releasetime = $CURRENTTIME$
+		 where releasetime is null
+		   and masterguid = #MASTERGUID#
+    </update>
+    
+    <update id="obsoleteCustColumn" parameterType="map">
+		update MA_CONFIG_TABLE_M 
+		   set UPDATEUSERGUID = #UPDATEUSERGUID:VARCHAR:NULL#,
+               UPDATETIME = $CURRENTTIME$,
+		       obsoletetime = $CURRENTTIME$
+		 where obsoletetime is null
+		   and hasnextrevision = 'Y'
+		   and masterguid = #MASTERGUID#
+    </update>
+    
+    <update id="deleteLine" parameterType="java.lang.String">
+             delete from MA_CONFIG_TABLE_M  where releasetime is null and guid = #GUID# 
+    </update>
+    
+    <!-- 删除对象时,同步删除配置数据 -->
+    <delete id="deleteByMaster" parameterType="java.lang.String">
+            delete from MA_CONFIG_TABLE_M  where masterguid = #MASTERGUID#;
+    </delete>
+ 
+     <!-- 删除工作版本对象时,同步删除配置数据 -->
+    <update id="clearWIP" parameterType="map">
+            update MA_CONFIG_TABLE_M 
+               set UPDATEUSERGUID = #UPDATEUSERGUID:VARCHAR:NULL#,
+                   UPDATETIME = $CURRENTTIME$,
+                   hasnextrevision = 'N'
+             where hasnextrevision = 'Y' and obsoletetime is null and masterguid = #MASTERGUID#;
+    </update>
+    
+    <!-- 删除工作版本对象时,同步删除配置数据 -->
+    <delete id="deleteWIP" parameterType="java.lang.String">
+             delete from MA_CONFIG_TABLE_M  where releasetime is null and masterguid = #MASTERGUID#;
+    </delete>
+    
+</mapper>

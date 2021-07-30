@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.ppm.RoleMembersMapper">
+
+    <sql id="where">
+        <where>
+            <if  test="GUID!=null">
+                and guid = #GUID#
+            </if>
+            <if  test="PROJECTROLEGUID!=null">
+                and PROJECTROLEGUID = #PROJECTROLEGUID#
+            </if>
+            <if  test="USERGUID!=null">
+                and USERGUID = #USERGUID#
+            </if>
+        </where>
+    </sql>
+    
+    <select id="select" parameterType="map" resultType="dyna.common.bean.data.ppms.RoleMembers">
+        select m.*,
+               (select r.rolename from ppm_projectrole r where r.guid = m.projectroleguid) rolename
+          from ppm_RoleMembers m
+          <include refid="where"/>
+          order by DATASEQ
+    </select>
+    
+    <insert id="insert" parameterType="dyna.common.bean.data.ppms.RoleMembers">
+        insert into ppm_RoleMembers
+			       (GUID,
+                    PROJECTROLEGUID,
+                    USERGUID,
+                    DATASEQ,
+
+			        createuserguid,
+			        createtime,
+			        updateuserguid,
+			        updatetime)
+	        values (#GUID:VARCHAR:NULL#,
+			        #PROJECTROLEGUID:VARCHAR:NULL#,
+					#USERGUID:VARCHAR:NULL#,
+					#DATASEQ#,
+					
+					#CREATEUSERGUID:VARCHAR:NULL#,
+					#CURRENTTIME:TIMESTAMP#,
+					#UPDATEUSERGUID:VARCHAR:NULL#,
+					#CURRENTTIME:TIMESTAMP#)
+    </insert>
+    
+    <update id="update" parameterType="dyna.common.bean.data.ppms.RoleMembers">
+        update ppm_RoleMembers 
+                 <set>
+	               <if test="PROJECTROLEGUID!=null">PROJECTROLEGUID = #PROJECTROLEGUID#,</if>
+	               <if test="USERGUID!=null">USERGUID = #USERGUID#,</if>
+	               <if test="DATASEQ!=null">DATASEQ = #DATASEQ#,</if>
+               </set>
+               updatetime = #CURRENTTIME:TIMESTAMP#,
+               updateuserguid = #UPDATEUSERGUID#
+         	   <include refid="where"/>
+    </update>
+    
+    <delete id="delete" parameterType="map">
+        delete from ppm_RoleMembers <include refid="where"/>
+    </delete>
+</mapper>

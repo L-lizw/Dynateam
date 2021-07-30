@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.ppm.IndicatorAnalysisValMapper">
+
+    <select id="selectForTest" resultType="dyna.common.bean.data.ppms.indicator.IndicatorAnalysisVal">
+        select 'Y' result from dual
+    </select>
+    
+    <select id="select" resultType="dyna.common.bean.data.ppms.indicator.IndicatorAnalysisVal" parameterType="map" statementType="STATEMENT">
+      select * from ppm_indicator_val m
+      <where>
+          <if  test="GUID!=null">
+              and  m.guid = #GUID#
+          </if>
+          <if  test="INDICATORID!=null">
+              and  m.indicatorid = #INDICATORID#
+          </if>
+          <if  test="INDICATORNAME!=null">
+              and  m.indicatorname = #INDICATORNAME#
+          </if>
+          <if  test="YEAR!=null">
+              and   m.indicatoryear = #INDICATORYEAR#
+          </if>
+          <if  test="MONTH!=null">
+              and  m.indicatormonth = #INDICATORMONTH#
+          </if>
+          <if  test="INDICATORGUID!=null">
+              and  m.indicatorguid = #INDICATORGUID#
+          </if>
+          <if  test="DISMENSION1!=null">
+              and m.dismension1 = #DISMENSION1#
+          </if>
+          <if  test="DISMENSION2!=null">
+              and  m.dismension2 = #DISMENSION2#
+          </if>
+          <if  test="DISMENSION3!=null">
+              and m.dismension3 = #DISMENSION3#
+          </if>
+          <if  test="DISMENSION4!=null">
+              and m.dismension4 = #DISMENSION4#
+          </if>
+          <if  test="DISMENSION5!=null">
+              and m.dismension5 = #DISMENSION5#
+          </if>
+          <if  test="DISMENSION6!=null">
+              and m.dismension6 = #DISMENSION6#
+          </if>
+          <if  test="DISMENSION7!=null">
+              and  m.dismension7 = #DISMENSION7#
+          </if>
+          <if  test="DISMENSION8!=null">
+              and   m.dismension8 = #DISMENSION8#
+          </if>
+          <if  test="DISMENSION9!=null">
+              and  m.dismension9 = #DISMENSION9#
+          </if>
+          <if  test="DISMENSION10!=null">
+              and  m.dismension10 = #DISMENSION10#
+          </if>
+          <if  test="FROMYEAR!=null">
+              and  m.indicatoryear<![CDATA[ >= ]]> #FROMYEAR#
+          </if>
+          <if  test="TOYEAR!=null">
+              and  m.indicatoryear <![CDATA[ >= ]]> #TOYEAR#
+          </if>
+          <if  test="FROMMONTH!=null">
+              and  m.indicatormonth  <![CDATA[ <= ]]> #FROMMONTH#
+          </if>
+          <if  test="TOMONTH!=null">
+              and  m.indicatormonth  <![CDATA[ <= ]]> #TOMONTH#
+          </if>
+      </where>
+    </select>
+    
+    <insert id="insert" parameterType="dyna.common.bean.data.ppms.indicator.IndicatorAnalysisVal">
+        insert into ppm_indicator_val
+			       (guid,
+			        indicatorid,
+			        indicatorname,
+                    indicatoryear,
+                    indicatormonth,
+                    dismension1,
+                    dismension2,
+                    dismension3,
+                    dismension4,
+                    dismension5,
+                    dismension6,
+                    dismension7,
+                    dismension8,
+                    dismension9,
+                    dismension10,
+			        resval,
+			        createtime,
+			        updatetime)
+	        values (#GUID#,
+	                #INDICATORID#,
+	                #INDICATORNAME#,
+			        #INDICATORYEAR#,
+					#INDICATORMONTH#,
+					#DISMENSION1#,
+					#DISMENSION2#,
+					#DISMENSION3#,
+					#DISMENSION4#,
+					#DISMENSION5#,
+					#DISMENSION6#,
+					#DISMENSION7#,
+					#DISMENSION8#,
+					#DISMENSION9#,
+					#DISMENSION10#,
+					#RESVAL#,
+					#CURRENTTIME:TIMESTAMP#,
+					#CURRENTTIME:TIMESTAMP#)
+    </insert>
+    
+    <update id="update" parameterType="dyna.common.bean.data.ppms.indicator.IndicatorAnalysisVal">
+        update ppm_indicator_val 
+                 <set>
+                   <if test="INDICATORID!=null">indicatorid = #INDICATORID#,</if>
+	               <if test="INDICATORNAME!=null">indicatorname = #INDICATORNAME#,</if>
+	               <if test="INDICATORYEAR!=null">indicatoryear = #INDICATORYEAR#,</if>
+	               <if test="MONTH!=null">indicatormonth = #INDICATORMONTH#,</if>
+	               <if test="DISMENSION1!=null">dismension1 = #DISMENSION1#,</if>
+	               <if test="DISMENSION2!=null">dismension2 = #DISMENSION2#,</if>
+	               <if test="DISMENSION3!=null">dismension3 = #DISMENSION3#,</if>
+	               <if test="DISMENSION4!=null">dismension4 = #DISMENSION4#,</if>
+	               <if test="DISMENSION5!=null">dismension5 = #DISMENSION5#,</if>
+	               <if test="DISMENSION6!=null">dismension6 = #DISMENSION6#,</if>
+	               <if test="DISMENSION7!=null">dismension7 = #DISMENSION7#,</if>
+	               <if test="DISMENSION8!=null">dismension8 = #DISMENSION8#,</if>
+	               <if test="DISMENSION9!=null">dismension9 = #DISMENSION9#,</if>
+	               <if test="DISMENSION10!=null">dismension10 = #DISMENSION10#,</if>
+	               <if test="RESVAL">resval = #RESVAL#,</if>
+               </set>
+               updatetime = #CURRENTTIME:TIMESTAMP#
+         where guid=#GUID#
+    </update>
+    
+    <delete id="delete" parameterType="java.lang.String">
+        delete from ppm_indicator_val where GUID =#GUID#
+    </delete>
+    
+    <delete id="deleteBy" parameterType="map">
+        delete from ppm_indicator_val 
+        <where>
+           <if test="INDICATORID!=null" >
+               and indicatorid = #INDICATORID#
+           </if>
+           <if test="ANALYSISYEAR!=null" >
+               and year = #ANALYSISYEAR#
+           </if>
+           <if test="INDICATORMONTH!=null" >
+               and  indicatormonth = #INDICATORMONTH#
+           </if>
+        </where>
+    </delete>
+</mapper>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.SaQueryPreferenceMapper">
+
+    <sql id="where">
+        <where>
+            <if  test="USERGUID!=null">
+                and m.userguid = #USERGUID#
+            </if>
+            <if  test="CLASSFK!=null">
+                and m.classfk = #CLASSFK#
+            </if>
+            <if  test="CREATEUSERGUID!=null">
+                and m.createuserguid = #CREATEUSERGUID#
+            </if>
+            <if  test="UPDATEUSERGUID!=null">
+                and m.updateuserguid = #UPDATEUSERGUID#
+            </if>
+        </where>
+    </sql>
+    
+    <select id="select" parameterType="map" resultType="dyna.common.dto.SaQueryPreference">
+        select m.*,
+              (select u.username from sa_user u where u.guid = m.userguid) username
+         from sa_query_preference_master m
+        <include refid="where"/>
+    </select>
+    
+    <insert id="insert" parameterType="dyna.common.dto.SaQueryPreference">
+        insert into sa_query_preference_master
+			       (guid,
+			        userguid,
+			        classfk,
+			        
+			        createuserguid,
+			        createtime,
+			        updateuserguid,
+			        updatetime)
+	        values (#GUID#,
+			        #USERGUID#,
+					#CLASSFK#,
+					
+					#CREATEUSERGUID:VARCHAR:NULL#,
+					#CURRENTTIME:TIMESTAMP#,
+					#UPDATEUSERGUID:VARCHAR:NULL#,
+					#CURRENTTIME:TIMESTAMP#)
+    </insert>
+    
+    <update id="update" parameterType="dyna.common.dto.SaQueryPreference">
+        update sa_query_preference_master
+        <set>
+	        <if test="USERGUID!=null">userguid = #USERGUID#,</if>
+	        <if test="CLASSFK!=null">classfk = #CLASSFK#,</if>
+        </set>
+               updatetime = #CURRENTTIME:TIMESTAMP#,
+               updateuserguid = #UPDATEUSERGUID#
+         where guid = #GUID#
+    </update>
+    
+    <delete id="delete" parameterType="java.lang.String">
+        delete from sa_query_preference_master where guid = #GUID#
+    </delete>
+</mapper>

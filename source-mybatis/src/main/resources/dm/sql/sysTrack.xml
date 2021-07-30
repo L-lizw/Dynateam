@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.SysTrackMapper">
+
+    <select id="select" parameterType="map" resultType="dyna.common.dto.SysTrack">
+    select c.*
+      from (select b.*
+      		  from (select count(a.guid)  rowcount$$,
+      		               a.*
+			          from sa_systrack a
+			          <where>
+						<if  test="CREATETIMESTART!=null">and a.createtime >=#CREATETIMESTART:DATE#</if>
+						<if  test="CREATETIMEEND!=null">and #CREATETIMEEND:DATE#>=a.createtime</if>
+						<if  test="CREATEUSERGUID!=null">and a.createuserguid=#CREATEUSERGUID#</if>
+						<if  test="SID!=null">and a.sid=#SID#</if>
+			          </where>
+					  <if test="ORDERBY">$ORDERBY$</if>
+					) b ) c
+    </select>
+        
+    <insert id="insert" parameterType="dyna.common.dto.SysTrack">
+        
+        insert into SA_SysTrack  (
+			guid,
+			sid,
+			bywhom,
+			atwhere,
+			dowhat,
+			tgobject,
+			executresult,
+			createtime,
+			createuserguid
+        )
+        values(
+			#GUID:VARCHAR:NULL#,
+			#SID:VARCHAR:NULL#,
+			#BYWHOM:VARCHAR:NULL#,
+			#ATWHERE:VARCHAR:NULL#,
+			#DOWHAT:VARCHAR:NULL#,
+			#TGOBJECT:VARCHAR:NULL#,
+			#EXECUTRESULT:VARCHAR:NULL#,
+			<if test="CREATETIME!=null">#CREATETIME:TIMESTAMP#,</if>
+			<if test="CREATETIME==null">#CURRENTTIME:TIMESTAMP#,</if>
+			#CREATEUSERGUID#
+        )
+    </insert> 
+    
+	<delete id="deleteAdvanced" parameterType="map">
+		delete from sa_systrack  
+        <where>
+			<if  test="GUID!=null">
+			    and guid in 
+		       	<foreach collection="GUID" open="(" close=")" separator="," item="TEMP">
+				#TEMP#
+				</foreach>
+			</if>
+			<if  test="CREATETIMESTART!=null">and a.createtime >=#CREATETIMESTART:DATE#</if>
+			<if  test="CREATETIMEEND!=null">and #CREATETIMEEND:DATE#>=a.createtime</if>
+			<if  test="CREATEUSERGUID!=null">and a.createuserguid=#CREATEUSERGUID#</if>
+			<if  test="SID!=null">and sid=#SID#</if>
+        </where>
+	</delete>
+	
+	<delete id="deleteALL">
+		delete from sa_systrack
+	</delete>
+	
+	<delete id="deleteByGuids" parameterType="map">
+		delete from sa_systrack 
+		 where guid in 
+		       <foreach collection= "GUID!=null" open="(" close=")" separator="," item="TEMP">
+			   #TEMP#
+			   </foreach>
+	</delete>
+	
+	<delete id="deleteBySID" parameterType="map">
+		delete from sa_systrack 
+		 where sid=#SID#
+		<if  test="CREATETIMESTART!=null">and a.createtime >=#CREATETIMESTART:DATE#</if>
+		<if  test="CREATETIMEEND!=null">and #CREATETIMEEND:DATE#>=a.createtime</if>
+	</delete>
+	
+	<delete id="deleteByUserGuid" parameterType="map">
+		delete from sa_systrack 
+		 where createuserguid=#CREATEUSERGUID#
+		<if  test="CREATETIMESTART!=null">and a.createtime >=#CREATETIMESTART:DATE#</if>
+		<if  test="CREATETIMEEND!=null">and #CREATETIMEEND:DATE#>=a.createtime</if>
+	</delete>
+	
+	<delete id="deleteByAll" parameterType="map">
+		delete from sa_systrack 
+		 where sid=#SID#
+		   and createuserguid=#CREATEUSERGUID#
+		<if  test="CREATETIMESTART!=null">and a.createtime >=#CREATETIMESTART:DATE#</if>
+		<if  test="CREATETIMEEND!=null">and #CREATETIMEEND:DATE#>=a.createtime</if>
+	</delete>
+</mapper>

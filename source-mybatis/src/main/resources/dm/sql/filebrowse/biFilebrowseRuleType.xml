@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.FileItemAndConfigMapper">
+
+	<insert id="insert" parameterType="dyna.common.dto.FileItemAndConfig">
+		insert into bi_filebrowse_rule_type
+		   (
+			guid, 
+			ruleguid, 
+			typeguid, 
+			createtime, 
+			createuserguid
+		   )
+		VALUES
+		   (
+			#GUID#,
+			#RULEGUID:VARCHAR:NULL#,
+			#TYPEGUID:VARCHAR:NULL#,
+	        #CURRENTTIME:TIMESTAMP#,
+	        #CREATEUSERGUID:VARCHAR:NULL#
+	       )
+	</insert>
+		
+	<delete id="delete" parameterType="java.lang.String">
+		delete from bi_filebrowse_rule_type  where guid = #GUID#
+	</delete>
+	
+	<select id="selectForLoad" parameterType="map" resultType="dyna.common.dto.FileItemAndConfig">
+	   select * from bi_filebrowse_rule_type a
+    </select>	
+    
+	<select id="get" parameterType="java.lang.String" resultType="dyna.common.dto.FileItemAndConfig">
+	   select * from bi_filebrowse_rule_type a where guid = #GUID#
+    </select>	
+     
+	
+</mapper>

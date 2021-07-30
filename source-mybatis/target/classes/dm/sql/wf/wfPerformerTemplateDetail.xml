@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.wf.ApproveTemplateDetailMapper">
+
+    <insert id="insert" parameterType="dyna.common.dto.wf.ApproveTemplateDetail">
+        insert into wf_performertemplate_detail
+                                (guid, 
+                                 masterfk, 
+                                 actrtname, 
+                                 perfguid, 
+                                 perftype, 
+                                 perfgroupguid, 
+                                 perfroleguid, 
+                                 
+                                 createuserguid, 
+                                 createtime, 
+                                 updateuserguid, 
+                                 updatetime
+                                )
+        values(#GUID:VARCHAR:NULL#, 
+               #MASTERFK:VARCHAR:NULL#, 
+               #ACTRTNAME:VARCHAR:NULL#, 
+               #PERFGUID:VARCHAR:NULL#, 
+               #PERFTYPE:VARCHAR:NULL#, 
+               #PERFGROUPGUID:VARCHAR:NULL#, 
+               #PERFROLEGUID:VARCHAR:NULL#, 
+               
+               #CREATEUSERGUID:VARCHAR:NULL#, 
+               #CURRENTTIME:TIMESTAMP#, 
+               #UPDATEUSERGUID:VARCHAR:NULL#, 
+               #CURRENTTIME:TIMESTAMP#
+              )
+    </insert>
+    
+    
+    <sql id="where">
+        <where>
+            <if  test="GUID!=null">
+                b.guid = #GUID#
+            </if>
+            <if  test="MASTERFK!=null">
+                b.masterfk = #MASTERFK#
+            </if>
+            <if  test="ACTRTNAME!=null">
+                b.actrtname = #ACTRTNAME#
+            </if>
+            <if  test="PERFGUID!=null">
+                b.perfguid = #PERFGUID#
+            </if>
+            <if  test="PERFTYPE!=null">
+                b.perftype = #PERFTYPE#
+            </if>
+            <if  test="CREATEUSERGUID!=null">
+                b.createuserguid = #CREATEUSERGUID#
+            </if>
+        </where>
+    </sql>
+    
+    
+    <select id="select" parameterType="java.util.HashMap" resultType="dyna.common.dto.wf.ApproveTemplateDetail">
+        select b.guid, 
+               b.masterfk, 
+               b.actrtname, 
+               b.perfguid, 
+               b.perftype, 
+               b.createuserguid,
+               b.createtime,    
+               b.updateuserguid,
+               b.updatetime,
+               b.perfgroupguid,
+               b.perfroleguid
+          from wf_performertemplate_detail b
+          <include refid="where"/>
+         order by b.perftype
+    </select>
+    
+    <select id="selectDetailWithMaster" parameterType="java.util.HashMap" resultType="dyna.common.dto.wf.ApproveTemplateDetail">
+    	select d.actrtname,
+                           d.perftype,
+                           d.perfguid
+                      from wf_performertemplate_detail d,
+                           wf_performertemplate_master n
+                     where d.masterfk = n.guid
+                       and n.guid = #GUID#
+                       and exists (select 1
+                                     from ma_wf_act m,
+                                          ma_wf n
+                                    where m.mawffk = n.guid
+                                      and n.wfname = #PROCRTNAME#
+                                      and m.actname = d.actrtname
+                                  )
+    </select>
+    
+    
+    <update id="update" parameterType="map">
+        update wf_performertemplate_detail
+        <set>
+            updatetime = #CURRENTTIME:TIMESTAMP#,
+            updateuserguid = #UPDATEUSERGUID#,
+            <if  test="ACTRTNAME!=null">actrtname = #ACTRTNAME#,</if>
+            <if  test="PERFGUID!=null">perfguid = #PERFGUID#,</if>
+            <if  test="PERFTYPE!=null">perftype = #PERFTYPE#,</if>
+        </set>
+        where guid = #GUID#
+    </update>
+    
+    
+    <delete id="delete" parameterType="map">
+        delete from wf_performertemplate_detail  where guid = #GUID# 
+    </delete>
+    
+    
+    <delete id="deleteAdvance" parameterType="map">
+        delete from wf_performertemplate_detail 
+       <where>
+            <if  test="GUID!=null">
+                and guid = #GUID#
+            </if>
+            <if  test="MASTERFK!=null">
+                and masterfk = #MASTERFK#
+            </if>
+            <if  test="ACTRTNAME!=null">
+                and actrtname = #ACTRTNAME#
+            </if>
+            <if  test="PERFGUID!=null">
+                and perfguid = #PERFGUID#
+            </if>
+            <if  test="PERFTYPE!=null">
+                and perftype = #PERFTYPE#
+            </if>
+            <if  test="CREATEUSERGUID!=null">
+                and createuserguid = #CREATEUSERGUID#
+            </if>
+        </where>
+    </delete>
+    
+    
+    
+</mapper>

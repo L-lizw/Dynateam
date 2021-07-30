@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.configparamter.TableOfMarkMapper">
+
+    <select id="select" parameterType="map" resultType="dyna.common.bean.data.configparamter.TableOfMark">
+		select a.*
+		  from ma_config_table_mak a
+        <where>
+            <if test="RELEASETIME==null">
+                <if test="STATUS == null">
+                   and  a.hasnextrevision = 'N'
+                </if>
+                <if test="STATUS == 'RLS'">
+                   and a.releasetime is not null and a.obsoletetime is null
+                </if>
+                <if test="STATUS != 'RLS'">
+                   and a.hasnextrevision = 'N'
+                </if>
+            </if>
+            <if test="RELEASETIME!=null">
+                and #RELEASETIME:TIMESTAMP# >= a.releasetime
+                and (a.obsoletetime is null or #RELEASETIME:TIMESTAMP# <![CDATA[ < ]]> a.obsoletetime)
+            </if>
+            and a.masterguid = #MASTERGUID#
+        </where>
+		 order by to_number(a.DATASEQ)
+    </select>
+    
+    <select id="haveRLSData" parameterType="java.lang.String" resultType="dyna.common.bean.data.configparamter.TableOfMark">
+        select case cnt
+                 when 0 then 'N'
+                 else 'Y'
+               end haverls
+          from (select count(1) cnt
+		          from ma_config_table_mak
+		         where releasetime is not null
+		           and masterguid = #MASTERGUID#
+		           and rownum = 1
+               )
+    </select>
+    
+    <insert id="inserBatchList" parameterType="map">
+            into MA_CONFIG_TABLE_MAK(guid, 
+                                     masterguid, 
+                                     DATASEQ, 
+                                     mak, 
+                                     paramvalue,
+                                     hasnextrevision,
+                                     
+                                     CREATEUSERGUID, 
+		                             CREATETIME, 
+		                             UPDATEUSERGUID, 
+		                             UPDATETIME) 
+          values (#GUID#, 
+                  #MASTERGUID#, 
+                  #DATASEQ#, 
+                  #MAK#, 
+                  #PARAMVALUE#,
+                  'N',
+                  
+                  #CREATEUSERGUID:VARCHAR:NULL#,
+                  #CURRENTTIME:TIMESTAMP#,
+				  #UPDATEUSERGUID:VARCHAR:NULL#,
+				  #CURRENTTIME:TIMESTAMP#
+                  )
+    </insert>
+    
+    
+    <update id="updateBatchList" parameterType="map">
+            update ma_config_table_mak 
+               set UPDATEUSERGUID = #UPDATEUSERGUID:VARCHAR:NULL#,
+                   UPDATETIME = #CURRENTTIME:TIMESTAMP#,
+                   DATASEQ = #DATASEQ#,
+                   mak = #MAK#,
+                   paramvalue = #PARAMVALUE#
+             where guid = #GUID#;
+    </update>
+    
+    <update id="updateNextRevisionBatchList" parameterType="map">
+        update ma_config_table_mak 
+           set UPDATEUSERGUID = #UPDATEUSERGUID:VARCHAR:NULL#,
+               UPDATETIME = #CURRENTTIME:TIMESTAMP#,
+               hasnextrevision = 'Y'
+         where releasetime is not null 
+               and obsoletetime is null
+               and guid = #GUID#
+    </update>
+    
+    <delete id="deleteLine" parameterType="java.lang.String">
+            delete from MA_CONFIG_TABLE_MAK  where releasetime is null and guid = #GUID# 
+    </delete>
+    
+    <!-- 删除对象时,同步删除配置数据 -->
+    <delete id="deleteByMaster" parameterType="java.lang.String">
+        delete from MA_CONFIG_TABLE_MAK  where masterguid = #MASTERGUID#
+    </delete>
+    
+    <!-- 删除工作版本对象时,同步删除配置数据 -->
+    <update id="clearWIP" parameterType="map">
+            update MA_CONFIG_TABLE_MAK 
+               set UPDATEUSERGUID = #UPDATEUSERGUID:VARCHAR:NULL#,
+                   UPDATETIME = $CURRENTTIME$,
+                   hasnextrevision = 'N'
+             where hasnextrevision = 'Y' and obsoletetime is null and masterguid = #MASTERGUID#;
+    </update>
+        <!-- 删除工作版本对象时,同步删除配置数据 -->
+    <delete id="deleteWIP" parameterType="java.lang.String">
+	        delete from MA_CONFIG_TABLE_MAK  where releasetime is null and masterguid = #MASTERGUID#;
+    </delete>
+    
+</mapper>

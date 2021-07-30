@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.ConfigRuleBOLMMapper">
+
+	<select id="select" parameterType="map" resultType="dyna.common.dto.ConfigRuleBOLM">
+        select a.*,
+			   (select b.username from sa_user b where b.guid = a.createuserguid)createusername,        	   
+			   (select b.username from sa_user b where b.guid = a.updateuserguid)updateusername      
+	     from bi_config_rule_bolm a
+        <where>
+			<if  test="GUID!=null">and a.guid=#GUID#</if>
+			<if  test="BOGUID!=null">and a.boguid=#BOGUID#</if>
+			<if  test="BMGUID!=null">and a.bmguid=#BMGUID#</if>
+			<if  test="EFFECTIVERULE!=null">and a.effectiverule=#EFFECTIVERULE#</if>
+			<if  test="OBSOLETERULE!=null">and a.obsoleterule=#OBSOLETERULE#</if>
+			<if  test="COMMITRULE!=null">and a.commitrule=#COMMITRULE#</if>
+			<if  test="CREATETIME!=null">and a.createtime=#CREATETIME#</if>
+			<if  test="CREATEUSERGUID!=null">and a.createuserguid=#CREATEUSERGUID#</if>
+			<if  test="UPDATETIME!=null">and a.updatetime=#UPDATETIME#</if>
+			<if  test="UPDATEUSERGUID!=null">and a.updateuserguid=#UPDATEUSERGUID#</if>
+			<if  test="MULTIRVERSION!=null">and a.MULTIRVERSION=#MULTIRVERSION#</if>
+		</where>
+	</select>
+	
+	<insert id="insert" parameterType="dyna.common.dto.ConfigRuleBOLM">
+		INSERT INTO bi_config_rule_bolm  (
+			guid,
+			boguid,
+			bmguid,
+			effectiverule,
+			obsoleterule,
+			commitrule,
+			createtime,
+			createuserguid,
+			updatetime,
+			updateuserguid,
+			MULTIRVERSION,
+			ISREVISETOFIRSTPHRASE
+		)
+		VALUES(
+			#GUID:VARCHAR:NULL#,
+			#BOGUID:VARCHAR:NULL#,
+			#BMGUID:VARCHAR:NULL#,
+			#EFFECTIVERULE:VARCHAR:NULL#,
+			#OBSOLETERULE:VARCHAR:NULL#,
+			#COMMITRULE:VARCHAR:NULL#,
+
+			#CURRENTTIME:TIMESTAMP#,
+			#CREATEUSERGUID:VARCHAR:NULL#,
+			#CURRENTTIME:TIMESTAMP#,
+			#UPDATEUSERGUID:VARCHAR:NULL#,
+			#MULTIRVERSION:VARCHAR:NULL#,
+			#ISREVISETOFIRSTPHRASE:VARCHAR:NULL#
+		)
+	</insert>
+	
+	<update id="update" parameterType="dyna.common.dto.ConfigRuleBOLM">
+		UPDATE bi_config_rule_bolm
+		<set>
+			updatetime=#CURRENTTIME:TIMESTAMP#,
+			updateuserguid=#UPDATEUSERGUID#,
+			<if  test="MD_NAME!=null">MD_NAME=#MD_NAME#,</if>
+			<if  test="DESCRIPTION!=null">description=#DESCRIPTION#,</if>
+			<if  test="GUID!=null">guid=#GUID#,</if>
+			<if  test="BOGUID!=null">boguid=#BOGUID#,</if>
+			<if  test="BMGUID!=null">bmguid=#BMGUID#,</if>
+			<if  test="EFFECTIVERULE!=null">effectiverule=#EFFECTIVERULE#,</if>
+			<if  test="OBSOLETERULE!=null">obsoleterule=#OBSOLETERULE#,</if>
+			<if  test="COMMITRULE!=null">commitrule=#COMMITRULE#,</if>
+			<if  test="MULTIRVERSION!=null">MULTIRVERSION=#MULTIRVERSION#,</if>
+			<if  test="ISREVISETOFIRSTPHRASE!=null">ISREVISETOFIRSTPHRASE=#ISREVISETOFIRSTPHRASE#,</if>
+		</set>
+		WHERE guid = #GUID#
+	</update>
+
+	<delete id="delete" parameterType="java.lang.String">
+		DELETE FROM bi_config_rule_bolm 
+		WHERE guid = #GUID#
+	</delete>
+</mapper>

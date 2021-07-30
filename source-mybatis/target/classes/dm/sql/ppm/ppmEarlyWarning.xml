@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.ppm.EarlyWarningMapper">
+
+    <sql id="where">
+        <where>
+            <if test="GUID!=null">
+                and  guid = #GUID#
+            </if>
+            <if test="PROJECTGUID!=null">
+                and  PROJECTGUID = #PROJECTGUID#
+            </if>
+        </where>
+    </sql>
+    
+    <sql id="whereWarningTask">
+        <where>
+            <if test="WARNINGGUID!=null">
+                and WARNINGGUID = #WARNINGGUID#
+            </if>
+            <if test="TASKGUID!=null">
+                and  TASKGUID = #TASKGUID#
+            </if>
+        </where>
+    </sql>
+    
+    
+    <select id="select" parameterType="map" resultType="dyna.common.bean.data.ppms.EarlyWarning">
+        select m.*
+          from ppm_EarlyWarning m
+          <include refid="where"/>
+          order by WARNINGID
+    </select>
+    
+    <select id="selectWarningTask" parameterType="map" resultType="dyna.common.bean.data.ppms.EarlyWarning">
+        select m.taskguid,
+               m.taskguid$$class,
+               m.taskguid$$master
+          from ppm_WarningTask m
+          <include refid="whereWarningTask"/>
+    </select>
+    
+    
+    <insert id="insert" parameterType="dyna.common.bean.data.ppms.EarlyWarning">
+        insert into ppm_EarlyWarning
+			       (guid,
+                    PROJECTGUID,
+                    WARNINGID,
+                    EVENTTYPE,
+                    
+                    intervalue,
+                    ISENABLE,
+
+			        createuserguid,
+			        createtime,
+			        updateuserguid,
+			        updatetime)
+	        values (#GUID:VARCHAR:NULL#,
+			        #PROJECTGUID#,
+					#WARNINGID#,
+					#EVENTTYPE#,
+					
+					#INTERVALUE#,
+					#ISENABLE#,
+					
+					#CREATEUSERGUID:VARCHAR:NULL#,
+					#CURRENTTIME:TIMESTAMP#,
+					#UPDATEUSERGUID:VARCHAR:NULL#,
+					#CURRENTTIME:TIMESTAMP#)
+    </insert>
+    
+    <insert id="insertWarningTask" parameterType="map">
+        insert into ppm_WarningTask
+			       (WARNINGGUID,
+                    TASKGUID,
+                    TASKGUID$$CLASS,
+                    TASKGUID$$MASTER
+                    )
+	        values (#WARNINGGUID#,
+			        #TASKGUID#,
+			        #TASKGUID$CLASS#,
+			        #TASKGUID$MASTER#
+			        )
+    </insert>
+    
+    <update id="update" parameterType="dyna.common.bean.data.ppms.EarlyWarning">
+        update ppm_EarlyWarning 
+             <set>
+	               <if test="PROJECTGUID!=null">PROJECTGUID = #PROJECTGUID#,</if>
+	               <if test="WARNINGID!=null">WARNINGID = #WARNINGID#,</if>
+	               <if test="EVENTTYPE!=null">EVENTTYPE = #EVENTTYPE#,</if>
+	               
+	               <if test="INTERVALUE!=null">INTERVALUE = #INTERVALUE#,</if>
+	               <if test="ISENABLE!=null">ISENABLE = #ISENABLE#,</if>
+               </set>
+               updatetime = #CURRENTTIME:TIMESTAMP#,
+               updateuserguid = #UPDATEUSERGUID#
+         	   <include refid="where"/>
+    </update>
+    
+    <delete id="delete" parameterType="map">
+        delete from ppm_EarlyWarning <include refid="where"/>
+    </delete>
+    
+    <delete id="deleteWarningTask" parameterType="map">
+        delete from ppm_WarningTask <include refid="whereWarningTask"/>
+    </delete>
+</mapper>

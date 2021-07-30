@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.ppm.RptProjectMapper">
+
+	<sql id="where">
+			<if  test="MD_ID!=null">
+				and B.MD_ID LIKE '%$MD_ID$%'
+			</if>
+			<if  test="MD_NAME!=null">
+				and B.MD_NAME LIKE '%$MD_NAME$%'
+			</if>
+			<if  test="MANAGER!=null">
+				and B.EXECUTOR = #MANAGER#
+			</if>
+			<if  test="OWNERGROUPGUID!=null">
+				and B.OWNERGROUP = #OWNERGROUPGUID#
+			</if>
+			<if  test="IMPORTANCE!=null">
+				and B.IMPORTANCELEVEL = #IMPORTANCE#
+			</if>
+			<if  test="STATE!=null">
+				and B.EXECUTESTATUS = #STATE#
+			</if>
+			<if  test="ONTIMESTATE!=null">
+				and <![CDATA[
+			    (CASE 
+			        WHEN (B.PLANSTARTTIME > #CURRENTTIMESTR:DATE# AND D.ITEMNAME = 'INI') 
+			              OR D.ITEMNAME = 'SSP' THEN '0'
+			        WHEN (D.ITEMNAME = 'COP' AND B.ACTUALFINISHTIME, > B.PLANFINISHTIME) 
+			              OR (B.ACTUALFINISHTIME IS NULL AND #CURRENTTIMESTR:DATE# > B.PLANFINISHTIME) THEN '1'
+			        WHEN (B.PLANSTARTTIME < #CURRENTTIMESTR:DATE# AND D.ITEMNAME = 'INI')
+			              OR (D.ITEMNAME = 'RUN' AND B.SPI < 1) THEN '2'
+			        WHEN (D.ITEMNAME = 'RUN' AND B.SPI >= 1)
+			              OR (D.ITEMNAME = 'COP' AND B.PLANFINISHTIME >= B.ACTUALFINISHTIME) THEN '3'
+			    END) = #ONTIMESTATE#
+			    ]]>
+			</if>
+			<if  test="PROJECTTYPE!=null">
+				and B.PROJECTTYPE = #PROJECTTYPE#
+			</if>
+			<if  test="PLANSTARTTIMEFROM!=null">
+				and B.PLANSTARTTIME BETWEEN #PLANSTARTTIMEFROM:TIMESTAMP# AND #PLANSTARTTIMETO:TIMESTAMP#
+			</if>
+			<if  test="PLANFINISHTIMEFROM!=null">
+				and B.PLANFINISHTIME BETWEEN #PLANFINISHTIMEFROM:TIMESTAMP# AND #PLANFINISHTIMETO:TIMESTAMP#
+			</if>
+			<if  test="ACTUALSTARTTIMEFROM!=null">
+				and B.ACTUALSTARTTIME BETWEEN #ACTUALSTARTTIMEFROM:TIMESTAMP# AND #ACTUALSTARTTIMETO:TIMESTAMP#
+			</if>
+			<if  test="ACTUALFINISHTIMEFROM!=null">
+				and B.ACTUALFINISHTIME BETWEEN #ACTUALFINISHTIMEFROM:TIMESTAMP# AND #ACTUALFINISHTIMETO:TIMESTAMP#
+			</if>
+	</sql>
+	<select id="selectCount" parameterType="map" resultType="dyna.common.bean.data.ppms.RptProject">
+		SELECT COUNT(1)  rowcount$$ 
+          FROM (SELECT DISTINCT X.GUID,
+                                X.MD_ID,
+                                X.MD_NAME,
+                                X.OWNERUSER,
+                                X.OWNERGROUP,
+                                X.EXECUTOR,
+                                X.SPI,
+                                X.COMPLETIONRATE,
+                                X.PLANSTARTTIME,
+                                X.PLANFINISHTIME,
+                                X.ACTUALFINISHTIME,
+                                X.ACTUALSTARTTIME,
+                                X.IMPORTANCELEVEL,
+                                X.EXECUTESTATUS,
+                                X.ONTIMESTATE,
+                                X.PROJECTTYPE
+                  FROM $TABLENAME$ X
+            INNER JOIN PPM_PROJECTROLE Y
+                    ON Y.TYPEGUID = X.GUID
+            INNER JOIN PPM_ROLEMEMBERS Z
+                    ON Y.GUID = Z.PROJECTROLEGUID
+                 WHERE (Z.USERGUID = #USERGUID# OR X.CREATEUSER=#USERGUID#)
+                   AND X.CLASSGUID = #CLASSGUID#
+               ) B
+         LEFT JOIN $PROJECTTABLENAME$ J
+                ON B.PROJECTTYPE = J.GUID
+         LEFT JOIN MA_CODE_DETAIL D
+                ON B.EXECUTESTATUS = D.GUID
+         LEFT JOIN SA_USER E
+                ON B.EXECUTOR = E.GUID
+		 LEFT JOIN SA_GROUP F
+		        ON B.OWNERGROUP = F.GUID
+		 LEFT JOIN MA_CODE_DETAIL I
+		        ON B.ONTIMESTATE = I.GUID
+		 LEFT JOIN MA_CODE_DETAIL G
+		        ON B.IMPORTANCELEVEL = G.GUID
+		 LEFT JOIN MA_CODE_DETAIL H
+		        ON B.EXECUTESTATUS = G.GUID
+        WHERE 1=1
+         <include refid = "where" />
+	</select>
+
+	<select id="receiverSelectCount" parameterType="map" resultType="dyna.common.bean.data.ppms.RptProject">
+		  SELECT COUNT(1)  rowcount$$ 
+	        FROM $TABLENAME$ B
+	   LEFT JOIN $PROJECTTABLENAME$ J
+	          ON B.PROJECTTYPE = J.GUID
+	   LEFT JOIN MA_CODE_DETAIL D
+	          ON B.EXECUTESTATUS = D.GUID
+	   LEFT JOIN SA_USER E
+	          ON B.EXECUTOR = E.GUID
+	   LEFT JOIN SA_GROUP F
+	          ON B.OWNERGROUP = F.GUID
+	   LEFT JOIN MA_CODE_DETAIL I
+	          ON B.ONTIMESTATE = I.GUID
+	   LEFT JOIN MA_CODE_DETAIL G
+	          ON B.IMPORTANCELEVEL = G.GUID
+	   LEFT JOIN MA_CODE_DETAIL H
+	          ON B.EXECUTESTATUS = G.GUID
+	       WHERE B.CLASSGUID = #CLASSGUID#
+	   <include refid = "where" />
+	</select>
+
+	<select id="select" parameterType="map" resultType="dyna.common.bean.data.ppms.RptProject">
+		SELECT B.GUID GUID,
+               B.MD_ID,
+               B.MD_NAME,
+               B.SPI,
+               B.COMPLETIONRATE,
+               B.PLANSTARTTIME,
+               B.PLANFINISHTIME,
+               B.ACTUALSTARTTIME,
+               B.ACTUALFINISHTIME,
+               J.MD_NAME PROJECTTYPE,
+               F.GROUPNAME AS OWNERGROUPNAME,
+               E.USERNAME AS MANAGER,
+               G.ITEMNAME AS IMPORTANCELEVELNAME,
+               G.TITLE AS IMPORTANCELEVELTITLE,
+               D.ITEMNAME AS EXECUTESTATUSNAME,
+               D.TITLE AS EXECUTESTATUSTITLE,
+               I.ITEMNAME AS ONTIMESTATENAME,
+               I.TITLE AS ONTIMESTATE
+          FROM (SELECT DISTINCT X.GUID,
+                                X.MD_ID,
+                                X.MD_NAME,
+                                X.OWNERUSER,
+                                X.OWNERGROUP,
+                                X.EXECUTOR,
+                                X.SPI,
+                                X.COMPLETIONRATE,
+                                X.PLANSTARTTIME,
+                                X.PLANFINISHTIME,
+                                X.ACTUALFINISHTIME,
+                                X.ACTUALSTARTTIME,
+                                X.IMPORTANCELEVEL,
+                                X.EXECUTESTATUS,
+                                X.ONTIMESTATE,
+                                X.PROJECTTYPE
+                  FROM $TABLENAME$ X
+            INNER JOIN PPM_PROJECTROLE Y
+                    ON Y.TYPEGUID = X.GUID
+            INNER JOIN PPM_ROLEMEMBERS Z
+                    ON Y.GUID = Z.PROJECTROLEGUID
+                 WHERE (Z.USERGUID = #USERGUID# OR X.CREATEUSER=#USERGUID#)
+                   AND X.CLASSGUID = #CLASSGUID#
+               ) B
+         LEFT JOIN $PROJECTTABLENAME$ J
+                ON B.PROJECTTYPE = J.GUID
+         LEFT JOIN MA_CODE_DETAIL D
+                ON B.EXECUTESTATUS = D.GUID
+         LEFT JOIN SA_USER E
+                ON B.EXECUTOR = E.GUID
+		 LEFT JOIN SA_GROUP F
+		        ON B.OWNERGROUP = F.GUID
+		 LEFT JOIN MA_CODE_DETAIL I
+		        ON B.ONTIMESTATE = I.GUID
+		 LEFT JOIN MA_CODE_DETAIL G
+		        ON B.IMPORTANCELEVEL = G.GUID
+		 LEFT JOIN MA_CODE_DETAIL H
+		        ON B.EXECUTESTATUS = G.GUID
+        WHERE 1=1
+         <include refid = "where" />
+         <if test = "SORTFIELD!=null">
+             ORDER BY $SORTFIELD$
+         </if>
+         <if test = "SORTFIELD==null">
+             ORDER BY B.PLANSTARTTIME DESC
+         </if>
+	</select>
+
+	<select id="receiverSelect" parameterType="map" resultType="dyna.common.bean.data.ppms.RptProject">
+		  SELECT B.GUID,
+	             B.MD_ID,
+	             B.MD_NAME,
+	             B.COMPLETIONRATE,
+	             B.PLANSTARTTIME,
+	             B.PLANFINISHTIME,
+	             B.ACTUALSTARTTIME,
+	             B.ACTUALFINISHTIME,
+	             J.MD_NAME PROJECTTYPE,
+	             B.SPI,
+	             F.GROUPNAME AS OWNERGROUPNAME,
+	             E.USERNAME AS MANAGER,
+	             G.ITEMNAME AS IMPORTANCELEVELNAME,
+	             G.TITLE AS IMPORTANCELEVELTITLE,
+	             D.ITEMNAME AS EXECUTESTATUSNAME,
+	             D.TITLE AS EXECUTESTATUSTITLE,
+	             I.ITEMNAME AS ONTIMESTATENAME,
+	             I.TITLE AS ONTIMESTATE
+	        FROM $TABLENAME$ B
+	   LEFT JOIN $PROJECTTABLENAME$ J
+	          ON B.PROJECTTYPE = J.GUID
+	   LEFT JOIN MA_CODE_DETAIL D
+	          ON B.EXECUTESTATUS = D.GUID
+	   LEFT JOIN SA_USER E
+	          ON B.EXECUTOR = E.GUID
+	   LEFT JOIN SA_GROUP F
+	          ON B.OWNERGROUP = F.GUID
+	   LEFT JOIN MA_CODE_DETAIL I
+	          ON B.ONTIMESTATE = I.GUID
+	   LEFT JOIN MA_CODE_DETAIL G
+	          ON B.IMPORTANCELEVEL = G.GUID
+	   LEFT JOIN MA_CODE_DETAIL H
+	          ON B.EXECUTESTATUS = G.GUID
+	       WHERE B.CLASSGUID = #CLASSGUID#
+	   <include refid = "where" />
+	   <if test = "SORTFIELD!=null">
+           ORDER BY $SORTFIELD$
+       </if>
+       <if test = "SORTFIELD==null">
+           ORDER BY B.PLANSTARTTIME DESC
+       </if>
+	</select>
+	
+	<select id="selectClass" parameterType="map" resultType="dyna.common.bean.data.ppms.RptProject">
+	    select DISTINCT B.PROJECTTYPE$$CLASS
+	      from $TABLENAME$ B
+	      left join MA_CODE_DETAIL H
+	        on B.EXECUTESTATUS = H.GUID
+	     where B.CLASSGUID = #CLASSGUID#
+	       and B.PROJECTTYPE IS NOT NULL
+	       <include refid = "where" />
+	</select>
+</mapper>

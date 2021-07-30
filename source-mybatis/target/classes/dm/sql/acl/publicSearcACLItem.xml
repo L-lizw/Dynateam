@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.acl.PublicSearchACLItemMapper">
+	
+	<sql id="selectAllAclPublicSearchFeilds">
+	    A.GUID,
+	    A.PUBLICSEARCHGUID,
+	    A.PRECEDENCE,
+	    A.OBJECTTYPE,
+	    A.OBJECTGUID,
+	    A.OPERREAD,
+	    A.OPERUPDATE,
+	    A.OPERDELETE,
+	    A.CREATEUSERGUID,
+		A.CREATETIME,
+		A.UPDATEUSERGUID,
+		A.UPDATETIME
+	</sql>
+
+    <select id="selectForLoad" parameterType="map" resultType="dyna.common.dto.acl.PublicSearchACLItem">
+        SELECT <include refid="selectAllAclPublicSearchFeilds" />
+          FROM SA_ACL_PUBLICSEARCH A
+    </select>
+    
+    <select id="get" parameterType="java.lang.String" resultType="dyna.common.dto.acl.PublicSearchACLItem">
+        SELECT <include refid="selectAllAclPublicSearchFeilds" />
+          FROM SA_ACL_PUBLICSEARCH A
+         WHERE GUID = #GUID#
+    </select>
+    
+    <insert id="insert" parameterType="map">
+        INSERT INTO SA_ACL_PUBLICSEARCH 
+        (
+			GUID,
+			PUBLICSEARCHGUID,
+			PRECEDENCE,
+			OBJECTTYPE,
+			OBJECTGUID,
+			OBJECTNAME,
+			OPERREAD,
+			OPERUPDATE,
+			OPERDELETE,
+			CREATEUSERGUID,
+			CREATETIME,
+			UPDATEUSERGUID,
+			UPDATETIME
+
+        )
+        VALUES(
+			#GUID:VARCHAR:NULL#,
+			#PUBLICSEARCHGUID:VARCHAR:NULL#,
+			#PRECEDENCE:INTEGER#,
+			#OBJECTTYPE:VARCHAR:NULL#,
+			#OBJECTGUID:VARCHAR:NULL#,
+			#OBJECTNAME:VARCHAR:NULL#,
+			#OPERREAD:VARCHAR:NULL#,
+			#OPERUPDATE:VARCHAR:NULL#,
+			#OPERDELETE:VARCHAR:NULL#,
+
+			#CREATEUSERGUID:VARCHAR:NULL#,
+			#CURRENTTIME:TIMESTAMP#,
+			#UPDATEUSERGUID:VARCHAR:NULL#,
+			#CURRENTTIME:TIMESTAMP#
+        )
+    </insert>
+    
+    <update id="update" parameterType="map">
+        UPDATE SA_ACL_PUBLICSEARCH 
+        <set>
+			UPDATEUSERGUID = #UPDATEUSERGUID#,
+			UPDATETIME = #CURRENTTIME:TIMESTAMP#,
+			<if  test="PUBLICSEARCHGUID!=null">PUBLICSEARCHGUID=#PUBLICSEARCHGUID#,</if>
+			<if  test="PRECEDENCE!=null">PRECEDENCE=#PRECEDENCE#,</if>
+			<if  test="OBJECTTYPE!=null">OBJECTTYPE=#OBJECTTYPE#,</if>
+			<if  test="OBJECTGUID!=null">OBJECTGUID=#OBJECTGUID#,</if>
+			<if  test="OBJECTNAME!=null">OBJECTNAME=#OBJECTNAME#,</if>
+			<if  test="OPERREAD!=null">OPERREAD=#OPERREAD#,</if>
+			<if  test="OPERUPDATE!=null">OPERUPDATE=#OPERUPDATE#,</if>
+			<if  test="OPERDELETE!=null">OPERDELETE=#OPERDELETE#</if>
+        </set>
+        WHERE GUID = #GUID#
+    </update>
+    
+    <delete id="delete" parameterType="java.lang.String">
+        DELETE FROM SA_ACL_PUBLICSEARCH
+         WHERE GUID = #GUID#
+    </delete>
+</mapper>

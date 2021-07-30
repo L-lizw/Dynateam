@@ -1,0 +1,762 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.MailWorkFlowMapper">
+
+	<sql id="dynamicWhereSql">
+		<where>
+			<if  test="ACTRTTITLE!=null">
+				and upper(actrttitle) like upper(#ACTRTTITLE#)
+			</if>
+			<if  test="PROCRTTITLE!=null">
+				and exists (select 1 from wf_template wt where wt.guid = wftemplateguid
+				and upper(wt.title) like upper('%$PROCRTTITLE$%'))
+			</if>
+			<if  test="PROCRTDESC!=null">
+				and upper(procrtdesc) like upper('%$PROCRTDESC$%')
+			</if>
+			<if  test="GUID!=null">
+				and guid = #GUID#
+			</if>
+			<if  test="ISPROCESS!=null">
+				and isprocess = #ISPROCESS#
+			</if>
+			<if  test="SENDERUSER!=null">
+				and senderuser = #SENDERUSER#
+			</if>
+			<if  test="ORIGMAILGUID!=null">
+				and origmailguid = #ORIGMAILGUID#
+			</if>
+			<if  test="HASATTACHMENT!=null">
+				and upper(hasattachment) like upper('%$HASATTACHMENT$%')
+			</if>
+			<if  test="PROCRTGUID!=null">
+				and procrtguid = #PROCRTGUID#
+			</if>
+			<if  test="ACTRTGUID!=null">
+				and actrtguid = #ACTRTGUID#
+			</if>
+			<if  test="MODULETYPE!=null">
+				and moduletype = #MODULETYPE#
+			</if>
+			<if  test="WFTEMPLATEGUID!=null">
+				and wftemplateguid = #WFTEMPLATEGUID#
+			</if>
+			<if  test="RECEIVERMASTERGUID!=null">
+				and receivermasterguid = #RECEIVERMASTERGUID#
+			</if>
+			<if  test="PROCRTSTATUS!=null">
+				and procrtstatus = #PROCRTSTATUS#
+			</if>
+			<if  test="PROCRT_VALID!=null">
+				and procrtstatus in ('CLOSED', 'CANCEL', 'OBSOLETE')
+			</if>
+			<if  test="APPROVALSTATUS!=null">
+				<if test="APPROVALSTATUS == '3'" >
+					and approvalstatus in ('1', '2')
+				</if>
+				<if test="APPROVALSTATUS != '3'" >
+					and approvalstatus = #APPROVALSTATUS#
+				</if>
+			</if>
+			<if  test="APPROVALSTATUS==null">
+				and (approvalstatus is null or approvalstatus = '0' or approvalstatus = '1' or
+				approvalstatus = '2')
+			</if>
+		</where>
+	</sql>
+	<select id="selectMailCountOfActrtDataType1" parameterType="map" resultType="java.lang.Integer">
+		select count(*) rowcount$$
+		from (select b.guid,
+		p.description as procrtdesc,
+		b.isprocess,
+		b.senderuser,
+		b.receiveuser,
+		b.receivetime,
+		b.origmailguid,
+		b.hasattachment,
+		b.processtime,
+		b.procrtguid,
+		b.actrtguid,
+		b.moduletype,
+		a.title as actrttitle,
+		p.status as procrtstatus,
+		p.wftemplateguid,
+		b.receivermasterguid,
+		a.deadline as planfinishtime,
+		case
+		when a.acttype = 'NOTIFY' then '1'
+		when p.status = 'CANCEL' then ''
+		when a.finishtime is null then '0'
+		else ''
+		end as approvalstatus,
+		b.receiveuser as agentuserguid,
+		null perfguid,
+		null as trackagentguid,
+		b.startnumber,
+		null trackguid
+		from bi_mail b,
+		wf_procrt p,
+		wf_actrt a
+		where b.procrtguid = p.guid
+		and b.actrtguid = a.guid
+		and a.procrtguid = p.guid
+		and b.origmailguid is not null
+		and not exists (select 1
+		from wf_track t
+		where b.actrtguid = t.actrtguid
+		and b.startnumber = t.startnumber
+		and b.receiveuser = t.perfguid
+		)
+		<if  test="RECEIVEUSERLIST!=null">
+			and b.receiveuser in ($RECEIVEUSERLIST$)
+		</if>
+		union
+		select b.guid,
+		p.description as procrtdesc,
+		b.isprocess,
+		b.senderuser,
+		b.receiveuser,
+		b.receivetime,
+		b.origmailguid,
+		b.hasattachment,
+		b.processtime,
+		b.procrtguid,
+		b.actrtguid,
+		b.moduletype,
+		a.title as actrttitle,
+		p.status as procrtstatus,
+		p.wftemplateguid,
+		b.receivermasterguid,
+		a.deadline as planfinishtime,
+		case
+		when a.acttype = 'NOTIFY' then '1'
+		when p.status = 'CANCEL' then ''
+		when t.decide='ACCEPT' then '1'
+		when t.decide='REJECT' then '2'
+		else ''
+		end as approvalstatus,
+		case
+		when t.agentguid is null then t.perfguid
+		else t.agentguid
+		end as agentuserguid,
+		t.perfguid perfguid,
+		t.agentguid as trackagentguid,
+		b.startnumber,
+		t.guid trackguid
+		from bi_mail b,
+		wf_procrt p,
+		wf_actrt a,
+		wf_track t
+		where b.procrtguid = p.guid
+		and b.actrtguid = a.guid
+		and a.procrtguid = p.guid
+		and b.actrtguid = t.actrtguid
+		and b.startnumber = t.startnumber
+		and b.receiveuser = t.perfguid
+		and b.origmailguid is not null
+		<if  test="RECEIVEUSERLIST!=null">
+			and b.receiveuser in ($RECEIVEUSERLIST$)
+		</if>
+		) x
+		<include refid="dynamicWhereSql" />
+	</select>
+
+	<select id="selectMailCountOfActrtDataType2" parameterType="map" resultType="java.lang.Integer">
+		select count(*) rowcount$$
+		from (select b.guid,
+		p.description as procrtdesc,
+		b.isprocess,
+		b.senderuser,
+		b.receiveuser,
+		b.receivetime,
+		b.origmailguid,
+		b.hasattachment,
+		b.processtime,
+		b.procrtguid,
+		b.actrtguid,
+		b.moduletype,
+		a.title as actrttitle,
+		p.status as procrtstatus,
+		p.wftemplateguid,
+		b.receivermasterguid,
+		a.deadline as planfinishtime,
+		case
+		when a.acttype = 'NOTIFY' then '1'
+		when p.status = 'CANCEL' then ''
+		when a.finishtime is null then '0'
+		else ''
+		end as approvalstatus,
+		b.receiveuser as agentuserguid,
+		null perfguid,
+		null as trackagentguid,
+		b.startnumber,
+		null trackguid
+		from bi_mail b,
+		wf_procrt p,
+		wf_actrt a
+		where b.procrtguid = p.guid
+		and b.actrtguid = a.guid
+		and a.procrtguid = p.guid
+		and b.origmailguid is not null
+		and not exists (select 1
+		from wf_track t
+		where b.actrtguid = t.actrtguid
+		and b.startnumber = t.startnumber
+		and b.receiveuser = t.perfguid
+		)
+		<if  test="RECEIVEUSERLIST!=null">
+			and receiveuser in ($RECEIVEUSERLIST$)
+		</if>
+		union
+		select b.guid,
+		p.description as procrtdesc,
+		b.isprocess,
+		b.senderuser,
+		b.receiveuser,
+		b.receivetime,
+		b.origmailguid,
+		b.hasattachment,
+		b.processtime,
+		b.procrtguid,
+		b.actrtguid,
+		b.moduletype,
+		a.title as actrttitle,
+		p.status as procrtstatus,
+		p.wftemplateguid,
+		b.receivermasterguid,
+		a.deadline as planfinishtime,
+		case
+		when a.acttype = 'NOTIFY' then '1'
+		when p.status = 'CANCEL' then ''
+		when t.decide='ACCEPT' then '1'
+		when t.decide='REJECT' then '2'
+		else ''
+		end as approvalstatus,
+		case
+		when t.agentguid is null then t.perfguid
+		else t.agentguid
+		end as agentuserguid,
+		t.perfguid perfguid,
+		t.agentguid as trackagentguid,
+		b.startnumber,
+		t.guid trackguid
+		from bi_mail b,
+		wf_procrt p,
+		wf_actrt a,
+		wf_track t
+		where b.procrtguid = p.guid
+		and b.actrtguid = a.guid
+		and a.procrtguid = p.guid
+		and b.actrtguid = t.actrtguid
+		and b.startnumber = t.startnumber
+		and b.receiveuser = t.perfguid
+		and b.origmailguid is not null
+		<if test="RECEIVEUSER">
+			and t.agentguid = #RECEIVEUSER#
+		</if>
+		) x
+		<include refid="dynamicWhereSql" />
+	</select>
+
+	<select id="selectMailCountOfActrtDataType3" parameterType="map" resultType="java.lang.Integer">
+		select count(*) rowcount$$
+		from (select b.guid,
+		p.description as procrtdesc,
+		b.isprocess,
+		b.senderuser,
+		b.receiveuser,
+		b.receivetime,
+		b.origmailguid,
+		b.hasattachment,
+		b.processtime,
+		b.procrtguid,
+		b.actrtguid,
+		b.moduletype,
+		a.title as actrttitle,
+		p.status as procrtstatus,
+		p.wftemplateguid,
+		b.receivermasterguid,
+		a.deadline as planfinishtime,
+		case
+		when a.acttype = 'NOTIFY' then '1'
+		when p.status = 'CANCEL' then ''
+		when a.finishtime is null then '0'
+		else ''
+		end as approvalstatus,
+		b.receiveuser as agentuserguid,
+		null perfguid,
+		null as trackagentguid,
+		b.startnumber,
+		null trackguid
+		from bi_mail b,
+		wf_procrt p,
+		wf_actrt a
+		where b.procrtguid = p.guid
+		and b.actrtguid = a.guid
+		and a.procrtguid = p.guid
+		and b.origmailguid is not null
+		and not exists (select 1
+		from wf_track t
+		where b.actrtguid = t.actrtguid
+		and b.startnumber = t.startnumber
+		and b.receiveuser = t.perfguid
+		)
+		<if  test="RECEIVEUSERLIST!=null">
+			and receiveuser in ($RECEIVEUSERLIST$)
+		</if>
+
+		<if test="RECEIVEUSER!=null">
+			union (select b.guid,
+			p.description as procrtdesc,
+			b.isprocess,
+			b.senderuser,
+			b.receiveuser,
+			b.receivetime,
+			b.origmailguid,
+			b.hasattachment,
+			b.processtime,
+			b.procrtguid,
+			b.actrtguid,
+			b.moduletype,
+			a.title as actrttitle,
+			p.status as procrtstatus,
+			p.wftemplateguid,
+			b.receivermasterguid,
+			a.deadline as planfinishtime,
+			case
+			when a.acttype = 'NOTIFY' then '1'
+			when p.status = 'CANCEL' then ''
+			when t.decide='ACCEPT' then '1'
+			when t.decide='REJECT' then '2'
+			else ''
+			end as approvalstatus,
+			case
+			when t.agentguid is null then t.perfguid
+			else t.agentguid
+			end as agentuserguid,
+			t.perfguid perfguid,
+			t.agentguid as trackagentguid,
+			b.startnumber,
+			t.guid trackguid
+			from bi_mail b,
+			wf_procrt p,
+			wf_actrt a,
+			wf_track t
+			where b.procrtguid = p.guid
+			and b.actrtguid = a.guid
+			and a.procrtguid = p.guid
+			and b.actrtguid = t.actrtguid
+			and b.startnumber = t.startnumber
+			and b.receiveuser = t.perfguid
+			and b.origmailguid is not null
+			and t.agentguid = #RECEIVEUSER#)
+		</if>
+		union
+		select b.guid,
+		p.description as procrtdesc,
+		b.isprocess,
+		b.senderuser,
+		b.receiveuser,
+		b.receivetime,
+		b.origmailguid,
+		b.hasattachment,
+		b.processtime,
+		b.procrtguid,
+		b.actrtguid,
+		b.moduletype,
+		a.title as actrttitle,
+		p.status as procrtstatus,
+		p.wftemplateguid,
+		b.receivermasterguid,
+		a.deadline as planfinishtime,
+		case
+		when a.acttype = 'NOTIFY' then '1'
+		when p.status = 'CANCEL' then ''
+		when t.decide='ACCEPT' then '1'
+		when t.decide='REJECT' then '2'
+		else ''
+		end as approvalstatus,
+		case
+		when t.agentguid is null then t.perfguid
+		else t.agentguid
+		end as agentuserguid,
+		t.perfguid perfguid,
+		t.agentguid as trackagentguid,
+		b.startnumber,
+		t.guid trackguid
+		from bi_mail b,
+		wf_procrt p,
+		wf_actrt a,
+		wf_track t
+		where b.procrtguid = p.guid
+		and b.actrtguid = a.guid
+		and a.procrtguid = p.guid
+		and b.actrtguid = t.actrtguid
+		and b.startnumber = t.startnumber
+		and b.receiveuser = t.perfguid
+		and b.origmailguid is not null
+		<if test="RECEIVEUSER">
+			and t.perfguid = #RECEIVEUSER#
+		</if>
+		) x
+		<include refid="dynamicWhereSql" />
+	</select>
+
+	<select id="selectMailOfActrtDataType1" parameterType="map" resultType="dyna.common.dto.MailWorkFlow">
+		select x.*
+		from (select b.guid,
+		p.description as procrtdesc,
+		b.isprocess,
+		b.senderuser,
+		b.receiveuser,
+		b.receivetime,
+		b.origmailguid,
+		b.hasattachment,
+		b.processtime,
+		b.procrtguid,
+		b.actrtguid,
+		b.moduletype,
+		a.title as actrttitle,
+		p.status as procrtstatus,
+		p.wftemplateguid,
+		b.receivermasterguid,
+		a.deadline as planfinishtime,
+		case
+		when a.acttype = 'NOTIFY' then '1'
+		when p.status = 'CANCEL' then ''
+		when a.finishtime is null then '0'
+		else ''
+		end as approvalstatus,
+		b.receiveuser as agentuserguid,
+		null perfguid,
+		null as trackagentguid,
+		b.startnumber,
+		null trackguid
+		from bi_mail b,
+		wf_procrt p,
+		wf_actrt a
+		where b.procrtguid = p.guid
+		and b.actrtguid = a.guid
+		and a.procrtguid = p.guid
+		and b.origmailguid is not null
+		and not exists (select 1
+		from wf_track t
+		where b.actrtguid = t.actrtguid
+		and b.startnumber = t.startnumber
+		and b.receiveuser = t.perfguid
+		)
+		<if  test="RECEIVEUSERLIST!=null">
+			and b.receiveuser in ($RECEIVEUSERLIST$)
+		</if>
+		union
+		select b.guid,
+		p.description as procrtdesc,
+		b.isprocess,
+		b.senderuser,
+		b.receiveuser,
+		b.receivetime,
+		b.origmailguid,
+		b.hasattachment,
+		b.processtime,
+		b.procrtguid,
+		b.actrtguid,
+		b.moduletype,
+		a.title as actrttitle,
+		p.status as procrtstatus,
+		p.wftemplateguid,
+		b.receivermasterguid,
+		a.deadline as planfinishtime,
+		case
+		when a.acttype = 'NOTIFY' then '1'
+		when p.status = 'CANCEL' then ''
+		when t.decide='ACCEPT' then '1'
+		when t.decide='REJECT' then '2'
+		else ''
+		end as approvalstatus,
+		case
+		when t.agentguid is null then t.perfguid
+		else t.agentguid
+		end as agentuserguid,
+		t.perfguid perfguid,
+		t.agentguid as trackagentguid,
+		b.startnumber,
+		t.guid trackguid
+		from bi_mail b,
+		wf_procrt p,
+		wf_actrt a,
+		wf_track t
+		where b.procrtguid = p.guid
+		and b.actrtguid = a.guid
+		and a.procrtguid = p.guid
+		and b.actrtguid = t.actrtguid
+		and b.startnumber = t.startnumber
+		and b.receiveuser = t.perfguid
+		and b.origmailguid is not null
+		<if  test="RECEIVEUSERLIST!=null">
+			and b.receiveuser in ($RECEIVEUSERLIST$)
+		</if>
+		) x
+		<include refid="dynamicWhereSql" />
+		<if test="ORDERBY!=null">
+			order by $ORDERBY$
+		</if>
+		<if test="ORDERBY==null">
+			ORDER BY X.receivetime DESC
+		</if>
+	</select>
+
+	<select id="selectMailOfActrtDataType2" parameterType="map" resultType="dyna.common.dto.MailWorkFlow">
+		select x.*
+		from (select b.guid,
+		p.description as procrtdesc,
+		b.isprocess,
+		b.senderuser,
+		b.receiveuser,
+		b.receivetime,
+		b.origmailguid,
+		b.hasattachment,
+		b.processtime,
+		b.procrtguid,
+		b.actrtguid,
+		b.moduletype,
+		a.title as actrttitle,
+		p.status as procrtstatus,
+		p.wftemplateguid,
+		b.receivermasterguid,
+		a.deadline as planfinishtime,
+		case
+		when a.acttype = 'NOTIFY' then '1'
+		when p.status = 'CANCEL' then ''
+		when a.finishtime is null then '0'
+		else ''
+		end as approvalstatus,
+		b.receiveuser as agentuserguid,
+		null perfguid,
+		null as trackagentguid,
+		b.startnumber,
+		null trackguid
+		from bi_mail b,
+		wf_procrt p,
+		wf_actrt a
+		where b.procrtguid = p.guid
+		and b.actrtguid = a.guid
+		and a.procrtguid = p.guid
+		and b.origmailguid is not null
+		and not exists (select 1
+		from wf_track t
+		where b.actrtguid = t.actrtguid
+		and b.startnumber = t.startnumber
+		and b.receiveuser = t.perfguid
+		)
+		<if  test="RECEIVEUSERLIST!=null">
+			and receiveuser in ($RECEIVEUSERLIST$)
+		</if>
+		union
+		select b.guid,
+		p.description as procrtdesc,
+		b.isprocess,
+		b.senderuser,
+		b.receiveuser,
+		b.receivetime,
+		b.origmailguid,
+		b.hasattachment,
+		b.processtime,
+		b.procrtguid,
+		b.actrtguid,
+		b.moduletype,
+		a.title as actrttitle,
+		p.status as procrtstatus,
+		p.wftemplateguid,
+		b.receivermasterguid,
+		a.deadline as planfinishtime,
+		case
+		when a.acttype = 'NOTIFY' then '1'
+		when p.status = 'CANCEL' then ''
+		when t.decide='ACCEPT' then '1'
+		when t.decide='REJECT' then '2'
+		else ''
+		end as approvalstatus,
+		case
+		when t.agentguid is null then t.perfguid
+		else t.agentguid
+		end as agentuserguid,
+		t.perfguid perfguid,
+		t.agentguid as trackagentguid,
+		b.startnumber,
+		t.guid trackguid
+		from bi_mail b,
+		wf_procrt p,
+		wf_actrt a,
+		wf_track t
+		where b.procrtguid = p.guid
+		and b.actrtguid = a.guid
+		and a.procrtguid = p.guid
+		and b.actrtguid = t.actrtguid
+		and b.startnumber = t.startnumber
+		and b.receiveuser = t.perfguid
+		and b.origmailguid is not null
+		<if test="RECEIVEUSER">
+			and t.agentguid = #RECEIVEUSER#
+		</if>
+		) x
+		<include refid="dynamicWhereSql" />
+		<if test="ORDERBY!=null">
+			order by $ORDERBY$
+		</if>
+		<if test="ORDERBY==null">
+			ORDER BY X.receivetime DESC
+		</if>
+	</select>
+
+	<select id="selectMailOfActrtDataType3" parameterType="map" resultType="dyna.common.dto.MailWorkFlow">
+		select x.*
+		from (select b.guid,
+		p.description as procrtdesc,
+		b.isprocess,
+		b.senderuser,
+		b.receiveuser,
+		b.receivetime,
+		b.origmailguid,
+		b.hasattachment,
+		b.processtime,
+		b.procrtguid,
+		b.actrtguid,
+		b.moduletype,
+		a.title as actrttitle,
+		p.status as procrtstatus,
+		p.wftemplateguid,
+		b.receivermasterguid,
+		a.deadline as planfinishtime,
+		case
+		when a.acttype = 'NOTIFY' then '1'
+		when p.status = 'CANCEL' then ''
+		when a.finishtime is null then '0'
+		else ''
+		end as approvalstatus,
+		b.receiveuser as agentuserguid,
+		null perfguid,
+		null as trackagentguid,
+		b.startnumber,
+		null trackguid
+		from bi_mail b,
+		wf_procrt p,
+		wf_actrt a
+		where b.procrtguid = p.guid
+		and b.actrtguid = a.guid
+		and a.procrtguid = p.guid
+		and b.origmailguid is not null
+		and not exists (select 1
+		from wf_track t
+		where b.actrtguid = t.actrtguid
+		and b.startnumber = t.startnumber
+		and b.receiveuser = t.perfguid
+		)
+		<if  test="RECEIVEUSERLIST!=null">
+			and receiveuser in ($RECEIVEUSERLIST$)
+		</if>
+
+		<if test="RECEIVEUSER!=null">
+			union (select b.guid,
+			p.description as procrtdesc,
+			b.isprocess,
+			b.senderuser,
+			b.receiveuser,
+			b.receivetime,
+			b.origmailguid,
+			b.hasattachment,
+			b.processtime,
+			b.procrtguid,
+			b.actrtguid,
+			b.moduletype,
+			a.title as actrttitle,
+			p.status as procrtstatus,
+			p.wftemplateguid,
+			b.receivermasterguid,
+			a.deadline as planfinishtime,
+			case
+			when a.acttype = 'NOTIFY' then '1'
+			when p.status = 'CANCEL' then ''
+			when t.decide='ACCEPT' then '1'
+			when t.decide='REJECT' then '2'
+			else ''
+			end as approvalstatus,
+			case
+			when t.agentguid is null then t.perfguid
+			else t.agentguid
+			end as agentuserguid,
+			t.perfguid perfguid,
+			t.agentguid as trackagentguid,
+			b.startnumber,
+			t.guid trackguid
+			from bi_mail b,
+			wf_procrt p,
+			wf_actrt a,
+			wf_track t
+			where b.procrtguid = p.guid
+			and b.actrtguid = a.guid
+			and a.procrtguid = p.guid
+			and b.actrtguid = t.actrtguid
+			and b.startnumber = t.startnumber
+			and b.receiveuser = t.perfguid
+			and b.origmailguid is not null
+			and t.agentguid = #RECEIVEUSER#)
+		</if>
+		union
+		select b.guid,
+		p.description as procrtdesc,
+		b.isprocess,
+		b.senderuser,
+		b.receiveuser,
+		b.receivetime,
+		b.origmailguid,
+		b.hasattachment,
+		b.processtime,
+		b.procrtguid,
+		b.actrtguid,
+		b.moduletype,
+		a.title as actrttitle,
+		p.status as procrtstatus,
+		p.wftemplateguid,
+		b.receivermasterguid,
+		a.deadline as planfinishtime,
+		case
+		when a.acttype = 'NOTIFY' then '1'
+		when p.status = 'CANCEL' then ''
+		when t.decide='ACCEPT' then '1'
+		when t.decide='REJECT' then '2'
+		else ''
+		end as approvalstatus,
+		case
+		when t.agentguid is null then t.perfguid
+		else t.agentguid
+		end as agentuserguid,
+		t.perfguid perfguid,
+		t.agentguid as trackagentguid,
+		b.startnumber,
+		t.guid trackguid
+		from bi_mail b,
+		wf_procrt p,
+		wf_actrt a,
+		wf_track t
+		where b.procrtguid = p.guid
+		and b.actrtguid = a.guid
+		and a.procrtguid = p.guid
+		and b.actrtguid = t.actrtguid
+		and b.startnumber = t.startnumber
+		and b.receiveuser = t.perfguid
+		and b.origmailguid is not null
+		<if test="RECEIVEUSER!=null">
+			and t.perfguid = #RECEIVEUSER#
+		</if>
+		) x
+		<include refid="dynamicWhereSql" />
+		<if test="ORDERBY!=null">
+			order by $ORDERBY$
+		</if>
+		<if test="ORDERBY==null">
+			ORDER BY X.receivetime DESC
+		</if>
+	</select>
+</mapper>

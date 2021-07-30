@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.FileOpenSubjectMapper">
+
+	<insert id="insert" parameterType="dyna.common.dto.FileOpenSubject">
+		insert into bi_filebrowse_rule_master
+		   (guid, 
+			RULENAME,
+			conditionguid, 
+			conditionname, 
+			valueguid, 
+			valuename, 
+			mastervalueguid, 
+			mastervaluename, 
+			parentguid, 
+			position, 
+			createtime, 
+			createuserguid, 
+			updatetime, 
+			updateuserguid)
+		VALUES(
+			#GUID#,
+			#RULENAME:VARCHAR:NULL#,
+			#CONDITIONGUID:VARCHAR:NULL#,
+			#CONDITIONNAME:VARCHAR:NULL#,
+			#VALUEGUID:VARCHAR:NULL#,
+			#VALUENAME:VARCHAR:NULL#,
+	        #MASTERVALUEGUID:VARCHAR:NULL#,
+			#MASTERVALUENAME:VARCHAR:NULL#,
+	        #PARENTGUID:VARCHAR:NULL#,
+	        #POSITION#,
+	        #CURRENTTIME:TIMESTAMP#,
+	        #CREATEUSERGUID:VARCHAR:NULL#,
+	        #CURRENTTIME:TIMESTAMP#,
+	        #CREATEUSERGUID:VARCHAR:NULL#)
+	</insert>
+	
+	<update id="update" parameterType="dyna.common.dto.FileOpenSubject">
+		UPDATE bi_filebrowse_rule_master 
+		<set>
+			updateuserguid = #UPDATEUSERGUID#,
+			updatetime = #CURRENTTIME:TIMESTAMP#,
+			<if  test="RULENAME!=null">RULENAME=#RULENAME#,</if>
+			<if  test="CONDITIONGUID!=null">conditionguid=#CONDITIONGUID#,</if>
+			<if  test="CONDITIONNAME!=null">conditionname=#CONDITIONNAME#,</if>
+			<if  test="VALUEGUID!=null">valueguid=#VALUEGUID#,</if>
+			<if  test="VALUENAME!=null">valuename=#VALUENAME#,</if>
+			<if  test="MASTERVALUEGUID!=null">mastervalueguid=#MASTERVALUEGUID#,</if>
+			<if  test="MASTERVALUENAME!=null">mastervaluename=#MASTERVALUENAME#,</if>
+			<if  test="PARENTGUID!=null">parentguid=#PARENTGUID#,</if>
+			<if  test="POSITION!=null">position=#POSITION#,</if>
+		</set>
+	   WHERE guid = #GUID#	
+	</update>	
+	
+	<delete id="delete" parameterType="java.lang.String">
+		delete from bi_filebrowse_rule_master where guid = #guid#
+	</delete>
+	
+    
+	<select id="selectForLoad" resultType="dyna.common.dto.FileOpenSubject">
+		select * from bi_filebrowse_rule_master
+	</select>
+	
+	<select id="get" parameterType="java.lang.String" resultType="dyna.common.dto.FileOpenSubject" statementType="STATEMENT">
+		SELECT a.* 
+		  FROM bi_filebrowse_rule_master a
+		 WHERE a.guid=#guid#
+	</select>
+</mapper>

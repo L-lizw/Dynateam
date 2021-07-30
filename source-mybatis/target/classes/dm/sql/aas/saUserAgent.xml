@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.aas.UserAgentMapper">
+
+	<select id="select" parameterType="map" resultType="dyna.common.dto.aas.UserAgent">
+        select a.*
+          from sa_user_agent a
+			<where>
+				<if  test="PRINCIPALGUID!=null">and a.principalguid=#PRINCIPALGUID#</if>
+				<if  test="AGENTGUID!=null">and a.agentguid=#AGENTGUID#</if>
+				<if  test="and VALID!=null">
+					a.valid=#VALID#
+				</if>
+				<if  test="ISOVERTIME!= null and ISOVERTIME=='Y'">
+						and a.finishdate<![CDATA[<]]>#CURRENTTIME:DATE#
+						and a.finishdate is not null
+						and a.valid = 'Y'
+				</if>
+			</where>
+	</select>
+	
+	<insert id="insert" parameterType="dyna.common.dto.aas.UserAgent">
+		INSERT INTO sa_user_agent  (
+			guid,
+			principalguid,
+			agentguid,
+			startdate,
+			finishdate,
+			valid,
+			
+			createtime,
+			createuserguid,
+			updatetime,
+			updateuserguid
+		)
+		select
+			#GUID:VARCHAR#,
+			#PRINCIPALGUID:VARCHAR#,
+			#AGENTGUID:VARCHAR#,
+			#STARTDATE:DATE#,
+			#FINISHDATE:DATE#,
+			#VALID:VARCHAR:NULL#,
+
+			#CURRENTTIME:TIMESTAMP#,
+			#CREATEUSERGUID:VARCHAR:NULL#,
+			#CURRENTTIME:TIMESTAMP#,
+			#UPDATEUSERGUID:VARCHAR:NULL#
+	</insert>
+	
+	<update id="update" parameterType="dyna.common.dto.aas.UserAgent">
+		UPDATE sa_user_agent
+		<set>
+			updatetime=#CURRENTTIME:TIMESTAMP#,
+			updateuserguid=#UPDATEUSERGUID#,
+			<if  test="AGENTGUID!=null">AGENTGUID=#AGENTGUID#,</if>
+			<if  test="STARTDATE!=null">STARTDATE=#STARTDATE:DATE#,</if>
+			<if  test="FINISHDATE!=null">FINISHDATE=#FINISHDATE:DATE#,</if>
+			<if  test="VALID!=null">VALID=#VALID#</if>
+		</set>
+		WHERE PRINCIPALGUID = #PRINCIPALGUID#
+	</update>
+</mapper>

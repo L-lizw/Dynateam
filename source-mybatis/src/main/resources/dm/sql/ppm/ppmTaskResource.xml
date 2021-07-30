@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.ppm.TaskMemberMapper">
+
+    <sql id="where">
+        <where>
+            <if  test="GUID!=null">
+                and   guid = #GUID#
+            </if>
+            <if  test="TASKGUID!=null">
+                and   TASKGUID = #TASKGUID#
+            </if>
+            <if  test="USERGUID!=null">
+                and   USERGUID = #USERGUID#
+            </if>
+            <if  test="PROJECTROLE!=null">
+                and   PROJECTROLE = #PROJECTROLE#
+            </if>
+            <if  test="ISEXECUTOR!=null">
+                and   ISEXECUTOR = #ISEXECUTOR#
+            </if>
+            <if  test="DATASEQ!=null">
+                and   DATASEQ = #DATASEQ#
+            </if>
+            <if  test="RESOURCERATE!=null">
+                and   RESOURCERATE = #RESOURCERATE#
+            </if>
+            <if  test="CREATEUSERGUID!=null">
+                and   CREATEUSERGUID = #CREATEUSERGUID#
+            </if>
+            <if  test="UPDATEUSERGUID!=null">
+                and   UPDATEUSERGUID = #UPDATEUSERGUID#
+            </if>
+        </where>
+    </sql>
+    
+    <select id="select" parameterType="map" resultType="dyna.common.bean.data.ppms.TaskMember">
+        select m.*,
+               (select r.rolename from ppm_projectrole r where r.guid = m.projectrole) projectrolename,
+               (select u.username from sa_user u where u.guid = m.USERGUID) USERNAME
+          from ppm_TaskResource m
+          <include refid="where"/>
+    </select>
+    
+    <insert id="insert" parameterType="dyna.common.bean.data.ppms.TaskMember">
+        insert into ppm_TaskResource
+			       (GUID,
+                    TASKGUID,
+                    USERGUID,
+                    PROJECTROLE,
+                    ISEXECUTOR,
+                    DATASEQ,
+                    RESOURCERATE,
+
+			        createuserguid,
+			        createtime,
+			        updateuserguid,
+			        updatetime)
+	        values (#GUID:VARCHAR:NULL#,
+			        #TASKGUID:VARCHAR:NULL#,
+					#USERGUID:VARCHAR:NULL#,
+					#PROJECTROLE:VARCHAR:NULL#,
+					#ISEXECUTOR#,
+					#DATASEQ#,
+					#RESOURCERATE#,
+					
+					#CREATEUSERGUID:VARCHAR:NULL#,
+					#CURRENTTIME:TIMESTAMP#,
+					#UPDATEUSERGUID:VARCHAR:NULL#,
+					#CURRENTTIME:TIMESTAMP#)
+    </insert>
+    
+    <update id="update" parameterType="dyna.common.bean.data.ppms.TaskMember">
+        update ppm_TaskResource 
+                 <set>
+	               <if test="TASKGUID!=null">TASKGUID = #TASKGUID#,</if>
+	               <if test="USERGUID!=null">USERGUID = #USERGUID#,</if>
+	               <if test="PROJECTROLE!=null">PROJECTROLE = #PROJECTROLE#,</if>
+	               <if test="ISEXECUTOR!=null">ISEXECUTOR = #ISEXECUTOR#,</if>
+	               <if test="DATASEQ!=null">DATASEQ = #DATASEQ#,</if>
+	               
+	               <if test="RESOURCERATE">RESOURCERATE = #RESOURCERATE#,</if>
+               </set>
+               updatetime = #CURRENTTIME:TIMESTAMP#,
+               updateuserguid = #UPDATEUSERGUID#
+         	   where guid=#GUID#
+    </update>
+    
+    <update id="updateNotCharge" parameterType="dyna.common.bean.data.ppms.TaskMember">
+        update ppm_TaskResource 
+           set ISEXECUTOR = '0',
+               updatetime = #CURRENTTIME:TIMESTAMP#,
+               updateuserguid = #UPDATEUSERGUID#
+         	where taskguid= #TASKGUID#
+    </update>
+    <update id="updateCharge" parameterType="dyna.common.bean.data.ppms.TaskMember">
+        update ppm_TaskResource 
+           set ISEXECUTOR = '1',
+               updatetime = #CURRENTTIME:TIMESTAMP#,
+               updateuserguid = #UPDATEUSERGUID#
+         	where guid= #GUID#
+    </update>
+    
+    <delete id="delete" parameterType="map">
+        delete from ppm_TaskResource <include refid="where"/>
+    </delete>
+</mapper>

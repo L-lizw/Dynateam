@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.trans.TransformQueueMapper">
+
+    <sql id="whereFuzzy">
+        <where>
+	        <if  test="GUID!=null">
+				and  q.guid = #GUID#
+	        </if>
+	        <if  test="ID!=null">
+				and q.md_id = #ID#
+	        </if>
+	        <if  test="OWNERUSERGUID!=null">
+				and q.owneruserguid = #OWNERUSERGUID#
+	        </if>
+            <if  test="JOBSTATUS!=null">
+				and q.jobstatus = #JOBSTATUS#
+            </if>
+            <if  test="MD5!=null">
+				and q.md5 = #MD5#
+            </if>
+            <if  test="FILEGUID!=null">
+				and  q.fileguid = #FILEGUID#
+            </if>
+            <if  test="CONTENTS!=null">
+				and ( q.filename like #CONTENTS# or q.transformtype like #CONTENTS#)
+            </if>
+            <if  test="TRANSFORMCONFIGGUID!=null">
+				and q.transformconfigguid = #TRANSFORMCONFIGGUID#
+            </if>
+            <if  test="REVISIONGUID!=null">
+				and q.revisionguid = #REVISIONGUID#
+            </if>
+            <if  test="REVISIONCLASSGUID!=null">
+				and q.revisionclassguid = #REVISIONCLASSGUID#
+            </if>
+	        <if  test="LISTJOBSTATUS!=null">
+				and  q.jobstatus in 
+	 	    <foreach collection="LISTJOBSTATUS" open="(" close=")" separator="," item="TEMP">#TEMP#</foreach>
+	        </if>
+	        <if  test="PRIORITY!=null">
+				and q.priority = #PRIORITY#
+	        </if>
+	        <if  test="RESULT!=null">
+				and  q.result like '%$RESULT$%'
+	        </if>
+	        <if  test="SIGNGUID!=null">
+				and q.signguid = #SIGNGUID#
+	        </if>
+	        <if  test="NEEDTRANSFORM!=null">
+				and q.needtransform = #NEEDTRANSFORM#
+	        </if>
+	        <if  test="CREATEUSERGUID!=null">
+				and q.createuserguid = #CREATEUSERGUID#
+	        </if>
+	   
+	        <if  test="CREATEFROMTIME!=null" >
+				and q.createtime >= #CREATEFROMTIME:TIMESTAMP#
+            </if>
+            <if  test="CREATETOTIME!=null" >
+				and  q.createtime <![CDATA[<=]]> #CREATETOTIME:TIMESTAMP#
+            </if>
+            <if  test="UPDATEFROMTIME!=null" >
+				and q.updatetime >= #UPDATEFROMTIME:TIMESTAMP#
+            </if>
+            <if  test="UPDATETOTIME!=null" >
+				and q.updatetime <![CDATA[<=]]> #UPDATETOTIME:TIMESTAMP# 
+            </if>
+	        
+	        <if  test="NAME!=null">
+				and q.md_name like '%$MD_NAME$%'
+	        </if>
+	        <if  test="PROCRTGUID!=null">
+				and PROCRTGUID = #PROCRTGUID#
+	        </if>
+	    </where>
+    </sql>
+    
+    <select id="selectFuzzyCount" parameterType="map" resultType="dyna.common.bean.data.trans.TransformQueue">
+        select count(guid) rowcount$$
+          from bi_transform_queue q
+          <include refid="whereFuzzy"/>
+    </select>
+    
+    <select id="selectFuzzy" parameterType="map" resultType="dyna.common.bean.data.trans.TransformQueue">
+        select q.*,
+		       (select u.classname from ma_class u where u.guid = q.revisionclassguid) revisionclassname
+          from bi_transform_queue q
+         <include refid="whereFuzzy"/>
+         <if test="ORDERBY!=null">
+         $ORDERBY$
+         </if>
+         <if test="ORDERBY==null">
+         order by q.createtime
+         </if>
+    </select>
+
+    <insert id="insert" parameterType="dyna.common.bean.data.trans.TransformQueue">
+        insert into bi_transform_queue
+                       (guid,
+						md_id,
+						owneruserguid,
+						jobstatus,
+						priority,
+						result,
+						fileguid,
+						filename,
+						filetype,
+						revisionguid,
+						revisionclassguid,
+						serverid,
+						dssid,
+						transformconfigguid,
+						transformtype,
+						masterfk,
+						mastercreatetime,
+						md5,
+						description,
+						signguid,
+						needtransform,
+						createuserguid,
+						createtime,
+						updateuserguid,
+						updatetime,
+						targetrevisionguid,
+						targetrevisionclassguid,
+						procrtguid,
+						actrtguid
+                    )
+        values (#GUID#,
+        		#ID:VARCHAR:NULL#,
+				#OWNERUSERGUID:VARCHAR:NULL#,
+				#JOBSTATUS:NUMERIC#,
+				#PRIORITY:NUMERIC#,
+				#RESULT:VARCHAR:NULL#,
+				#FILEGUID:VARCHAR:NULL#,
+				#FILENAME:VARCHAR:NULL#,
+				#FILETYPE:VARCHAR:NULL#,
+				#REVISIONGUID:VARCHAR:NULL#,
+				#REVISIONCLASSGUID:VARCHAR:NULL#,
+				#SERVERID:VARCHAR:NULL#,
+				#DSSID:VARCHAR:NULL#,
+				#TRANSFORMCONFIGGUID:VARCHAR:NULL#,
+				#TRANSFORMTYPE:VARCHAR:NULL#,
+				#MASTERFK:VARCHAR:NULL#,	
+				#MASTERCREATETIME#,		
+				#MD5:VARCHAR:NULL#,		
+				#DESCRIPTION:VARCHAR:NULL#,		
+			    #SIGNGUID:VARCHAR:NULL#,	
+			    #NEEDTRANSFORM:VARCHAR:NULL#,			    	
+				#CREATEUSERGUID:VARCHAR:NULL#,
+				#CURRENTTIME:TIMESTAMP#,
+				#UPDATEUSERGUID:VARCHAR:NULL#,
+				#CURRENTTIME:TIMESTAMP#,
+				#TARGETREVISIONGUID:VARCHAR:NULL#,
+				#TARGETREVISIONCLASSGUID:VARCHAR:NULL#,
+				#PROCRTGUID:VARCHAR:NULL#,
+				#ACTRTGUID:VARCHAR:NULL#
+               )
+    </insert>
+        
+    <sql id="where">
+	        <if  test="GUID!=null">
+				and guid = #GUID#
+	        </if>
+	        <if  test="ID!=null">
+				and md_id = #MD_ID#
+	        </if>
+	        <if  test="OWNERUSERGUID!=null">
+				and  owneruserguid = #OWNERUSERGUID#
+	        </if>
+            <if  test="JOBSTATUS!=null">
+				and jobstatus = #JOBSTATUS#
+            </if>
+	        <if   test="LISTJOBSTATUS!=null">
+				and jobstatus in 
+		     <foreach collection="LISTJOBSTATUS" open="(" close=")" separator="," item="TEMP">#TEMP#</foreach>
+		    </if>
+	        <if  test="ISSINGLETHREAD!=null">
+				and issinglethread = #ISSINGLETHREAD#
+	        </if>
+	        <if  test="FILETYPE!=null">
+				and FILETYPE = #FILETYPE#
+	        </if>
+	        <if  test="PRIORITY!=null">
+				and priority = #PRIORITY#
+	        </if>
+	        <if  test="RESULT!=null">
+				and result = #RESULT#
+	        </if>
+	        <if  test="SERVERID!=null">
+				and serverid = #SERVERID#
+	        </if>
+	        <if  test="DSSID!=null">
+				and dssid = #DSSID#
+	        </if>
+	        <if  test="FILEGUID!=null">
+				and fileguid = #FILEGUID#
+	        </if>
+	       	<if  test="MD5!=null">
+				and md5 = #MD5#
+	        </if>
+	       	<if  test="SIGNGUID!=null">
+				and signguid = #SIGNGUID#
+	        </if>
+	        <if  test="NEEDTRANSFORM!=null">
+				and q.needtransform = #NEEDTRANSFORM#
+	        </if>
+	       	<if  test="TRANSFORMCONFIGGUID!=null">
+				and transformconfigguid = #TRANSFORMCONFIGGUID#
+	        </if>
+	        <if  test="DESCRIPTION!=null">
+				and description = #DESCRIPTION#
+	        </if>
+	        <if  test="FIELDH!=null">
+				and fieldh = #FIELDH#
+	        </if>
+	        <if  test="CREATEUSERGUID!=null">
+				and createuserguid = #CREATEUSERGUID#
+	        </if>
+	        <if  test="PROCRTGUID!=null">
+				and PROCRTGUID = #PROCRTGUID#
+	        </if>
+    </sql>
+    
+        
+    <select id="select" parameterType="map" resultType="dyna.common.bean.data.trans.TransformQueue">
+        select b.*,
+		       (select u.classname from ma_class u where u.guid = b.revisionclassguid) revisionclassname
+          from bi_transform_queue b
+         where 1 = 1
+         <include refid="where"/>
+         <if test="ORDERBY!=null">
+         $ORDERBY$
+         </if>
+         <if test="ORDERBY==null">
+         order by b.createtime
+         </if>
+    </select>
+           
+    <update id="updateList" parameterType="map">
+             update bi_transform_queue 
+           set a.serverid = #SERVERID#,
+               a.updatetime = #CURRENTTIME:TIMESTAMP#
+     		   where  a.masterfk in (
+     		   select masterfk from  (  
+       				   select masterfk , rownum num  from (
+       	  			        select distinct masterfk,mastercreatetime from bi_transform_queue 
+           			        where serverid is null
+                  				 and JOBSTATUS='0'
+                  			     and TRANSFORMTYPE in (select transformtype from bi_transform_servers where serverid=#SERVERID#)      				
+          						 <if  test="DSSID!=null">
+						         	 and DSSID = #DSSID#
+						         </if>
+          				  )   order by mastercreatetime desc 
+           		 )
+         where num  <![CDATA[ <= ]]> #ROWNUM#
+            )
+            
+            
+   </update>
+               
+    <update id="update" parameterType="dyna.common.bean.data.trans.TransformQueue">
+        update bi_transform_queue 
+        <set>
+			updateuserguid = #UPDATEUSERGUID#,
+			updatetime = #CURRENTTIME:TIMESTAMP#,
+            <if test="MD_ID!=null">md_ID=#MD_ID#,</if>
+            <if test="MD_NAME!=null">MD_NAME=#MD_NAME#,</if>
+            <if test="OWNERUSERGUID!=null">OWNERUSERGUID=#OWNERUSERGUID#,</if>
+            <if test="JOBSTATUS!=null">JOBSTATUS=#JOBSTATUS#,</if>
+            <if test="EXECUTORCLASS!=null">EXECUTORCLASS=#EXECUTORCLASS#,</if>
+            
+            <if test="ISSINGLETHREAD!=null">ISSINGLETHREAD=#ISSINGLETHREAD#,</if>
+            <if test="FILETYPE!=null">FILETYPE=#FILETYPE#,</if>
+            <if test="PRIORITY!=null">PRIORITY=#PRIORITY#,</if>
+            <if test="RESULT!=null">RESULT=#RESULT#,</if>
+            <if test="DESCRIPTION!=null">DESCRIPTION=#DESCRIPTION#,</if>
+            <if test="FILEGUID!=null">fileguid=#FILEGUID#,</if>
+      	    <if test="SIGNGUID!=null">signguid=#SIGNGUID#,</if>
+ 	        <if test="NEEDTRANSFORM!=null">needtransform=#NEEDTRANSFORM#,</if>
+            <if test="TARGETREVISIONCLASSGUID!=null">TARGETREVISIONCLASSGUID=#TARGETREVISIONCLASSGUID#,</if>
+ 	        <if test="TARGETREVISIONGUID!=null">TARGETREVISIONGUID=#TARGETREVISIONGUID#,</if>
+       		<if test="SERVERID!=null">SERVERID=#SERVERID#,</if>
+        </set>
+        where guid = #GUID#
+    </update>
+     
+    <delete id="delete" parameterType="java.lang.String">
+        delete from bi_transform_queue  where guid = #GUID#
+    </delete>
+ <select id="selectNotComplete" parameterType="java.lang.String" resultType="dyna.common.bean.data.trans.TransformQueue">
+ 	select count(guid) num from bi_transform_queue where procrtguid=#procrtguid# and jobstatus not in('2','3')
+ </select>
+ <select id="selectHasTrans" parameterType="java.lang.String" resultType="dyna.common.bean.data.trans.TransformQueue">
+ 	select count(guid) num from bi_transform_queue where procrtguid=#procrtguid# and jobstatus not in('2','3','4')
+ </select>
+</mapper>

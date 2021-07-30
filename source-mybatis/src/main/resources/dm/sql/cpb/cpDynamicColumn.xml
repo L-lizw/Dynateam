@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.cpb.DynamicOfColumnMapper">
+
+    <select id="listAllVirableOfList" parameterType="map" resultType="dyna.common.bean.data.configparamter.DynamicOfColumn">
+		select c.*
+		  from ma_config_table_custm_l c
+		<where>
+			<choose>
+				<when test="RELEASETIME != null and RELEASETIME != ''">
+					and c.releasetime <![CDATA[ <= ]]> #RELEASETIME:DATE#
+					and (c.obsoletetime is null or c.obsoletetime > #RELEASETIME:DATE#)
+				</when>
+				<otherwise>
+					<if test="STATUS==null">
+						and c.hasnextrevision = 'N'
+					</if>
+					<choose>
+						<when test="STATUS == 'RLS'">and c.releasetime is not null and c.obsoletetime is null</when>
+						<otherwise>and c.hasnextrevision = 'N'</otherwise>
+					</choose>
+				</otherwise>
+			</choose>
+			and c.masterguid = #MASTERGUID#
+		</where>
+    </select>
+
+    <select id="listAllVirableOfLNumber" parameterType="map" resultType="dyna.common.bean.data.configparamter.DynamicOfColumn">
+		select a.title name, c.*
+		  from MA_CONFIG_TABLE_INFO a,
+		       ma_config_table_l_group b,
+		       ma_config_table_custm_l c
+		<where>
+			a.uniquevalue = c.titleguid
+			and b.uniquevalue = c.masterfk
+			and a.masterguid = #MASTERGUID#
+			and b.masterguid = #MASTERGUID#
+			and c.masterguid = #MASTERGUID#
+			<choose>
+				<when test="RELEASETIME != null and RELEASETIME !=''">
+					and #RELEASETIME:DATE# >= a.releasetime
+					and (a.obsoletetime is null or #RELEASETIME:DATE# <![CDATA[ < ]]> a.obsoletetime)
+					and #RELEASETIME:TIMESTAMP# >= b.releasetime
+					and (b.obsoletetime is null or #RELEASETIME:DATE# <![CDATA[ < ]]> b.obsoletetime)
+					and #RELEASETIME:TIMESTAMP# >= c.releasetime
+					and (c.obsoletetime is null or #RELEASETIME:DATE# <![CDATA[ < ]]> c.obsoletetime)
+				</when>
+				<otherwise>
+					<if test="STATUS == null">
+						and a.hasnextrevision = 'N' and b.hasnextrevision = 'N' and c.hasnextrevision = 'N'
+					</if>
+					<if test="STATUS=='RLS'">
+						and a.releasetime is not null and a.obsoletetime is null and b.releasetime is not null and b.obsoletetime is null and c.releasetime is not null and c.obsoletetime is null
+					</if>
+					<if test="STATUS != 'RLS'">
+						and a.hasnextrevision = 'N' and b.hasnextrevision = 'N' and c.hasnextrevision = 'N'
+					</if>
+				</otherwise>
+			</choose>
+			<if test="LNUMBERLIST!=null">
+				and b.lnumber in
+				<foreach collection="LNUMBERLIST" open="(" close=")" separator="," item="TEMP">
+					#TEMP#
+				</foreach>
+			</if>
+
+		</where>
+    </select>
+    
+    <select id="listAllVirableOfRegion" parameterType="map" resultType="dyna.common.bean.data.configparamter.DynamicOfColumn">
+        select b.*
+          from MA_CONFIG_TABLE_CUSTM_AERQ b
+		<where>
+			<choose>
+				<when test="RELEASETIME !=null and RELEASETIME != ''">
+					and #RELEASETIME:DATE# >= b.releasetime
+					and (b.obsoletetime is null or #RELEASETIME:DATE# <![CDATA[ < ]]> b.obsoletetime)
+				</when>
+				<otherwise>
+					<if test="STATUS==null">
+						and b.hasnextrevision = 'N'
+					</if>
+					<if test="STATUS== 'RLS'">
+						and b.releasetime is not null and b.obsoletetime is null
+					</if>
+					<if test="STATUS != 'RLS'">
+						and b.hasnextrevision = 'N'
+					</if>
+				</otherwise>
+			</choose>
+			<if test="RNUMBERLIST!=null">
+				and b.masterfk in
+				<foreach collection="RNUMBERLIST" open="(" close=")" separator="," item="TEMP">#TEMP#</foreach>
+			</if>
+			and b.masterguid = #MASTERGUID#
+		</where>
+    </select>
+    
+    <select id="listAllVirableOfG" parameterType="map" resultType="dyna.common.bean.data.configparamter.DynamicOfColumn">
+        select *
+          from ma_config_table_custm_g a
+		<where>
+			<choose>
+				<when test="RELEASETIME != null and RELEASETIME != ''">
+					and #RELEASETIME:DATE# >= a.releasetime
+					and (a.obsoletetime is null or #RELEASETIME:DATE# <![CDATA[ < ]]> a.obsoletetime)
+				</when>
+				<otherwise>
+					<if test="STATUS==null">
+						and b.hasnextrevision = 'N'
+					</if>
+					<if test="STATUS== 'RLS'">
+						and b.releasetime is not null and b.obsoletetime is null
+					</if>
+					<if test="STATUS != 'RLS'">
+						and b.hasnextrevision = 'N'
+					</if>
+				</otherwise>
+			</choose>
+			<if test="GNUMBERLIST!=null">
+				and a.masterfk in
+				<foreach collection="GNUMBERLIST" open="(" close=")" separator="," item="TEMP">#TEMP#</foreach>
+			</if>
+			and a.masterguid = #MASTERGUID#
+		</where>
+    </select>
+    
+    <select id="listAllVirableOfP" parameterType="map" resultType="dyna.common.bean.data.configparamter.DynamicOfColumn">
+        select b.*
+          from MA_CONFIG_TABLE_INFO a,
+               ma_config_table_custm_p b
+		<where>
+			<choose>
+				<when test="RELEASETIME != null and RELEASETIME != ''">
+					and #RELEASETIME:DATE# >= a.releasetime
+					and (a.obsoletetime is null or #RELEASETIME:DATE# <![CDATA[ < ]]> a.obsoletetime)
+					and #RELEASETIME:DATE# >= b.releasetime
+					and (b.obsoletetime is null or #RELEASETIME:DATE# <![CDATA[ < ]]> b.obsoletetime)
+				</when>
+				<otherwise>
+					<if test="STATUS==null">
+						and a.hasnextrevision = 'N' and b.hasnextrevision = 'N'
+					</if>
+					<if test="STATUS == 'RLS'">
+						and a.releasetime is not null and a.obsoletetime is null and b.releasetime is not null and b.obsoletetime is null
+					</if>
+					<if test="STATUS != 'RLS'" >
+						and a.hasnextrevision = 'N' and b.hasnextrevision = 'N'
+					</if>
+				</otherwise>
+			</choose>
+			<if test="PNUMBERLIST!=null">
+				b.masterfk in
+				<foreach collection="PNUMBERLIST" open="(" close=")" separator=","  item="TEMP">#TEMP#</foreach>
+			</if>
+			and a.masterguid = b.masterguid
+			and a.uniquevalue = b.titleguid
+			and b.masterguid = #MASTERGUID#
+		</where>
+         order by a.titlesequence
+    </select>
+        
+    <insert id="insertCustColumn" parameterType="map">
+            into $TABLENAME$(GUID, 
+                             MASTERGUID, 
+                             MASTERFK, 
+                             TITLEGUID, 
+                             ITEMVALUE, 
+                             HASNEXTREVISION,
+                             
+                             CREATEUSERGUID, 
+                             CREATETIME, 
+                             UPDATEUSERGUID, 
+                             UPDATETIME)
+          values (#GUID#, 
+                  #MASTERGUID#, 
+                  #MASTERFK#, 
+                  #TITLEGUID#, 
+                  #ITEMVALUE#, 
+                  'N', 
+                  
+                  #CREATEUSERGUID:VARCHAR:NULL#,
+                  #CURRENTTIME:TIMESTAMP#,
+				  #UPDATEUSERGUID:VARCHAR:NULL#,
+				  #CURRENTTIME:TIMESTAMP#
+                  )
+    </insert>
+    
+    <update id="updateCustColumn" parameterType="map">
+            update $TABLENAME$ 
+               set UPDATEUSERGUID = #UPDATEUSERGUID:VARCHAR:NULL#,
+                   UPDATETIME = #CURRENTTIME:TIMESTAMP#,
+                   ITEMVALUE = #ITEMVALUE#
+             where guid = #GUID#;
+    </update>
+    
+    <update id="updateCustColumnHasNextRevision" parameterType="map">
+        update $TABLENAME$ 
+           set UPDATEUSERGUID = #UPDATEUSERGUID:VARCHAR:NULL#,
+               UPDATETIME = #CURRENTTIME:TIMESTAMP#,
+               hasnextrevision = 'Y'
+         where guid= #GUID#;
+    </update>
+    
+    <delete id="deleteCustColumn" parameterType="map">
+        delete $TABLENAME$ 
+         where guid = #GUID#;
+    </delete>
+    
+    <update id="releaseCustColumn" parameterType="map">
+		update $TABLENAME$ 
+		   set UPDATEUSERGUID = #UPDATEUSERGUID:VARCHAR:NULL#,
+               UPDATETIME = $CURRENTTIME$,
+		       releasetime = $CURRENTTIME$
+		 where releasetime is null
+		   and masterguid = #MASTERGUID#
+    </update>
+    
+    <update id="obsoleteCustColumn" parameterType="map">
+		update $TABLENAME$ 
+		   set UPDATEUSERGUID = #UPDATEUSERGUID:VARCHAR:NULL#,
+               UPDATETIME = $CURRENTTIME$,
+		       obsoletetime = $CURRENTTIME$
+		 where obsoletetime is null
+		   and hasnextrevision = 'Y'
+		   and masterguid = #MASTERGUID#
+    </update>
+</mapper>

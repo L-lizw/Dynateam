@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.configparamter.TableOfInputVariableMapper">
+
+    <select id="select" parameterType="map" resultType="dyna.common.bean.data.configparamter.TableOfInputVariable">
+        select a.*
+          from ma_config_table_inputvariable a
+        <where>
+            <if test="RELEASETIME==null">
+                <if test="STATUS==null">
+                    and a.hasnextrevision = 'N'
+                </if>
+                <if test="STATUS == 'RLS'">
+                    and a.releasetime is not null and a.obsoletetime is null
+                </if>
+                <if test="STATUS != 'RLS'">
+                    and a.hasnextrevision = 'N'
+                </if>
+            </if>
+            <if test="SN != null">
+                and a.SN = #SN#
+            </if>
+            <if test="RELEASETIME != null">
+                and #RELEASETIME:TIMESTAMP# >= a.releasetime
+                and (a.obsoletetime is null or #RELEASETIME:TIMESTAMP# <![CDATA[ < ]]> a.obsoletetime)
+            </if>
+            and a.masterguid = #MASTERGUID#
+        </where>
+         order by a.DATASEQ
+    </select>
+    
+    <select id="haveRLSData" parameterType="java.lang.String" resultType="dyna.common.bean.data.configparamter.TableOfInputVariable">
+        select case cnt
+                 when 0 then 'N'
+                 else 'Y'
+               end haverls
+          from (select count(1) cnt
+		          from ma_config_table_inputvariable
+		         where releasetime is not null
+		           and masterguid = #MASTERGUID#
+               )
+    </select>
+    
+    <select id="isDuplicateSN" parameterType="map" resultType="dyna.common.bean.data.configparamter.TableOfInputVariable">
+		select distinct *
+		  from (select 'Y'
+		          from ma_config_table_inputvariable a
+		         where a.sn is not null and a.HASNEXTREVISION = 'N'
+		           and a.masterguid = #MASTERGUID#
+		         group by a.sn
+		        having count(a.sn) > 1
+		        union
+		        select 'Y'
+		          from ma_config_table_inputvariable a
+		         where a.sn is not null		           
+		           and exists (select 1
+				                 from ma_config_table_l_group b
+				                where a.sn = b.sn 
+				                	and  b.HASNEXTREVISION = 'N'
+				                    and b.masterguid = #MASTERGUID#)
+				   and   a.HASNEXTREVISION = 'N'
+		           and a.masterguid = #MASTERGUID#
+		        union
+		        select 'Y'
+		          from ma_config_table_inputvariable a
+		         where a.sn is not null
+		           and exists (select 1
+				                 from ma_config_table_g b
+				                where a.sn = b.sn
+				                	and  b.HASNEXTREVISION = 'N'
+  				                    and b.masterguid = #MASTERGUID#)
+				   and   a.HASNEXTREVISION = 'N'
+		           and a.masterguid = #MASTERGUID#
+		      )
+    </select>
+    
+    <insert id="inserBatchList" parameterType="map">
+            into MA_CONFIG_TABLE_INPUTVARIABLE(GUID, 
+                                               MASTERGUID, 
+                                               dataseq,
+                                               VARNAME,
+                                               DESCRIPTION, 
+                                               VALUETYPE, 
+                                               VALUERANGE, 
+                                               SN,
+                                               VALUEDESCRIPTION,
+                                               
+                                               CREATEUSERGUID, 
+				                               CREATETIME, 
+				                               UPDATEUSERGUID, 
+				                               UPDATETIME) 
+          values (#GUID#, 
+                  #MASTERGUID#, 
+                  #DATASEQ#,
+                  #VARNAME#,
+                  #DESCRIPTION#, 
+                  #VALUETYPE#, 
+                  #VALUERANGE#, 
+                  #SN#,
+                  #VALUEDESCRIPTION#,
+                  
+                  #CREATEUSERGUID:VARCHAR:NULL#,
+                  #CURRENTTIME:TIMESTAMP#,
+				  #UPDATEUSERGUID:VARCHAR:NULL#,
+				  #CURRENTTIME:TIMESTAMP#)
+    </insert>
+    
+    
+    <update id="updateBatchList" parameterType="map">
+            update ma_config_table_inputvariable 
+               set UPDATEUSERGUID = #UPDATEUSERGUID:VARCHAR:NULL#,
+                   UPDATETIME = #CURRENTTIME:TIMESTAMP#,
+                   dataseq = #DATASEQ#,
+                   varname = #VARNAME#,
+                   description = #DESCRIPTION#,
+                   valuetype = #VALUETYPE#,
+                   valuerange = #VALUERANGE#,
+                   SN = #SN#,
+                   valuedescription=#VALUEDESCRIPTION#
+             where guid = #GUID#;
+     </update>
+    
+    <update id="updateNextRevisionBatchList" parameterType="map">
+        update ma_config_table_inputvariable 
+           set UPDATEUSERGUID = #UPDATEUSERGUID:VARCHAR:NULL#,
+               UPDATETIME = #CURRENTTIME:TIMESTAMP#,
+               hasnextrevision = 'Y'
+        where releasetime is not null 
+               and obsoletetime is null
+               and guid = #GUID#;
+    </update>
+    
+    <delete id="deleteLine" parameterType="java.lang.String">
+            delete from MA_CONFIG_TABLE_INPUTVARIABLE  where releasetime is null and guid = #GUID#;
+    </delete>
+    
+    <!-- 删除对象时,同步删除配置数据 -->
+    <delete id="deleteByMaster" parameterType="java.lang.String">
+        delete from MA_CONFIG_TABLE_INPUTVARIABLE  where masterguid = #MASTERGUID#
+    </delete>
+    
+    <!-- 删除工作版本对象时,同步删除配置数据 -->
+    <update id="clearWIP" parameterType="map">
+            update MA_CONFIG_TABLE_INPUTVARIABLE 
+               set UPDATEUSERGUID = #UPDATEUSERGUID:VARCHAR:NULL#,
+                   UPDATETIME = $CURRENTTIME$,
+                   hasnextrevision = 'N'
+             where hasnextrevision = 'Y' and obsoletetime is null and masterguid = #MASTERGUID#;
+    </update>
+    <!-- 删除工作版本对象时,同步删除配置数据 -->
+    <delete id="deleteWIP" parameterType="java.lang.String">
+            delete from MA_CONFIG_TABLE_INPUTVARIABLE  where releasetime is null and masterguid = #MASTERGUID#;
+    </delete>
+</mapper>

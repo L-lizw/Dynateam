@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.model.wf.WorkflowLifecyclePhaseInfoMapper">
+
+	<select id="selectForLoad" resultType="dyna.common.dto.model.wf.WorkflowLifecyclePhaseInfo" statementType="STATEMENT">
+		select a.*
+		from ma_wf_lcphase a
+		order by a.DATASEQ
+	</select>
+	
+	<select id="get" resultType="dyna.common.dto.model.wf.WorkflowLifecyclePhaseInfo" statementType="STATEMENT">
+		select a.*
+		from ma_wf_lcphase a
+		where guid=#GUID#
+	</select>
+	
+	<insert id="insert" parameterType="dyna.common.dto.model.wf.WorkflowLifecyclePhaseInfo">
+		insert into ma_wf_lcphase 
+		(
+		guid,
+		mawffk,
+		LCMASTERGUID,
+		LCPHASEGUID,
+		DATASEQ,
+		createtime,
+		createuserguid,
+		updatetime,
+		updateuserguid
+		)
+		values (
+		#GUID:VARCHAR:NULL#,
+		#MAWFFK:VARCHAR:NULL#,
+		#LCMASTERGUID:VARCHAR:NULL#,
+		#LCPHASEGUID:VARCHAR:NULL#,
+		#DATASEQ#,
+
+		#CURRENTTIME:TIMESTAMP#,
+		#CREATEUSERGUID:VARCHAR:NULL#,
+		#CURRENTTIME:TIMESTAMP#,
+		#UPDATEUSERGUID:VARCHAR:NULL#
+		)
+	</insert>
+	
+	<update id="update" parameterType="dyna.common.dto.model.wf.WorkflowLifecyclePhaseInfo">
+		update ma_wf_lcphase
+		<set>
+			updatetime=#CURRENTTIME:TIMESTAMP#,
+			updateuserguid=#UPDATEUSERGUID#,
+			<if  test="MAWFFK!=null">mawffk=#MAWFFK#,</if>
+			<if  test="LCMASTERGUID!=null">LCMASTERGUID=#LCMASTERGUID#,</if>
+			<if  test="DATASEQ!=null">DATASEQ=#DATASEQ#,</if>
+			<if  test="LCPHASEGUID!=null">LCPHASEGUID=#LCPHASEGUID#,</if>
+		</set>
+		WHERE guid = #GUID#
+	</update>
+	
+	<delete id="delete" parameterType="java.lang.String">
+		delete from ma_wf_lcphase 
+		where guid = #GUID#
+	</delete>
+</mapper>

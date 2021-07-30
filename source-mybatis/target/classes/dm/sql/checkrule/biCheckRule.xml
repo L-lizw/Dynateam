@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.checkrule.CheckRuleMapper">
+
+	<select id="select" parameterType="map" resultType="dyna.common.bean.data.checkrule.CheckRule">
+        select a.*
+          from BI_RULE a
+        <where>
+			<if  test="RULEID!=null">and a.RULEID=#RULEID#</if>
+			<if  test="RULENAME!=null">and a.RULENAME=#RULENAME#</if>
+			<if  test="DATASEQ!=null">and a.DATASEQ=#DATASEQ#</if>
+			<if  test="RULETYPE!=null">and a.RULETYPE=#RULETYPE#</if>
+			<if  test="FIRSTCONDITION!=null">and a.FIRSTCONDITION=#FIRSTCONDITION#</if>
+			<if  test="END1CONDITION!=null">and a.END1CONDITION=#END1CONDITION#</if>
+			<if  test="GUID!=null">and a.GUID=#GUID#</if>
+			<if   test="ENABLEDDIRECTLY!=null">and a.ENABLEDDIRECTLY=#ENABLEDDIRECTLY#</if>
+		</where>
+		order by RULEID
+	</select>
+	
+	<insert id="insert" parameterType="dyna.common.bean.data.checkrule.CheckRule">
+		INSERT INTO BI_RULE  (
+			guid,
+			ruleid,
+			rulename,
+			ruletype,
+			firstcondition,
+			end1condition,
+			exceptionmsg,
+		    DATASEQ,
+			enableddirectly,
+			createtime,
+			createuserguid,
+			updatetime,
+			updateuserguid
+		)
+		select
+			#GUID:VARCHAR:NULL#,
+			#RULEID:VARCHAR:NULL#,
+			#RULENAME:VARCHAR:NULL#,
+			#RULETYPE:VARCHAR:NULL#,
+			#FIRSTCONDITION:VARCHAR:NULL#,
+			#END1CONDITION:VARCHAR:NULL#,
+			#EXCEPTIONMSG:VARCHAR:NULL#,
+			#DATASEQ#,
+			#ENABLEDDIRCTLY:VARCHAR:NULL#,
+			#CURRENTTIME:TIMESTAMP#,
+			#CREATEUSERGUID:VARCHAR:NULL#,
+			#CURRENTTIME:TIMESTAMP#,
+			#UPDATEUSERGUID:VARCHAR:NULL#
+	</insert>
+	
+	<update id="update" parameterType="dyna.common.bean.data.checkrule.CheckRule">
+		UPDATE BI_RULE  SET
+		<set>
+			updatetime=#CURRENTTIME:TIMESTAMP#,
+			updateuserguid=#UPDATEUSERGUID#,
+			<if  test="RULEID!=null">RULEID=#RULEID#,</if>
+			<if  test="RULENAME!=null">RULENAME=#RULENAME#,</if>
+			<if  test="RULETYPE!=null">RULETYPE=#RULETYPE#,</if>
+			<if  test="FIRSTCONDITION!=null">FIRSTCONDITION=#FIRSTCONDITION#,</if>
+			<if  test="END1CONDITION!=null">END1CONDITION=#END1CONDITION#,</if>
+			<if  test="EXCEPTIONMSG!=null">EXCEPTIONMSG=#EXCEPTIONMSG#,</if>
+			<if  test="ENABLEDDIRECTLY!=null">ENABLEDDIRECTLY=#ENABLEDDIRECTLY#,</if>
+		</set>
+		WHERE guid = #GUID#
+	</update>
+
+	<delete id="delete" parameterType="java.lang.String">
+		DELETE FROM BI_RULE 
+		WHERE guid = #GUID#
+	</delete>
+	
+	<delete id="deleteAll">
+	    DELETE FROM BI_RULE 
+	</delete>
+</mapper>

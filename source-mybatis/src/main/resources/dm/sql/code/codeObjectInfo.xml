@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+		PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+		"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.model.code.CodeObjectInfoMapper">
+
+	<select id="selectForLoad" parameterType="map" resultType="dyna.common.dto.model.code.CodeObjectInfo">
+		SELECT GUID,
+		CREATEUSERGUID,
+		CREATETIME,
+		UPDATEUSERGUID,
+		UPDATETIME,
+		TITLE,
+		DESCRIPTION,
+		CODETYPE,
+		SHOWTYPE,
+		CODENAME,
+		ISCLASSIFICATION,
+		BASETABLENAME
+		FROM MA_CODE_MASTER
+	</select>
+
+	<select id="get" parameterType="java.lang.String" resultType="dyna.common.dto.model.code.CodeObjectInfo" statementType="STATEMENT">
+		SELECT GUID,
+		CREATEUSERGUID,
+		CREATETIME,
+		UPDATEUSERGUID,
+		UPDATETIME,
+		TITLE,
+		DESCRIPTION,
+		CODETYPE,
+		SHOWTYPE,
+		CODENAME,
+		ISCLASSIFICATION,
+		BASETABLENAME
+		FROM MA_CODE_MASTER
+		WHERE GUID = #GUID#
+	</select>
+
+	<select id="select" parameterType="map" resultType="dyna.common.dto.model.code.CodeObjectInfo" statementType="STATEMENT">
+		SELECT GUID,
+		CREATEUSERGUID,
+		CREATETIME,
+		UPDATEUSERGUID,
+		UPDATETIME,
+		TITLE,
+		DESCRIPTION,
+		CODETYPE,
+		SHOWTYPE,
+		CODENAME,
+		ISCLASSIFICATION,
+		BASETABLENAME
+		FROM MA_CODE_MASTER
+		<where>
+			<if  test="CODENAME!=null">
+				AND CODENAME = #CODENAME#
+			</if>
+			<if  test="ISCLASSIFICATION!=null">
+				AND ISCLASSIFICATION = #ISCLASSIFICATION#
+			</if>
+		</where>
+	</select>
+
+	<insert id="insert" parameterType="dyna.common.dto.model.code.CodeObjectInfo">
+		INSERT INTO  MA_CODE_MASTER
+		(
+		GUID,
+		CODENAME,
+		TITLE,
+		CREATETIME,
+		CREATEUSERGUID,
+		UPDATETIME,
+		UPDATEUSERGUID,
+		DESCRIPTION,
+		SHOWTYPE,
+		CODETYPE,
+		ISCLASSIFICATION,
+		BASETABLENAME
+		)
+		VALUES
+		(
+		#GUID#,
+		#CODENAME:VARCHAR:NULL#,
+		#TITLE:VARCHAR:NULL#,
+		#CURRENTTIME:TIMESTAMP#,
+		#CREATEUSERGUID:VARCHAR:NULL#,
+		#CURRENTTIME:TIMESTAMP#,
+		#UPDATEUSERGUID:VARCHAR:NULL#,
+		#DESCRIPTION:VARCHAR:NULL#,
+		#SHOWTYPE:VARCHAR:NULL#,
+		#CODETYPE:VARCHAR:NULL#,
+		#ISCLASSIFICATION:VARCHAR:NULL#,
+		#BASETABLENAME:VARCHAR:NULL#
+		)
+	</insert>
+
+	<update id="update" parameterType="dyna.common.dto.model.code.CodeObjectInfo">
+		UPDATE MA_CODE_MASTER
+		<set>
+			UPDATETIME = #CURRENTTIME:TIMESTAMP#
+			<if  test="TITLE!=null">title=#TITLE#,</if>
+			<if  test="UPDATEUSERGUID!=null">updateuserguid=#UPDATEUSERGUID#,</if>
+			<if  test="DESCRIPTION!=null">description=#DESCRIPTION#,</if>
+			<if  test="CODETYPE!=null">CODETYPE=#CODETYPE#,</if>
+			<if  test="SHOWTYPE!=null">showtype=#SHOWTYPE#,</if>
+			<if  test="ISCLASSIFICATION!=null">ISCLASSIFICATION=#ISCLASSIFICATION#,</if>
+			<if  test="BASETABLENAME!=null">BASETABLENAME=#BASETABLENAME#,</if>
+		</set>
+		WHERE GUID = #GUID#
+	</update>
+
+	<delete id="delete" parameterType="java.lang.String">
+		DELETE FROM MA_CODE_MASTER
+		WHERE GUID = #GUID#
+	</delete>
+
+</mapper>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.model.ui.ClassificationUIFieldMapper">
+
+    <select id="selectForLoad" resultType="dyna.common.dto.model.ui.ClassificationUIField" statementType="STATEMENT">
+		select a.*
+		from ma_classification_ui_field a
+		order by a.rowamount,a.columamount
+	</select>
+    
+	<select id="get" parameterType="java.lang.String" resultType="dyna.common.dto.model.ui.ClassificationUIField" statementType="STATEMENT">
+		SELECT *
+		  FROM ma_classification_ui_field
+		 WHERE GUID=#GUID#
+	</select>
+	
+	 <insert id="insert" parameterType="dyna.common.dto.model.ui.ClassificationUIField">
+        insert into ma_classification_ui_field
+			       (guid,
+			        classificationuifk,
+			        classificationfieldguid,
+			        fieldname,
+			        title,
+			        DATASEQ,
+			        showtitle,
+			        readonly,
+			        froze,
+			        width,
+			        height,
+			        rowamount,
+			        columamount,
+			        columnspan,
+			        columnname,
+			        notinherited,
+			        format,
+			        mandatory,
+			        
+			        createuserguid,
+			        createtime,
+			        updateuserguid,
+			        updatetime)
+	        values (#GUID#,
+			        #CLASSIFICATIONUIFK#,
+			        #CLASSIFICATIONFIELDGUID:VARCHAR:NULL#,
+					#FIELDNAME:VARCHAR:NULL#,					
+					#TITLE:VARCHAR:NULL#,
+					#DATASEQ#,
+					#SHOWTITLE#,
+					
+					#READONLY#,
+					#FROZE#,
+					#WIDTH:VARCHAR:NULL#,
+					#HEIGHT:VARCHAR:NULL#,
+					
+					#ROWAMOUNT:VARCHAR:NULL#,
+					#COLUMAMOUNT:VARCHAR:NULL#,
+					#COLUMNSPAN:VARCHAR:NULL#,
+					#COLUMNNAME:VARCHAR:NULL#,
+					
+					#NOTINHERITED#,
+					#FORMAT:VARCHAR:NULL#,
+					#MANDATORY:VARCHAR:NULL#,
+					
+					#CREATEUSERGUID:VARCHAR:NULL#,
+					#CURRENTTIME:TIMESTAMP#,
+					#UPDATEUSERGUID:VARCHAR:NULL#,
+					#CURRENTTIME:TIMESTAMP#)
+    </insert>
+	
+	<update id="update" parameterType="dyna.common.dto.model.ui.ClassificationUIField">
+		update ma_classification_ui_field
+			<set>
+		        <if test="CLASSIFICATIONUIFK!=null">CLASSIFICATIONUIFK = #CLASSIFICATIONUIFK#,</if>
+		        <if test="CLASSIFICATIONFIELDGUID!=null">CLASSIFICATIONFIELDGUID = #CLASSIFICATIONFIELDGUID#,</if>
+		        <if test="FIELDNAME!=null">FIELDNAME = #FIELDNAME#,</if>
+		        <if test="TITLE!=null">title = #TITLE#,</if>
+		        <if test="DATASEQ!=null">DATASEQ = #DATASEQ#,</if>
+		        <if test="SHOWTITLE!=null">SHOWTITLE = #SHOWTITLE#,</if>
+		        <if test="READONLY!=null">READONLY = #READONLY#,</if>
+		        <if test="FROZE!=null">FROZE = #FROZE#,</if>
+		        <if test="WIDTH!=null">WIDTH = #WIDTH#,</if>
+		        <if test="HEIGHT!=null">HEIGHT = #HEIGHT#,</if>
+		        <if test="ROWAMOUNT!=null">ROWAMOUNT = #ROWAMOUNT#,</if>
+		        <if test="COLUMAMOUNT!=null">COLUMAMOUNT = #COLUMAMOUNT#,</if>
+		        <if test="COLUMNSPAN!=null">COLUMNSPAN = #COLUMNSPAN#,</if>
+		        <if test="COLUMNNAME!=null">COLUMNNAME = #COLUMNNAME#,</if>
+		        <if test="NOTINHERITED!=null">NOTINHERITED = #NOTINHERITED#,</if>
+		        <if test="FORMAT!=null">FORMAT = #FORMAT#,</if>
+		        <if test="MANDATORY!=null">MANDATORY = #MANDATORY#,</if>
+       		 </set>
+               updatetime = #CURRENTTIME:TIMESTAMP#,
+               updateuserguid = #UPDATEUSERGUID#
+         where guid = #GUID#
+	</update>
+	
+	<delete id="delete" parameterType="java.lang.String">
+		delete from ma_classification_ui_field  where guid = #GUID# 
+	</delete>
+    
+</mapper>

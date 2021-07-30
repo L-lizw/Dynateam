@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.TreeDataRelationMapper">
+
+    <insert id="insert" parameterType="dyna.common.dto.TreeDataRelation">
+        insert into ma_treedata_relation(guid,
+                                         dataguid,
+                                         subdataguid,
+                                         datatype,
+                                         createuserguid,
+                                         createtime
+                                        )
+        values(#GUID:VARCHAR:NULL#, 
+               #DATAGUID:VARCHAR:NULL#,
+               #SUBDATAGUID:VARCHAR:NULL#,
+               #DATATYPE:VARCHAR:NULL#,
+               #CREATEUSERGUID:VARCHAR:NULL#,
+               #CURRENTTIME:TIMESTAMP#
+              )
+    </insert>
+
+    <select id="selectAllSubData" parameterType="java.util.HashMap" resultType="dyna.common.dto.TreeDataRelation" >
+        select distinct subdataguid
+          from ma_treedata_relation
+         where dataguid = #DATAGUID#
+           and datatype = #DATATYPE#
+    </select>
+
+    <select id="selectAllParentData" parameterType="java.util.HashMap" resultType="dyna.common.dto.TreeDataRelation">
+        select distinct subdataguid
+          from ma_treedata_relation
+         where subdataguid = #SUBDATAGUID#
+           and datatype = #DATATYPE#
+    </select>
+
+    <delete id="deleteBy" parameterType="java.util.HashMap">
+        delete from ma_treedata_relation
+         where (subdataguid = #SUBDATAGUID# or dataguid = #DATAGUID#)
+           and datatype = #DATATYPE#
+    </delete>
+
+    <delete id="deleteByType" parameterType="java.lang.String">
+        delete from ma_treedata_relation
+         where datatype = #DATATYPE#
+    </delete>
+</mapper>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+        "../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.cfm.ClassificationNumberFieldMapper">
+
+    <select id="selectForLoad" parameterType="map" resultType="dyna.common.dto.cfm.ClassificationNumberField">
+        SELECT GUID,
+        CLFNUMBERREGULARGUID,
+        FIELDNAME,
+        ISCLASSFIELD,
+        DATASEQ,
+        FIELDTYPE,
+        CODERULEVALUE,
+        FIELDLENGTH,
+        PREFIX,
+        SUFFIX,
+        CONTROLLEDNUMBERFIELDGUID,
+        ISDATEBYUSER,
+        TYPEVALUE,
+        CREATETIME,
+        CREATEUSERGUID,
+        UPDATETIME,
+        UPDATEUSERGUID
+        FROM CLASSIFICATION_NUMBER_FIELD CC
+        ORDER BY DATASEQ,UPDATETIME
+    </select>
+
+    <select id="get" parameterType="java.lang.String" resultType="dyna.common.dto.cfm.ClassificationNumberField">
+        SELECT GUID,
+        CLFNUMBERREGULARGUID,
+        FIELDNAME,
+        ISCLASSFIELD,
+        DATASEQ,
+        FIELDTYPE,
+        CODERULEVALUE,
+        FIELDLENGTH,
+        PREFIX,
+        SUFFIX,
+        CONTROLLEDNUMBERFIELDGUID,
+        ISDATEBYUSER,
+        TYPEVALUE,
+        CREATETIME,
+        CREATEUSERGUID,
+        UPDATETIME,
+        UPDATEUSERGUID
+        FROM CLASSIFICATION_NUMBER_FIELD CC
+        WHERE GUID = #GUID#
+    </select>
+
+    <insert id="insert" parameterType="dyna.common.dto.cfm.ClassificationNumberField">
+        INSERT INTO CLASSIFICATION_NUMBER_FIELD
+        (GUID,
+        CLFNUMBERREGULARGUID,
+        FIELDNAME,
+        ISCLASSFIELD,
+        DATASEQ,
+        FIELDTYPE,
+        CODERULEVALUE,
+        FIELDLENGTH,
+        PREFIX,
+        SUFFIX,
+        CONTROLLEDNUMBERFIELDGUID,
+        ISDATEBYUSER,
+        TYPEVALUE,
+
+        CREATEUSERGUID,
+        CREATETIME,
+        UPDATEUSERGUID,
+        UPDATETIME)
+        VALUES (#GUID#,
+        #CLFNUMBERREGULARGUID:VARCHAR:NULL#,
+        #FIELDNAME:VARCHAR:NULL#,
+        #ISCLASSFIELD:VARCHAR:NULL#,
+        #DATASEQ#,
+        #FIELDTYPE:VARCHAR:NULL#,
+        #CODERULEVALUE:VARCHAR:NULL#,
+        #FIELDLENGTH:NUMERIC:0#,
+        #PREFIX:VARCHAR:NULL#,
+        #SUFFIX:VARCHAR:NULL#,
+        #CONTROLLEDNUMBERFIELDGUID:VARCHAR:NULL#,
+        #ISDATEBYUSER:VARCHAR:NULL#,
+        #TYPEVALUE:VARCHAR:NULL#,
+
+        #CREATEUSERGUID:VARCHAR:NULL#,
+        #CURRENTTIME:TIMESTAMP#,
+        #UPDATEUSERGUID:VARCHAR:NULL#,
+        #CURRENTTIME:TIMESTAMP#)
+    </insert>
+
+    <update id="update" parameterType="dyna.common.dto.cfm.ClassificationNumberField">
+        UPDATE CLASSIFICATION_NUMBER_FIELD
+        <set>
+            UPDATETIME=#CURRENTTIME:TIMESTAMP#,
+            UPDATEUSERGUID=#UPDATEUSERGUID#,
+            <if  test="GUID!=null">GUID=#GUID#,</if>
+            <if  test="CLFNUMBERREGULARGUID!=null">CLFNUMBERREGULARGUID=#CLFNUMBERREGULARGUID#,</if>
+            <if  test="FIELDNAME!=null">FIELDNAME=#FIELDNAME#,</if>
+            <if  test="ISCLASSFIELD!=null">ISCLASSFIELD=#ISCLASSFIELD#,</if>
+            <if  test="DATASEQ!=null">DATASEQ=#DATASEQ#,</if>
+            <if  test="FIELDTYPE!=null">FIELDTYPE=#FIELDTYPE#,</if>
+            <if  test="CODERULEVALUE!=null">CODERULEVALUE=#CODERULEVALUE#,</if>
+            <if  test="FIELDLENGTH!=null">FIELDLENGTH=#FIELDLENGTH#,</if>
+            <if  test="PREFIX!=null">PREFIX=#PREFIX#,</if>
+            <if  test="SUFFIX!=null">SUFFIX=#SUFFIX#,</if>
+            <if  test="CONTROLLEDNUMBERFIELDGUID!=null">CONTROLLEDNUMBERFIELDGUID=#CONTROLLEDNUMBERFIELDGUID#,</if>
+            <if  test="ISDATEBYUSER!=null">ISDATEBYUSER=#ISDATEBYUSER#,</if>
+            <if  test="TYPEVALUE!=null">TYPEVALUE=#TYPEVALUE#,</if>
+        </set>
+        WHERE GUID = #GUID#
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        DELETE FROM CLASSIFICATION_NUMBER_FIELD  WHERE GUID = #GUID#
+    </delete>
+    <delete id="deleteFields" parameterType="java.lang.String">
+        DELETE FROM CLASSIFICATION_NUMBER_FIELD  WHERE CLFNUMBERREGULARGUID = #CLFNUMBERREGULARGUID#
+    </delete>
+</mapper>

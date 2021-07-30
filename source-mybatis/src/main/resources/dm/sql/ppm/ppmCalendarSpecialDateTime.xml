@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.ppm.PMCalendarSpecialDateTimeMapper">
+
+    <sql id="where">
+        <where>
+            <if  test="GUID!=null">
+                and  pcsdt.guid = #GUID#
+            </if>
+            <if  test="SPECIALID!=null">
+                and  pcsdt.specialid = #SPECIALID#
+            </if>
+            <if  test="SPECIALNAME!=null">
+                and  pcsdt.specialname = #SPECIALNAME#
+            </if>
+            <if  test="BEGINTIME!=null">
+                and  pcsdt.begintime = #BEGINTIME#
+            </if>
+            <if  test="ENDTIME!=null">
+                and pcsdt.endtime = #ENDTIME#
+            </if>
+            <if  test="SPECIALDATEGUID!=null">
+                and  pcsdt.specialdateguid = #SPECIALDATEGUID#
+            </if>
+            <if  test="CREATEUSERGUID!=null">
+                and  pcsdt.createuserguid = #CREATEUSERGUID#
+            </if>
+            <if  test="UPDATEUSERGUID!=null">
+                and  pcsdt.updateuserguid = #UPDATEUSERGUID#
+            </if>
+        </where>
+    </sql>
+    
+    <select id="select" parameterType="map" resultType="dyna.common.bean.data.ppms.PMCalendarSpecialDateTime">
+        select pcsdt.*
+          from ppm_calendar_special_date_time pcsdt
+        <include refid="where"/>
+    </select>
+    
+    <insert id="insert" parameterType="dyna.common.bean.data.ppms.PMCalendarSpecialDateTime">
+        insert into ppm_calendar_special_date_time
+		           (guid,
+			        specialid,
+			        specialname,
+		            
+		            begintime,
+		            endtime,
+		            specialdateguid,
+		            
+		            createuserguid,
+		            createtime,
+		            updateuserguid,
+			        updatetime)
+        values
+		           (#GUID#,
+			        #SPECIALID#,
+					#SPECIALNAME:VARCHAR:NULL#,
+				    
+				    #BEGINTIME:VARCHAR:NULL#,
+				    #ENDTIME:VARCHAR:NULL#,
+				    #SPECIALDATEGUID:VARCHAR:NULL#,
+				    
+				    #CREATEUSERGUID:VARCHAR:NULL#,
+				    #CURRENTTIME:TIMESTAMP#,
+				    #UPDATEUSERGUID:VARCHAR:NULL#,
+					#CURRENTTIME:TIMESTAMP#)
+    </insert>
+    
+    <update id="update" parameterType="dyna.common.bean.data.ppms.PMCalendarSpecialDateTime">
+        update ppm_calendar_special_date_time
+        <set>
+	        <if test="SPECIALID!=null">specialid = #SPECIALID#,</if>
+	        <if test="SPECIALNAME!=null">specialname = #SPECIALNAME#,</if>
+	        <if test="BEGINTIME!=null">begintime = #BEGINTIME#,</if>
+	        <if test="ENDTIME!=null">endtime = #ENDTIME#,</if>
+        </set>
+               updatetime = #CURRENTTIME:TIMESTAMP#,
+               updateuserguid = #UPDATEUSERGUID#
+         where guid = #GUID#
+    </update>
+    
+    <delete id="delete" parameterType="java.lang.String">
+        delete from ppm_calendar_special_date_time where guid = #GUID#
+    </delete>
+    
+    <delete id="deleteSpecialDateTimeByDate" parameterType="java.lang.String">
+        delete from ppm_calendar_special_date_time where specialdateguid = #SPECIALDATEGUID#
+    </delete>
+</mapper>

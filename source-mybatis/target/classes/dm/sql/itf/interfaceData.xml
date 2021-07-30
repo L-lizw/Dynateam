@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.itf.InterfaceDataMapper">
+
+    <select id="selectForLoad" parameterType="map" resultType="dyna.common.dto.model.itf.InterfaceData">
+        SELECT GUID,
+		       INTERFACENAME
+		  FROM MA_INTERFACE
+    </select>
+    
+	<select id="get" parameterType="java.lang.String" resultType="dyna.common.dto.model.itf.InterfaceData" statementType="STATEMENT">
+		SELECT GUID,
+		       INTERFACENAME
+		  FROM MA_INTERFACE
+		 WHERE INTERFACENAME=#INTERFACENAME#
+	</select>
+	
+	<insert id="insert" parameterType="map">
+	    INSERT INTO MA_INTERFACE(GUID, INTERFACENAME)
+	    VALUES(#GUID#, #INTERFACENAME#)
+	</insert>
+    
+    <delete id="delete" parameterType="java.lang.String">
+        DELETE FROM MA_INTERFACE WHERE GUID=#GUID#
+    </delete>
+
+	<delete id="deleteAll">
+		DELETE FROM MA_INTERFACE
+	</delete>
+
+</mapper>

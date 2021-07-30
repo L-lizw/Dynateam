@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+		PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+		"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.model.cls.ClassificationFieldMapper">
+
+	<select id="selectForLoad" parameterType="java.util.HashMap" resultType="dyna.common.dto.model.cls.ClassificationField" statementType="STATEMENT">
+		SELECT GUID,
+		CLASSIFICATIONFK,
+		FIELDNAME,
+		COLUMNNAME,
+		TITLE,
+		DESCRIPTION,
+		FIELDTYPE,
+		TYPEVALUE,
+		VALIDITYREGEX,
+		FIELDSIZE,
+		FIELDDEFAULT,
+		MANDATORY,
+		INHERITED,
+		PUBLICFIELDINERP,
+		CREATETIME,
+		CREATEUSERGUID,
+		UPDATETIME,
+		UPDATEUSERGUID
+		FROM MA_CLASSIFICATION_FIELD A
+		ORDER BY FIELDNAME
+	</select>
+
+	<select id="get" parameterType="java.lang.String" resultType="dyna.common.dto.model.cls.ClassificationField" statementType="STATEMENT">
+		SELECT GUID,
+		CLASSIFICATIONFK,
+		FIELDNAME,
+		COLUMNNAME,
+		TITLE,
+		DESCRIPTION,
+		FIELDTYPE,
+		TYPEVALUE,
+		VALIDITYREGEX,
+		FIELDSIZE,
+		FIELDDEFAULT,
+		MANDATORY,
+		INHERITED,
+		PUBLICFIELDINERP,
+		CREATETIME,
+		CREATEUSERGUID,
+		UPDATETIME,
+		UPDATEUSERGUID
+		FROM MA_CLASSIFICATION_FIELD A
+		WHERE GUID=#GUID#
+	</select>
+
+	<select id="select" parameterType="map" resultType="dyna.common.dto.model.cls.ClassificationField" statementType="STATEMENT">
+		SELECT  GUID,
+		CLASSIFICATIONFK,
+		FIELDNAME,
+		COLUMNNAME,
+		TITLE,
+		DESCRIPTION,
+		FIELDTYPE,
+		TYPEVALUE,
+		VALIDITYREGEX,
+		FIELDSIZE,
+		FIELDDEFAULT,
+		MANDATORY,
+		INHERITED,
+		PUBLICFIELDINERP,
+		CREATETIME,
+		CREATEUSERGUID,
+		UPDATETIME,
+		UPDATEUSERGUID
+		FROM MA_CLASSIFICATION_FIELD
+		<where>
+			<if test="GUID!=null" >and GUID=#GUID#</if>
+			<if test="CLASSIFICATIONFK!=null" >and CLASSIFICATIONFK=#CLASSIFICATIONFK#</if>
+			<if test="FIELDNAME!=null" >and FIELDNAME=#FIELDNAME#</if>
+			<if test="COLUMNNAME!=null" >and COLUMNNAME=#COLUMNNAME#</if>
+			<if test="TITLE!=null" >and TITLE=#TITLE#</if>
+			<if test="FIELDTYPE!=null" >and FIELDTYPE=#FIELDTYPE#</if>
+			<if test="DESCRIPTION!=null" >and DESCRIPTION=#DESCRIPTION#</if>
+			<if test="TYPEVALUE!=null" >and TYPEVALUE=#TYPEVALUE#</if>
+			<if test="VALIDITYREGEX!=null" >and VALIDITYREGEX=#VALIDITYREGEX#</if>
+			<if test="MANDATORY!=null" >and MANDATORY=#MANDATORY#</if>
+			<if test="INHERITED!=null" >and INHERITED=#INHERITED#</if>
+			<if test="PUBLICFIELDINERP!=null" >and PUBLICFIELDINERP=#PUBLICFIELDINERP#</if>
+		</where>
+	</select>
+
+	<insert id="insert" parameterType="map">
+		INSERT INTO MA_CLASSIFICATION_FIELD(GUID,
+		CLASSIFICATIONFK,
+		FIELDNAME,
+		COLUMNNAME,
+		TITLE,
+		DESCRIPTION,
+		FIELDTYPE,
+		TYPEVALUE,
+		VALIDITYREGEX,
+		FIELDSIZE,
+		FIELDDEFAULT,
+		MANDATORY,
+		INHERITED,
+		PUBLICFIELDINERP,
+		CREATETIME,
+		CREATEUSERGUID,
+		UPDATETIME,
+		UPDATEUSERGUID
+		)
+		VALUES(#GUID:VARCHAR#,
+		#CLASSIFICATIONFK:VARCHAR#,
+		#FIELDNAME:VARCHAR#,
+		#COLUMNNAME:VARCHAR:NULL#,
+		#TITLE:VARCHAR:NULL#,
+		#DESCRIPTION:VARCHAR:NULL#,
+		#FIELDTYPE:VARCHAR:NULL#,
+		#TYPEVALUE:VARCHAR:NULL#,
+		#VALIDITYREGEX:VARCHAR:NULL#,
+		#FIELDSIZE:VARCHAR:NULL#,
+		#FIELDDEFAULT:VARCHAR:NULL#,
+		#MANDATORY:VARCHAR:NULL#,
+		#INHERITED:VARCHAR:NULL#,
+		#PUBLICFIELDINERP:VARCHAR:NULL#,
+		#CURRENTTIME:TIMESTAMP#,
+		#CREATEUSERGUID:VARCHAR:NULL#,
+		#CURRENTTIME:TIMESTAMP#,
+		#UPDATEUSERGUID:VARCHAR:NULL#
+		)
+	</insert>
+
+	<update id="update" parameterType="map">
+		UPDATE MA_CLASSIFICATION_FIELD
+		<set>
+			UPDATEUSERGUID = #UPDATEUSERGUID#,
+			UPDATETIME = #CURRENTTIME:TIMESTAMP#,
+			<if  test="TITLE!=null">TITLE=#TITLE#,</if>
+			<if  test="DESCRIPTION!=null">DESCRIPTION=#DESCRIPTION#,</if>
+			<if  test="COLUMNNAME!=null">COLUMNNAME=#COLUMNNAME#,</if>
+			<if  test="FIELDTYPE!=null">FIELDTYPE=#FIELDTYPE#,</if>
+			<if  test="TYPEVALUE!=null">TYPEVALUE=#TYPEVALUE#,</if>
+			<if  test="VALIDITYREGEX!=null">VALIDITYREGEX=#VALIDITYREGEX#,</if>
+			<if  test="FIELDSIZE!=null">FIELDSIZE=#FIELDSIZE#,</if>
+			<if  test="FIELDDEFAULT!=null">FIELDDEFAULT=#FIELDDEFAULT#,</if>
+			<if  test="MANDATORY!=null">MANDATORY=#MANDATORY#,</if>
+			<if  test="INHERITED!=null">INHERITED=#INHERITED#,</if>
+			<if  test="PUBLICFIELDINERP!=null">PUBLICFIELDINERP=#PUBLICFIELDINERP#,</if>
+		</set>
+		WHERE GUID = #GUID#
+	</update>
+
+	<delete id="delete" parameterType="java.lang.String">
+		DELETE FROM MA_CLASSIFICATION_FIELD WHERE GUID = #GUID#
+	</delete>
+
+	<delete id="deleteByItem" parameterType="java.lang.String">
+		DELETE FROM MA_CLASSIFICATION_FIELD WHERE CLASSIFICATIONFK = #GUID#
+	</delete>
+
+	<delete id="deleteByMaster" parameterType="java.lang.String">
+		DELETE FROM MA_CLASSIFICATION_FIELD 
+		WHERE EXISTS(SELECT 1 FROM MA_CODE_DETAIL D
+		WHERE CLASSIFICATIONFK = D.GUID
+		AND D.MASTERGUID = #MASTERGUID#
+		)
+	</delete>
+</mapper>

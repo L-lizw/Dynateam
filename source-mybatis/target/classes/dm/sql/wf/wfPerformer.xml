@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.wf.PerformerMapper">
+
+    <insert id="insert" parameterType="dyna.common.dto.wf.Performer">
+        insert into wf_performer(guid, 
+                                 procrtguid, 
+                                 actrtguid, 
+                                 perfguid, 
+                                 perftype, 
+                                 perfgroupguid,
+                                 perfroleguid,
+                                 createuserguid, 
+                                 createtime, 
+                                 updateuserguid, 
+                                 updatetime, 
+                                 isfinish,
+                                 isrechecker
+                                )
+        values(#GUID:VARCHAR:NULL#, 
+               #PROCRTGUID:VARCHAR:NULL#, 
+               #ACTRTGUID:VARCHAR:NULL#, 
+               #PERFGUID:VARCHAR:NULL#,
+               #PERFTYPE:VARCHAR:NULL#, 
+               #PERFGROUPGUID:VARCHAR:NULL#, 
+               #PERFROLEGUID:VARCHAR:NULL#, 
+               #CREATEUSERGUID:VARCHAR:NULL#, 
+               #CURRENTTIME:TIMESTAMP#, 
+               #UPDATEUSERGUID:VARCHAR:NULL#, 
+               #CURRENTTIME:TIMESTAMP#,
+               #ISFINISH:VARCHAR:NULL#,
+               #ISRECHECKER:VARCHAR:NULL#
+              )
+    </insert>
+    
+    <insert id="insertActualPerformer" parameterType="dyna.common.dto.wf.Performer">
+        INSERT INTO WF_PERFORMER_ACTUAL (GUID,
+						                 PROCRTGUID,
+						                 ACTRTGUID,
+						                 PERFGUID,
+						                 CREATEUSERGUID,
+						                 CREATETIME,
+						                 UPDATEUSERGUID,
+						                 UPDATETIME
+                                        )
+        VALUES (#GUID#,
+                #PROCRTGUID#,
+                #ACTRTGUID#,
+                #PERFGUID#,
+                #CREATEUSERGUID:VARCHAR:NULL#, 
+                #CURRENTTIME:TIMESTAMP#, 
+                #UPDATEUSERGUID:VARCHAR:NULL#, 
+                #CURRENTTIME:TIMESTAMP#
+               )
+    </insert>
+    
+    <sql id="where">
+        <where>
+            <if  test="GUID!=null">
+                and b.guid = #GUID#
+            </if>
+            <if  test="PROCRTGUID!=null">
+                and b.procrtguid = #PROCRTGUID#
+            </if>
+            <if  test="ACTRTGUID!=null">
+                and b.actrtguid = #ACTRTGUID#
+            </if>
+            <if  test="PERFGUID!=null">
+                and b.perfguid = #PERFGUID#
+            </if>
+            <if  test="PERFTYPE!=null">
+                and b.perftype = #PERFTYPE#
+            </if>
+            <if  test="ISFINISH!=null">
+                and b.isfinish = #ISFINISH#
+            </if>
+        </where>
+    </sql>
+    
+    
+    <select id="select" parameterType="java.util.HashMap" resultType="dyna.common.dto.wf.Performer">
+        select b.*
+          from wf_performer b
+          <include refid="where"/>
+         order by b.perftype,b.createtime
+    </select>    
+    
+    <delete id="delete" parameterType="map">
+        delete from wf_performer  where guid = #GUID# 
+    </delete>
+    
+    <delete id="deleteallperformer" parameterType="java.lang.String">
+        delete from wf_performer  where procrtguid = #PROCRTGUID#
+    </delete>
+    
+    <delete id="deleteperformeractual" parameterType="java.lang.String">
+        delete from wf_performer_actual where procrtguid = #PROCRTGUID#
+    </delete>
+    
+    <delete id="deleteperformeractualActrt" parameterType="java.lang.String">
+        delete from wf_performer_actual  where actrtguid = #ACTRTGUID# 
+    </delete>
+    
+    <delete id="deleteperformerActrt" parameterType="java.lang.String">
+        delete from wf_performer  where actrtguid = #ACTRTGUID# 
+    </delete>
+    
+    <update id="setPerformerFinished" parameterType="java.lang.String">
+        UPDATE WF_PERFORMER 
+           SET ISFINISH = 'Y'
+         WHERE GUID = #GUID#
+    </update>
+    
+    <select id="selectActPerformerActual" parameterType="java.util.HashMap" resultType="dyna.common.dto.wf.Performer">
+        SELECT * FROM WF_PERFORMER_ACTUAL
+         WHERE ACTRTGUID = #ACTRTGUID#
+         <if test="PERFGUID">
+           AND PERFGUID = #PERFGUID#
+         </if>
+    </select>
+    
+    <select id="selectActmode" parameterType="java.lang.String" resultType="dyna.common.dto.wf.Performer">
+        select b.actmode
+          from wf_actrt b
+         where exists (select a.actrtguid
+                         from wf_performer a 
+                        inner join wf_procrt p
+                           on a.procrtguid = p.guid
+                        where a.perfguid =  #PERFGUID#
+                          and p.status not in ('CANCEL', 'CLOSED', 'CREATED')                      
+                          and p.isfinish is null
+                          and exists (select 1
+                                        from wf_freshattach m
+                                       where m.procrtguid = p.guid
+                                         and m.isinvalid = 'N')
+                      )
+           and b.actmode not in ('BYPASS') 
+    </select>
+    
+    <select id="selectNoticePer" parameterType="java.util.HashMap" resultType="dyna.common.dto.wf.Performer">
+        select c.guid           procrtguid,
+		       b.gate           actrtgate,
+		       d.guid           wftemplateactrtguid,
+		       c.createuserguid wfcreateuserguid,
+		       
+		       e.hasorganiger,
+		       e.haslastexecutor,
+		       e.hasnextexecutor,
+		       e.hasallexecutor,
+		       e.hasleader
+		  from wf_actrt b
+		 inner join wf_procrt c
+		    on b.procrtguid = c.guid
+		 inner join wf_template_actrt d
+		    on b.actrtname = d.actrtname
+		  left join wf_template_notice e
+		    on d.guid = e.templateactrtguid
+		 where b.guid = #ACTRTGUID#
+		   and e.NOTICETYPE = #NOTICETYPE#
+    </select>
+    
+    <select id="selectLastNoticePer" parameterType="java.util.HashMap" resultType="dyna.common.dto.wf.Performer">
+    	select b.guid
+		  from wf_actrt b
+		 inner join (select max(m.gate) lastactrtgate
+		               from wf_actrt m
+		              where m.gate <![CDATA[ < ]]> #ACTRTGATE#
+		                and m.acttype = 'MANUAL'
+		                and m.procrtguid = #PROCRTGUID#) c
+		    on b.gate = c.lastactrtgate
+		 where b.acttype = 'MANUAL'
+		   and b.procrtguid = #PROCRTGUID#
+    </select>
+    
+    <select id="selectNextNoticePer" parameterType="java.util.HashMap" resultType="dyna.common.dto.wf.Performer">
+        select b.guid 
+          from wf_actrt b
+         inner join (select min(m.gate) nextactrtgate
+	                   from wf_actrt m
+	                  where m.gate <![CDATA[ >  ]]> #ACTRTGATE#
+	                    and m.acttype = 'MANUAL'
+	                    and m.procrtguid = #PROCRTGUID#
+	                ) c
+	     where b.gate = c.nextactrtgate
+	       and b.acttype = 'MANUAL'
+	       and b.procrtguid = #PROCRTGUID#
+    </select>
+    
+    <select id="selectAllNoticePer" parameterType="java.lang.String" resultType="dyna.common.dto.wf.Performer">
+    	select m.perfguid 
+          from wf_performer m
+         inner join wf_actrt n
+            on m.actrtguid = n.guid
+         where n.acttype = 'MANUAL'
+           and n.procrtguid = #PROCRTGUID#
+    </select>
+    
+    <select id="selectProcessNoticePer" parameterType="java.util.HashMap" resultType="dyna.common.dto.wf.Performer">
+    	select b.wftemplateguid,
+               b.createuserguid,
+               c.hasorganiger,
+               c.hasallexecutor,
+               c.hasleader
+          from wf_procrt b
+     left join wf_template_notice c
+            on b.wftemplateguid = c.templateguid
+         where b.guid = #PROCRTGUID#
+           and c.noticetype = #NOTICETYPE#
+    </select>
+</mapper>

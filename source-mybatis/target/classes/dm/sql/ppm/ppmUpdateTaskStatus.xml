@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.ppm.UpdateTaskStatusMapper">
+
+    <sql id="where">
+        <where>
+            <if  test="GUID!=null">
+                and    guid = #GUID#
+            </if>
+            <if  test="TASKGUID!=null">
+                and   TASKGUID = #TASKGUID#
+            </if>
+        </where>
+    </sql>
+    <sql id="whereForwardUser">
+        <where>
+            <if  test="GUID!=null">
+                and   GUID = #GUID#
+            </if>
+            <if  test="UPDATETASKSTATUSGUID!=null">
+                and   UPDATETASKSTATUSGUID = #UPDATETASKSTATUSGUID#
+            </if>
+            <if  test="FORWARDUSERGUID!=null">
+                and   FORWARDUSERGUID = #FORWARDUSERGUID#
+            </if>
+        </where>
+    </sql>
+    
+    <select id="select" parameterType="map" resultType="dyna.common.bean.data.ppms.UpdateTaskStatus">
+        select m.*
+          from ppm_UpdateTaskStatus m
+          <include refid="where"/>
+          order by m.updatetime desc
+    </select>
+    <select id="selectForwardUser" parameterType="map" resultType="dyna.common.bean.data.ppms.UpdateTaskStatus">
+        select m.forwardUserguid,
+               n.*
+          from ppm_UpdateTaskforwardUser m,
+               sa_user n
+         where m.forwardUserguid = n.guid 
+           and m.UPDATETASKSTATUSGUID = #UPDATETASKSTATUSGUID#
+    </select>
+    
+    <insert id="insert" parameterType="dyna.common.bean.data.ppms.UpdateTaskStatus">
+        insert into ppm_UpdateTaskStatus
+			       (GUID,
+                    TASKGUID,
+                    UPDATECONTENT,
+                    STATUS,
+                    PROGRESSRATE,
+
+			        createuserguid,
+			        createtime,
+			        updateuserguid,
+			        updatetime)
+	        values (#GUID:VARCHAR:NULL#,
+			        #TASKGUID#,
+					#UPDATECONTENT#,
+					#STATUS#,
+					#PROGRESSRATE#,
+					
+					#CREATEUSERGUID:VARCHAR:NULL#,
+					#CURRENTTIME:TIMESTAMP#,
+					#UPDATEUSERGUID:VARCHAR:NULL#,
+					#CURRENTTIME:TIMESTAMP#)
+    </insert>
+    <insert id="insertForwardUser" parameterType="map">
+        insert into ppm_UpdateTaskforwardUser
+			       (guid,
+			        UPDATETASKSTATUSGUID,
+                    FORWARDUSERGUID)
+	        values (#GUID#,
+	                #UPDATETASKSTATUSGUID#,
+			        #FORWARDUSERGUID#)
+    </insert>
+    
+    <update id="update" parameterType="dyna.common.bean.data.ppms.UpdateTaskStatus">
+        update ppm_UpdateTaskStatus 
+                 <set>
+	               <if test="TASKGUID!=null">TASKGUID = #TASKGUID#,</if>
+	               <if test="UPDATECONTENT!=null">UPDATECONTENT = #UPDATECONTENT#,</if>
+	               <if test="STATUS!=null">STATUS = #STATUS#,</if>
+	               <if test="PROGRESSRATE!=null">PROGRESSRATE = #PROGRESSRATE#,</if>
+	               
+               </set>
+               updatetime = #CURRENTTIME:TIMESTAMP#,
+               updateuserguid = #UPDATEUSERGUID#
+         	   <include refid="where"/>
+    </update>
+    
+    <delete id="delete" parameterType="map">
+        delete from ppm_UpdateTaskStatus <include refid="where"/>
+    </delete>
+    <delete id="deleteForwardUser" parameterType="map">
+        delete from ppm_UpdateTaskforwardUser <include refid="whereForwardUser"/>
+    </delete>
+</mapper>

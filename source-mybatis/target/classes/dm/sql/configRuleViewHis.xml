@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.BIViewHisMapper">
+
+    <select id="selectClassOfHistory" parameterType="map" resultType="dyna.common.dto.BIViewHis" statementType="STATEMENT">
+        select distinct instanceclassguid
+          from bi_view_history a,
+               sa_businessobject b,
+               sa_group c
+         where a.instanceboguid = b.guid
+           and b.bmguid = c.bmguid
+           and c.guid = #GROUPGUID#
+           and a.createuser = #CREATEUSER#
+    </select>
+    
+    <select id="selectByUserIns" parameterType="map" resultType="dyna.common.dto.BIViewHis" statementType="STATEMENT">
+        select * from bi_view_history a
+         where a.instanceguid = #INSTANCEGUID#
+           and a.createuser = #CREATEUSER#
+    </select>
+
+    <select id="selectByUser" parameterType="java.lang.String" resultType="dyna.common.dto.BIViewHis" statementType="STATEMENT">
+        select * from bi_view_history a
+        where a.createuser = #CREATEUSER#
+    </select>
+     
+    <insert id="insert" parameterType="dyna.common.dto.BIViewHis">
+		INSERT INTO BI_VIEW_HISTORY (INSTANCEGUID, INSTANCECLASSGUID, INSTANCEBOGUID, CREATEUSER, CREATETIME) 
+		values (#INSTANCEGUID#, #INSTANCECLASSGUID#, #INSTANCEBOGUID#, #CREATEUSER#, #CURRENTTIME:TIMESTAMP#)
+    </insert>
+    
+    <update id="update" parameterType="dyna.common.dto.BIViewHis">
+        UPDATE BI_VIEW_HISTORY
+           SET CREATETIME = #CURRENTTIME:TIMESTAMP#
+         WHERE INSTANCEGUID = #INSTANCEGUID#
+           AND CREATEUSER = #CREATEUSER#
+    </update>
+    
+    <delete id="delete" parameterType="java.lang.String">
+	    delete from bi_view_history  where instanceguid = #INSTANCEGUID#
+    </delete>
+    
+    <delete id="deleteUser" parameterType="java.lang.String">
+        delete from bi_view_history  where createuser = #CREATEUSER#
+    </delete>
+
+    <delete id="deleteBy" parameterType="map">
+        delete from bi_view_history  where instanceguid = #INSTANCEGUID# and createuser = #CREATEUSER#
+    </delete>
+</mapper>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.model.bmbo.BMInfoMapper">
+
+	<select id="selectForLoad" parameterType="map" resultType="dyna.common.dto.model.bmbo.BMInfo">
+		SELECT *
+		FROM SA_BUSINESSMODEL
+	</select>
+
+	<select id="get" parameterType="java.lang.String" resultType="dyna.common.dto.model.bmbo.BMInfo" statementType="STATEMENT">
+		SELECT *
+		FROM SA_BUSINESSMODEL
+		WHERE GUID=#GUID#
+	</select>
+	
+	 <insert id="insert" parameterType="dyna.common.dto.model.bmbo.BMInfo">
+        insert into sa_businessmodel
+			       (guid,
+			        bmname,
+			        title,
+			        
+			        modeltype,
+			        DATASEQ,
+			        description,
+			        
+			        createuserguid,
+			        createtime,
+			        updateuserguid,
+			        updatetime)
+	        values (#GUID#,
+			        #BMNAME#,
+					#TITLE:VARCHAR:NULL#,
+					
+					#MODELTYPE:VARCHAR:NULL#,
+					#DATASEQ:NUMERIC#,
+					#DESCRIPTION:VARCHAR:NULL#,
+					
+					#CREATEUSERGUID:VARCHAR:NULL#,
+					#CURRENTTIME:TIMESTAMP#,
+					#UPDATEUSERGUID:VARCHAR:NULL#,
+					#CURRENTTIME:TIMESTAMP#)
+    </insert>
+	
+	<update id="update" parameterType="dyna.common.dto.model.bmbo.BMInfo">
+		update sa_businessmodel
+			<set>
+				updatetime = #CURRENTTIME:TIMESTAMP#,
+				updateuserguid = #UPDATEUSERGUID#,
+		        <if test="BMNAME!=null">bmname = #BMNAME#,</if>
+		        <if test="TITLE!=null">title = #TITLE#,</if>
+		        <if test="MODELTYPE!=null">modeltype = #MODELTYPE#,</if>
+		        <if test="DATASEQ!=null">DATASEQ = #DATASEQ#,</if>
+		        <if test="DESCRIPTION!=null">description = #DESCRIPTION#,</if>
+       		 </set>
+         where guid = #GUID#
+	</update>
+
+	<delete id="delete" parameterType="java.lang.String">
+		delete from sa_businessmodel
+		where guid = #GUID#
+	</delete>
+
+</mapper>

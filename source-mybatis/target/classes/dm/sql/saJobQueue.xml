@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+		PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+		"../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.QueueMapper">
+
+	<sql id="selectFields">
+		q.guid,
+		q.jobid,
+		q.jobname,
+		q.owneruserguid,
+		(select u.username from sa_user u where u.guid = q.owneruserguid) ownerusername,
+		q.jobstatus,
+		q.executorclass,
+		q.issinglethread,
+		q.jobtype,
+		q.priority,
+		q.executresult,
+		q.serverid,
+		q.jobgroup,
+		q.createuserguid,
+		q.updateuserguid,
+		q.fileguid,
+
+		q.createtime,
+		q.updatetime,
+
+		q.description,
+		q.fielda,
+		q.fieldb,
+		q.fieldc,
+		q.fieldd,
+		q.fielde,
+		q.fieldf,
+		q.fieldg,
+		q.fieldh,
+		q.fieldi,
+		q.fieldj,
+		q.fieldk,
+		q.fieldl,
+		q.fieldm,
+		q.fieldn,
+		q.fieldo
+	</sql>
+
+	<sql id="whereFuzzy">
+		<where>
+			<if  test="GUID!=null">
+				and q.guid = #GUID#
+			</if>
+			<if  test="JOBID!=null">
+				and q.job = #JOBID#
+			</if>
+			<if  test="OWNERUSERGUID!=null">
+				and q.owneruserguid = #OWNERUSERGUID#
+			</if>
+			<if  test="JOBSTATUS!=null">
+				and q.jobstatus = #JOBSTATUS#
+			</if>
+			<if  test="EXECUTORCLASS!=null">
+				and q.executorclass = #EXECUTORCLASS#
+			</if>
+			<if  test="ISSINGLETHREAD!=null">
+				and q.issinglethread = #ISSINGLETHREAD#
+			</if>
+			<if  test="JOBTYPE!=null">
+				and q.jobtype = #JOBTYPE#
+			</if>
+			<if  test="PRIORITY!=null">
+				and q.priority = #PRIORITY#
+			</if>
+			<if  test="SERVERID!=null">
+				and q.serverid = #SERVERID#
+			</if>
+			<if  test="FILEGUID!=null">
+				and q.fileguid = #FILEGUID#
+			</if>
+			<if  test="JOBGROUP!=null">
+				and q.jobgroup = #JOBGROUP#
+			</if>
+			<if  test="CREATEUSERGUID!=null">
+				and q.createuserguid = #CREATEUSERGUID#
+			</if>
+			<if  test="CREATEFROMTIME!=null" >
+				and q.createtime>=#CREATEFROMTIME:DATE#
+			</if>
+			<if  test="CREATETOTIME!=null" >
+				and q.createtime<![CDATA[<=]]>#CREATEFROMTIME:DATE#
+			</if>
+			<if  test="UPDATEFROMTIME!=null" >
+				and q.updatetime>=#UPDATEFROMTIME:DATE#
+			</if>
+			<if  test="UPDATETOTIME!=null" >
+				and q.updatetime<![CDATA[<=]]>#UPDATEFROMTIME:DATE#
+			</if>
+
+			<if  test="JOBNAME!=null">
+				and q.jobname like '%$JOBNAME$%'
+			</if>
+			<if  test="DESCRIPTION!=null">
+				and q.description like '%$DESCRIPTION$%'
+			</if>
+			<if  test="FIELDA!=null">
+				and q.fielda like '%$FIELDA$%'
+			</if>
+			<if  test="FIELDB!=null">
+				and q.fieldb like '%$FIELDB$%'
+			</if>
+			<if  test="FIELDC!=null">
+				and q.fieldc like '%$FIELDC$%'
+			</if>
+			<if  test="FIELDD!=null">
+				and q.fieldd like '%$FIELDD$%'
+			</if>
+			<if  test="FIELDE!=null">
+				and q.fielde like '%$FIELDE$%'
+			</if>
+			<if  test="FIELDF!=null">
+				and q.fieldf like '%$FIELDF$%'
+			</if>
+			<if  test="FIELDG!=null">
+				and q.fieldg like '%$FIELDG$%'
+			</if>
+			<if  test="FIELDH!=null">
+				and q.fieldh like '%$FIELDH$%'
+			</if>
+			<if  test="FIELDI!=null">
+				and q.fieldi like '%$FIELDI$%'
+			</if>
+			<if  test="FIELDJ!=null">
+				and q.fieldj like '%$FIELDJ$%'
+			</if>
+			<if  test="FIELDK!=null">
+				and q.fieldk like '%$FIELDK$%'
+			</if>
+			<if  test="FIELDL!=null">
+				and q.fieldl like '%$FIELDL$%'
+			</if>
+			<if  test="FIELDM!=null">
+				and q.fieldm like '%$FIELDM$%'
+			</if>
+			<if  test="FIELDN!=null">
+				and q.fieldn like '%$FIELDN$%'
+			</if>
+			<if  test="FIELDO!=null">
+				and q.fieldo like '%$FIELDO$%'
+			</if>
+			<if  test="EXECUTRESULT!=null">
+				and q.executresult like '%$EXECUTRESULT$%'
+			</if>
+		</where>
+	</sql>
+
+	<select id="selectForCount" parameterType="map" resultType="java.lang.Integer">
+		select count(guid)  cn
+		from sa_job_queue q
+		<include refid="whereFuzzy"/>
+	</select>
+
+	<select id="selectFuzzy" parameterType="map" resultType="dyna.common.dto.Queue">
+		select <include refid="selectFields"/>
+		from sa_job_queue q
+		<include refid="whereFuzzy"/>
+		<if test="ORDERBY!=null">
+			order by $ORDERBY$
+		</if>
+		<if test="ORDERBY==null">
+			ORDER BY Q.UPDATETIME DESC
+		</if>
+	</select>
+
+	<sql id="where">
+			<if  test="GUID!=null">
+				and guid = #GUID#
+			</if>
+			<if  test="JOBID!=null">
+				and jobid = #JOBID#
+			</if>
+			<if  test="JOBNAME!=null">
+				and jobname = #JOBNAME#
+			</if>
+			<if  test="OWNERUSERGUID!=null">
+				and owneruserguid = #OWNERUSERGUID#
+			</if>
+			<if  test="JOBSTATUS!=null">
+				and jobstatus = #JOBSTATUS#
+			</if>
+			<if  test="ISSINGLETHREAD!=null">
+				and issinglethread = #ISSINGLETHREAD#
+			</if>
+			<if  test="JOBTYPE!=null">
+				and jobtype = #JOBTYPE#
+			</if>
+			<if  test="PRIORITY!=null">
+				and priority = #PRIORITY#
+			</if>
+			<if  test="EXECUTRESULT!=null">
+				and q.executresult like '%$EXECUTRESULT$%'
+			</if>
+			<if  test="SERVERID!=null">
+				and serverid = #SERVERID#
+			</if>
+			<if  test="FILEGUID!=null">
+				and fileguid = #FILEGUID#
+			</if>
+			<if  test="DESCRIPTION!=null">
+				and description = #DESCRIPTION#
+			</if>
+			<if  test="FIELDH!=null">
+				and fieldh = #FIELDH#
+			</if>
+			<if  test="CREATEUSERGUID!=null">
+				and createuserguid = #CREATEUSERGUID#
+			</if>
+	</sql>
+
+
+	<select id="select" parameterType="map" resultType="dyna.common.dto.Queue">
+		select q.*,
+		(select u.username from sa_user u where u.guid = q.owneruserguid) ownerusername
+		from sa_job_queue q
+		where 1 = 1
+		<include refid="where"/>
+		<if test="ORDERBY!=null">
+			order by $ORDERBY$
+		</if>
+		<if test="ORDERBY==null">
+			ORDER BY Q.UPDATETIME DESC
+		</if>
+	</select>
+
+	<select id="selectvip" parameterType="map" resultType="dyna.common.dto.Queue">
+		select q.*,
+		count(1)  over() rowcount$$
+		from sa_job_queue q
+		where 1 = 1
+		<if  test="JOBTYPE!=null">
+			and jobtype = #JOBTYPE#
+		</if>
+		<if  test="CREATEUSERGUID!=null">
+			and createuserguid = #CREATEUSERGUID#
+		</if>
+		<if  test="LISTJOBSTATUS==null">
+			and 1 = 2
+		</if>
+		<if  test="LISTJOBSTATUS!=null">
+			and $LISTJOBSTATUS$
+		</if>
+		<if test="ORDERBY!=null">
+			order by $ORDERBY$
+		</if>
+		<if test="ORDERBY==null">
+			ORDER BY q.UPDATETIME DESC
+		</if>
+	</select>
+
+	<insert id="insert" parameterType="dyna.common.dto.Queue">
+		insert into sa_job_queue
+		(guid,
+		jobid,
+		jobname,
+		owneruserguid,
+		jobstatus,
+		executorclass,
+		issinglethread,
+		jobtype,
+		priority,
+		executresult,
+		fileguid,
+
+		description,
+		fielda,
+		fieldb,
+		fieldc,
+		fieldd,
+		fielde,
+		fieldf,
+		fieldg,
+		fieldh,
+		fieldi,
+
+		fieldj,
+		fieldk,
+		fieldl,
+		fieldm,
+		fieldn,
+		fieldo,
+		serverid,
+		jobgroup,
+		createuserguid,
+		createtime,
+		updateuserguid,
+		updatetime
+		)
+		values (#GUID#,
+		#JOBID:VARCHAR:NULL#,
+		#JOBNAME:VARCHAR:NULL#,
+		#OWNERUSERGUID:VARCHAR:NULL#,
+		#JOBSTATUS:NUMERIC#,
+		#EXECUTORCLASS:VARCHAR:NULL#,
+		#ISSINGLETHREAD:VARCHAR:NULL#,
+		#JOBTYPE:VARCHAR:NULL#,
+		#PRIORITY:NUMERIC#,
+		#EXECUTRESULT:VARCHAR:NULL#,
+		#FILEGUID:VARCHAR:NULL#,
+
+		#DESCRIPTION:VARCHAR:NULL#,
+		#FIELDA:VARCHAR:NULL#,
+		#FIELDB:VARCHAR:NULL#,
+		#FIELDC:VARCHAR:NULL#,
+		#FIELDD:VARCHAR:NULL#,
+		#FIELDE:VARCHAR:NULL#,
+		#FIELDF:VARCHAR:NULL#,
+		#FIELDG:VARCHAR:NULL#,
+		#FIELDH:VARCHAR:NULL#,
+		#FIELDI:VARCHAR:NULL#,
+
+		#FIELDJ:VARCHAR:NULL#,
+		#FIELDK:VARCHAR:NULL#,
+		#FIELDL:VARCHAR:NULL#,
+		#FIELDM:VARCHAR:NULL#,
+		#FIELDN:VARCHAR:NULL#,
+		#FIELDO:VARCHAR:NULL#,
+		#SERVERID:VARCHAR:NULL#,
+		#JOBGROUP:VARCHAR:NULL#,
+		#CREATEUSERGUID:VARCHAR:NULL#,
+		#CURRENTTIME:TIMESTAMP#,
+		#UPDATEUSERGUID:VARCHAR:NULL#,
+		#CURRENTTIME:TIMESTAMP#
+		)
+	</insert>
+
+	<update id="update" parameterType="dyna.common.dto.Queue">
+		update sa_job_queue
+		<set>
+			updateuserguid = #UPDATEUSERGUID#,
+			updatetime = #CURRENTTIME:TIMESTAMP#,
+			<if  test="JOBID!=null">jobid=#JOBID#,</if>
+			<if  test="JOBNAME!=null">jobname=#JOBNAME#,</if>
+			<if  test="OWNERUSERGUID!=null">owneruserguid=#OWNERUSERGUID#,</if>
+			<if  test="JOBSTATUS!=null">jobstatus=#JOBSTATUS#,</if>
+			<if  test="EXECUTORCLASS!=null">executorclass=#EXECUTORCLASS#,</if>
+
+			<if  test="ISSINGLETHREAD!=null">issinglethread=#ISSINGLETHREAD#,</if>
+			<if  test="JOBTYPE!=null">jobtype=#JOBTYPE#,</if>
+			<if  test="PRIORITY!=null">priority=#PRIORITY#,</if>
+			<if  test="EXCUTRESULT!=null">excutresult=#EXCUTRESULT#,</if>
+			<if  test="DESCRIPTION!=null">description=#DESCRIPTION#,</if>
+			<if  test="FILEGUID!=null">fileguid=#FILEGUID#,</if>
+
+			<if  test="FIELDA!=null">fielda=#FIELDA#,</if>
+			<if  test="FIELDB!=null">fieldb=#FIELDB#,</if>
+			<if  test="FIELDC!=null">fieldc=#FIELDC#,</if>
+			<if  test="FIELDD!=null">fieldd=#FIELDD#,</if>
+			<if  test="FIELDE!=null">fielde=#FIELDE#,</if>
+			<if  test="FIELDF!=null">fieldf=#FIELDF#,</if>
+			<if  test="FIELDG!=null">fieldg=#FIELDG#,</if>
+			<if  test="FIELDH!=null">fieldh=#FIELDH#,</if>
+			<if  test="FIELDI!=null">fieldi=#FIELDI#,</if>
+			<if  test="FIELDJ!=null">fieldj=#FIELDJ#,</if>
+			<if  test="FIELDH!=null">fieldk=#FIELDK#,</if>
+			<if  test="FIELDL!=null">fieldl=#FIELDL#,</if>
+			<if  test="FIELDM!=null">fieldm=#FIELDM#,</if>
+			<if  test="FIELDN!=null">fieldn=#FIELDN#,</if>
+			<if  test="FIELDO!=null">fieldo=#FIELDO#,</if>
+			<if  test="FIELDO!=null">serverid=#SERVERID#,</if>
+		</set>
+		where guid = #GUID#
+	</update>
+
+	<delete id="delete" parameterType="java.lang.String">
+		delete from sa_job_queue  where guid = #GUID#
+	</delete>
+
+	<delete id="deleteTimeOutJobByType" parameterType="dyna.common.dto.Queue">
+		delete from sa_job_queue
+		where JOBTYPE = #JOBTYPE#
+		and jobstatus in ($LISTJOBSTATUS$)
+		and createtime <![CDATA[<=]]>#CURRENTDATE:TIMESTAMP#
+	</delete>
+</mapper>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.acl.ShareFolderACLItemMapper">
+
+    <sql id="selectAllAclSharedFolderFeilds">
+	    A.GUID,
+	    A.FOLDERGUID,
+	    A.OBJECTTYPE,
+	    A.OBJECTGUID,
+	    A.PRECEDENCE,
+	    A.OPERSELECT,
+	    A.OPERADD,
+	    A.OPERREMOVE,
+	    A.CREATEUSERGUID,
+		A.CREATETIME,
+		A.UPDATEUSERGUID,
+		A.UPDATETIME
+	
+	</sql>
+    
+    <select id="selectForLoad" parameterType="map" resultType="dyna.common.dto.acl.ShareFolderACLItem">
+        SELECT <include refid="selectAllAclSharedFolderFeilds" />
+		  FROM SA_ACL_SHAREDFOLDER A
+    </select>
+    
+	<select id="get" parameterType="java.lang.String" resultType="dyna.common.dto.acl.ShareFolderACLItem" statementType="STATEMENT">
+		SELECT <include refid="selectAllAclSharedFolderFeilds" />
+		  FROM SA_ACL_SHAREDFOLDER A
+		 WHERE GUID=#GUID#
+	</select>
+	
+	<insert id="insert" parameterType="map">
+        INSERT INTO SA_ACL_SHAREDFOLDER 
+        (
+			GUID,
+			FOLDERGUID,
+			OBJECTTYPE,
+			OBJECTNAME,
+			OBJECTGUID,
+			PRECEDENCE,
+			CREATEUSERGUID,
+			CREATETIME,
+			UPDATEUSERGUID,
+			UPDATETIME,
+			OPERSELECT,
+			OPERADD,
+			OPERREMOVE
+        )
+        VALUES(
+			#GUID:VARCHAR:NULL#,
+			#FOLDERGUID:VARCHAR:NULL#,
+			#OBJECTTYPE:VARCHAR:NULL#,
+			#OBJECTNAME:VARCHAR:NULL#,
+			#OBJECTGUID:VARCHAR:NULL#,
+			#PRECEDENCE:INTEGER#,
+			#CREATEUSERGUID:VARCHAR:NULL#,
+			#CURRENTTIME:TIMESTAMP#,
+			#UPDATEUSERGUID:VARCHAR:NULL#,
+			#CURRENTTIME:TIMESTAMP#,
+			#OPERSELECT:VARCHAR:NULL#,
+			#OPERADD:VARCHAR:NULL#,
+			#OPERREMOVE:VARCHAR:NULL#
+        )
+    </insert>
+    
+    <update id="update" parameterType="map">
+        UPDATE SA_ACL_SHAREDFOLDER 
+        <set>
+			UPDATEUSERGUID = #UPDATEUSERGUID#,
+			UPDATETIME = #CURRENTTIME:TIMESTAMP#,
+			<if  test="FOLDERGUID!=null">FOLDERGUID=#FOLDERGUID#,</if>
+			<if  test="OBJECTTYPE!=null">OBJECTTYPE=#OBJECTTYPE#,</if>
+			<if  test="OBJECTNAME!=null">OBJECTNAME=#OBJECTNAME#,</if>
+			<if  test="OBJECTGUID!=null">OBJECTGUID=#OBJECTGUID#,</if>
+			<if  test="PRECEDENCE!=null">PRECEDENCE=#PRECEDENCE#,</if>
+			
+			<if  test="OPERSELECT!=null">OPERSELECT=#OPERSELECT#,</if>
+			<if  test="OPERADD!=null">OPERADD=#OPERADD#,</if>
+			<if  test="OPERREMOVE!=null">OPERREMOVE=#OPERREMOVE#</if>
+
+        </set>
+        WHERE GUID = #GUID#
+    </update>
+	
+	<delete id="delete" parameterType="java.lang.String">
+        DELETE FROM SA_ACL_SHAREDFOLDER
+         WHERE GUID = #GUID# 
+    </delete>
+</mapper>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.syncModelMapper">
+
+	<update id="createTable" parameterType="java.util.Map">
+	    CREATE TABLE $TABLENAME$
+	    (
+	    <foreach collection="COLUMNDESCLIST" separator="," item="TEMP">
+	    $TEMP$
+	    </foreach>
+	    )
+	</update>
+
+	<update id="addColToTable" parameterType="java.util.Map">
+		ALTER TABLE $TABLENAME$ ADD COLUMN $COLUMNDESC$
+	</update>
+	
+	<update id="addColToTableForMS" parameterType="java.util.Map">
+		ALTER TABLE $TABLENAME$ ADD $COLUMNDESC$
+	</update>
+	
+	<update id="createPrimaryKey" parameterType="java.util.Map">
+	    ALTER TABLE $TABLENAME$ ADD CONSTRAINT PK_$TABLENAME$ PRIMARY KEY (GUID)
+	</update>
+	
+	<update id="createIndex" parameterType="java.util.Map">
+	    CREATE INDEX $INDEXNAME$ ON $TABLENAME$ ($INDEXCOLUMNS$)
+	</update>
+	
+	<update id="createUniqueConstraint" parameterType="java.util.Map">
+	    ALTER TABLE $TABLENAME$ ADD CONSTRAINT $INDEXNAME$ UNIQUE ($INDEXCOLUMNS$)
+	</update>
+	
+	<update id="dropColumn" parameterType="java.util.Map">
+	    ALTER TABLE $TABLENAME$ DROP COLUMN $COLUMNNAME$
+	</update>
+	
+	<update id="dropTable" parameterType="java.lang.String">
+	    DROP TABLE $TABLENAME$ CASCADE CONSTRAINTS
+	</update>
+	
+	<update id="dropConstraint1" parameterType="java.util.Map">
+	    ALTER TABLE $TABLENAME$ DROP CONSTRAINT $INDEXNAME$ CASCADE
+	</update>
+
+	<update id="dropIndex1" parameterType="java.util.Map">
+		DROP INDEX $INDEXNAME$
+	</update>
+	
+	<update id="dropConstraint2" parameterType="java.util.Map">
+	    ALTER TABLE $TABLENAME$ DROP CONSTRAINT $INDEXNAME$ 
+	</update>
+
+	<update id="dropIndex2" parameterType="java.util.Map">
+		DROP INDEX $INDEXNAME$ ON $TABLENAME$
+	</update>
+	
+	<update id="executeddl" parameterType="java.lang.String">
+	    $DDL$
+	</update>
+</mapper>

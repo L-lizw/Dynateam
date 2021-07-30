@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.wf.TransRestrictionMapper">
+
+    <insert id="insert" parameterType="dyna.common.dto.wf.TransRestriction">
+        insert into wf_transrst (guid, 
+                                 inouttype, 
+                                 conntype, 
+                                 actrtguid, 
+                                 procrtguid, 
+                                 createuserguid, 
+                                 createtime, 
+                                 updateuserguid, 
+                                 updatetime
+                                ) 
+        values(#GUID:VARCHAR:NULL#, 
+               #INOUTTYPE:VARCHAR:NULL#, 
+               #CONNTYPE:VARCHAR:NULL#, 
+               #ACTRTGUID:VARCHAR:NULL#, 
+               #PROCRTGUID:VARCHAR:NULL#,
+               #CREATEUSERGUID:VARCHAR:NULL#, 
+               #CURRENTTIME:TIMESTAMP#, 
+               #UPDATEUSERGUID:VARCHAR:NULL#, 
+               #CURRENTTIME:TIMESTAMP#
+              )
+    </insert>
+
+    <select id="select" parameterType="java.util.HashMap" resultType="dyna.common.dto.wf.TransRestriction">
+        select * from wf_transrst  
+            <where>
+                <if test="GUID!=null" >
+                    and guid = #GUID#
+                </if>
+                <if test="PROCRTGUID!=null" >
+                    and procrtguid = #PROCRTGUID#
+                </if>
+                <if test="ACTRTGUID!=null" >
+                    and actrtguid = #ACTRTGUID#
+                </if>
+            </where>
+    </select>
+    
+	
+</mapper>

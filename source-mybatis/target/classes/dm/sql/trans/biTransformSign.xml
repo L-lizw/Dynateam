@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.trans.TransformSignMapper">
+
+	<select id="select" parameterType="map" resultType="dyna.common.bean.data.trans.TransformSign">
+        select a.*
+          from BI_TRANSFORM_SIGN a
+        <where>
+			<if  test="SOLUTIONNAME!=null">and a.SOLUTIONNAME=#SOLUTIONNAME#</if>
+			<if  test="GUID!=null">and a.GUID=#GUID#</if>
+		</where>
+		order by a.createtime
+	</select>
+	
+	<insert id="insert" parameterType="dyna.common.bean.data.trans.TransformSign">
+		INSERT INTO BI_TRANSFORM_SIGN (
+			guid,
+		    SOLUTIONNAME,
+			createtime,
+			createuserguid,
+			updatetime,
+			updateuserguid
+
+		)
+		select
+			#GUID:VARCHAR:NULL#,
+			#SOLUTIONNAME:VARCHAR:NULL#,
+			#CURRENTTIME:TIMESTAMP#,
+			#CREATEUSERGUID:VARCHAR:NULL#,
+			#CURRENTTIME:TIMESTAMP#,
+			#UPDATEUSERGUID:VARCHAR:NULL#
+	</insert>
+
+	<update id="update" parameterType="dyna.common.bean.data.trans.TransformSign">
+		UPDATE BI_TRANSFORM_SIGN  
+		<set>
+			updatetime=#CURRENTTIME:TIMESTAMP#,
+			updateuserguid=#UPDATEUSERGUID#,
+			<if  test="SOLUTIONNAME!=null">SOLUTIONNAME=#SOLUTIONNAME#,</if>
+		</set>
+		WHERE guid = #GUID#
+	</update>
+
+	<delete id="delete" parameterType="java.lang.String">
+		DELETE FROM BI_TRANSFORM_SIGN 
+		WHERE guid = #GUID#
+	</delete>
+
+</mapper>

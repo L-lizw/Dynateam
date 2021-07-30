@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.erp.ERPTransferLogMapper">
+
+    <select id="selectClassByItem" parameterType="map" resultType="dyna.common.dto.erp.ERPTransferLog">
+        select distinct etl.targetclassguid
+          from erp_transfer_log etl
+        <where>
+           <if  test="GUID!=null">
+	       and etl.guid = #GUID#
+	       </if>
+	       <if  test="TARGETGUID!=null">
+               and etl.targetguid = #TARGETGUID#
+	       </if>
+	       <if  test="ERPNAME!=null">
+               and etl.erpname = #ERPNAME#
+	       </if>
+	       <if  test="ERPOPERATION!=null">
+               and etl.erpoperation = #ERPOPERATION#
+	       </if>
+	       <if  test="ERPFACTORY!=null">
+               and etl.erpfactory = #ERPFACTORY#
+	       </if>
+	       <if  test="ITERATION!=null">
+               and etl.iteration = #ITERATION#
+	       </if>
+        </where>
+    </select>
+    
+    <select id="selectByItem" parameterType="map" resultType="dyna.common.dto.erp.ERPTransferLog">
+        select etl.guid,
+               etl.targetguid,
+               etl.erpname,
+               etl.erpoperation,
+               etl.category,
+               etl.erpfactory,
+               etl.createuserguid,
+               etl.createtime,
+               etl.iteration,
+               ma.id mid,
+               ma.name mname,
+               ma.revisionid mrevisionid
+          from erp_transfer_log etl,
+               $tablename$ ma 
+         where etl.targetguid=ma.guid
+           and etl.targetclassguid=#CLASSGUID#
+	       <if  test="GUID!=null">
+               and etl.guid = #GUID#
+	       </if>
+	       <if  test="TARGETGUID!=null">
+               and  etl.targetguid = #TARGETGUID#
+	       </if>
+	       <if  test="ERPNAME!=null">
+               and etl.erpname = #ERPNAME#
+	       </if>
+	       <if  test="ERPOPERATION!=null">
+               and etl.erpoperation = #ERPOPERATION#
+	       </if>
+	       <if  test="ERPFACTORY!=null">
+               and etl.erpfactory = #ERPFACTORY#
+	       </if>
+	       <if  test="ITERATION!=null">
+               and etl.iteration = #ITERATION#
+	       </if>
+   </select>
+   
+   <select id="selectClassByBom" parameterType="map" resultType="dyna.common.dto.erp.ERPTransferLog">
+       select distinct br.end1$$class
+          from erp_transfer_log etl,
+               $tablename$ br
+         where etl.targetguid=br.guid
+       <if  test="GUID!=null">
+           and etl.guid = #GUID#
+       </if>
+       <if  test="TARGETGUID!=null">
+           and etl.targetguid = #TARGETGUID#
+       </if>
+       <if  test="ERPNAME!=null">
+           and etl.erpname = #ERPNAME#
+       </if>
+       <if  test="ERPOPERATION!=null">
+           and etl.erpoperation = #ERPOPERATION#
+       </if>
+       <if  test="ERPFACTORY!=null">
+           and etl.erpfactory = #ERPFACTORY#
+       </if>
+       <if  test="ITERATION!=null">
+           and etl.iteration = #ITERATION#
+       </if>
+   </select>
+   
+   <select id="selectByBom" parameterType="map" resultType="dyna.common.dto.erp.ERPTransferLog">
+        select etl.guid,
+               etl.targetguid,
+               etl.erpname,
+               etl.erpoperation,
+               etl.category,
+               etl.erpfactory,
+               etl.createuserguid,
+               etl.createtime,
+               etl.iteration,
+               ma.id mid,
+               ma.name mname,
+               ma.revisionid mrevisionid
+          from erp_transfer_log etl,
+               $END1TABLENAME$ ma,
+               $tablename$ br
+         where etl.targetguid=br.guid
+           and br.end1=ma.guid
+           and br.end1$$class = #CLASSGUID#
+	       <if  test="GUID!=null">
+               and etl.guid = #GUID#
+	       </if>
+	       <if  test="TARGETGUID!=null">
+               and etl.targetguid = #TARGETGUID#
+	       </if>
+	       <if  test="ERPNAME!=null">
+               and etl.erpname = #ERPNAME#
+	       </if>
+	       <if  test="ERPOPERATION!=null">
+               and etl.erpoperation = #ERPOPERATION#
+	       </if>
+	       <if  test="ERPFACTORY!=null">
+               and etl.erpfactory = #ERPFACTORY#
+	       </if>
+	       <if  test="ITERATION!=null">
+               and etl.iteration = #ITERATION#
+	       </if>
+    </select>
+    
+    <insert id="insert" parameterType="dyna.common.dto.erp.ERPTransferLog">
+        insert into erp_transfer_log
+			       (guid,
+			        targetguid,
+			        targetclassguid,
+			        erpname,
+			        erpoperation,
+			        category,
+			        erpfactory,
+			        iteration,
+			        			         
+			        createuserguid,
+			        createtime)
+	        values (#GUID#,
+	                #TARGETGUID:VARCHAR:NULL#,
+	                #TARGETCLASSGUID:VARCHAR:NULL#,
+			        #ERPNAME:VARCHAR:NULL#,
+			        #ERPOPERATION:VARCHAR:NULL#,
+			        #CATEGORY:VARCHAR:NULL#,
+			        #ERPFACTORY:VARCHAR:NULL#,
+					#ITERATION#,
+					
+					#CREATEUSERGUID:VARCHAR:NULL#,
+					#CURRENTTIME:TIMESTAMP#)
+    </insert>
+</mapper>

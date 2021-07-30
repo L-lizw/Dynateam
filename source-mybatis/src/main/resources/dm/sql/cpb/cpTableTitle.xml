@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.configparamter.DynamicColumnTitleMapper">
+
+    <select id="selectCustTtileOfTable" parameterType="map" resultType="dyna.common.bean.data.configparamter.DynamicColumnTitle">
+        select b.*
+          from ma_config_table_info b
+        <where>
+            <if test="RELEASETIME!=null">
+                and #RELEASETIME:TIMESTAMP# >= b.releasetime
+                and (b.obsoletetime is null or #RELEASETIME:TIMESTAMP# <![CDATA[ < ]]> b.obsoletetime)
+            </if>
+            <if test="RELEASETIME==null">
+                <if test="STATUS==null">
+                    and b.hasnextrevision = 'N'
+                </if>
+                <if test="STATUS == 'RLS'">
+                    and b.releasetime is not null and a.obsoletetime is null
+                </if>
+                <if test="STATUS != 'RLS'">
+                    and b.hasnextrevision = 'N'
+                </if>
+            </if>
+            <if test="TABLETYPE!=null">
+                and b.tabletype = #TABLETYPE#
+            </if>
+            and b.masterguid = #MASTERGUID#
+        </where>
+         <if test="ORDERBYSEQUENCE == 'Y'">
+         order by titlesequence
+         </if>
+         <if test="ORDERBYSEQUENCE != 'Y'">
+         order by b.TITLE
+         </if>
+    </select>
+        
+    <select id="haveRLSData" parameterType="java.lang.String" resultType="dyna.common.bean.data.configparamter.DynamicColumnTitle">
+        select case cnt
+                 when 0 then 'N'
+                 else 'Y'
+               end haverls
+          from (select count(1) cnt
+		          from ma_config_table_info
+		         where releasetime is not null
+		           and masterguid = #MASTERGUID#
+               )
+    </select>
+    
+    <insert id="inserBatchList" parameterType="map">
+            into ma_config_table_info(guid, 
+                                      uniquevalue, 
+                                      masterguid, 
+                                      tabletype, 
+                                      title, 
+                                      titlesequence,
+                                      
+                                      CREATEUSERGUID, 
+		                              CREATETIME, 
+		                              UPDATEUSERGUID, 
+		                              UPDATETIME) 
+          values (#GUID#, 
+                  #UNIQUEVALUE#, 
+                  #MASTERGUID#, 
+                  #TABLETYPE#, 
+                  #TITLE#, 
+                  #TITLESEQUENCE#,
+                  
+                  #CREATEUSERGUID:VARCHAR:NULL#,
+                  #CURRENTTIME:TIMESTAMP#,
+				  #UPDATEUSERGUID:VARCHAR:NULL#,
+				  #CURRENTTIME:TIMESTAMP#)
+    </insert>
+    
+    <update id="updateBatchList" parameterType="map">
+            update ma_config_table_info 
+               set UPDATEUSERGUID = #UPDATEUSERGUID:VARCHAR:NULL#,
+                   UPDATETIME = #CURRENTTIME:TIMESTAMP#,
+                   title = #TITLE#,
+                   titlesequence = #TITLESEQUENCE#
+             where guid = #GUID#;
+    </update>
+    
+    <update id="updateNextRevisionBatchList" parameterType="map">
+        update MA_CONFIG_TABLE_INFO 
+           set UPDATEUSERGUID = #UPDATEUSERGUID:VARCHAR:NULL#,
+               UPDATETIME = #CURRENTTIME:TIMESTAMP#,
+               hasnextrevision = 'Y'
+         where releasetime is not null 
+               and obsoletetime is null
+               and guid= #GUID#;
+    </update>
+    
+    <update id="release" parameterType="map">
+		update $TABLENAME$ 
+		   set UPDATEUSERGUID = #UPDATEUSERGUID:VARCHAR:NULL#,
+               UPDATETIME = $CURRENTTIME$,
+		       releasetime = $CURRENTTIME$
+		 where releasetime is null
+		   and masterguid = #MASTERGUID#
+    </update>
+    
+    <update id="obsolete" parameterType="map">
+		update $TABLENAME$ 
+		   set UPDATEUSERGUID = #UPDATEUSERGUID:VARCHAR:NULL#,
+               UPDATETIME = $CURRENTTIME$,
+		       obsoletetime = $CURRENTTIME$
+		 where obsoletetime is null
+		   and hasnextrevision = 'Y'
+		   and masterguid = #MASTERGUID#
+    </update>
+    
+    <delete id="delete" parameterType="map">
+        delete from MA_CONFIG_TABLE_INFO 
+         where guid in
+         <foreach collection="TITLEGUIDLIST" open="(" close=")" separator="," item="TEMP">#TEMP#</foreach>
+    </delete>
+    
+    <update id="obsoleteOnly" parameterType="map">
+        update MA_CONFIG_TABLE_INFO 
+           set UPDATEUSERGUID = #UPDATEUSERGUID:VARCHAR:NULL#,
+               UPDATETIME = #CURRENTTIME:TIMESTAMP#,
+               hasnextrevision = 'Y'
+         where guid in
+         <foreach collection="TITLEGUIDLIST" open="(" close=")" separator="," item="TEMP">#TEMP#</foreach>
+    </update>
+    
+    <delete id="deleteByMaster" parameterType="java.lang.String">
+        delete from MA_CONFIG_TABLE_INFO  where masterguid = #MASTERGUID#
+    </delete>
+    
+    <update id="clearWIP" parameterType="map">
+            update MA_CONFIG_TABLE_INFO  
+               set UPDATEUSERGUID = #UPDATEUSERGUID:VARCHAR:NULL#,
+                   UPDATETIME = $CURRENTTIME$,
+                   hasnextrevision = 'N'
+             where hasnextrevision = 'Y' and obsoletetime is null and masterguid = #MASTERGUID#;
+    </update>
+    <delete id="deleteWIP" parameterType="java.lang.String">
+	        delete from MA_CONFIG_TABLE_INFO 
+	         where releasetime is null
+	           and masterguid = #MASTERGUID#;
+    </delete>
+</mapper>

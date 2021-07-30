@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.trans.TransformServer">
+
+	<select id="select" parameterType="map" resultType="dyna.common.bean.data.trans.TransformServer">
+        select a.*
+          from BI_TRANSFORM_SERVERS a
+        <where>
+			<if  test="SERVERID!=null">and a.SERVERID=#SERVERID#</if>
+			<if  test="TRANSFORMTYPE!=null">and a.TRANSFORMTYPE=#TRANSFORMTYPE#</if>
+			<if  test="GUID!=null">and a.GUID=#GUID#</if>
+		</where>
+		order by a.createtime desc
+	</select>
+	
+	<insert id="insert" parameterType="dyna.common.bean.data.trans.TransformServer">
+		INSERT INTO BI_TRANSFORM_SERVERS (
+			guid,
+			SERVERID,
+			TRANSFORMTYPE,
+			createtime,
+			createuserguid,
+			updatetime,
+			updateuserguid
+
+		)
+		select
+			#GUID:VARCHAR:NULL#,
+			#SERVERID:VARCHAR:NULL#,
+			#TRANSFORMTYPE:VARCHAR:NULL#,
+			#CURRENTTIME:TIMESTAMP#,
+			#CREATEUSERGUID:VARCHAR:NULL#,
+			#CURRENTTIME:TIMESTAMP#,
+			#UPDATEUSERGUID:VARCHAR:NULL#
+	</insert>
+
+	<update id="update" parameterType="dyna.common.bean.data.trans.TransformServer">
+		UPDATE BI_TRANSFORM_SERVERS
+		<set>
+			updatetime=#CURRENTTIME:TIMESTAMP#,
+			updateuserguid=#UPDATEUSERGUID#,
+			<if  test="SERVERID!=null">SERVERID=#SERVERID#,</if>
+			<if  test="TRANSFORMTYPE!=null">TRANSFORMTYPE=#TRANSFORMTYPE#,</if>
+		</set>
+		WHERE guid = #GUID#
+	</update>
+
+	<delete id="delete" parameterType="java.lang.String">
+		DELETE FROM BI_TRANSFORM_SERVERS 
+		WHERE guid = #GUID#
+	</delete>
+	
+	<delete id="deleteConfig" parameterType="java.lang.String">
+		DELETE FROM BI_TRANSFORM_SERVERS 
+		WHERE SERVERID = #SERVERID#
+	</delete>
+</mapper>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.trans.TransformManualPerformerMapper">
+
+    <insert id="insert" parameterType="dyna.common.bean.data.trans.TransformManualPerformer">
+        insert into BI_TRANSFORM_MANUAL_PER
+                    (guid, 
+                     transformconfigguid, 
+                     statusType,
+                     perftype, 
+                     perfguid, 
+                     createuserguid, 
+                     createtime, 
+                     updateuserguid, 
+                     updatetime
+                    )
+        values(#GUID:VARCHAR:NULL#,
+               #TRANSFORMCONFIGGUID:VARCHAR:NULL#,
+               #STATUSTYPE:VARCHAR:NULL#,
+               #PERFTYPE:VARCHAR:NULL#,
+               #PERFGUID:VARCHAR:NULL#,
+               #CREATEUSERGUID:VARCHAR:NULL#,
+               #CURRENTTIME:TIMESTAMP#,
+               #UPDATEUSERGUID:VARCHAR:NULL#,
+               #CURRENTTIME:TIMESTAMP#
+              )
+    </insert>
+
+    <sql id="where">
+        <where>
+            <if  test="GUID!=null">
+                and b.guid = #GUID#
+            </if>
+            <if  test="TRANSFORMCONFIGGUID!=null">
+                and b.transformconfigguid = #TRANSFORMCONFIGGUID#
+            </if>
+            <if  test="STATUSTYPE!=null">
+                and b.statusType = #STATUSTYPE#
+            </if>
+        </where>
+    </sql>
+    
+    <select id="select" parameterType="java.util.HashMap" resultType="dyna.common.bean.data.trans.TransformManualPerformer">
+       select b.*  from bi_transform_manual_per b
+          <include refid="where"/>
+    </select>
+  
+    <update id="update" parameterType="java.util.HashMap">
+        update bi_transform_manual_per 
+               <set>
+                   updateuserguid = #UPDATEUSERGUID#,
+                   updatetime = #CURRENTTIME:TIMESTAMP#,
+                   <if test="TRANSFORMCONFIGGUID!=null" >
+                       transformconfigguid = #TRANSFORMCONFIGGUID#,
+                   </if>
+                   <if test="STATUSTYPE!=null" >
+                       statustype = #STATUSTYPE#,
+                   </if>
+                   <if test="PERFTYPE!=null" >
+                       perftype = #PERFTYPE#,
+                   </if>
+                   <if test="PERFGUID!=null" >
+                       perfguid = #PERFGUID#,
+                   </if>
+               </set>
+         where guid = #GUID#
+    </update>
+   
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from bi_transform_manual_per where guid = #GUID#
+    </delete>
+    <delete id="deleteAll" parameterType="java.lang.String">
+        delete from bi_transform_manual_per where transformconfigguid = #TRANSFORMCONFIGGUID#
+    </delete>
+</mapper>

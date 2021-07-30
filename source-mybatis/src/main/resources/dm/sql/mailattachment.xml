@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.MailAttachmentMapper">
+
+	<select id="select" parameterType="map" resultType="dyna.common.dto.MailAttachment">
+		SELECT a.guid,
+		       a.mailguid,
+		       a.instanceguid,
+		       a.instanceclassguid,
+		       a.instancetitle,
+		       a.createuserguid,
+		       a.createtime,
+		       a.fileguid,
+		       (select b.filename
+		          from bi_any_table_file b
+		         where b.guid = a.fileguid
+		       ) filename
+		  FROM bi_mail_attachment a
+		 WHERE a.mailguid = #MAILGUID#
+		 ORDER BY a.instanceclassguid, a.instancetitle
+	</select>
+	
+	<insert id="insert" parameterType="dyna.common.dto.MailAttachment">
+		INSERT INTO bi_mail_attachment
+		  (guid,
+		   mailguid,
+		   instanceguid,
+		   instanceclassguid,
+		   instancetitle,
+		   createuserguid,
+		   createtime,
+		   fileguid)
+		VALUES
+		  (#GUID#,
+		   #MAILGUID#,
+		   #INSTANCEGUID#,
+		   #INSTANCECLASSGUID#,
+		   #INSTANCETITLE#,
+		   #CREATEUSERGUID#,
+		   #CURRENTTIME:TIMESTAMP#,
+		   #FILEGUID:VARCHAR:NULL#)
+	</insert>
+	
+</mapper>

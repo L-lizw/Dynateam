@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.BomObjectMapper">
+
+  <sql id="selectSysfields">
+       f$$.guid                                           guid$$,
+       f$$.masterfk                                       masterfk$$,
+       f$$.md_id                                          id$$,
+       f$$.md_name                                        name$$,
+       f$$.alterid                                        alterid$$,
+       f$$.classguid                                      classguid$$,
+       f$$.classification                                 classification$$,
+       f$$.revisionid                                     revisionid$$,
+       f$$.latestrevision                                 latestrevision$$,
+       f$$.revisionidsequence                             revisionidsequence$$,
+       f$$.iterationid                                    iterationid$$,
+       f$$.ischeckout                                     ischeckout$$,
+       f$$.checkoutuser                                   checkoutuser$$,
+       f$$.checkouttime                                   checkouttime$$,
+       f$$.locationlib                                    locationlib$$,
+       f$$.commitfolder                                   commitfolder$$,
+       f$$.uniques                                        uniques$$,
+       f$$.repeatvalue                                    repeat$$,
+       f$$.md5                                            md5$$,
+       'Y'                                                iscommited,
+       f$$.status                                         status$$,
+       f$$.lifecyclephase                                 lifecyclephase$$,
+       f$$.releasetime                                    releasetime$$,
+       f$$.obsoletetime                                   obsoletetime$$,
+       f$$.obsoleteuser                                   obsoleteuser$$,
+       f$$.owneruser                                      owneruser$$,
+       f$$.ownergroup                                     ownergroup$$,
+       f$$.createuser                                     createuser$$,
+       f$$.createtime                                     createtime$$,
+       f$$.updateuser                                     updateuser$$,
+       f$$.updatetime                                     updatetime$$,
+       f$$.fileguid                                       fileguid$$,
+       f$$.filename                                       filename$$,
+       f$$.filetype                                       filetype$$,
+       f$$.ecflag                                         ecflag$$,
+       f$$.ecflag$$class                                  ecflag$$class,
+       f$$.ecflag$$master                                 ecflag$$master,
+       f$$.isexporttoerp                                  isexporttoerp$$,
+       f$$.nextrevisionrlstime                            nextrevisionrlstime$$,
+       f$$.custstartrevidsequence                         custstartrevidsequence$$
+    </sql>
+    
+
+  <select id="getBOMStructureObject" parameterType="java.util.HashMap" resultType="dyna.common.bean.data.structure.BOMStructure" statementType="STATEMENT">
+		SELECT
+			guid guid$$,
+			viewfk viewfk$$,
+			(select c.classname
+			  from ma_class c
+			 where c.guid = a.viewclassguid) viewfk$$classname,
+			a.viewclassguid viewfk$$classguid, 
+			end2$$class end2$$classguid,
+			end2$$master end2$$masterfk,
+			end2 end2$$,
+			DATASEQ,
+			quantity,
+			uom,
+			rsflag,
+			createtime createtime$$,
+			createuser createuser$$,
+			updatetime updatetime$$,
+			updateuser updateuser$$,
+			classguid classguid$$
+		FROM $TABLENAME$ a
+		<where>
+			<if  test="VIEWFK!=null">
+				and a.viewfk = #VIEWFK#
+			</if>
+			<if  test="END2!=null">
+                and a.end2 = #END2#
+			</if>
+			<if  test="END2MASTERFK!=null">
+                and a.end2$$master = #END2MASTERFK#
+			</if>
+			<if  test="GUID!=null">
+                and a.guid = #GUID#
+			</if>
+			<if  test="DATASEQ!=null">
+                and a.DATASEQ = #DATASEQ#
+			</if>
+		</where>
+	</select>
+
+	<!-- 根据bom模板配置，查看bomstructure下的end2是否重复 -->
+	<select id="isRepeatForBomstructure" parameterType="java.util.HashMap" resultType="java.lang.String">
+		select case when t.isincorporatedmaster = '0' 
+		            then (select case when count(b.end2$$master) > 1 
+		                              then 'Y'
+		                              else 'N'
+		                          end
+		                    from $TABLENAME$ b
+		                   where b.viewfk = #VIEWGUID#
+		                     and b.end2$$master = #END2MASTERGUID#)
+		            else 'N'
+		        end isRepeat
+		  from bi_bom_template t
+		 where t.templateid = #BOMTEMPLATEID#
+		   and rownum = 1
+	</select>
+
+  <select id="isEND1HaveBOM" parameterType="map" resultType="java.lang.String">
+	    select case count(1)
+		         when 0 then
+		          'N'
+		         else
+		          'Y'
+		       end flg
+		  from $VIEWTABLENAME$ r,
+		       $STRUCTURETABLENAME$ s
+		 where r.guid = s.viewfk
+		   and r.end1 = #END1GUID#
+	</select>
+	
+	<update id="setFixedRevisionEnd2" parameterType="java.util.HashMap">
+	    update $STRUCTABLE$ 
+	       set end2 = (select guid
+                           from $END2TABLE$ 
+                          where masterfk = end2$$master
+                            and revisionidsequence = (select max(revisionidsequence)
+                                                           from $END2TABLE$ 
+                                                          where masterfk = end2$$master
+                                                        )
+                        )
+	     where viewfk = #VIEWGUID#
+	</update>
+	
+	<update id="setLatestEnd2" parameterType="java.util.HashMap">
+	    update $STRUCTABLE$ 
+	       set end2 = ''
+	     where viewfk = #VIEWGUID#
+	</update>
+		
+	<select id="checkBOMViewMaster" parameterType="java.util.HashMap" resultType="dyna.common.bean.xml.UpperKeyMap" statementType="STATEMENT">
+		select t.precise ISPRECISE from $VIEWTABLENAME$ a ,bi_bom_template t where a.guid = #VIEWGUID#
+		and a.templateid=t.templateid
+	</select>
+	
+	<update id="updateUHasBOM" parameterType="java.util.HashMap">
+	    update $END1TABLENAME$ 
+	       set UHASBOM = #UHASBOM#
+        <where>
+            <if  test="GUID!=null">
+                and guid = #GUID#
+            </if>
+            <if  test="FOUNDATIONFK!=null">
+                and foundationfk = #FOUNDATIONFK#
+            </if>
+            <if  test="ORIGUHASBOM!=null">
+                and  UHASBOM = #ORIGUHASBOM#
+            </if>
+        </where>
+	</update>
+      
+  <select id="getBOMView" parameterType="map" resultType="dyna.common.bean.data.foundation.BOMView" statementType="STATEMENT">
+    select a.guid                          guid$$,
+           a.md_name                          name$$, 
+           a.classguid                     classguid$$,
+           (select m.classname
+              from ma_class m
+             where m.guid = a.classguid 
+           )                               classname$$,
+           a.masterfk                      masterfk$$,
+           a.isprecise,
+           a.templateid,
+           a.end1,
+           a.end1$$class,
+           (select m.classname
+              from ma_class m
+             where m.guid = a.end1$$class
+           )                               end1$$classname,
+           a.end1$$master
+      from $VIEWTABLE$ a where a.guid = #BOMVIEWGUID#
+  </select>
+      
+    <select id="isPreciseByStruc" parameterType="map" resultType="java.lang.String">
+        select case t.precise
+                 when '1' then 'Y'
+                 else 'N'
+               end isprecise
+          from $VIEWTABLE$ b,
+               bi_bom_template t
+         where b.templateid = t.templateid
+           and b.guid = (select a.viewfk
+                        from $STRUCTABLE$ a
+                       where a.guid = #GUID#
+                      )
+    </select>
+    
+    <select id="getFoundationGuidByMaster" parameterType="map" resultType="java.lang.String">
+        select a.guid
+          from $TABLENAME$ a
+         where a.latestrevision like '%m%'
+           and a.masterfk = #MASTER#
+    </select>
+    
+   <select id="getStrucClassGuidByViewName" parameterType="java.util.HashMap" resultType="java.lang.String">
+      select t.structureclassguid
+        from bi_bom_template t
+       where t.templatename = #VIEWNAME#
+         and t.viewclassguid = #VIEWCLASS#
+         and rownum = 1
+  </select>
+</mapper>

@@ -1,0 +1,468 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.MailMapper">
+
+	<sql id="selectfields">
+		a.guid,
+		a.origmailguid,
+		a.category,
+		a.senderuser,
+		a.receiveuser,
+		a.receivetime,
+		a.isintrash,
+		a.createuserguid,
+		a.createtime,
+		a.updateuserguid,
+		a.updatetime,
+		a.hasattachment,
+		a.title,
+		a.contents,
+		a.isread,
+		a.readtime,
+		a.isprocess,
+		a.processtime,
+		a.procrtguid,
+		a.actrtguid,
+		a.moduletype,
+		a.receivermasterguid,
+		(select description from wf_procrt a where a.guid = procrtguid) procrtdesc,
+		(select title from wf_procrt a where a.guid = procrtguid) procrttitle,
+		(select title from wf_actrt a where a.guid = actrtguid) actrttitle,
+		(select username from sa_user where guid = a.senderuser)
+		senderusername,
+		(select b.wftname from wf_template b
+		where b.guid = (select c.wftemplateguid from wf_procrt c
+		where c.guid = a.procrtguid)
+		) wftemplatename
+	</sql>
+
+	<select id="select" parameterType="map" resultType="dyna.common.dto.Mail">
+		select
+		<include refid="selectfields" />
+		from bi_mail a
+		<where>
+			<if  test="GUID!=null">
+				and a.guid = #GUID#
+			</if>
+			<if  test="PARENTGUID!=null">
+				and a.parentguid = #PARENTGUID#
+			</if>
+			<if  test="ISREAD!=null">
+				and a.isread = #ISREAD#
+			</if>
+			<if  test="TITLE!=null">
+				and upper(a.title) like upper('%$TITLE$%')
+			</if>
+			<if  test="CONTENTS!=null">
+				and upper(a.contents) like upper('%$CONTENTS$%')
+			</if>
+			<if  test="SENDERUSER!=null">
+				and a.senderuser = #SENDERUSER#
+			</if>
+			<if  test="FROMTIME!=null">
+				and a.createtime >=#FROMTIME:DATE#
+			</if>
+			<if  test="TOTIME!=null">
+				and a.createtime <![CDATA[<=]]>#TOTIME:DATE#
+			</if>
+			<if  test="CREATETIME!=null">
+				and a.createtime = #CURRENTTIME:DATE#
+			</if>
+			<if  test="MODULETYPE!=null">
+				and a.moduletype in ($MODULETYPE$)
+			</if>
+		</where>
+		<if test="ORDERBY!=null">
+			$ORDERBY$
+		</if>
+		<if test="ORDERBY==null">
+			ORDER BY A.UPDATETIME DESC
+		</if>
+	</select>
+
+	<select id="getInboxCount" parameterType="map" resultType="dyna.common.dto.Mail">
+		select count(guid)  rowcount$$
+		from bi_mail a
+		where a.receiveuser = #USERGUID# and a.origmailguid is not null and
+		a.isintrash = 'N'
+			<if  test="CATEGORY!=null">
+				and a.category = #CATEGORY#
+			</if>
+			<if  test="ISREAD!=null">
+				and a.isread = #ISREAD#
+			</if>
+			<if   test="HASCATEGORY == 'TRUE'">
+				and a.category in ('1','2','3')
+			</if>
+			<if   test="HASCATEGORY == 'FALSE'">
+				and a.category not in ('1','2','3')
+			</if>
+			<if  test="TITLE!=null">
+				and upper(a.title) like upper('%$TITLE$%')
+			</if>
+			<if  test="CONTENTS!=null">
+				and upper(a.contents) like upper('%$CONTENTS$%')
+			</if>
+			<if  test="SENDERUSER!=null">
+				and a.senderuser = #SENDERUSER#
+			</if>
+			<if  test="FROMTIME!=null">
+				and a.createtime>=#FROMTIME:DATE#
+			</if>
+			<if  test="TOTIME!=null">
+				and a.createtime<![CDATA[<=]]>#TOTIME:DATE#
+			</if>
+			<if  test="CREATETIME!=null">
+				and a.createtime = #CURRENTTIME:TIMESTAMP#
+			</if>
+			<if  test="MODULETYPE!=null">
+				and a.moduletype in ($MODULETYPE$)
+			</if>
+			<if  test="MODULETYPEEXCEPT!=null">
+				and a.moduletype not in ($MODULETYPE$)
+			</if>
+	</select>
+
+	<select id="getInbox" parameterType="map" resultType="dyna.common.dto.Mail">
+		select
+		<include refid="selectfields" />
+		from bi_mail a
+		where a.receiveuser = #USERGUID# and a.origmailguid is not null and
+		a.isintrash = 'N'
+			<if  test="CATEGORY!=null">
+				and a.category = #CATEGORY#
+			</if>
+			<if  test="ISREAD!=null">
+				and a.isread = #ISREAD#
+			</if>
+			<if   test="HASCATEGORY == 'TRUE'">
+				and a.category in ('1','2','3')
+			</if>
+			<if   test="HASCATEGORY == 'FALSE'">
+				and a.category not in ('1','2','3')
+			</if>
+			<if  test="TITLE!=null">
+				and upper(a.title) like upper('%$TITLE$%')
+			</if>
+			<if  test="CONTENTS!=null">
+				and upper(a.contents) like upper('%$CONTENTS$%')
+			</if>
+			<if  test="SENDERUSER!=null">
+				and a.senderuser = #SENDERUSER#
+			</if>
+			<if  test="FROMTIME!=null">
+				and a.createtime>=#FROMTIME:DATE#
+			</if>
+			<if  test="TOTIME!=null">
+				and a.createtime<![CDATA[<=]]>#TOTIME:DATE#
+			</if>
+			<if  test="CREATETIME!=null">
+				and a.createtime = #CURRENTTIME:TIMESTAMP#
+			</if>
+			<if  test="MODULETYPE!=null">
+				and a.moduletype in ($MODULETYPE$)
+			</if>
+			<if  test="MODULETYPEEXCEPT!=null">
+				and a.moduletype not in ($MODULETYPE$)
+			</if>
+		<if test="ORDERBY!=null">
+			$ORDERBY$
+		</if>
+		<if test="ORDERBY==null">
+			ORDER BY A.UPDATETIME DESC
+		</if>
+	</select>
+
+	<select id="getSent" parameterType="map" resultType="dyna.common.dto.Mail">
+		select m.* from (select
+		<include refid="selectfields" />
+		from bi_mail a
+		where a.senderuser = #USERGUID# and a.origmailguid is null and a.isintrash
+		= 'N'
+			<if  test="TITLE!=null">
+				and upper(a.title) like upper('%$TITLE$%')
+			</if>
+			<if  test="CONTENTS!=null">
+				and upper(a.contents) like upper('%$CONTENTS$%')
+			</if>
+			<if  test="SENDERUSER!=null">
+				and a.senderuser = #SENDERUSER#
+			</if>
+			<if  test="FROMTIME!=null">
+				and a.createtime>=#FROMTIME:DATE#
+			</if>
+			<if  test="TOTIME!=null">
+				and a.createtime<![CDATA[<=]]>#TOTIME:DATE#
+			</if>
+			<if  test="CREATETIME!=null">
+				and a.createtime = #CURRENTTIME:TIMESTAMP#
+			</if>
+			<if  test="MODULETYPE!=null">
+				and a.moduletype in ($MODULETYPE$)
+			</if>
+		<if test="ORDERBY">
+			$ORDERBY$
+		</if>
+		) m
+	</select>
+
+	<select id="getTrash" parameterType="map" resultType="dyna.common.dto.Mail">
+		select m.* from (select
+		<include refid="selectfields" />
+		from bi_mail a
+		WHERE ((a.receiveuser = #USERGUID# and a.origmailguid is not null) or
+		(a.senderuser = #USERGUID# and a.origmailguid is null)) and
+		a.isintrash = 'Y'
+			<if  test="TITLE!=null">
+				and upper(a.title) LIKE upper('%$TITLE$%')
+			</if>
+			<if  test="CONTENTS!=null">
+				and upper(a.contents) LIKE upper('%$CONTENTS$%')
+			</if>
+			<if  test="SENDERUSER!=null">
+				and a.senderuser = #SENDERUSER#
+			</if>
+			<if  test="FROMTIME!=null">
+				and a.createtime>=#FROMTIME:DATE#
+			</if>
+			<if  test="TOTIME!=null">
+				and a.createtime<![CDATA[<=]]>#TOTIME:DATE#
+			</if>
+			<if  test="CREATETIME!=null">
+				and a.createtime = #CURRENTTIME:TIMESTAMP#
+			</if>
+			<if  test="MODULETYPE!=null">
+				and a.moduletype in ($MODULETYPE$)
+			</if>
+		<if test="ORDERBY">
+			$ORDERBY$
+		</if>
+		) m
+	</select>
+
+	<!-- 查询当前用户未读的通知数量 -->
+	<select id="getCountForNotRead" parameterType="java.lang.String" resultType="java.lang.Integer">
+		select count(1) notReadCount
+		from bi_mail t
+		where t.receiveuser = #RECEIVEUSER#
+		and t.isread = 'N'
+		and t.origmailguid is not null
+		and t.isintrash = 'N'
+	</select>
+
+	<insert id="insert" parameterType="dyna.common.dto.Mail">
+		insert into bi_mail (guid,
+		origmailguid,
+		category,
+		readtime,
+		processtime,
+		isread,
+		isprocess,
+		senderuser,
+		receiveuser,
+		receivetime,
+		isintrash,
+		createuserguid,
+		createtime,
+		updateuserguid,
+		updatetime,
+		hasattachment,
+		title,
+		procrtguid,
+		actrtguid,
+		contents,
+		moduletype,
+		receivermasterguid,
+		startnumber
+		)
+		values(#GUID#,
+		#ORIGMAILGUID:VARCHAR:NULL#,
+		#CATEGORY:VARCHAR:NULL#,
+		#READTIME:TIMESTAMP#,
+		#PROCESSTIME:TIMESTAMP#,
+		<if test="ISREAD!=null">
+			#ISREAD#,
+		</if>
+		<if test="ISREAD==null">
+			'N',
+		</if>
+		<if test="ISPROCESS!=null">
+			#ISPROCESS#,
+		</if>
+		<if test="ISPROCESS==null">
+			'N',
+		</if>
+		#SENDERUSER:VARCHAR:NULL#,
+		#RECEIVEUSER:VARCHAR:NULL#,
+		#CURRENTTIME:TIMESTAMP#,
+		<if test="ISINTRASH!=null">
+			#ISINTRASH#,
+		</if>
+		<if test="ISINTRASH==null">
+			'N',
+		</if>
+		#CREATEUSERGUID:VARCHAR:NULL#,
+		#CURRENTTIME:TIMESTAMP#,
+		#CREATEUSERGUID:VARCHAR:NULL#,
+		#CURRENTTIME:TIMESTAMP#,
+		<if test="HASATTACHMENT!=null">
+			#HASATTACHMENT#,
+		</if>
+		<if test="HASATTACHMENT==null">
+			'N',
+		</if>
+		#TITLE:VARCHAR:NULL#,
+		<if test="PROCRTGUID!=null">
+			#PROCRTGUID#,
+		</if>
+		<if test="PROCRTGUID==null">
+			'',
+		</if>
+		<if test="ACTRTGUID!=null">
+			#ACTRTGUID#,
+		</if>
+		<if test="ACTRTGUID==null">
+			'',
+		</if>
+		#CONTENTS:VARCHAR:NULL#,
+		#MODULETYPE:VARCHAR:NULL#,
+		#RECEIVERMASTERGUID:VARCHAR:NULL#,
+		#STARTNUMBER#
+		)
+	</insert>
+
+	<update id="update" parameterType="dyna.common.dto.Mail">
+		update bi_mail
+		<set>
+			<if test="ISINTRASH!=null">
+				isintrash = #ISINTRASH#,
+			</if>
+			<if test="ISREAD!=null">
+				isread = #ISREAD#,
+				readtime = #CURRENTTIME:TIMESTAMP#,
+			</if>
+			<if test="ISPROCESS!=null">
+				isprocess = #ISPROCESS#,
+				processtime = #CURRENTTIME:TIMESTAMP#,
+			</if>
+			<if test="CATEGORY!=null">
+				category = #CATEGORY#,
+			</if>
+			<if test="MODULETYPE!=null">
+				moduletype = #MODULETYPE#,
+			</if>
+		</set>
+		updatetime= #CURRENTTIME:TIMESTAMP#,
+		updateuserguid=#UPDATEUSERGUID#
+		where guid = #GUID#
+		and updatetime = #UPDATETIME#
+	</update>
+
+	<delete id="delete" parameterType="java.lang.String">
+		delete from bi_mail  where guid = #GUID#
+	</delete>
+
+	<delete id="deleteAdvanced" parameterType="map">
+		delete from bi_mail 
+		<where>
+			<if  test="GUID!=null">and guid=#GUID#
+			</if>
+			<if  test="ORIGMAILGUID!=null">and origmailguid=#ORIGMAILGUID#
+			</if>
+			<if  test="CATEGORY!=null">and category=#CATEGORY#
+			</if>
+			<if  test="SENDERUSER!=null">and senderuser=#SENDERUSER#
+			</if>
+			<if  test="RECEIVEUSER!=null">and receiveuser=#RECEIVEUSER#
+			</if>
+			<if  test="RECEIVETIME!=null">and eceivetime=#RECEIVETIME#
+			</if>
+			<if  test="ISINTRASH!=null">and isintrash=#ISINTRASH#
+			</if>
+			<if  test="CREATEUSERGUID!=null">and createuserguid=#CREATEUSERGUID#
+			</if>
+			<if  test="CREATETIME!=null">and createtime=#CREATETIME#
+			</if>
+			<if  test="UPDATEUSERGUID!=null">and updateuserguid=#UPDATEUSERGUID#
+			</if>
+			<if  test="UPDATETIME!=null">and updatetime=#UPDATETIME#
+			</if>
+			<if  test="HASATTACHMENT!=null">and hasattachment=#HASATTACHMENT#
+			</if>
+			<if  test="TITLE!=null">and title=#TITLE#
+			</if>
+			<if  test="CONTENTS!=null">and contents=#CONTENTS#
+			</if>
+			<if  test="ISREAD!=null">and isread=#ISREAD#
+			</if>
+			<if  test="ISPROCESS!=null">and isprocess=#ISPROCESS#
+			</if>
+			<if  test="READTIME!=null">and READTIME=#READTIME#
+			</if>
+			<if  test="PROCESSTIME!=null">and PROCESSTIME=#PROCESSTIME#
+			</if>
+			<if  test="MODULETYPE!=null">and moduletype=#MODULETYPE#
+			</if>
+		</where>
+	</delete>
+
+	<delete id="deleteIsintrash" parameterType="java.lang.String">
+		delete from bi_mail 
+		where (receiveuser = #USERGUID# or senderuser = #USERGUID#) and
+		isintrash = 'Y'
+	</delete>
+
+	<select id="selectReceiverByMasterGuid" parameterType="java.lang.String"
+		resultType="dyna.common.dto.Mail">
+		select receiveuser from bi_mail_receiveruser where masterguid = #MASTERGUID#
+	</select>
+
+	<delete id="deleteMailOutOfDate" parameterType="map">
+		delete from bi_mail 
+		where receiveuser = #USERGUID#
+		and moduletype <![CDATA[ <> ]]>
+		'8'
+		and receiveuser = #USERGUID#
+		and createtime <![CDATA[ < ]]>
+		#MESSAGEDAY:DATE#
+	</delete>
+
+	<delete id="deleteMailReceiverOutOfDate" parameterType="map">
+		delete from bi_mail_receiveruser 
+		where exists(select 1 from bi_mail a
+		where m.masterguid = a.receivermasterguid
+		and a.moduletype <![CDATA[ <> ]]>
+		'8'
+		and a.receiveuser = #USERGUID#
+		and a.createtime <![CDATA[ < ]]>
+		#MESSAGEDAY:DATE#
+		)
+	</delete>
+
+	<delete id="deleteWorkflowOutOfDate" parameterType="map">
+		delete from bi_mail 
+		where receiveuser = #USERGUID#
+		and receiveuser = #USERGUID#
+		and createtime <![CDATA[ < ]]>
+		#MESSAGEDAY:DATE#
+		and exists(select 1 from wf_procrt b
+		where procrtguid = b.guid
+		and b.status in ('CLOSED', 'CANCEL', 'OBSOLETE')
+		)
+	</delete>
+
+	<delete id="deleteWorkflowReceiverOutOfDate" parameterType="map">
+		delete from bi_mail_receiveruser 
+		where exists(select 1 from bi_mail a,
+		wf_procrt b
+		where m.masterguid = a.receivermasterguid
+		and a.procrtguid = b.guid
+		and a.receiveuser = #USERGUID#
+		and a.createtime <![CDATA[ < ]]>
+		#MESSAGEDAY:DATE#
+		and b.status in ('CLOSED', 'CANCEL', 'OBSOLETE')
+		)
+	</delete>
+</mapper>

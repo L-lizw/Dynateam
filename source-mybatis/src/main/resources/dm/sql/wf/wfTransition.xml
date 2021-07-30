@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.wf.TransitionMapper">
+
+    <insert id="insert" parameterType="dyna.common.dto.wf.Transition">
+        insert into wf_transition (guid, 
+                                   procrtguid, 
+                                   transitionname, 
+                                   fromactguid, 
+                                   toactguid, 
+                                   createuserguid, 
+                                   createtime, 
+                                   updateuserguid, 
+                                   updatetime
+                                  )
+        values(#GUID:VARCHAR:NULL#, 
+               #PROCRTGUID:VARCHAR:NULL#, 
+               #TRANSITIONNAME:VARCHAR:NULL#, 
+               #FROMACTGUID:VARCHAR:NULL#, 
+               #TOACTGUID:VARCHAR:NULL#, 
+               #CREATEUSERGUID:VARCHAR:NULL#, 
+               #CURRENTTIME:TIMESTAMP#, 
+               #UPDATEUSERGUID:VARCHAR:NULL#, 
+               #CURRENTTIME:TIMESTAMP#
+              )
+    </insert>
+
+
+    <select id="select" parameterType="java.util.HashMap" resultType="dyna.common.dto.wf.Transition">
+        SELECT * 
+        FROM wf_transition a  
+        <where>
+            <if test="GUID!=null" >
+                and a.guid = #GUID#
+            </if>
+            <if test="PROCRTGUID!=null" >
+                and a.procrtguid = #PROCRTGUID#
+            </if>
+            <if test="FROMACTGUID!=null" >
+                and a.fromactguid = #FROMACTGUID#
+            </if>
+            <if test="TOACTGUID!=null" >
+                and a.toactguid = #TOACTGUID#
+            </if>
+            <if test="TRANSIYIONNAME!=null" >
+                and a.transitionname = #TRANSIYIONNAME#
+            </if>
+        </where>
+    </select>
+
+</mapper>

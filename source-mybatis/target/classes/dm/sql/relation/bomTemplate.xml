@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.template.bom.BOMTemplateInfoMapper">
+
+    <insert id="insert" parameterType="dyna.common.dto.template.bom.BOMTemplateInfo">
+        insert into bi_bom_template
+                    (guid, 
+                     templateid, 
+                     templatename, 
+                     bmguid, 
+                     viewclassguid, 
+                     structureclassguid, 
+                     end1boname, 
+                     
+                     sequencestart, 
+                     sequenceincrement, 
+                     sequencepad, 
+                     sequencelength, 
+                     isincorporatedmaster, 
+                     precise,
+                     
+                     moveforward,
+                     checkdesignator, 
+                     designatorseparator,
+                     
+                     createuserguid, 
+                     createtime, 
+                     updateuserguid, 
+                     updatetime, 
+                     isvalid,
+                     title
+                    )
+        values (#GUID:VARCHAR#, 
+                #TEMPLATEID:VARCHAR#, 
+                #TEMPLATENAME:VARCHAR#, 
+                #BMGUID:VARCHAR#, 
+                #VIEWCLASSGUID:VARCHAR#, 
+                #STRUCTURECLASSGUID:VARCHAR#, 
+                #END1BONAME:VARCHAR#, 
+                
+                #SEQUENCESTART:NUMERIC#, 
+                #SEQUENCEINCREMENT:NUMERIC#, 
+                #SEQUENCEPAD:VARCHAR#, 
+                #SEQUENCELENGTH:NUMERIC#, 
+                #ISINCORPORATEDMASTER:VARCHAR#, 
+                #PRECISE:VARCHAR#,
+                
+                #MOVEFORWARD:VARCHAR#, 
+                #CHECKDESIGNATOR:VARCHAR#, 
+                #DESIGNATORSEPARATOR:VARCHAR#, 
+                
+                #CREATEUSERGUID:VARCHAR#, 
+                #CURRENTTIME:TIMESTAMP#, 
+                #UPDATEUSERGUID:VARCHAR#, 
+                #CURRENTTIME:TIMESTAMP#, 
+                '1',
+                #TITLE:VARCHAR#
+               )
+    </insert>
+
+    <sql id="where">
+        <where>
+            <if  test="GUID!=null">
+                and  b.guid = #GUID#
+            </if>
+            <if  test="TEMPLATEID!=null">
+                and b. templateid = #TEMPLATEID#
+            </if>
+            <if  test="TEMPLATENAME!=null">
+                and b.templatename = #TEMPLATENAME#
+            </if>
+            
+            <if  test="TEMPLATETYPE!=null">
+                and b.templatetype = #TEMPLATETYPE#
+            </if>
+            <if  test="STRUCTUREMODEL!=null">
+                and b.structuremodel = #STRUCTUREMODEL#
+            </if>
+            <if  test="BMGUID!=null">
+                and b.bmguid = #BMGUID#
+            </if>
+            
+            <if  test="VIEWCLASSGUID!=null">
+                and b.viewclassguid = #VIEWCLASSGUID#
+            </if>
+            <if  test="STRUCTURECLASSGUID!=null">
+                and b.structureclassguid = #STRUCTURECLASSGUID#
+            </if>
+            <if  test="END1BONAME!=null">
+                and b.end1boname = #END1BONAME#
+            </if>
+            
+            <if  test="END2INTERFACE!=null">
+                and b.end2interface = #END2INTERFACE#
+            </if>
+            <if  test="END2TYPE!=null">
+                and b.end2type = #END2TYPE#
+            </if>
+            <if  test="ISVALID!=null">
+                and b.isvalid = #ISVALID#
+            </if>
+             <if  test="MOVEFORWARD!=null">
+                 and b.moveforward = #MOVEFORWARD#
+            </if>
+             <if  test="CHECKDESIGNATOR!=null">
+                 and b.checkdesignator = #CHECKDESIGNATOR#
+            </if>
+            <if  test="DESIGNATORSEPARATOR!=null">
+                and b.designatorseparator = #DESIGNATORSEPARATOR#
+            </if>
+        </where>
+    </sql>
+
+    <select id="selectForLoad" parameterType="map" resultType="dyna.common.dto.template.bom.BOMTemplateInfo">
+        select b.*,
+               (select m.classname from ma_class m where m.guid = b.viewclassguid)          viewclassname,
+               (select m.classname from ma_class m where m.guid = b.structureclassguid)     structureclassname
+          from bi_bom_template b
+          <include refid="where"/>
+         order by b.templatename,
+                  b.templateid
+    </select>
+    
+    <select id="selectName" resultType="dyna.common.dto.template.bom.BOMTemplateInfo">
+        select distinct b.templatename 
+          from bi_bom_template b 
+          <include refid="where"/>
+         order by b.templatename
+    </select>
+    
+    <select id="getBOMTemplateByEND2" resultType="dyna.common.dto.template.bom.BOMTemplateInfo">
+        select x.*,
+               (select m.classname from ma_class m where m.guid = x.viewclassguid)          viewclassname,
+               (select m.classname from ma_class m where m.guid = x.structureclassguid)     structureclassname
+          from bi_bom_template x, 
+               bi_bom_template_end2 y
+         where x.guid = y.masterfk
+           and y.bmguid = #BMGUID#
+           and y.end2boname = #END2BONAME#
+           and x.isvalid=#ISVALID#
+         order by x.templatename,
+                  x.templateid
+    </select>
+
+
+    <update id="update" parameterType="dyna.common.dto.template.bom.BOMTemplateInfo">
+        update bi_bom_template 
+        <set>
+            updateuserguid = #UPDATEUSERGUID#,
+            updatetime = #CURRENTTIME:TIMESTAMP#,
+            <if  test="TEMPLATENAME!=null">TEMPLATENAME=#TEMPLATENAME#,</if>
+            <if  test="TEMPLATEID!=null">TEMPLATEID=#TEMPLATEID#,</if>
+            <if  test="BMGUID!=null">bmguid=#BMGUID#,</if>
+            <if  test="VIEWCLASSGUID!=null">viewclassguid=#VIEWCLASSGUID#,</if>
+            <if  test="STRUCTURECLASSGUID!=null">structureclassguid=#STRUCTURECLASSGUID#,</if>
+            <if  test="END1BONAME!=null">end1boname=#END1BONAME#,</if>
+            
+            <if  test="SEQUENCESTART!=null">sequencestart=#SEQUENCESTART#,</if>
+            <if  test="SEQUENCEINCREMENT!=null">sequenceincrement=#SEQUENCEINCREMENT#,</if>
+            <if  test="SEQUENCEPAD!=null">sequencepad=#SEQUENCEPAD#,</if>
+            <if  test="SEQUENCELENGTH!=null">sequencelength=#SEQUENCELENGTH#,</if>
+            <if  test="ISINCORPORATEDMASTER!=null">isincorporatedmaster=#ISINCORPORATEDMASTER#,</if>
+            <if  test="PRECISE!=null">precise=#PRECISE#,</if>
+            <if  test="ISVALID!=null">isvalid=#ISVALID#,</if>
+            <if  test="TITLE!=null">title=#TITLE#,</if>
+            <if  test="DESIGNATORSEPARATOR!=null">designatorseparator=#DESIGNATORSEPARATOR#,</if>
+       		<if  test="MOVEFORWARD!=null">moveforward=#MOVEFORWARD#,</if>
+            <if  test="CHECKDESIGNATOR!=null">checkdesignator=#CHECKDESIGNATOR#,</if>
+        </set>
+        where guid = #GUID#
+    </update>
+    
+    <update id="obsleteByName" parameterType="map">
+        update bi_bom_template 
+           set updateuserguid = #UPDATEUSERGUID#,
+               updatetime = #CURRENTTIME:TIMESTAMP#,
+               isvalid = '0'
+         where TEMPLATENAME = #TEMPLATENAME#
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from bi_bom_template  where guid = #GUID#
+    </delete>
+    
+	<select id="get" parameterType="java.lang.String" resultType="dyna.common.dto.template.bom.BOMTemplateInfo" statementType="STATEMENT">
+		SELECT a.* 
+		  FROM bi_bom_template a
+		 WHERE guid=#guid#
+	</select>
+</mapper>

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.RptWorkItemMapper">
+
+	<sql id="where">
+			<if  test="ID!=null">
+				and A.MD_ID LIKE '%$ID$%'
+			</if>
+			<if  test="NAME!=null">
+				and A.MD_NAME LIKE '%$NAME$%'
+			</if>
+			<if  test="PRJNAME!=null">
+				and A.RELATIONPROJECT = #PRJNAME#
+			</if>
+			<if  test="EXECUTOR!=null">
+				and A.EXECUTOR = #EXECUTOR#
+			</if>
+			<if  test="OPERATIONSTATE!=null">
+				and A.EXECUTESTATUS = #OPERATIONSTATE#
+			</if>
+			<if  test="ONTIMESTATE!=null">
+				and A.ONTIMESTATE = #ONTIMESTATE#
+			</if>
+			<if  test="DEPT!=null">
+				and A.OWNERGROUP = #DEPT#
+			</if>
+			<if  test="PLANSTARTTIMEFROM!=null">
+				and A.PLANSTARTTIME BETWEEN #PLANSTARTTIMEFROM:TIMESTAMP# AND #PLANSTARTTIMETO:TIMESTAMP#
+			</if>
+			<if  test="PLANFINISHTIMEFROM!=null">
+				and A.PLANFINISHTIME BETWEEN #PLANFINISHTIMEFROM:TIMESTAMP# AND #PLANSTARTTIMETO:TIMESTAMP#
+			</if>
+			<if  test="ACTUALSTARTTIMEFROM!=null">
+				and A.ACTUALSTARTTIME BETWEEN #ACTUALSTARTTIMEFROM:TIMESTAMP# AND #ACTUALSTARTTIMETO:TIMESTAMP#
+			</if>
+			<if  test="ACTUALFINISHTIMEFROM!=null">
+				and A.ACTUALFINISHTIME BETWEEN #ACTUALFINISHTIMEFROM:TIMESTAMP# AND #ACTUALFINISHTIMETO:TIMESTAMP#
+			</if>
+			<if  test="CREATEUSER!=null">
+				and A.CREATEUSER = #CREATEUSER#
+			</if>
+	</sql>
+
+	<select id="selectCount" parameterType="map" resultType="dyna.common.bean.data.ppms.RptWorkItem">
+		SELECT COUNT(1)  rowcount$$ 
+		          FROM (SELECT P.* 
+		                  FROM $WORKITEMTABLENAME$ P
+		                 WHERE P.CREATEUSER = #USERGUID#
+		                 UNION
+		                 SELECT P.* 
+		                  FROM $WORKITEMTABLENAME$ P
+		                 WHERE EXISTS(SELECT 1
+				                        FROM SA_USER A_
+				                  INNER JOIN PPM_TASKRESOURCE B_
+				                          ON A_.GUID = B_.USERGUID
+				                       WHERE B_.TASKGUID = P.GUID
+				                         AND A_.GUID = #USERGUID#
+		                             )
+		                 UNION
+		                 SELECT P.* 
+		                  FROM $WORKITEMTABLENAME$ P
+		                 WHERE EXISTS(SELECT 1
+			                            FROM PPM_PROJECTROLE Y
+			                      INNER JOIN PPM_ROLEMEMBERS Z
+			                              ON Y.GUID = Z.PROJECTROLEGUID
+			                           WHERE P.RELATIONPROJECT = Y.TYPEGUID
+			                             AND (UPPER(Y.ROLEID) = 'MANAGERROLE' OR UPPER(Y.ROLEID) = 'RECEIVER')
+			                             AND Z.USERGUID = #USERGUID#
+			                         )
+		               ) A
+		           WHERE 1=1
+		           <include refid = "where" />
+	</select>
+
+	<select id="receiverSelectCount" parameterType="map" resultType="dyna.common.bean.data.ppms.RptWorkItem">
+		SELECT COUNT(1)  rowcount$$ 
+          FROM $WORKITEMTABLENAME$ A
+         WHERE 1=1
+           <include refid = "where" />
+	</select>
+	
+	<select id="select" parameterType="map" resultType="dyna.common.bean.data.ppms.RptWorkItem">
+		SELECT A.GUID GUID,
+		               A.CLASSGUID,
+		               (SELECT F.MD_NAME FROM $PROJECTTABLENAME$ F WHERE F.GUID = A.RELATIONPROJECT) PRJNAME,
+		               (SELECT U.USERNAME FROM SA_USER U WHERE U.GUID = A.EXECUTOR) EXECUTORNAME,
+		               (SELECT G.GROUPNAME FROM SA_GROUP G WHERE G.GUID = A.OWNERGROUP) OWNERGROUPNAME,
+		               (SELECT D.ITEMNAME FROM MA_CODE_DETAIL D WHERE D.GUID = A.EXECUTESTATUS) EXECUTESTATUSNAME,
+		               (SELECT D.ITEMNAME FROM MA_CODE_DETAIL D WHERE D.GUID = A.ONTIMESTATE) ONTIMESTATENAME,
+		               A.SPI,
+		               A.COMPLETIONRATE,
+		               A.PLANSTARTTIME,
+		               A.PLANFINISHTIME,
+		               A.ACTUALSTARTTIME,
+		               A.ACTUALFINISHTIME,
+		               A.MD_ID,
+		               A.MD_NAME
+		          FROM (SELECT P.* 
+		                  FROM $WORKITEMTABLENAME$ P
+		                 WHERE P.CREATEUSER = #USERGUID#
+		                 UNION
+		                 SELECT P.* 
+		                  FROM $WORKITEMTABLENAME$ P
+		                 WHERE EXISTS(SELECT 1
+				                        FROM SA_USER A_
+				                  INNER JOIN PPM_TASKRESOURCE B_
+				                          ON A_.GUID = B_.USERGUID
+				                       WHERE B_.TASKGUID = P.GUID
+				                         AND A_.GUID = #USERGUID#
+		                             )
+		                 UNION
+		                 SELECT P.* 
+		                  FROM $WORKITEMTABLENAME$ P
+		                 WHERE EXISTS(SELECT 1
+			                            FROM PPM_PROJECTROLE Y
+			                      INNER JOIN PPM_ROLEMEMBERS Z
+			                              ON Y.GUID = Z.PROJECTROLEGUID
+			                           WHERE P.RELATIONPROJECT = Y.TYPEGUID
+			                             AND (UPPER(Y.ROLEID) = 'MANAGERROLE' OR UPPER(Y.ROLEID) = 'RECEIVER')
+			                             AND Z.USERGUID = #USERGUID#
+			                         )
+		               ) A
+		           WHERE 1=1
+		           <include refid = "where" />
+		<if test="ORDERBY!=null">
+			order by $ORDERBY$
+		</if>
+		<if test="ORDERB==null">
+			ORDER BY A.UPDATETIME DESC
+		</if>
+	</select>
+
+	<select id="receiverSelect" parameterType="map" resultType="dyna.common.bean.data.ppms.RptWorkItem">
+		SELECT A.GUID GUID,
+               A.CLASSGUID,
+               A.MD_ID,
+               A.MD_NAME,
+               (SELECT F.MD_NAME FROM $PROJECTTABLENAME$ F WHERE F.GUID = A.RELATIONPROJECT) PRJNAME,
+               (SELECT U.USERNAME FROM SA_USER U WHERE U.GUID = A.EXECUTOR) EXECUTORNAME,
+               (SELECT G.GROUPNAME FROM SA_GROUP G WHERE G.GUID = A.OWNERGROUP) OWNERGROUPNAME,
+               (SELECT D.ITEMNAME FROM MA_CODE_DETAIL D WHERE D.GUID = A.EXECUTESTATUS) EXECUTESTATUSNAME,
+               (SELECT D.ITEMNAME FROM MA_CODE_DETAIL D WHERE D.GUID = A.ONTIMESTATE) ONTIMESTATENAME,
+               A.SPI ,
+               A.COMPLETIONRATE ,
+               A.PLANSTARTTIME PLANSTARTTIME,
+               A.PLANFINISHTIME PLANFINISHTIME,
+               A.ACTUALSTARTTIME ACTUALSTARTTIME,
+               A.ACTUALFINISHTIME ACTUALFINISHTIME
+          FROM $WORKITEMTABLENAME$ A
+         WHERE 1=1
+           <include refid = "where" />
+		<if test="ORDERBY!=null">
+			order by $ORDERBY$
+		</if>
+		<if test="ORDERBY==null">
+			ORDER BY A.UPDATETIME DESC
+		</if>
+	</select>
+
+</mapper>

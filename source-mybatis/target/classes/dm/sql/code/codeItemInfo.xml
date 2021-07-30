@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.model.code.CodeItemInfoMapper">
+
+    <select id="selectForLoad" parameterType="map" resultType="dyna.common.dto.model.code.CodeItemInfo">
+        SELECT GUID,
+		       MASTERGUID,
+		       PARENTGUID,
+		       CREATETIME,
+		       CREATEUSERGUID,
+		       UPDATETIME,
+		       UPDATEUSERGUID,
+		       DATASEQ,
+		       ITEMNAME,
+		       TITLE,
+		       DESCRIPTION,
+		       CODE,
+		       ISCLASSIFICATION
+		  FROM MA_CODE_DETAIL
+    </select>
+    
+	<select id="get" parameterType="java.lang.String" resultType="dyna.common.dto.model.code.CodeItemInfo" statementType="STATEMENT">
+		SELECT GUID,
+		       MASTERGUID,
+		       PARENTGUID,
+		       CREATETIME,
+		       CREATEUSERGUID,
+		       UPDATETIME,
+		       UPDATEUSERGUID,
+		       DATASEQ,
+		       ITEMNAME,
+		       TITLE,
+		       DESCRIPTION,
+		       CODE,
+		       ISCLASSIFICATION
+		  FROM MA_CODE_DETAIL
+		 WHERE GUID = #GUID#
+	</select>
+    
+    <select id="select" parameterType="map" resultType="dyna.common.dto.model.code.CodeItemInfo">
+        SELECT GUID,
+		       MASTERGUID,
+		       PARENTGUID,
+		       CREATETIME,
+		       CREATEUSERGUID,
+		       UPDATETIME,
+		       UPDATEUSERGUID,
+		       DATASEQ,
+		       ITEMNAME,
+		       TITLE,
+		       DESCRIPTION,
+		       CODE,
+			   ISCLASSIFICATION
+		  FROM MA_CODE_DETAIL
+		<where>
+			<if  test="GUID!=null">and GUID=#GUID#</if>
+			<if  test="MASTERGUID!=null">and MASTERGUID=#MASTERGUID#</if>
+			<if  test="PARENTGUID!=null">and PARENTGUID=#PARENTGUID#</if>
+			<if  test="ITEMNAME!=null">and ITEMNAME=#ITEMNAME#</if>
+			<if  test="TITLE!=null">and TITLE=#TITLE#</if>
+			<if  test="DESCRIPTION!=null">and DESCRIPTION=#DESCRIPTION#</if>
+			<if  test="CODE!=null">and CODE=#CODE#</if>
+		</where>
+    </select>
+    
+    <update id="update" parameterType="dyna.common.dto.model.code.CodeItemInfo">
+        UPDATE MA_CODE_DETAIL 
+		<set>
+			UPDATEUSERGUID = #UPDATEUSERGUID#,
+			UPDATETIME = #CURRENTTIME:TIMESTAMP#,
+			<if  test="DATASEQ!=null">DATASEQ=#DATASEQ#,</if>
+			<if  test="TITLE!=null">TITLE=#TITLE#,</if>
+			<if  test="DESCRIPTION!=null">DESCRIPTION=#DESCRIPTION#,</if>
+			<if  test="CODE!=null">CODE=#CODE#,</if>
+		</set>
+         WHERE GUID = #GUID#
+    </update>
+    
+    <insert id="insert" parameterType="dyna.common.dto.model.code.CodeItemInfo">
+        INSERT INTO MA_CODE_DETAIL(GUID,
+							       MASTERGUID,
+							       PARENTGUID,
+		                           DATASEQ,
+							       ITEMNAME,
+							       TITLE,
+							       DESCRIPTION,
+							       CODE,
+		                           ISCLASSIFICATION,
+							       CREATETIME,
+							       CREATEUSERGUID,
+							       UPDATETIME,
+							       UPDATEUSERGUID
+                                  )
+                            VALUES(#GUID:VARCHAR#,
+							       #MASTERGUID:VARCHAR#,
+							       #PARENTGUID:VARCHAR:NULL#,
+							       #DATASEQ:NUMERIC#,
+							       #ITEMNAME:VARCHAR:NULL#,
+							       #TITLE:VARCHAR:NULL#,
+							       #DESCRIPTION:VARCHAR:NULL#,
+							       #CODE:VARCHAR:NULL#,
+		                           #ISCLASSIFICATION:VARCHAR:NULL#,
+							       #CURRENTTIME:TIMESTAMP#,
+							       #CREATEUSERGUID:VARCHAR:NULL#,
+							       #CURRENTTIME:TIMESTAMP#,
+							       #UPDATEUSERGUID:VARCHAR:NULL#
+                                  )
+    </insert>
+    
+    <delete id="delete" parameterType="java.lang.String">
+        DELETE FROM MA_CODE_DETAIL WHERE GUID = #GUID#
+    </delete>
+    
+    <delete id="deleteBy" parameterType="java.lang.String">
+        DELETE FROM MA_CODE_DETAIL WHERE MASTERGUID = #GUID#
+    </delete>
+</mapper>

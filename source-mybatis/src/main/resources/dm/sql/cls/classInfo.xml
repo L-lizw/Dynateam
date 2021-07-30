@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.model.cls.ClassInfoMapper">
+
+    <select id="selectForLoad" parameterType="map" resultType="dyna.common.dto.model.cls.ClassInfo">
+        SELECT GUID,
+		       CLASSNAME,
+		       SUPERCLASSGUID,
+		       DESCRIPTION,
+		       ISBUILTIN,
+		       CREATETIME,
+		       CREATEUSERGUID,
+		       UPDATETIME,
+		       UPDATEUSERGUID,
+		       BASETABLENAME,
+		       LIFECYCLE,
+		       INTERFACES,
+		       NONQUERYABLE,
+		       SUPERINTERFACE,
+		       ITERATIONLIMIT,
+		       INSTANCESTRING,
+		       CLASSIFICATION,
+		       ABSTRACT,
+		       FINAL,
+		       ICONPATH,
+		       SHOWPREVIEW,
+		       ICONPATH32,
+		       ISCREATETABLE,
+		       REALBASETABLENAME,
+		       ISIDUNIQUE,
+		       (SELECT A.CLASSNAME FROM MA_CLASS A WHERE A.GUID=M.SUPERCLASSGUID) SUPERCLASS,
+		       (SELECT A.CODENAME FROM MA_CODE_MASTER A WHERE A.GUID = M.CLASSIFICATION AND A.ISCLASSIFICATION = 'Y') CLASSIFICATIONNAME,
+		       (SELECT A.LCMNAME FROM MA_LIFECYCLE_MASTER A WHERE A.GUID = M.LIFECYCLE) LIFECYCLENAME
+		  FROM MA_CLASS M
+    </select>
+    
+	<select id="get" parameterType="java.lang.String" resultType="dyna.common.dto.model.cls.ClassInfo" statementType="STATEMENT">
+		SELECT GUID,
+		       CLASSNAME,
+		       SUPERCLASSGUID,
+		       DESCRIPTION,
+		       ISBUILTIN,
+		       CREATETIME,
+		       CREATEUSERGUID,
+		       UPDATETIME,
+		       UPDATEUSERGUID,
+		       BASETABLENAME,
+		       LIFECYCLE,
+		       INTERFACES,
+		       NONQUERYABLE,
+		       SUPERINTERFACE,
+		       ITERATIONLIMIT,
+		       INSTANCESTRING,
+		       CLASSIFICATION,
+		       ABSTRACT,
+		       FINAL,
+		       ICONPATH,
+		       SHOWPREVIEW,
+		       ICONPATH32,
+		       ISCREATETABLE,
+		       REALBASETABLENAME,
+		       ISIDUNIQUE,
+		       (SELECT A.CLASSNAME FROM MA_CLASS A WHERE A.GUID=M.SUPERCLASSGUID) SUPERCLASS,
+		       (SELECT A.CODENAME FROM MA_CODE_MASTER A WHERE A.GUID = M.CLASSIFICATION AND A.ISCLASSIFICATION = 'Y') CLASSIFICATIONNAME,
+		       (SELECT A.LCMNAME FROM MA_LIFECYCLE_MASTER A WHERE A.GUID = M.LIFECYCLE) LIFECYCLENAME
+		  FROM MA_CLASS M
+		 WHERE GUID=#GUID#
+	</select>
+	
+	<select id="select" parameterType="map" resultType="dyna.common.dto.model.cls.ClassInfo">
+	    SELECT GUID,
+		       CLASSNAME,
+		       SUPERCLASSGUID,
+		       DESCRIPTION,
+		       ISBUILTIN,
+		       CREATETIME,
+		       CREATEUSERGUID,
+		       UPDATETIME,
+		       UPDATEUSERGUID,
+		       BASETABLENAME,
+		       LIFECYCLE,
+		       INTERFACES,
+		       NONQUERYABLE,
+		       SUPERINTERFACE,
+		       ITERATIONLIMIT,
+		       INSTANCESTRING,
+		       CLASSIFICATION,
+		       ABSTRACT,
+		       FINAL,
+		       ICONPATH,
+		       SHOWPREVIEW,
+		       ICONPATH32,
+		       ISCREATETABLE,
+		       REALBASETABLENAME,
+		       ISIDUNIQUE,
+		       (SELECT A.CLASSNAME FROM MA_CLASS A WHERE A.GUID=M.SUPERCLASSGUID) SUPERCLASS,
+		       (SELECT A.CODENAME FROM MA_CODE_MASTER A WHERE A.GUID = M.CLASSIFICATION AND A.ISCLASSIFICATION = 'Y') CLASSIFICATIONNAME,
+		       (SELECT A.LCMNAME FROM MA_LIFECYCLE_MASTER A WHERE A.GUID = M.LIFECYCLE) LIFECYCLENAME
+		  FROM MA_CLASS M
+		 WHERE 1=1
+		 <if test="GUID">
+		   AND GUID = #GUID#
+		 </if>
+		 <if test="CLASSNAME">
+		   AND CLASSNAME = #CLASSNAME#
+		 </if>
+		 <if test="SUPERCLASSGUID">
+		   AND SUPERCLASSGUID = #SUPERCLASSGUID#
+		 </if>
+	</select>
+    
+    <select id="selectFirstClassWithCreateTable"  resultType="dyna.common.dto.model.cls.ClassInfo">
+        SELECT GUID,
+               CLASSNAME,
+               BASETABLENAME
+          FROM MA_CLASS M
+         WHERE M.ISCREATETABLE = 'Y'
+           AND EXISTS (SELECT 1 FROM MA_CLASS M2
+                        WHERE M.SUPERCLASSGUID = M2.GUID
+                          AND M2.ISCREATETABLE = 'N'
+                      )
+    </select>
+    
+    <select id="selectAllRealbaseTableName" resultType="dyna.common.dto.model.cls.ClassInfo">
+        SELECT DISTINCT M.REALBASETABLENAME FROM MA_CLASS M WHERE M.REALBASETABLENAME IS NOT NULL
+    </select>
+    
+    <insert id="insert" parameterType="map">
+        INSERT INTO MA_CLASS(GUID,
+							 CLASSNAME,
+							 SUPERCLASSGUID,
+							 DESCRIPTION,
+							 ISBUILTIN,
+							 BASETABLENAME,
+							 LIFECYCLE,
+							 INTERFACES,
+							 NONQUERYABLE,
+							 SUPERINTERFACE,
+							 ITERATIONLIMIT,
+							 INSTANCESTRING,
+							 CLASSIFICATION,
+							 ABSTRACT,
+							 FINAL,
+							 ICONPATH,
+							 SHOWPREVIEW,
+							 ICONPATH32,
+							 ISCREATETABLE,
+							 REALBASETABLENAME,
+							 ISIDUNIQUE,
+							 CREATETIME,
+							 CREATEUSERGUID,
+							 UPDATETIME,
+							 UPDATEUSERGUID
+                            )
+                      VALUES(#GUID:VARCHAR#,
+							 #CLASSNAME:VARCHAR#,
+							 #SUPERCLASSGUID:VARCHAR:NULL#,
+							 #DESCRIPTION:VARCHAR:NULL#,
+							 #ISBUILTIN:VARCHAR:NULL#,
+							 #BASETABLENAME:VARCHAR:NULL#,
+							 #LIFECYCLE:VARCHAR:NULL#,
+							 #INTERFACES:VARCHAR:NULL#,
+							 #NONQUERYABLE:VARCHAR:NULL#,
+							 #SUPERINTERFACE:VARCHAR:NULL#,
+							 #ITERATIONLIMIT:VARCHAR:NULL#,
+							 #INSTANCESTRING:VARCHAR:NULL#,
+							 #CLASSIFICATION:VARCHAR:NULL#,
+							 #ABSTRACT:VARCHAR:NULL#,
+							 #FINAL:VARCHAR:NULL#,
+							 #ICONPATH:VARCHAR:NULL#,
+							 #SHOWPREVIEW:VARCHAR:NULL#,
+							 #ICONPATH32:VARCHAR:NULL#,
+							 #ISCREATETABLE:VARCHAR:NULL#,
+							 #REALBASETABLENAME:VARCHAR:NULL#,
+							 #ISIDUNIQUE:VARCHAR:NULL#,
+							 #CURRENTTIME:TIMESTAMP#,
+							 #CREATEUSERGUID:VARCHAR:NULL#,
+							 #CURRENTTIME:TIMESTAMP#,
+							 #UPDATEUSERGUID:VARCHAR:NULL#
+                            )
+    </insert>
+    
+    <update id="update" parameterType="map">
+        UPDATE MA_CLASS
+		<set>
+			UPDATEUSERGUID = #UPDATEUSERGUID#,
+			UPDATETIME = #CURRENTTIME:TIMESTAMP#,
+			<if  test="DESCRIPTION!=null">DESCRIPTION=#DESCRIPTION#,</if>
+			<if  test="ISBUILTIN!=null">ISBUILTIN=#ISBUILTIN#,</if>
+			<if  test="BASETABLENAME!=null">BASETABLENAME=#BASETABLENAME#,</if>
+			<if  test="LIFECYCLE!=null">LIFECYCLE=#LIFECYCLE#,</if>
+			<if  test="INTERFACES!=null">INTERFACES=#INTERFACES#,</if>
+			<if  test="NONQUERYABLE!=null">NONQUERYABLE=#NONQUERYABLE#,</if>
+			<if  test="SUPERINTERFACE!=null">SUPERINTERFACE=#SUPERINTERFACE#,</if>
+			<if  test="ITERATIONLIMIT!=null">ITERATIONLIMIT=#ITERATIONLIMIT#,</if>
+			<if  test="INSTANCESTRING!=null">INSTANCESTRING=#INSTANCESTRING#,</if>
+			<if  test="CLASSIFICATION!=null">CLASSIFICATION=#CLASSIFICATION#,</if>
+			<if  test="ABSTRACT!=null">ABSTRACT=#ABSTRACT#,</if>
+			<if  test="FINAL!=null">FINAL=#FINAL#,</if>
+			<if  test="ICONPATH!=null">ICONPATH=#ICONPATH#,</if>
+			<if  test="SHOWPREVIEW!=null">SHOWPREVIEW=#SHOWPREVIEW#,</if>
+			<if  test="ICONPATH32!=null">ICONPATH32=#ICONPATH32#,</if>
+			<if  test="ISCREATETABLE!=null">ISCREATETABLE=#ISCREATETABLE#,</if>
+			<if  test="REALBASETABLENAME!=null">REALBASETABLENAME=#REALBASETABLENAME#,</if>
+			<if  test="ISIDUNIQUE!=null">ISIDUNIQUE=#ISIDUNIQUE#,</if>
+		</set>
+        WHERE GUID = #GUID#
+    </update>
+    
+    <update id="updateIcon" parameterType="map">
+        UPDATE MA_CLASS
+           SET UPDATEUSERGUID = #UPDATEUSERGUID#,
+               UPDATETIME = #CURRENTTIME:TIMESTAMP#
+        <if  test="ICONPATH!=null">ICONPATH=#ICONPATH#</if>
+        <if  test="ICONPATH32!=null">ICONPATH32=#ICONPATH32#</if>
+        WHERE GUID = #GUID#
+    </update>
+    
+    <delete id="delete" parameterType="java.lang.String">
+        DELETE FROM MA_CLASS WHERE GUID = #GUID#
+    </delete>
+</mapper>

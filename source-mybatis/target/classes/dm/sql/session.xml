@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.SessionMapper">
+
+	<select id="selectForLoad" parameterType="map" resultType="dyna.common.dto.Session">
+	    select a.*,
+			   
+               b.userid                 as userid,
+               b.username               as username,
+               c.groupid                as logingroupid,
+               c.groupname              as logingroupname,
+               d.roleid                 as loginroleid,
+               d.rolename               as loginrolename,
+               (select c.bmname
+                  from sa_businessmodel c
+                 where guid = (select b.bmguid
+                                 from sa_group b
+                                where b.guid = a.logingroupguid
+                              )
+               ) bmname
+               
+          from sa_user_session a, 
+               sa_user b, 
+               sa_group c,
+               sa_role d
+         where a.userguid = b.guid
+           and a.logingroupguid = c.guid
+           and a.loginroleguid = d.guid
+	</select>
+	
+	<insert id="insert" parameterType="dyna.common.dto.Session">
+	    INSERT INTO SA_USER_SESSION 
+		(
+		    GUID,
+			USERGUID,
+			LOGINGROUPGUID,
+			LOGINROLEGUID,
+			IPADDRESS,
+			HOSTNAME,
+			LOGINTIME,
+			UPDATETIME,
+			LASTACCESSTIME,
+			BMGUID,
+			SITEID,
+			CLIENTTYPE,
+			APPTYPE,
+			LOCALE
+		)
+	    VALUES( 
+		    #GUID#,
+			#USERGUID:VARCHAR:NULL#,
+			#LOGINGROUPGUID:VARCHAR:NULL#,
+			#LOGINROLEGUID:VARCHAR:NULL#,
+			#IPADDRESS:VARCHAR:NULL#,
+			#HOSTNAME:VARCHAR:NULL#,
+			#CURRENTTIME:TIMESTAMP#,
+			#CURRENTTIME:TIMESTAMP#,
+			#CURRENTTIME:TIMESTAMP#,
+			#BMGUID:VARCHAR:NULL#,
+			#SITEID:VARCHAR:NULL#,
+			#CLIENTTYPE:VARCHAR:NULL#,
+			#APPTYPE:VARCHAR:NULL#,
+			#LOCALE:VARCHAR:NULL#
+		)
+	</insert>
+	
+	<update id="update" parameterType="map">
+	    UPDATE SA_USER_SESSION
+	       SET UPDATETIME = #CURRENTTIME:TIMESTAMP#
+               <if test="LASTACCESSTIME!=null" >LASTACCESSTIME = #LASTACCESSTIME#,</if>
+         WHERE GUID = #GUID#
+	</update>
+	
+	<delete id="delete" parameterType="java.lang.String">
+		DELETE FROM sa_user_session
+		WHERE  guid = #GUID#
+	</delete>
+	
+	<delete id="deleteModelerSession">
+		DELETE FROM sa_user_session
+		WHERE  clienttype = 'MODULE.MODELER'
+	</delete>
+	
+	<delete id="clearSession">
+		DELETE FROM sa_user_session
+	</delete>
+	
+	<select id="get" parameterType="java.lang.String" resultType="dyna.common.dto.Session" statementType="STATEMENT">
+		SELECT a.*,
+			   (SELECT c.bmname 
+			      FROM sa_businessmodel c 
+			     WHERE guid = (select b.bmguid
+			     			     FROM sa_group b
+			     			    WHERE b.guid = a.logingroupguid
+			     			  )
+			   ) bmname
+		  FROM sa_user_session a
+		 WHERE guid=#guid#
+	</select>
+	  
+	
+</mapper>

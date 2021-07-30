@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.model.lf.LifecyclePhaseInfoMapper">
+
+    <select id="selectForLoad" parameterType="map" resultType="dyna.common.dto.model.lf.LifecyclePhaseInfo">
+        SELECT GUID,
+		       MASTERFK,
+		       DATASEQ,
+		       ITEMNAME,
+		       TITLE,
+		       DESCRIPTION,		       
+		       CREATETIME,
+		       CREATEUSERGUID,
+		       UPDATETIME,
+		       UPDATEUSERGUID
+		  FROM MA_LIFECYCLE_DETAIL
+    </select>
+    
+	<select id="get" parameterType="java.lang.String" resultType="dyna.common.dto.model.lf.LifecyclePhaseInfo" statementType="STATEMENT">
+		SELECT GUID,
+		       MASTERFK,
+		       DATASEQ,
+		       ITEMNAME,
+		       TITLE,
+		       DESCRIPTION,		       
+		       CREATETIME,
+		       CREATEUSERGUID,
+		       UPDATETIME,
+		       UPDATEUSERGUID
+		  FROM MA_LIFECYCLE_DETAIL
+		 WHERE GUID=#GUID#
+	</select>
+	
+	 <insert id="insert" parameterType="dyna.common.dto.model.lf.LifecyclePhaseInfo">
+        insert into MA_LIFECYCLE_DETAIL
+			       (guid,
+			        masterfk,
+			        DATASEQ,
+			        itemname,
+			        title,
+			         
+			        description,
+			        
+			        createuserguid,
+			        createtime,
+			        updateuserguid,
+			        updatetime)
+	        values (#GUID:VARCHAR#,
+			        #MASTERFK:VARCHAR#,
+			        #DATASEQ#,
+			        #ITEMNAME:VARCHAR:NULL#,
+					#TITLE:VARCHAR:NULL#,
+					
+					#DESCRIPTION:VARCHAR:NULL#,
+					
+					#CREATEUSERGUID:VARCHAR:NULL#,
+					#CURRENTTIME:TIMESTAMP#,
+					#UPDATEUSERGUID:VARCHAR:NULL#,
+					#CURRENTTIME:TIMESTAMP#)
+    </insert>
+	
+	<update id="update" parameterType="dyna.common.dto.model.lf.LifecyclePhaseInfo">
+		update MA_LIFECYCLE_DETAIL
+			<set>
+		        <if test="MASTERFK!=null">masterfk = #MASTERFK#,</if>
+		        <if test="DATASEQ!=null">DATASEQ = #DATASEQ#,</if>
+		        <if test="ITEMNAME!=null">itemname = #ITEMNAME#,</if>
+		        <if test="TITLE!=null">title = #TITLE#,</if>
+		        <if test="DESCRIPTION!=null">description = #DESCRIPTION#,</if>
+       		 </set>
+               updatetime = #CURRENTTIME:TIMESTAMP#,
+               updateuserguid = #UPDATEUSERGUID#
+         where guid = #GUID#
+	</update>
+	
+	<delete id="delete" parameterType="java.lang.String">
+		delete from MA_LIFECYCLE_DETAIL  where guid = #GUID# 
+	</delete>
+    
+</mapper>

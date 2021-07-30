@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+		PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+		"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.model.lf.LifecycleGateMapper">
+
+	<select id="selectForLoad" parameterType="java.util.HashMap" resultType="dyna.common.dto.model.lf.LifecycleGate" statementType="STATEMENT">
+		select *
+		from ma_lifecycle_gate a
+		order by a.GATETYPE,a.fromphase
+	</select>
+
+	<select id="get" parameterType="java.lang.String" resultType="dyna.common.dto.model.lf.LifecycleGate" statementType="STATEMENT">
+		select *
+		from ma_lifecycle_gate a
+		WHERE GUID=#GUID#
+	</select>
+
+	<insert id="insert" parameterType="dyna.common.dto.model.lf.LifecycleGate">
+		insert into ma_lifecycle_gate
+		(guid,
+		detailfk,
+		gatetype,
+		fromphase,
+		classname,
+
+		actionname,
+
+		createuserguid,
+		createtime,
+		updateuserguid,
+		updatetime)
+		values (#GUID:VARCHAR#,
+		#DETAILFK:VARCHAR#,
+		#GATETYPE:VARCHAR:NULL#,
+		#FROMPHASE:VARCHAR:NULL#,
+		#CLASSNAME:VARCHAR:NULL#,
+
+		#ACTIONNAME:VARCHAR:NULL#,
+
+		#CREATEUSERGUID:VARCHAR:NULL#,
+		#CURRENTTIME:TIMESTAMP#,
+		#UPDATEUSERGUID:VARCHAR:NULL#,
+		#CURRENTTIME:TIMESTAMP#)
+	</insert>
+
+	<update id="update" parameterType="dyna.common.dto.model.lf.LifecycleGate">
+		update ma_lifecycle_gate
+		<set>
+			<if test="DETAILFK!=null">detailfk = #DETAILFK#,</if>
+			<if test="GATETYPE!=null">GATETYPE = #GATETYPE#,</if>
+			<if test="FROMPHASE!=null">fromphase = #FROMPHASE#,</if>
+			<if test="CLASSNAME!=null">classname = #CLASSNAME#,</if>
+			<if test="ACTIONNAME!=null">actionname = #ACTIONNAME#,</if>
+		</set>
+		updatetime = #CURRENTTIME:TIMESTAMP#,
+		updateuserguid = #UPDATEUSERGUID#
+		where guid = #GUID#
+	</update>
+
+	<delete id="delete" parameterType="java.lang.String">
+		delete from ma_lifecycle_gate where guid = #GUID#
+	</delete>
+
+</mapper>

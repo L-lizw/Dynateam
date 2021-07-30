@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.template.bom.BOMTemplateEnd2Mapper">
+
+	<sql id="selectFeilds">
+		SELECT a.*,
+		(select max(m1.title) from sa_businessobject m1 where m1.boname = a.end2boname ) END2BOTITLE
+	</sql>
+
+	<sql id="from">
+		FROM BI_BOM_TEMPLATE_END2 a
+	</sql>
+
+	<sql id="orderby">
+	</sql>
+
+	<select id="selectForLoad" parameterType="map" resultType="dyna.common.dto.template.bom.BOMTemplateEnd2">
+		<include refid="selectFeilds" />
+		<include refid="from" />
+		<where>
+			<if  test="GUID!=null">and a.guid=#GUID#</if>
+			<if  test="MASTERFK!=null">and a.masterfk=#MASTERFK#</if>
+			<if  test="END2BONAME!=null">and a.end2boname=#END2BONAME#</if>
+			<if  test="BMGUID!=null">and a.bmguid=#BMGUID#</if>
+			<if  test="CREATEUSERGUID!=null">and a.createuserguid=#CREATEUSERGUID#</if>
+			<if  test="CREATETIME!=null">and a.createtime=#CREATETIME#</if>
+		</where>
+		<include refid="orderby" />
+	</select>
+
+	<insert id="insert" parameterType="dyna.common.dto.template.bom.BOMTemplateEnd2">
+		INSERT INTO BI_BOM_TEMPLATE_END2 
+		(
+		guid,
+		masterfk,
+		end2boname,
+		BMGUID,
+		createuserguid,
+		createtime
+		)
+		VALUES(
+		#GUID#,
+		#MASTERFK:VARCHAR:NULL#,
+		#END2BONAME:VARCHAR:NULL#,
+		#BMGUID:VARCHAR:NULL#,
+		#CREATEUSERGUID:VARCHAR:NULL#,
+		#CURRENTTIME:TIMESTAMP#
+		)
+	</insert>
+
+	<update id="update" parameterType="dyna.common.dto.template.bom.BOMTemplateEnd2">
+		UPDATE BI_BOM_TEMPLATE_END2 
+		<set>
+			<if  test="GUID!=null">guid=#GUID#,</if>
+			<if  test="MASTERFK!=null">masterfk=#MASTERFK#,</if>
+			<if  test="END2BONAME!=null">END2BONAME=#END2BONAME#,</if>
+			<if  test="BMGUID!=null">BMGUID=#BMGUID#,</if>
+		</set>
+		WHERE guid = #GUID#
+	</update>
+
+	<delete id="delete" parameterType="java.lang.String">
+		DELETE FROM bi_bom_template_end2 
+		WHERE guid = #GUID#
+	</delete>
+	
+	<delete id="deleteWithMasterfk" parameterType="java.lang.String">
+		DELETE FROM bi_bom_template_end2 
+		WHERE masterfk = #MASTERFK#
+	</delete>
+	
+	<select id="get" parameterType="java.lang.String" resultType="dyna.common.dto.template.bom.BOMTemplateEnd2" statementType="STATEMENT">
+		SELECT * ,(select max(m1.title) from sa_businessobject m1 where m1.boname = end2boname ) END2BOTITLE
+		  FROM bi_bom_template_end2 
+		 WHERE guid=#guid#
+	</select>
+
+</mapper>

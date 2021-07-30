@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.SearchMapper">
+
+	<sql id="selectfields">
+		SELECT a.*,
+			   (SELECT username FROM sa_user WHERE guid = a.owneruser) ownerusername
+		FROM bi_searchcondition a
+	</sql>
+	<sql id="orderby">
+		ORDER BY a.updatetime DESC
+	</sql>
+
+	<select id="select" parameterType="map" resultType="dyna.common.dto.Search">
+		<include refid="selectfields" />
+		where userproductboguid is null
+		<if  test="GUID!=null">and a.guid=#GUID#</if>
+		<if  test="CONDITIONNAME!=null">and a.conditionname=#CONDITIONNAME#</if>
+		<if  test="OWNERUSER!=null">and a.owneruser=#OWNERUSER#</if>
+		<if  test="ISUSERSAVED!=null">and a.isusersaved=#ISUSERSAVED#</if>
+		<if  test="FIRSTCONDITION!=null">and a.firstcondition=#FIRSTCONDITION#</if>
+		<if  test="SECONDCONDITION!=null">and a.secondcondition=#SECONDCONDITION#</if>
+		<if  test="CREATEUSERGUID!=null">and a.createuserguid=#CREATEUSERGUID#</if>
+		<if  test="CREATETIME!=null">and trunc(a.createtime) = trunc(#CREATETIME#)</if>
+		<if  test="UPDATEUSERGUID!=null">and a.updateuserguid=#UPDATEUSERGUID#</if>
+		<if  test="UPDATETIME!=null">and trunc(a.updatetime) = trunc(#UPDATETIME#)</if>
+		<if test="CLASSGUID!=null">
+			<if  test="CLASSGUID==null">and a.classguid is null</if>
+			<if  test="CLASSGUID!=null">and a.classguid=#CLASSGUID#</if>
+		</if>
+		<if  test="CLASSIFICATION!=null">and a.classification=#CLASSIFICATION#</if>
+		<if  test="FOLDERGUID!=null">and a.folderguid=#FOLDERGUID#</if>
+		<if  test="ISOBSONLY!=null">and a.isobsonly=#ISOBSONLY#</if>
+		<if  test="HASSUBFOLDERS!=null">and a.hassubfolders=#HASSUBFOLDERS#</if>
+		<if  test="ISADVANCED!=null">and a.isadvanced=#ISADVANCED#</if>
+		<if  test="CASESENSITIVE!=null">and a.casesensitive=#CASESENSITIVE#</if>
+		<if  test="ISOWNERONLY!=null">and a.isowneronly=#ISOWNERONLY#</if>
+		<if  test="ISOWNERGROUPONLY!=null">and a.isownergrouponly=#ISOWNERGROUPONLY#</if>
+		<if  test="MODELINTERFACEENUM!=null">and a.MODELINTERFACEENUM=#MODELINTERFACEENUM#</if>
+		<if  test="BOMTEMPLATEID!=null">and a.BOMTEMPLATEID=#BOMTEMPLATEID#</if>
+		<if  test="BOMTEMPLATEID!=null">and a.bomtemplateid=#BOMTEMPLATEID#</if>
+		<if  test="RELATIONTEMPLATEID!=null">and a.relationtemplateid=#RELATIONTEMPLATEID#</if>
+		<if  test="USERPRODUCTBOGUID!=null">and a.USERPRODUCTBOGUID=#USERPRODUCTBOGUID#</if>
+		<if  test="SEARCHREVISIONTYPE!=null">and a.searchrevisiontype=#SEARCHREVISIONTYPE#</if>
+		<if  test="PARENTGUID!=null">and a.PARENTGUID=#PARENTGUID#</if>
+		<if  test="ISCHECKOUTONLY!=null">and a.ISCHECKOUTONLY=#ISCHECKOUTONLY#</if>
+		<if  test="ISSHOWHIDEDATA!=null">and a.ISSHOWHIDEDATA=#ISSHOWHIDEDATA#</if>
+		<if  test="PMTYPE!=null">and a.pmtype=#PMTYPE#</if>
+		<if  test="QUERYTYPE!=null">and a.querytype=#QUERYTYPE#</if>
+		<include refid="orderby" />
+	</select>
+
+	<select id="selectByGuid" parameterType="map" resultType="dyna.common.dto.Search">
+		<include refid="selectfields" />
+		where a.guid=#GUID#
+		<include refid="orderby" />
+	</select>
+	
+	<select id="selectBOSearch" parameterType="map" resultType="dyna.common.dto.Search">
+		<include refid="selectfields" />
+		where a.userproductboguid=#USERPRODUCTBOGUID#
+		<include refid="orderby" />
+	</select>
+	
+	<!-- 查看是否重名  public-->
+	<select id="checkNameUniqueForPublic" parameterType="java.lang.String" resultType="java.lang.Integer">
+		select count(1)  cn
+		  from bi_searchcondition t
+		 where t.isusersaved = '3'
+		   and t.conditionname = #CONDITIONNAME#
+	</select>
+	
+	<!-- 查看是否重名 系统保存-->
+	<select id="checkNameUniqueForSystem" parameterType="map" resultType="java.lang.Integer">
+		select count(1) cn
+		  from bi_searchcondition t
+		 where t.isusersaved = '2'
+		   and t.conditionname = #CONDITIONNAME#
+		   and t.createuserguid = #USERGUID#
+	</select>
+	
+	<!-- 查看是否重名 项目管理角色-->
+	<select id="checkNameUniqueForPM" parameterType="map" resultType="java.lang.Integer">
+		select count(1) cn
+		  from bi_searchcondition t
+		 where t.conditionname = #CONDITIONNAME#
+		   and t.pmtype = #PMTYPE#
+	</select>
+	
+	
+	<insert id="insert" parameterType="dyna.common.dto.Search">
+		INSERT INTO bi_searchcondition (
+		guid,
+		parentguid,
+		conditionname,
+		owneruser,
+		isusersaved,
+		firstcondition,
+		secondcondition,
+		createuserguid,
+		createtime,
+		updateuserguid,
+		updatetime,
+		classguid,
+		classification,
+		folderguid,
+		isobsonly,
+		hassubfolders,
+		isadvanced,
+		casesensitive,
+		isowneronly,
+		modelinterfaceenum,
+		bomtemplateid,
+		relationtemplateid,
+		userproductboguid,
+		searchrevisiontype,
+		ischeckoutonly,
+		isownergrouponly,
+		isshowhidedata,
+		pmtype,
+		querytype
+		)
+		VALUES(
+		#GUID:VARCHAR:NULL#,
+		#PARENTGUID:VARCHAR:NULL#,
+		#CONDITIONNAME:VARCHAR:NULL#,
+		#OWNERUSER:VARCHAR:NULL#,
+		<if test="ISUSERSAVED==null">'1',</if>
+		<if test="ISUSERSAVED!=null">#ISUSERSAVED#,</if>
+		#FIRSTCONDITION:VARCHAR:NULL#,
+		#SECONDCONDITION:VARCHAR:NULL#,
+		#CREATEUSERGUID:VARCHAR:NULL#,
+		#CURRENTTIME:TIMESTAMP#,
+		#UPDATEUSERGUID:VARCHAR:NULL#,
+		#CURRENTTIME:TIMESTAMP#,
+		#CLASSGUID:VARCHAR:NULL#,
+		#CLASSIFICATION:VARCHAR:NULL#,
+		#FOLDERGUID:VARCHAR:NULL#,
+		<if test="ISOBSONLY==null">'N',</if>
+		<if test="ISOBSONLY!=null">#ISOBSONLY#,</if>
+		
+		<if test="HASSUBFOLDERS==null">'N',</if>
+		<if test="HASSUBFOLDERS!=null">#HASSUBFOLDERS#,</if>
+		
+		<if test="ISADVANCED==null">'Y',</if>
+		<if test="ISADVANCED!=null">#ISADVANCED#,</if>
+		
+		<if test="CASESENSITIVE==null">'N',</if>
+		<if test="CASESENSITIVE!=null">#CASESENSITIVE#,</if>
+		
+		<if test="ISOWNERONLY==null">'N',</if>
+		<if test="ISOWNERONLY!=null">#ISOWNERONLY#,</if>
+		
+		#MODELINTERFACEENUM:VARCHAR:NULL#,
+		#BOMTEMPLATEID:VARCHAR:NULL#,
+		#RELATIONTEMPLATEID:VARCHAR:NULL#,
+		#USERPRODUCTBOGUID:VARCHAR:NULL#,
+		#SEARCHREVISIONTYPE:VARCHAR:NULL#,
+		#ISCHECKOUTONLY:VARCHAR:NULL#,
+		
+		<if test="ISOWNERGROUPONLY==null">'N',</if>
+		<if test="ISOWNERGROUPONLY!=null">#ISOWNERGROUPONLY#,</if>
+		
+		<if test="ISSHOWHIDEDATA==null">'N',</if>
+		<if test="ISSHOWHIDEDATA!=null">#ISSHOWHIDEDATA#,</if>
+		
+		#PMTYPE:VARCHAR:NULL#,
+		<if test="QUERYTYPE!=null">#QUERYTYPE#</if>
+		<if test="QUERYTYPE==null">'2'</if>
+		)
+	</insert>
+
+	<update id="update" parameterType="dyna.common.dto.Search">
+		update bi_searchcondition 
+		<set>
+			updatetime=#CURRENTTIME:TIMESTAMP#,updateuserguid=#UPDATEUSERGUID#
+			<if  test="CONDITIONNAME!=null">conditionname=#CONDITIONNAME#,</if>
+			<if  test="OWNERUSER!=null">owneruser=#OWNERUSER#,</if>
+			<if  test="ISUSERSAVED!=null">isusersaved=#ISUSERSAVED#,</if>
+			<if  test="FIRSTCONDITION!=null">firstcondition=#FIRSTCONDITION#,</if>
+			<if  test="SECONDCONDITION!=null">secondcondition=#SECONDCONDITION#,</if>
+			<if  test="CLASSGUID!=null">classguid=#CLASSGUID#,</if>
+			<if  test="CLASSIFICATION!=null">classification=#CLASSIFICATION#,</if>
+			<if  test="FOLDERGUID!=null">folderguid=#FOLDERGUID#,</if>
+			<if  test="ISOBSONLY!=null">isobsonly=#ISOBSONLY#,</if>
+			<if  test="HASSUBFOLDERS!=null">hassubfolders=#HASSUBFOLDERS#,</if>
+			<if  test="ISADVANCED!=null">isadvanced=#ISADVANCED#,</if>
+			<if  test="CASESENSITIVE!=null">casesensitive=#CASESENSITIVE#,</if>
+			<if  test="ISOWNERONLY!=null">isowneronly=#ISOWNERONLY#,</if>
+			<if  test="ISOWNERGROUPONLY!=null">isownergrouponly=#ISOWNERGROUPONLY#,</if>
+			<if  test="MODELINTERFACEENUM!=null">MODELINTERFACEENUM=#MODELINTERFACEENUM#,</if>
+			<if  test="BOMTEMPLATEID!=null">bomtemplateid=#BOMTEMPLATEID#,</if>
+			<if  test="RELATIONTEMPLATEID!=null">relationtemplateid=#RELATIONTEMPLATEID#,</if>
+			<if  test="USERPRODUCTBOGUID!=null">USERPRODUCTBOGUID=#USERPRODUCTBOGUID#,</if>
+			<if  test="SEARCHREVISIONTYPE!=null">SEARCHREVISIONTYPE=#SEARCHREVISIONTYPE#,</if>
+			<if  test="ISCHECKOUTONLY!=null">ISCHECKOUTONLY=#ISCHECKOUTONLY#,</if>
+			<if  test="PARENTGUID!=null">PARENTGUID=#PARENTGUID#,</if>
+			<if  test="ISSHOWHIDEDATA!=null">ISSHOWHIDEDATA=#ISSHOWHIDEDATA#,</if>
+			<if  test="PMTYPE!=null">pmtype=#PMTYPE#,</if>
+			<if  test="QUERYTYPE!=null">querytype=#QUERYTYPE#,</if>
+		</set>
+		where guid = #GUID#
+		  and updatetime = #UPDATETIME:TIMESTAMP#
+	</update>
+
+	<delete id="delete" parameterType="java.lang.String">
+		delete from bi_searchcondition 
+		 where guid = #GUID#
+	</delete>
+
+</mapper>

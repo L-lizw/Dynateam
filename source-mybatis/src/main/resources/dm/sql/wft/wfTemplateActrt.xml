@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.template.wft.WorkflowTemplateActInfoMapper">
+
+    <select id="selectForLoad" parameterType="map" resultType="dyna.common.dto.template.wft.WorkflowTemplateActInfo">
+        SELECT *
+          FROM WF_TEMPLATE_ACTRT A
+    </select>
+    
+    <select id="get" parameterType="java.lang.String" resultType="dyna.common.dto.template.wft.WorkflowTemplateActInfo" statementType="STATEMENT">
+		SELECT *
+		  FROM WF_TEMPLATE_ACTRT
+		 WHERE GUID = #GUID#
+	</select>
+
+    <insert id="insert" parameterType="dyna.common.dto.template.wft.WorkflowTemplateActInfo">
+        INSERT INTO WF_TEMPLATE_ACTRT(GUID, 
+                                      TEMPLATEGUID, 
+                                      ACTRTNAME, 
+                                      PERSCOPETYPE, 
+                                      EXECUTIONTYPE, 
+                                      
+                                      ISPASSED, 
+                                      SCHEMEPERIODS, 
+                                      OVERTIMEACTION, 
+                                      MAXIMUMEXECUTORS, 
+                                      PASSAGEPERCENT, 
+                                      
+                                      DAYSBEFORECLOSETIME, 
+                                      DAYSAFTERCLOSETIME, 
+                                      CREATEUSERGUID, 
+                                      CREATETIME, 
+                                      UPDATEUSERGUID, 
+                                      UPDATETIME,
+                                      ERPTEMPLATEGUID,
+                                      ISEXPORTALL
+                                     )
+        values(#GUID:VARCHAR:NULL#,
+               #TEMPLATEGUID:VARCHAR:NULL#,
+               #ACTRTNAME:VARCHAR:NULL#,
+               #PERSCOPETYPE:VARCHAR:NULL#,
+               #EXECUTIONTYPE:VARCHAR:NULL#,
+               
+               #ISPASSED:VARCHAR:NULL#,
+               <if  test="SCHEMEPERIODS!=null">
+               #SCHEMEPERIODS#,
+               </if>
+               <if  test="SCHEMEPERIODS==null">
+               NULL,
+               </if>
+               #OVERTIMEACTION:VARCHAR:NULL#,
+               <if  test="MAXIMUMEXECUTORS!=null">
+               #MAXIMUMEXECUTORS#,
+               </if>
+               <if  test="MAXIMUMEXECUTORS==null">
+               NULL,
+               </if>
+               <if  test="PASSAGEPERCENT!=null">
+               #PASSAGEPERCENT#,
+               </if>
+               <if  test="PASSAGEPERCENT==null">
+               NULL,
+               </if>
+               
+               <if  test="DAYSBEFORECLOSETIME!=null">
+               #DAYSBEFORECLOSETIME#,
+               </if>
+               <if  test="DAYSBEFORECLOSETIME==null">
+               NULL,
+               </if>
+               <if  test="DAYSAFTERCLOSETIME!=null">
+               #DAYSAFTERCLOSETIME#,
+               </if>
+               <if  test="DAYSAFTERCLOSETIME!=null">
+               NULL,
+               </if>
+               #CREATEUSERGUID:VARCHAR:NULL#,
+               #CURRENTTIME:TIMESTAMP#,
+               #UPDATEUSERGUID:VARCHAR:NULL#,
+               #CURRENTTIME:TIMESTAMP#,
+               #ERPTEMPLATEGUID:VARCHAR:NULL#,
+               #ISEXPORTALL:VARCHAR:NULL#
+              )
+    </insert>
+
+    <update id="update" parameterType="java.util.HashMap">
+        UPDATE WF_TEMPLATE_ACTRT 
+               <set>
+                   UPDATEUSERGUID = #UPDATEUSERGUID#,
+                   UPDATETIME = #CURRENTTIME:TIMESTAMP#,
+                   <if test="TEMPLATEGUID!=null" >
+                       TEMPLATEGUID = #TEMPLATEGUID#,
+                   </if>
+                   <if test="ACTRTNAME!=null" >
+                       ACTRTNAME = #ACTRTNAME#,
+                   </if>
+                   <if test="PERSCOPETYPE!=null" >
+                       PERSCOPETYPE = #PERSCOPETYPE#,
+                   </if>
+                   
+                   <if test="EXECUTIONTYPE!=null" >
+                       EXECUTIONTYPE = #EXECUTIONTYPE#,
+                   </if>
+                   <if test="ISPASSED!=null" >
+                       ISPASSED = #ISPASSED#,
+                   </if>
+                   <if test="SCHEMEPERIODS!=null" >
+                       SCHEMEPERIODS = #SCHEMEPERIODS#,
+                   </if>
+                   
+                   <if test="OVERTIMEACTION!=null" >
+                       OVERTIMEACTION = #OVERTIMEACTION#,
+                   </if>
+                   <if test="MAXIMUMEXECUTORS!=null" >
+                       MAXIMUMEXECUTORS = #MAXIMUMEXECUTORS#,
+                   </if>
+                   <if test="PASSAGEPERCENT==null" >
+                       PASSAGEPERCENT = null,
+                   </if>
+                   <if test="PASSAGEPERCENT!=null" >
+                       PASSAGEPERCENT = #PASSAGEPERCENT#,
+                   </if>
+                   <if test="DAYSBEFORECLOSETIME==null" >
+                       DAYSBEFORECLOSETIME = null,
+                   </if>
+                   <if test="DAYSBEFORECLOSETIME!=null" >
+                       DAYSBEFORECLOSETIME = #DAYSBEFORECLOSETIME#,
+                   </if>
+                   
+                   <if test="DAYSAFTERCLOSETIME==null" >
+                       DAYSAFTERCLOSETIME = null,
+                   </if>
+                   <if test="DAYSAFTERCLOSETIME!=null" >
+                       DAYSAFTERCLOSETIME = #DAYSAFTERCLOSETIME#,
+                   </if>
+                   
+                   <if test="ERPTEMPLATEGUID==null" >
+                       ERPTEMPLATEGUID = null,
+                   </if>
+                   <if test="ERPTEMPLATEGUID!=null" >
+                       ERPTEMPLATEGUID = #ERPTEMPLATEGUID#,
+                   </if>
+                   
+                   <if test="ISEXPORTALL!=null" >
+                       ISEXPORTALL = #ISEXPORTALL#,
+                   </if>
+               </set>
+         WHERE GUID = #GUID#
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        DELETE FROM WF_TEMPLATE_ACTRT WHERE GUID = #GUID#
+    </delete>
+
+</mapper>

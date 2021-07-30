@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.model.ui.ClassificationUIInfoMapper">
+
+    <select id="selectForLoad" resultType="dyna.common.dto.model.ui.ClassificationUIInfo" statementType="STATEMENT">
+		select a.*
+		from ma_classification_ui a
+	</select>
+    
+	<select id="get" parameterType="java.lang.String" resultType="dyna.common.dto.model.ui.ClassificationUIInfo" statementType="STATEMENT">
+		SELECT *
+		  FROM ma_classification_ui
+		 WHERE GUID=#GUID#
+	</select>
+	
+	 <insert id="insert" parameterType="dyna.common.dto.model.ui.ClassificationUIInfo">
+        insert into ma_classification_ui
+			       (guid,
+			        classificationfk,
+			        uiname,
+			        title,
+			         
+			        uitype,
+			        DATASEQ,
+			        visible, 
+			        
+			        createuserguid,
+			        createtime,
+			        updateuserguid,
+			        updatetime)
+	        values (#GUID#,
+			        #CLASSIFICATIONFK#,
+					#UINAME:VARCHAR:NULL#,
+					
+					#TITLE:VARCHAR:NULL#,
+
+					
+					#UITYPE:VARCHAR:NULL#,
+					#DATASEQ#,
+					#VISIBLE:VARCHAR:NULL#,
+					
+					#CREATEUSERGUID:VARCHAR:NULL#,
+					#CURRENTTIME:TIMESTAMP#,
+					#UPDATEUSERGUID:VARCHAR:NULL#,
+					#CURRENTTIME:TIMESTAMP#)
+    </insert>
+	
+	<update id="update" parameterType="dyna.common.dto.model.ui.ClassificationUIInfo">
+		update ma_classification_ui
+			<set>
+		        <if test="CLASSIFICATIONFK!=null">classificationfk = #CLASSIFICATIONFK#,</if>
+		        <if test="TITLE!=null">title = #TITLE#,</if>
+		        <if test="UINAME!=null">uiname = #UINAME#,</if>
+		        <if test="UITYPE!=null">UITYPE = #UITYPE#,</if>
+		        <if test="DATASEQ!=null">DATASEQ = #DATASEQ#,</if>
+		        <if test="VISIBLE!=null">visible = #VISIBLE#,</if>
+		        <if test="INHERITED!=null">inherited = #INHERITED#,</if>
+       		 </set>
+               updatetime = #CURRENTTIME:TIMESTAMP#,
+               updateuserguid = #UPDATEUSERGUID#
+         where guid = #GUID#
+	</update>
+	
+	<delete id="delete" parameterType="java.lang.String">
+		delete from ma_classification_ui  where guid = #GUID# 
+	</delete>
+    
+</mapper>

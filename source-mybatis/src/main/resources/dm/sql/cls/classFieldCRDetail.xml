@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+"../../mybatis-3-mapper.dtd">
+<mapper namespace="dyna.common.dtomapper.model.cls.ClassFieldCRDetailMapper">
+
+    <select id="selectForLoad" parameterType="java.util.HashMap" resultType="dyna.common.dto.model.cls.ClassFieldCRDetail">
+		SELECT GUID,
+		       FIELDFK,
+		       CODE,
+		       CRVALUE,
+		       CREATETIME,
+			   CREATEUSERGUID,
+			   UPDATETIME,
+			   UPDATEUSERGUID
+		  FROM MA_CLASS_FIELD_CR_DETAIL
+	</select>
+    
+	<select id="get" parameterType="java.lang.String" resultType="dyna.common.dto.model.cls.ClassFieldCRDetail">
+		SELECT GUID,
+		       FIELDFK,
+		       CODE,
+		       CRVALUE,
+		       CREATETIME,
+			   CREATEUSERGUID,
+			   UPDATETIME,
+			   UPDATEUSERGUID
+		  FROM MA_CLASS_FIELD_CR_DETAIL
+		 WHERE GUID=#GUID#
+	</select>
+
+	<select id="select" parameterType="map" resultType="dyna.common.dto.model.cls.ClassFieldCRDetail">
+		SELECT GUID,
+				FIELDFK,
+				CODE,
+				CRVALUE,
+				CREATETIME,
+				CREATEUSERGUID,
+				UPDATETIME,
+				UPDATEUSERGUID
+	     FROM MA_CLASS_FIELD_CR_DETAIL
+		<where>
+			<if  test="GUID!=null">and GUID=#GUID#</if>
+			<if  test="FIELDFK!=null">and FIELDFK=#FIELDFK#</if>
+			<if  test="CODE!=null">and CODE=#CODE#</if>
+			<if  test="CRVALUE!=null">and CRVALUE=#CRVALUE#</if>
+		</where>
+	</select>
+    
+    <insert id="insert" parameterType="map">
+        INSERT INTO MA_CLASS_FIELD_CR_DETAIL(GUID,
+									         FIELDFK,
+									         CODE,
+		                                     CRVALUE,
+									         CREATETIME,
+										     CREATEUSERGUID,
+										     UPDATETIME,
+										     UPDATEUSERGUID
+                                            )
+                                      VALUES(#GUID#,
+									         #FIELDFK:VARCHAR:NULL#,
+									         #CODE:VARCHAR:NULL#,
+									         #CRVALUE:VARCHAR:NULL#,
+									         #CURRENTTIME:TIMESTAMP#,
+										     #CREATEUSERGUID:VARCHAR:NULL#,
+										     #CURRENTTIME:TIMESTAMP#,
+										     #UPDATEUSERGUID:VARCHAR:NULL#
+                                            )
+    </insert>
+    
+    <delete id="delete" parameterType="java.lang.String">
+        DELETE FROM MA_CLASS_FIELD_CR_DETAIL WHERE FIELDFK = #FIELDFK#
+    </delete>
+</mapper>
