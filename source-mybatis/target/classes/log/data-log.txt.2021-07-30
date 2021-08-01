@@ -1,0 +1,448 @@
+17:16:33,368 [INFO ] ***************************************************
+17:16:33,368 [INFO ] *************  DigiWin PLM V2.0.0.0 ***************
+17:16:33,369 [INFO ] ************* Copyright (C)DigiWin ****************
+17:16:33,369 [INFO ] ***************************************************
+17:16:33,369 [INFO ] Data Server initialize...
+17:17:29,746 [INFO ] ***************************************************
+17:17:29,747 [INFO ] *************  DigiWin PLM V2.0.0.0 ***************
+17:17:29,747 [INFO ] ************* Copyright (C)DigiWin ****************
+17:17:29,747 [INFO ] ***************************************************
+17:17:29,747 [INFO ] Data Server initialize...
+17:17:32,184 [INFO ] Loading Service[Listen on 1298]...
+17:17:32,185 [INFO ] 	[SDS]: systemDataService
+17:17:32,195 [ERROR] select() selectStatement = dyna.common.dto.model.lf.LifecycleGate.selectForLoad:
+### Error querying database.  Cause: java.lang.IllegalArgumentException: Mapped Statements collection does not contain value for dyna.common.dto.model.lf.LifecycleGate.selectForLoad
+### Cause: java.lang.IllegalArgumentException: Mapped Statements collection does not contain value for dyna.common.dto.model.lf.LifecycleGate.selectForLoad
+17:17:32,196 [WARN ] failed to load service: dyna.data.service.sdm.SystemDataService
+java.lang.reflect.InvocationTargetException
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at dyna.data.dispatch.ServiceLocatorDataServerImpl.init(ServiceLocatorDataServerImpl.java:96)
+	at dyna.net.impl.DataServiceProviderFactory.createServiceProvider(DataServiceProviderFactory.java:50)
+	at dyna.net.impl.DataServiceProviderFactory.createServiceProvider(DataServiceProviderFactory.java:33)
+	at dyna.data.DataServer.initialize(DataServer.java:126)
+	at dyna.data.DataServer.createDataServer(DataServer.java:75)
+	at dyna.data.DataServer.createDataServer(DataServer.java:82)
+	at dyna.data.GenericDataServer.main(GenericDataServer.java:27)
+Caused by: dyna.data.common.exception.DynaDataExceptionAll: select() selectStatement = dyna.common.dto.model.lf.LifecycleGate.selectForLoad
+	at dyna.data.cache.CacheManagerDelegate$BatchLoadToCacheEventListener.addAllToCache(CacheManagerDelegate.java:190)
+	at dyna.data.cache.CacheManagerDelegate$BatchLoadToCacheEventListener.addToCache(CacheManagerDelegate.java:168)
+	at dyna.data.cache.event.AddCacheEventListener.execute(AddCacheEventListener.java:29)
+	at dyna.data.cache.CacheManagerDelegate.addModels(CacheManagerDelegate.java:62)
+	at dyna.data.cache.CacheManagerDelegate.init(CacheManagerDelegate.java:47)
+	at dyna.data.service.sdm.SystemDataServiceImpl.init(SystemDataServiceImpl.java:69)
+	at dyna.data.service.DataRuleService.<init>(DataRuleService.java:17)
+	at dyna.data.service.sdm.SystemDataServiceImpl.<init>(SystemDataServiceImpl.java:55)
+	... 11 more
+17:17:32,198 [INFO ] 	[CODMS]: codeModelService
+17:17:32,207 [WARN ] failed to load service: dyna.data.service.model.codemodel.CodeModelService
+java.lang.reflect.InvocationTargetException
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at dyna.data.dispatch.ServiceLocatorDataServerImpl.init(ServiceLocatorDataServerImpl.java:96)
+	at dyna.net.impl.DataServiceProviderFactory.createServiceProvider(DataServiceProviderFactory.java:50)
+	at dyna.net.impl.DataServiceProviderFactory.createServiceProvider(DataServiceProviderFactory.java:33)
+	at dyna.data.DataServer.initialize(DataServer.java:126)
+	at dyna.data.DataServer.createDataServer(DataServer.java:75)
+	at dyna.data.DataServer.createDataServer(DataServer.java:82)
+	at dyna.data.GenericDataServer.main(GenericDataServer.java:27)
+Caused by: java.lang.NullPointerException
+	at dyna.data.service.model.codemodel.CodeModelServiceStub.loadModel(CodeModelServiceStub.java:64)
+	at dyna.data.service.model.codemodel.CodeModelServiceImpl.init(CodeModelServiceImpl.java:45)
+	at dyna.data.service.DataRuleService.<init>(DataRuleService.java:17)
+	at dyna.data.service.model.codemodel.CodeModelServiceImpl.<init>(CodeModelServiceImpl.java:37)
+	... 11 more
+17:17:32,208 [INFO ] 	[LMS]: lifecycleModelService
+17:17:32,211 [WARN ] failed to load service: dyna.data.service.model.lifecyclemodel.LifecycleModelService
+java.lang.reflect.InvocationTargetException
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at dyna.data.dispatch.ServiceLocatorDataServerImpl.init(ServiceLocatorDataServerImpl.java:96)
+	at dyna.net.impl.DataServiceProviderFactory.createServiceProvider(DataServiceProviderFactory.java:50)
+	at dyna.net.impl.DataServiceProviderFactory.createServiceProvider(DataServiceProviderFactory.java:33)
+	at dyna.data.DataServer.initialize(DataServer.java:126)
+	at dyna.data.DataServer.createDataServer(DataServer.java:75)
+	at dyna.data.DataServer.createDataServer(DataServer.java:82)
+	at dyna.data.GenericDataServer.main(GenericDataServer.java:27)
+Caused by: java.lang.NullPointerException
+	at dyna.data.service.model.lifecyclemodel.LifecycleModelServiceStub.loadModel(LifecycleModelServiceStub.java:57)
+	at dyna.data.service.model.lifecyclemodel.LifecycleModelServiceImpl.init(LifecycleModelServiceImpl.java:40)
+	at dyna.data.service.DataRuleService.<init>(DataRuleService.java:17)
+	at dyna.data.service.model.lifecyclemodel.LifecycleModelServiceImpl.<init>(LifecycleModelServiceImpl.java:30)
+	... 11 more
+17:17:32,212 [INFO ] 	[IMS]: interfaceModelService
+17:17:32,551 [INFO ] 	[CMS]: classModelService
+17:17:32,557 [WARN ] failed to load service: dyna.data.service.model.classmodel.ClassModelService
+java.lang.reflect.InvocationTargetException
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at dyna.data.dispatch.ServiceLocatorDataServerImpl.init(ServiceLocatorDataServerImpl.java:96)
+	at dyna.net.impl.DataServiceProviderFactory.createServiceProvider(DataServiceProviderFactory.java:50)
+	at dyna.net.impl.DataServiceProviderFactory.createServiceProvider(DataServiceProviderFactory.java:33)
+	at dyna.data.DataServer.initialize(DataServer.java:126)
+	at dyna.data.DataServer.createDataServer(DataServer.java:75)
+	at dyna.data.DataServer.createDataServer(DataServer.java:82)
+	at dyna.data.GenericDataServer.main(GenericDataServer.java:27)
+Caused by: java.lang.NullPointerException
+	at dyna.data.service.model.classmodel.ClassModelServiceStub.loadBaseClassInfo(ClassModelServiceStub.java:1054)
+	at dyna.data.service.model.classmodel.ClassModelServiceStub.loadModel(ClassModelServiceStub.java:99)
+	at dyna.data.service.model.classmodel.ClassModelServiceImpl.init(ClassModelServiceImpl.java:46)
+	at dyna.data.service.DataRuleService.<init>(DataRuleService.java:17)
+	at dyna.data.service.model.classmodel.ClassModelServiceImpl.<init>(ClassModelServiceImpl.java:38)
+	... 11 more
+17:17:32,557 [INFO ] 	[BMS]: businessModelService
+17:17:32,561 [WARN ] failed to load service: dyna.data.service.model.businessmodel.BusinessModelService
+java.lang.reflect.InvocationTargetException
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at dyna.data.dispatch.ServiceLocatorDataServerImpl.init(ServiceLocatorDataServerImpl.java:96)
+	at dyna.net.impl.DataServiceProviderFactory.createServiceProvider(DataServiceProviderFactory.java:50)
+	at dyna.net.impl.DataServiceProviderFactory.createServiceProvider(DataServiceProviderFactory.java:33)
+	at dyna.data.DataServer.initialize(DataServer.java:126)
+	at dyna.data.DataServer.createDataServer(DataServer.java:75)
+	at dyna.data.DataServer.createDataServer(DataServer.java:82)
+	at dyna.data.GenericDataServer.main(GenericDataServer.java:27)
+Caused by: java.lang.NullPointerException
+	at dyna.data.service.model.businessmodel.BusinessModelServiceStub.loadAllBMInfo(BusinessModelServiceStub.java:269)
+	at dyna.data.service.model.businessmodel.BusinessModelServiceStub.loadModel(BusinessModelServiceStub.java:60)
+	at dyna.data.service.model.businessmodel.BusinessModelServiceImpl.init(BusinessModelServiceImpl.java:49)
+	at dyna.data.service.DataRuleService.<init>(DataRuleService.java:17)
+	at dyna.data.service.model.businessmodel.BusinessModelServiceImpl.<init>(BusinessModelServiceImpl.java:32)
+	... 11 more
+17:17:32,561 [INFO ] 	[ACLS]: aclService
+17:17:32,572 [INFO ] 	[DCS]: commonService
+17:17:32,584 [INFO ] 	[CGS]: configService
+17:17:32,593 [INFO ] 	[ECS]: ecService
+17:17:32,600 [INFO ] 	[FODS]: folderService
+17:17:32,610 [INFO ] 	[INS]: instanceService
+17:17:32,624 [INFO ] 	[RLS]: relationService
+17:17:32,628 [WARN ] failed to load service: dyna.data.service.relation.RelationService
+java.lang.reflect.InvocationTargetException
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at dyna.data.dispatch.ServiceLocatorDataServerImpl.init(ServiceLocatorDataServerImpl.java:96)
+	at dyna.net.impl.DataServiceProviderFactory.createServiceProvider(DataServiceProviderFactory.java:50)
+	at dyna.net.impl.DataServiceProviderFactory.createServiceProvider(DataServiceProviderFactory.java:33)
+	at dyna.data.DataServer.initialize(DataServer.java:126)
+	at dyna.data.DataServer.createDataServer(DataServer.java:75)
+	at dyna.data.DataServer.createDataServer(DataServer.java:82)
+	at dyna.data.GenericDataServer.main(GenericDataServer.java:27)
+Caused by: java.lang.NullPointerException
+	at dyna.data.service.relation.RelationTemplateStub.loadBOMTemplate(RelationTemplateStub.java:66)
+	at dyna.data.service.relation.RelationTemplateStub.loadModel(RelationTemplateStub.java:55)
+	at dyna.data.service.relation.RelationServiceImpl.init(RelationServiceImpl.java:42)
+	at dyna.data.service.DataRuleService.<init>(DataRuleService.java:17)
+	at dyna.data.service.relation.RelationServiceImpl.<init>(RelationServiceImpl.java:34)
+	... 11 more
+17:17:32,629 [INFO ] 	[TLS]: toolService
+17:17:32,637 [INFO ] 	[TS]: transactionService
+17:17:32,643 [INFO ] 	[WF]: workflowService
+17:17:32,651 [INFO ] 	[DCLF]: classificationFeatureService
+17:17:32,660 [INFO ] 	[SYM]: syncModelService
+17:17:32,668 [INFO ] 	[SFS]: syncFileService
+17:17:32,680 [INFO ] Data Server is not available, see error log.
+20:43:40,443 [INFO ] ***************************************************
+20:43:40,444 [INFO ] *************  DigiWin PLM V2.0.0.0 ***************
+20:43:40,444 [INFO ] ************* Copyright (C)DigiWin ****************
+20:43:40,444 [INFO ] ***************************************************
+20:43:40,444 [INFO ] Data Server initialize...
+20:46:27,005 [INFO ] ***************************************************
+20:46:27,005 [INFO ] *************  DigiWin PLM V2.0.0.0 ***************
+20:46:27,005 [INFO ] ************* Copyright (C)DigiWin ****************
+20:46:27,005 [INFO ] ***************************************************
+20:46:27,005 [INFO ] Data Server initialize...
+20:46:28,888 [INFO ] Loading Service[Listen on 1298]...
+20:46:28,888 [INFO ] 	[SDS]: systemDataService
+20:46:28,898 [ERROR] select() selectStatement = dyna.common.dto.model.lf.LifecycleGate.selectForLoad:
+### Error querying database.  Cause: java.lang.IllegalArgumentException: Mapped Statements collection does not contain value for dyna.common.dto.model.lf.LifecycleGate.selectForLoad
+### Cause: java.lang.IllegalArgumentException: Mapped Statements collection does not contain value for dyna.common.dto.model.lf.LifecycleGate.selectForLoad
+20:46:28,898 [WARN ] failed to load service: dyna.data.service.sdm.SystemDataService
+java.lang.reflect.InvocationTargetException
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at dyna.data.dispatch.ServiceLocatorDataServerImpl.init(ServiceLocatorDataServerImpl.java:96)
+	at dyna.net.impl.DataServiceProviderFactory.createServiceProvider(DataServiceProviderFactory.java:50)
+	at dyna.net.impl.DataServiceProviderFactory.createServiceProvider(DataServiceProviderFactory.java:33)
+	at dyna.data.DataServer.initialize(DataServer.java:111)
+	at dyna.data.DataServer.createDataServer(DataServer.java:79)
+	at dyna.data.GenericDataServer.main(GenericDataServer.java:27)
+Caused by: dyna.data.common.exception.DynaDataExceptionAll: select() selectStatement = dyna.common.dto.model.lf.LifecycleGate.selectForLoad
+	at dyna.data.cache.CacheManagerDelegate$BatchLoadToCacheEventListener.addAllToCache(CacheManagerDelegate.java:194)
+	at dyna.data.cache.CacheManagerDelegate$BatchLoadToCacheEventListener.addToCache(CacheManagerDelegate.java:172)
+	at dyna.data.cache.event.AddCacheEventListener.execute(AddCacheEventListener.java:29)
+	at dyna.data.cache.CacheManagerDelegate.addModels(CacheManagerDelegate.java:66)
+	at dyna.data.cache.CacheManagerDelegate.init(CacheManagerDelegate.java:51)
+	at dyna.data.service.sdm.SystemDataServiceImpl.init(SystemDataServiceImpl.java:69)
+	at dyna.data.service.DataRuleService.<init>(DataRuleService.java:17)
+	at dyna.data.service.sdm.SystemDataServiceImpl.<init>(SystemDataServiceImpl.java:55)
+	... 10 more
+20:46:28,898 [INFO ] 	[CODMS]: codeModelService
+20:46:28,898 [WARN ] failed to load service: dyna.data.service.model.codemodel.CodeModelService
+java.lang.reflect.InvocationTargetException
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at dyna.data.dispatch.ServiceLocatorDataServerImpl.init(ServiceLocatorDataServerImpl.java:96)
+	at dyna.net.impl.DataServiceProviderFactory.createServiceProvider(DataServiceProviderFactory.java:50)
+	at dyna.net.impl.DataServiceProviderFactory.createServiceProvider(DataServiceProviderFactory.java:33)
+	at dyna.data.DataServer.initialize(DataServer.java:111)
+	at dyna.data.DataServer.createDataServer(DataServer.java:79)
+	at dyna.data.GenericDataServer.main(GenericDataServer.java:27)
+Caused by: java.lang.NullPointerException
+	at dyna.data.service.model.codemodel.CodeModelServiceStub.loadModel(CodeModelServiceStub.java:64)
+	at dyna.data.service.model.codemodel.CodeModelServiceImpl.init(CodeModelServiceImpl.java:45)
+	at dyna.data.service.DataRuleService.<init>(DataRuleService.java:17)
+	at dyna.data.service.model.codemodel.CodeModelServiceImpl.<init>(CodeModelServiceImpl.java:37)
+	... 10 more
+20:46:28,898 [INFO ] 	[LMS]: lifecycleModelService
+20:46:28,909 [WARN ] failed to load service: dyna.data.service.model.lifecyclemodel.LifecycleModelService
+java.lang.reflect.InvocationTargetException
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at dyna.data.dispatch.ServiceLocatorDataServerImpl.init(ServiceLocatorDataServerImpl.java:96)
+	at dyna.net.impl.DataServiceProviderFactory.createServiceProvider(DataServiceProviderFactory.java:50)
+	at dyna.net.impl.DataServiceProviderFactory.createServiceProvider(DataServiceProviderFactory.java:33)
+	at dyna.data.DataServer.initialize(DataServer.java:111)
+	at dyna.data.DataServer.createDataServer(DataServer.java:79)
+	at dyna.data.GenericDataServer.main(GenericDataServer.java:27)
+Caused by: java.lang.NullPointerException
+	at dyna.data.service.model.lifecyclemodel.LifecycleModelServiceStub.loadModel(LifecycleModelServiceStub.java:57)
+	at dyna.data.service.model.lifecyclemodel.LifecycleModelServiceImpl.init(LifecycleModelServiceImpl.java:40)
+	at dyna.data.service.DataRuleService.<init>(DataRuleService.java:17)
+	at dyna.data.service.model.lifecyclemodel.LifecycleModelServiceImpl.<init>(LifecycleModelServiceImpl.java:30)
+	... 10 more
+20:46:28,909 [INFO ] 	[IMS]: interfaceModelService
+20:46:29,101 [INFO ] 	[CMS]: classModelService
+20:46:29,101 [WARN ] failed to load service: dyna.data.service.model.classmodel.ClassModelService
+java.lang.reflect.InvocationTargetException
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at dyna.data.dispatch.ServiceLocatorDataServerImpl.init(ServiceLocatorDataServerImpl.java:96)
+	at dyna.net.impl.DataServiceProviderFactory.createServiceProvider(DataServiceProviderFactory.java:50)
+	at dyna.net.impl.DataServiceProviderFactory.createServiceProvider(DataServiceProviderFactory.java:33)
+	at dyna.data.DataServer.initialize(DataServer.java:111)
+	at dyna.data.DataServer.createDataServer(DataServer.java:79)
+	at dyna.data.GenericDataServer.main(GenericDataServer.java:27)
+Caused by: java.lang.NullPointerException
+	at dyna.data.service.model.classmodel.ClassModelServiceStub.loadBaseClassInfo(ClassModelServiceStub.java:1054)
+	at dyna.data.service.model.classmodel.ClassModelServiceStub.loadModel(ClassModelServiceStub.java:99)
+	at dyna.data.service.model.classmodel.ClassModelServiceImpl.init(ClassModelServiceImpl.java:46)
+	at dyna.data.service.DataRuleService.<init>(DataRuleService.java:17)
+	at dyna.data.service.model.classmodel.ClassModelServiceImpl.<init>(ClassModelServiceImpl.java:38)
+	... 10 more
+20:46:29,101 [INFO ] 	[BMS]: businessModelService
+20:46:29,101 [WARN ] failed to load service: dyna.data.service.model.businessmodel.BusinessModelService
+java.lang.reflect.InvocationTargetException
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at dyna.data.dispatch.ServiceLocatorDataServerImpl.init(ServiceLocatorDataServerImpl.java:96)
+	at dyna.net.impl.DataServiceProviderFactory.createServiceProvider(DataServiceProviderFactory.java:50)
+	at dyna.net.impl.DataServiceProviderFactory.createServiceProvider(DataServiceProviderFactory.java:33)
+	at dyna.data.DataServer.initialize(DataServer.java:111)
+	at dyna.data.DataServer.createDataServer(DataServer.java:79)
+	at dyna.data.GenericDataServer.main(GenericDataServer.java:27)
+Caused by: java.lang.NullPointerException
+	at dyna.data.service.model.businessmodel.BusinessModelServiceStub.loadAllBMInfo(BusinessModelServiceStub.java:269)
+	at dyna.data.service.model.businessmodel.BusinessModelServiceStub.loadModel(BusinessModelServiceStub.java:60)
+	at dyna.data.service.model.businessmodel.BusinessModelServiceImpl.init(BusinessModelServiceImpl.java:49)
+	at dyna.data.service.DataRuleService.<init>(DataRuleService.java:17)
+	at dyna.data.service.model.businessmodel.BusinessModelServiceImpl.<init>(BusinessModelServiceImpl.java:32)
+	... 10 more
+20:46:29,101 [INFO ] 	[ACLS]: aclService
+20:46:29,116 [INFO ] 	[DCS]: commonService
+20:46:29,122 [INFO ] 	[CGS]: configService
+20:46:29,133 [INFO ] 	[ECS]: ecService
+20:46:29,144 [INFO ] 	[FODS]: folderService
+20:46:29,144 [INFO ] 	[INS]: instanceService
+20:46:29,154 [INFO ] 	[RLS]: relationService
+20:46:29,165 [WARN ] failed to load service: dyna.data.service.relation.RelationService
+java.lang.reflect.InvocationTargetException
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at dyna.data.dispatch.ServiceLocatorDataServerImpl.init(ServiceLocatorDataServerImpl.java:96)
+	at dyna.net.impl.DataServiceProviderFactory.createServiceProvider(DataServiceProviderFactory.java:50)
+	at dyna.net.impl.DataServiceProviderFactory.createServiceProvider(DataServiceProviderFactory.java:33)
+	at dyna.data.DataServer.initialize(DataServer.java:111)
+	at dyna.data.DataServer.createDataServer(DataServer.java:79)
+	at dyna.data.GenericDataServer.main(GenericDataServer.java:27)
+Caused by: java.lang.NullPointerException
+	at dyna.data.service.relation.RelationTemplateStub.loadBOMTemplate(RelationTemplateStub.java:66)
+	at dyna.data.service.relation.RelationTemplateStub.loadModel(RelationTemplateStub.java:55)
+	at dyna.data.service.relation.RelationServiceImpl.init(RelationServiceImpl.java:42)
+	at dyna.data.service.DataRuleService.<init>(DataRuleService.java:17)
+	at dyna.data.service.relation.RelationServiceImpl.<init>(RelationServiceImpl.java:34)
+	... 10 more
+20:46:29,165 [INFO ] 	[TLS]: toolService
+20:46:29,165 [INFO ] 	[TS]: transactionService
+20:46:29,176 [INFO ] 	[WF]: workflowService
+20:46:29,176 [INFO ] 	[DCLF]: classificationFeatureService
+20:46:29,176 [INFO ] 	[SYM]: syncModelService
+20:46:29,187 [INFO ] 	[SFS]: syncFileService
+20:46:29,197 [INFO ] Data Server is not available, see error log.
+20:47:05,005 [INFO ] ***************************************************
+20:47:05,005 [INFO ] *************  DigiWin PLM V2.0.0.0 ***************
+20:47:05,005 [INFO ] ************* Copyright (C)DigiWin ****************
+20:47:05,005 [INFO ] ***************************************************
+20:47:05,005 [INFO ] Data Server initialize...
+20:47:06,749 [INFO ] Loading Service[Listen on 1298]...
+20:47:06,749 [INFO ] 	[SDS]: systemDataService
+20:47:06,755 [ERROR] select() selectStatement = dyna.common.dto.model.lf.LifecycleGate.selectForLoad:
+### Error querying database.  Cause: java.lang.IllegalArgumentException: Mapped Statements collection does not contain value for dyna.common.dto.model.lf.LifecycleGate.selectForLoad
+### Cause: java.lang.IllegalArgumentException: Mapped Statements collection does not contain value for dyna.common.dto.model.lf.LifecycleGate.selectForLoad
+20:47:06,755 [WARN ] failed to load service: dyna.data.service.sdm.SystemDataService
+java.lang.reflect.InvocationTargetException
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at dyna.data.dispatch.ServiceLocatorDataServerImpl.init(ServiceLocatorDataServerImpl.java:96)
+	at dyna.net.impl.DataServiceProviderFactory.createServiceProvider(DataServiceProviderFactory.java:50)
+	at dyna.net.impl.DataServiceProviderFactory.createServiceProvider(DataServiceProviderFactory.java:33)
+	at dyna.data.DataServer.initialize(DataServer.java:111)
+	at dyna.data.DataServer.createDataServer(DataServer.java:79)
+	at dyna.data.GenericDataServer.main(GenericDataServer.java:27)
+Caused by: dyna.data.common.exception.DynaDataExceptionAll: select() selectStatement = dyna.common.dto.model.lf.LifecycleGate.selectForLoad
+	at dyna.data.cache.CacheManagerDelegate$BatchLoadToCacheEventListener.addAllToCache(CacheManagerDelegate.java:194)
+	at dyna.data.cache.CacheManagerDelegate$BatchLoadToCacheEventListener.addToCache(CacheManagerDelegate.java:172)
+	at dyna.data.cache.event.AddCacheEventListener.execute(AddCacheEventListener.java:29)
+	at dyna.data.cache.CacheManagerDelegate.addModels(CacheManagerDelegate.java:66)
+	at dyna.data.cache.CacheManagerDelegate.init(CacheManagerDelegate.java:51)
+	at dyna.data.service.sdm.SystemDataServiceImpl.init(SystemDataServiceImpl.java:69)
+	at dyna.data.service.DataRuleService.<init>(DataRuleService.java:17)
+	at dyna.data.service.sdm.SystemDataServiceImpl.<init>(SystemDataServiceImpl.java:55)
+	... 10 more
+20:47:06,755 [INFO ] 	[CODMS]: codeModelService
+20:47:06,755 [WARN ] failed to load service: dyna.data.service.model.codemodel.CodeModelService
+java.lang.reflect.InvocationTargetException
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at dyna.data.dispatch.ServiceLocatorDataServerImpl.init(ServiceLocatorDataServerImpl.java:96)
+	at dyna.net.impl.DataServiceProviderFactory.createServiceProvider(DataServiceProviderFactory.java:50)
+	at dyna.net.impl.DataServiceProviderFactory.createServiceProvider(DataServiceProviderFactory.java:33)
+	at dyna.data.DataServer.initialize(DataServer.java:111)
+	at dyna.data.DataServer.createDataServer(DataServer.java:79)
+	at dyna.data.GenericDataServer.main(GenericDataServer.java:27)
+Caused by: java.lang.NullPointerException
+	at dyna.data.service.model.codemodel.CodeModelServiceStub.loadModel(CodeModelServiceStub.java:64)
+	at dyna.data.service.model.codemodel.CodeModelServiceImpl.init(CodeModelServiceImpl.java:45)
+	at dyna.data.service.DataRuleService.<init>(DataRuleService.java:17)
+	at dyna.data.service.model.codemodel.CodeModelServiceImpl.<init>(CodeModelServiceImpl.java:37)
+	... 10 more
+20:47:06,765 [INFO ] 	[LMS]: lifecycleModelService
+20:47:06,765 [WARN ] failed to load service: dyna.data.service.model.lifecyclemodel.LifecycleModelService
+java.lang.reflect.InvocationTargetException
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at dyna.data.dispatch.ServiceLocatorDataServerImpl.init(ServiceLocatorDataServerImpl.java:96)
+	at dyna.net.impl.DataServiceProviderFactory.createServiceProvider(DataServiceProviderFactory.java:50)
+	at dyna.net.impl.DataServiceProviderFactory.createServiceProvider(DataServiceProviderFactory.java:33)
+	at dyna.data.DataServer.initialize(DataServer.java:111)
+	at dyna.data.DataServer.createDataServer(DataServer.java:79)
+	at dyna.data.GenericDataServer.main(GenericDataServer.java:27)
+Caused by: java.lang.NullPointerException
+	at dyna.data.service.model.lifecyclemodel.LifecycleModelServiceStub.loadModel(LifecycleModelServiceStub.java:57)
+	at dyna.data.service.model.lifecyclemodel.LifecycleModelServiceImpl.init(LifecycleModelServiceImpl.java:40)
+	at dyna.data.service.DataRuleService.<init>(DataRuleService.java:17)
+	at dyna.data.service.model.lifecyclemodel.LifecycleModelServiceImpl.<init>(LifecycleModelServiceImpl.java:30)
+	... 10 more
+20:47:06,765 [INFO ] 	[IMS]: interfaceModelService
+20:47:06,951 [INFO ] 	[CMS]: classModelService
+20:47:06,957 [WARN ] failed to load service: dyna.data.service.model.classmodel.ClassModelService
+java.lang.reflect.InvocationTargetException
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at dyna.data.dispatch.ServiceLocatorDataServerImpl.init(ServiceLocatorDataServerImpl.java:96)
+	at dyna.net.impl.DataServiceProviderFactory.createServiceProvider(DataServiceProviderFactory.java:50)
+	at dyna.net.impl.DataServiceProviderFactory.createServiceProvider(DataServiceProviderFactory.java:33)
+	at dyna.data.DataServer.initialize(DataServer.java:111)
+	at dyna.data.DataServer.createDataServer(DataServer.java:79)
+	at dyna.data.GenericDataServer.main(GenericDataServer.java:27)
+Caused by: java.lang.NullPointerException
+	at dyna.data.service.model.classmodel.ClassModelServiceStub.loadBaseClassInfo(ClassModelServiceStub.java:1054)
+	at dyna.data.service.model.classmodel.ClassModelServiceStub.loadModel(ClassModelServiceStub.java:99)
+	at dyna.data.service.model.classmodel.ClassModelServiceImpl.init(ClassModelServiceImpl.java:46)
+	at dyna.data.service.DataRuleService.<init>(DataRuleService.java:17)
+	at dyna.data.service.model.classmodel.ClassModelServiceImpl.<init>(ClassModelServiceImpl.java:38)
+	... 10 more
+20:47:06,957 [INFO ] 	[BMS]: businessModelService
+20:47:06,957 [WARN ] failed to load service: dyna.data.service.model.businessmodel.BusinessModelService
+java.lang.reflect.InvocationTargetException
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at dyna.data.dispatch.ServiceLocatorDataServerImpl.init(ServiceLocatorDataServerImpl.java:96)
+	at dyna.net.impl.DataServiceProviderFactory.createServiceProvider(DataServiceProviderFactory.java:50)
+	at dyna.net.impl.DataServiceProviderFactory.createServiceProvider(DataServiceProviderFactory.java:33)
+	at dyna.data.DataServer.initialize(DataServer.java:111)
+	at dyna.data.DataServer.createDataServer(DataServer.java:79)
+	at dyna.data.GenericDataServer.main(GenericDataServer.java:27)
+Caused by: java.lang.NullPointerException
+	at dyna.data.service.model.businessmodel.BusinessModelServiceStub.loadAllBMInfo(BusinessModelServiceStub.java:269)
+	at dyna.data.service.model.businessmodel.BusinessModelServiceStub.loadModel(BusinessModelServiceStub.java:60)
+	at dyna.data.service.model.businessmodel.BusinessModelServiceImpl.init(BusinessModelServiceImpl.java:49)
+	at dyna.data.service.DataRuleService.<init>(DataRuleService.java:17)
+	at dyna.data.service.model.businessmodel.BusinessModelServiceImpl.<init>(BusinessModelServiceImpl.java:32)
+	... 10 more
+20:47:06,957 [INFO ] 	[ACLS]: aclService
+20:47:06,968 [INFO ] 	[DCS]: commonService
+20:47:06,973 [INFO ] 	[CGS]: configService
+20:47:06,978 [INFO ] 	[ECS]: ecService
+20:47:06,994 [INFO ] 	[FODS]: folderService
+20:47:07,000 [INFO ] 	[INS]: instanceService
+20:47:07,011 [INFO ] 	[RLS]: relationService
+20:47:07,011 [WARN ] failed to load service: dyna.data.service.relation.RelationService
+java.lang.reflect.InvocationTargetException
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at dyna.data.dispatch.ServiceLocatorDataServerImpl.init(ServiceLocatorDataServerImpl.java:96)
+	at dyna.net.impl.DataServiceProviderFactory.createServiceProvider(DataServiceProviderFactory.java:50)
+	at dyna.net.impl.DataServiceProviderFactory.createServiceProvider(DataServiceProviderFactory.java:33)
+	at dyna.data.DataServer.initialize(DataServer.java:111)
+	at dyna.data.DataServer.createDataServer(DataServer.java:79)
+	at dyna.data.GenericDataServer.main(GenericDataServer.java:27)
+Caused by: java.lang.NullPointerException
+	at dyna.data.service.relation.RelationTemplateStub.loadBOMTemplate(RelationTemplateStub.java:66)
+	at dyna.data.service.relation.RelationTemplateStub.loadModel(RelationTemplateStub.java:55)
+	at dyna.data.service.relation.RelationServiceImpl.init(RelationServiceImpl.java:42)
+	at dyna.data.service.DataRuleService.<init>(DataRuleService.java:17)
+	at dyna.data.service.relation.RelationServiceImpl.<init>(RelationServiceImpl.java:34)
+	... 10 more
+20:47:07,011 [INFO ] 	[TLS]: toolService
+20:47:07,011 [INFO ] 	[TS]: transactionService
+20:47:07,021 [INFO ] 	[WF]: workflowService
+20:47:07,021 [INFO ] 	[DCLF]: classificationFeatureService
+20:47:07,032 [INFO ] 	[SYM]: syncModelService
+20:47:07,032 [INFO ] 	[SFS]: syncFileService
+20:47:07,042 [INFO ] Data Server is not available, see error log.

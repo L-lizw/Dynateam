@@ -1,0 +1,12 @@
+dyna.data.cache.CacheManagerDelegate=org.springframework.stereotype.Component
+dyna.data.conf.MybatisConfig=org.springframework.stereotype.Component
+dyna.data.conf.SpringConfigForData=org.springframework.stereotype.Component
+dyna.data.conf.XmlConfigLoaderFactory=org.springframework.stereotype.Component
+dyna.data.conf.xmlconfig.ConfigurableDataServerImpl=org.springframework.stereotype.Component
+dyna.data.conf.xmlconfig.loader.ConfigLoaderDataServerImpl=org.springframework.stereotype.Component
+dyna.data.context.DataServerContextImpl=org.springframework.stereotype.Component
+dyna.data.dispatch.DataServiceDispatcherImpl=org.springframework.stereotype.Component
+dyna.data.dispatch.DataServiceExporter=org.springframework.stereotype.Component
+dyna.data.dispatch.DataServiceRemoteInvocationExecutorImpl=org.springframework.stereotype.Component
+dyna.data.dispatch.ServiceLocatorDataServerImpl=org.springframework.stereotype.Component
+dyna.data.dispatch.ServiceStateExchangerDataServerImpl=org.springframework.stereotype.Component

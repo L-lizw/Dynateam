@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dsconn>
+
+	<!-- data server mode -->
+	<!-- 
+		available value:
+		built-in-server : C/S mode
+	 	distributed: all is separated
+	 -->
+	<mode name="built-in-server"></mode>
+
+	<!-- 在数据服务器上搜索服务的端口 -->
+ 	<!-- 連接數據伺服器的資訊，於<host>中填入其IP，建模器要連接的話，需設定為實際IP(不可使用127.0.0.1) -->
+ 	<service-lookup>
+		<host>127.0.0.1</host>
+		<port>1298</port>
+	</service-lookup>
+	
+</dsconn>

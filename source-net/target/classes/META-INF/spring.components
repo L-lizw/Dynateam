@@ -1,0 +1,5 @@
+dyna.net.connection.ConnectionManagerDefaultImpl=org.springframework.stereotype.Component
+dyna.net.dispatcher.sync.ServiceStateChangeReactorDefaultImpl=org.springframework.stereotype.Component
+dyna.net.dispatcher.sync.ServiceStateExchangerRMIImpl=org.springframework.stereotype.Component
+dyna.net.dispatcher.sync.ServiceStateManagerDefaultImpl=org.springframework.stereotype.Component
+dyna.net.security.CredentialManagerDefaultImpl=org.springframework.stereotype.Component
