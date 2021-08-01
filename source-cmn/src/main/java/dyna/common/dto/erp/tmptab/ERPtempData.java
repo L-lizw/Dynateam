@@ -1,7 +1,10 @@
 package dyna.common.dto.erp.tmptab;
 
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.erp.tmptab.ERPtempDataMapper;
 
+@EntryMapper(ERPtempDataMapper.class)
 public class ERPtempData extends SystemObjectImpl
 {
 

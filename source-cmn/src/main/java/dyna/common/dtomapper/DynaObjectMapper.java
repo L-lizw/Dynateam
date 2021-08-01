@@ -7,7 +7,6 @@ import dyna.common.bean.xml.UpperKeyMap;
 import dyna.common.dto.FileType;
 import dyna.common.sqlbuilder.plmdynamic.insert.DynamicInsertParamData;
 import dyna.common.sqlbuilder.plmdynamic.update.DynamicUpdateParamData;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -17,7 +16,6 @@ import java.util.Map;
  * @author Lizw
  * @date 2021/7/18
  **/
-@Mapper
 public interface DynaObjectMapper
 {
 

@@ -5,24 +5,19 @@
  */
 package dyna.common.conf.loader;
 
-import dyna.common.conf.ConfigurableConnToGuardServerImpl;
-
 /**
  * @author Wanglei
- * 
  */
 public class ConfigLoaderFactory
 {
 
-	private static ConfigLoaderClientImpl				clientLoader		= null;
-	private static ConfigLoaderDSServerImpl				dsserverLoader		= null;
-	private static ConfigLoaderMSRImpl					msrLoader			= null;
-	private static ConfigLoaderServerImpl				serverLoader		= null;
-	private static ConfigLoaderServiceImpl				serviceLoader		= null;
-	private static ConfigLoaderDataServerImpl			dataserverLoader	= null;
-	private static ConfigLoaderConnToDSImpl				connToDSLoader		= null;
-	private static ConfigLoaderJSSImpl					jssLoader			= null;
-	private static ConfigLoaderConnToGuardServerImpl	connToGSLoader		= null;
+	private static ConfigLoaderClientImpl            clientLoader   = null;
+	private static ConfigLoaderDSServerImpl          dsserverLoader = null;
+	private static ConfigLoaderMSRImpl               msrLoader      = null;
+	private static ConfigLoaderServerImpl            serverLoader   = null;
+	private static ConfigLoaderServiceImpl           serviceLoader  = null;
+	private static ConfigLoaderJSSImpl               jssLoader      = null;
+	private static ConfigLoaderConnToGuardServerImpl connToGSLoader = null;
 
 	public static ConfigLoaderClientImpl getLoader4Client()
 	{
@@ -76,24 +71,6 @@ public class ConfigLoaderFactory
 			serviceLoader = new ConfigLoaderServiceImpl();
 		}
 		return serviceLoader;
-	}
-
-	public static ConfigLoaderDataServerImpl getLoader4DataServer()
-	{
-		if (dataserverLoader == null)
-		{
-			dataserverLoader = new ConfigLoaderDataServerImpl();
-		}
-		return dataserverLoader;
-	}
-
-	public static ConfigLoaderConnToDSImpl getLoader4ConnToDS()
-	{
-		if (connToDSLoader == null)
-		{
-			connToDSLoader = new ConfigLoaderConnToDSImpl();
-		}
-		return connToDSLoader;
 	}
 
 	public static ConfigLoaderConnToGuardServerImpl getLoader4ConnToGS()

@@ -5,19 +5,22 @@
  */
 package dyna.common.dto.acl;
 
-import java.math.BigDecimal;
-import java.util.List;
-
 import dyna.common.annotation.Cache;
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.acl.ACLSubjectMapper;
 import dyna.common.systemenum.AccessConditionEnum;
+
+import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * @author Wanglei
  * 
  */
 @Cache
+@EntryMapper(ACLSubjectMapper.class)
 public class ACLSubject extends SystemObjectImpl implements SystemObject
 {
 

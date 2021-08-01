@@ -5,10 +5,12 @@
  */
 package dyna.common.dto.wf;
 
-import java.util.List;
-
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.wf.ProcAttachSettingMapper;
+
+import java.util.List;
 
 /**
  * 附件设置
@@ -17,6 +19,7 @@ import dyna.common.bean.data.SystemObjectImpl;
  * @author Wanglei updated at 2012-2-24
  * 
  */
+@EntryMapper(ProcAttachSettingMapper.class)
 public class ProcAttachSetting extends SystemObjectImpl implements SystemObject
 {
 

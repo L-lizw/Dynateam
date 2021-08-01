@@ -5,17 +5,19 @@
  */
 package dyna.common.bean.data.ppms;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.ObjectGuid;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.ppm.EarlyWarningMapper;
 import dyna.common.systemenum.ppms.WBSOperateEnum;
 import dyna.common.systemenum.ppms.WarningEventEnum;
 import dyna.common.util.BooleanUtils;
 import dyna.common.util.PMConstans;
 import dyna.common.util.SetUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 预警设置
@@ -23,6 +25,7 @@ import dyna.common.util.SetUtils;
  * @author wangweixia
  * 
  */
+@EntryMapper(EarlyWarningMapper.class)
 public class EarlyWarning extends SystemObjectImpl implements SystemObject
 {
 	private static final long		serialVersionUID	= -4263542688620950523L;

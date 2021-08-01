@@ -6,8 +6,10 @@
 package dyna.common.dto.aas;
 
 import dyna.common.annotation.Cache;
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.aas.RIGMapper;
 
 /**
  * 管理组, 角色, 用户关系的工具类, 为应用层和数据层提供操作数据库之用途, 不带具体方法
@@ -16,6 +18,7 @@ import dyna.common.bean.data.SystemObjectImpl;
  * 
  */
 @Cache
+@EntryMapper(RIGMapper.class)
 public final class RIG extends SystemObjectImpl implements SystemObject
 {
 

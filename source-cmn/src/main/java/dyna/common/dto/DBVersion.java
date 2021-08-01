@@ -5,13 +5,16 @@
  */
 package dyna.common.dto;
 
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.DBVersionMapper;
 
 /**
  * @author duanll
  * 
  */
+@EntryMapper(DBVersionMapper.class)
 public class DBVersion extends SystemObjectImpl implements SystemObject
 {
 	private static final long	serialVersionUID			= -5256245302334123561L;

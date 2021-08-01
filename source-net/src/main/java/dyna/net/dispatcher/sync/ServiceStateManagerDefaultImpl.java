@@ -5,13 +5,15 @@
  */
 package dyna.net.dispatcher.sync;
 
+import dyna.common.systemenum.ServiceStateEnum;
+import dyna.net.connection.ConnectionManager;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import dyna.common.systemenum.ServiceStateEnum;
-import dyna.net.connection.ConnectionManager;
 
 /**
  * 服务状态管理器的默认实现类
@@ -19,8 +21,10 @@ import dyna.net.connection.ConnectionManager;
  * @author Wanglei
  * 
  */
+@Component
 public class ServiceStateManagerDefaultImpl implements ServiceStateManager
 {
+	@Autowired
 	private ConnectionManager					connectionManager	= null;
 
 	/**
@@ -28,11 +32,6 @@ public class ServiceStateManagerDefaultImpl implements ServiceStateManager
 	 */
 	private final Map<String, ServiceStateEnum>	serviceStateMap		= Collections
 	.synchronizedMap(new HashMap<String, ServiceStateEnum>());
-
-	public ServiceStateManagerDefaultImpl(ConnectionManager cm)
-	{
-		this.connectionManager = cm;
-	}
 
 	/* (non-Javadoc)
 	 * @see dyna.net.security.ServiceStateManager#setServiceState(dyna.net.security.ServiceStateEnum)

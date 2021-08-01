@@ -6,17 +6,20 @@
 
 package dyna.common.dto.model.ui;
 
-import java.math.BigDecimal;
-
 import dyna.common.annotation.Cache;
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.model.ui.UIObjectInfoMapper;
 import dyna.common.systemenum.LanguageEnum;
 import dyna.common.systemenum.UITypeEnum;
 import dyna.common.util.BooleanUtils;
 import dyna.common.util.StringUtils;
 
+import java.math.BigDecimal;
+
 @Cache
+@EntryMapper(UIObjectInfoMapper.class)
 public class UIObjectInfo extends SystemObjectImpl implements SystemObject
 {
 	private static final long	serialVersionUID		= 5433733140889652588L;

@@ -6,14 +6,12 @@
 package dyna.common.dtomapper;
 
 import dyna.common.dto.Session;
-import org.apache.ibatis.annotations.Mapper;
 
 /**
 *
 * @author   Lizw
 * @date     2021/7/11 17:40
 **/
-@Mapper
 public interface SessionMapper extends DynaCacheMapper<Session>
 {
 

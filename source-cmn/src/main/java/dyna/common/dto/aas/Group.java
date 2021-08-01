@@ -18,7 +18,7 @@ import dyna.common.util.StringUtils;
  * 
  */
 @Cache
-@EntryMapper(value = GroupMapper.class)
+@EntryMapper(GroupMapper.class)
 public class Group extends SystemObjectImpl implements SystemObject
 {
 

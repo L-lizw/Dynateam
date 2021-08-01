@@ -1,12 +1,21 @@
 package dyna.common.bean.data.trans;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.trans.TransformQueueMapper;
 import dyna.common.systemenum.JobStatus;
 import dyna.common.util.BooleanUtils;
 
+import java.math.BigDecimal;
+import java.util.Date;
+
+/**
+*
+* @author   Lizw
+* @date     2021/7/31 22:01
+**/
+
+@EntryMapper(TransformQueueMapper.class)
 public class TransformQueue extends SystemObjectImpl
 {
 

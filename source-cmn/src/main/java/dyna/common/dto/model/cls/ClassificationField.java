@@ -5,18 +5,20 @@
  */
 package dyna.common.dto.model.cls;
 
-import org.simpleframework.xml.Attribute;
-
 import dyna.common.annotation.Cache;
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.model.cls.ClassificationFieldMapper;
 import dyna.common.systemenum.FieldTypeEnum;
 import dyna.common.util.BooleanUtils;
+import org.simpleframework.xml.Attribute;
 
 /**
  * @author duanll
  */
 @Cache
+@EntryMapper(ClassificationFieldMapper.class)
 public class ClassificationField extends SystemObjectImpl implements SystemObject
 {
 

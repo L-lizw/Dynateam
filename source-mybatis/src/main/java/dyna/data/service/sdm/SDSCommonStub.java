@@ -7,9 +7,9 @@ package dyna.data.service.sdm;
 
 import dyna.common.exception.DynaDataException;
 import dyna.common.systemenum.DataExceptionEnum;
-import dyna.data.common.exception.DynaDataExceptionAll;
 import dyna.data.context.DataServerContext;
 import dyna.data.service.DSAbstractServiceStub;
+import dyna.dbcommon.exception.DynaDataExceptionAll;
 
 import java.util.List;
 

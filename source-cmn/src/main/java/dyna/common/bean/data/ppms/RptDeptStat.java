@@ -5,16 +5,18 @@
  */
 package dyna.common.bean.data.ppms;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.ppm.RptDeptStatMapper;
+
+import java.math.BigDecimal;
 
 /**
  * @author fanjq
  * 
  */
+@EntryMapper(RptDeptStatMapper.class)
 public class RptDeptStat extends SystemObjectImpl implements SystemObject
 {
 	private static final long	serialVersionUID	= 1389968479796991751L;

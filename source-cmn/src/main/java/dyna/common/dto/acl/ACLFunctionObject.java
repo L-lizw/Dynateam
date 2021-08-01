@@ -5,8 +5,10 @@
  */
 package dyna.common.dto.acl;
 
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.acl.ACLFunctionObjectMapper;
 import dyna.common.systemenum.AccessFunctionConditionEnum;
 import dyna.common.systemenum.ModulEnum;
 
@@ -14,6 +16,7 @@ import dyna.common.systemenum.ModulEnum;
  * @author Lizw
  * 
  */
+@EntryMapper(ACLFunctionObjectMapper.class)
 public class ACLFunctionObject extends SystemObjectImpl implements SystemObject
 {
 

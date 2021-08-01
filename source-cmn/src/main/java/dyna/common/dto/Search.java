@@ -5,19 +5,16 @@
  */
 package dyna.common.dto;
 
-import java.util.Date;
-
 import dyna.common.SearchCondition;
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
-import dyna.common.systemenum.AdvancedQueryTypeEnum;
-import dyna.common.systemenum.FolderTypeEnum;
-import dyna.common.systemenum.LanguageEnum;
-import dyna.common.systemenum.PMSearchTypeEnum;
-import dyna.common.systemenum.SearchRevisionTypeEnum;
-import dyna.common.systemenum.SearchTypeEnum;
+import dyna.common.dtomapper.SearchMapper;
+import dyna.common.systemenum.*;
 import dyna.common.util.BooleanUtils;
 import dyna.common.util.StringUtils;
+
+import java.util.Date;
 
 /**
  * 检索条件BEAN,用以存放检索条件历史记录
@@ -25,6 +22,7 @@ import dyna.common.util.StringUtils;
  * @author caogc
  * 
  */
+@EntryMapper(SearchMapper.class)
 public class Search extends SystemObjectImpl implements SystemObject
 {
 

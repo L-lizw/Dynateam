@@ -9,13 +9,16 @@ import org.xml.sax.InputSource;
 
 import dyna.common.Configurable;
 
+
 /**
+*
  * 配置文件加载器接口
  * 读取并解析 XML 配置文件, 得到配置结果
- * 
- * @author Wanglei
- * 
- */
+ *
+* @author   Lizw
+* @date     2021/7/31 14:51
+**/
+
 public interface ConfigLoader<T extends Configurable>
 {
 
@@ -24,7 +27,7 @@ public interface ConfigLoader<T extends Configurable>
 	 * 
 	 * @return
 	 */
-	public T load();
+	public void load();
 
 	/**
 	 * 加载指定文件的配置
@@ -32,7 +35,7 @@ public interface ConfigLoader<T extends Configurable>
 	 * @param xmlFilePath
 	 * @return
 	 */
-	public T load(String xmlFilePath);
+	public void load(String xmlFilePath);
 	
 	/**
 	 * 加载输入的文件流
@@ -40,5 +43,11 @@ public interface ConfigLoader<T extends Configurable>
 	 * @param inputSource
 	 * @return
 	 */
-	public T load(InputSource inputSource);
+	public void load(InputSource inputSource);
+
+	/**
+	 * 获取配置
+	 * @return
+	 */
+	public T getConfigurable();
 }

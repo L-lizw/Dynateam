@@ -5,18 +5,21 @@
  */
 package dyna.common.bean.data.ppms;
 
+import dyna.common.annotation.EntryMapper;
+import dyna.common.bean.data.SystemObject;
+import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.ppm.RptDeliverableMapper;
+import dyna.common.util.DateFormat;
+
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Date;
-
-import dyna.common.bean.data.SystemObject;
-import dyna.common.bean.data.SystemObjectImpl;
-import dyna.common.util.DateFormat;
 
 /**
  * @author fanjq
  * 
  */
+@EntryMapper(RptDeliverableMapper.class)
 public class RptDeliverable extends SystemObjectImpl implements SystemObject
 {
 

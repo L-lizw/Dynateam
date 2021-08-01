@@ -6,13 +6,13 @@
 
 package dyna.data;
 
-import dyna.common.conf.ConfigurableConnToDSImpl;
-import dyna.common.conf.ConfigurableDataServerImpl;
-import dyna.common.conf.loader.ConfigLoaderFactory;
 import dyna.common.exception.ServiceNotFoundException;
-import dyna.common.systemenum.ConnectionMode;
+import dyna.common.systemenum.ConnectionModeEnum;
 import dyna.common.systemenum.DataExceptionEnum;
-import dyna.data.common.exception.DynaDataExceptionAll;
+import dyna.data.conf.SpringConfigForData;
+import dyna.data.conf.XmlConfigLoaderFactory;
+import dyna.common.conf.ConfigurableConnToDSImpl;
+import dyna.common.conf.loader.ConfigLoaderConnToDSImpl;
 import dyna.data.connection.DSRMIClient;
 import dyna.data.context.DataServerContext;
 import dyna.data.context.DataServerContextImpl;
@@ -33,10 +33,8 @@ import dyna.data.service.relation.RelationService;
 import dyna.data.service.sdm.SystemDataService;
 import dyna.data.service.sync.SyncModelService;
 import dyna.data.service.tool.DSToolService;
-import dyna.data.service.transaction.DBTransactionService;
-import dyna.data.service.transaction.DataServerTransactionManager;
-import dyna.data.service.transaction.DataServerTransactionManagerImpl;
 import dyna.data.service.wf.WorkFlowService;
+import dyna.dbcommon.exception.DynaDataExceptionAll;
 import dyna.net.dispatcher.sync.ServiceStateChangeReactor;
 import dyna.net.dispatcher.sync.ServiceStateChangeReactorDefaultImpl;
 import dyna.net.impl.DataServiceProviderFactory;
@@ -44,13 +42,12 @@ import dyna.net.security.signature.Signature;
 import dyna.net.spi.DataServiceLocator;
 import dyna.net.syncfile.SyncFileService;
 import org.springframework.context.ApplicationContext;
-
-import java.io.IOException;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 /**
  * 提供数据服务
  * 
- * @author xiasheng
+ * @author lizw
  */
 public class DataServer
 {
@@ -58,33 +55,79 @@ public class DataServer
 
 	private DSRMIClient client = null;
 
-	private DataServerContext context = null;
+	private static DataServerContext context = null;
 
-	private ServiceStateChangeReactor		dsscReactor	= null;
-
-	private DataServerTransactionManager manager = null;
+	private static ServiceStateChangeReactor		dsscReactor	= null;
 
 	private static ApplicationContext applicationContext = null;
 
-	public static synchronized void createDataServer(ServiceStateChangeReactor sscReactor) throws Exception
+	/**
+	 * 数据服务器的创建
+	 * @throws Exception
+	 */
+	public static synchronized void createDataServer() throws Exception
 	{
-
 		if (dataServer == null)
 		{
-			dataServer = new DataServer(sscReactor);
+			//spring容器初始化
+			applicationContext = new AnnotationConfigApplicationContext(SpringConfigForData.class);
+			dataServer = new DataServer();
+			context = DataServer.applicationContext.getBean(DataServerContextImpl.class);
+			dsscReactor = DataServer.applicationContext.getBean(ServiceStateChangeReactorDefaultImpl.class);
+
+			//系统自己的配置文件对应加载类的初始化
+			applicationContext.getBean(XmlConfigLoaderFactory.class).init();
+
+			//数据服务器初始化
 			dataServer.initialize();
-//			applicationContext = new AnnotationConfigApplicationContext(SpringConfigForData.class);
 		}
 	}
 
-	public static void createDataServer() throws Exception
+	/**
+	 *  数据服务器初始化
+	 * @throws Exception
+	 */
+	protected void initialize() throws Exception
 	{
-		createDataServer(new ServiceStateChangeReactorDefaultImpl());
+		DataServiceLocator dataServiceLocator = getRepositoryBean(ServiceLocatorDataServerImpl.class);
+
+		ConfigurableConnToDSImpl conToDsConfig = getRepositoryBean(ConfigLoaderConnToDSImpl.class).getConfigurable();
+
+		if (conToDsConfig.getClientMode() == ConnectionModeEnum.BUILT_IN_SERVER)
+		{
+			this.context.init();
+			dataServiceLocator.getServiceStateSync().setReactor(this.dsscReactor);
+			DataServiceProviderFactory.createServiceProvider(dataServiceLocator);
+		}
+		else
+		{
+			this.client = new DSRMIClient(Signature.MODULE_APP_SERVER, conToDsConfig);
+			this.client.setSscReactor(this.dsscReactor);
+			//TODO
+//			this.client.setTransactionManager(this.manager);
+			this.client.open();
+		}
 	}
 
+	/**
+	 * 获取数据层的spring容器
+	 * @return
+	 */
 	public static ApplicationContext getApplicationContext()
 	{
 		return applicationContext;
+	}
+
+	/**
+	 * 获取数据层的bean实例
+	 * @param clazz
+	 * @param <T>
+	 * @return
+	 */
+	public static <T> T getRepositoryBean(Class<T> clazz)
+	{
+		T t = applicationContext.getBean(clazz);
+		return t;
 	}
 
 	public static void close() throws Exception
@@ -92,45 +135,6 @@ public class DataServer
 		if (dataServer.client != null)
 		{
 			dataServer.client.close();
-		}
-	}
-
-	protected DataServer(ServiceStateChangeReactor dsscReactor)
-	{
-		try
-		{
-			this.context = new DataServerContextImpl();
-			this.dsscReactor = dsscReactor;
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-	}
-
-	protected void initialize() throws Exception
-	{
-		DataServiceLocator dataServiceLocator = null;
-
-		ConfigurableConnToDSImpl conToDsConfig = ConfigLoaderFactory.getLoader4ConnToDS().load();
-		this.manager = new DataServerTransactionManagerImpl();
-
-		if (conToDsConfig.getClientMode() == ConnectionMode.BUILT_IN_SERVER)
-		{
-			ConfigurableDataServerImpl dsConfig = ConfigLoaderFactory.getLoader4DataServer().load();
-			this.context.init();
-
-			dataServiceLocator = new ServiceLocatorDataServerImpl(this.context, dsConfig);
-			dataServiceLocator.getServiceStateSync().setReactor(this.dsscReactor);
-
-			DataServiceProviderFactory.createServiceProvider(dataServiceLocator);
-		}
-		else
-		{
-			this.client = new DSRMIClient(Signature.MODULE_APP_SERVER, conToDsConfig);
-			this.client.setSscReactor(this.dsscReactor);
-			this.client.setTransactionManager(this.manager);
-			this.client.open();
 		}
 	}
 
@@ -185,23 +189,6 @@ public class DataServer
 		catch (ServiceNotFoundException e)
 		{
 			throw new DynaDataExceptionAll("Initializing SyncFileService Error: ", null, DataExceptionEnum.DATASERVER_INIT_SDS);
-		}
-	}
-
-	/**
-	 * 获取TrasactionService服务,服务器内部使用
-	 * 
-	 * @return TrasactionService
-	 */
-	public static DBTransactionService getTransactionService()
-	{
-		try
-		{
-			return DataServiceProviderFactory.getServiceProvider().getServiceInstance(DBTransactionService.class);
-		}
-		catch (ServiceNotFoundException e)
-		{
-			throw new DynaDataExceptionAll("Initializing SyncFileService Error: ", null, DataExceptionEnum.DATASERVER_INIT_TS);
 		}
 	}
 
@@ -392,20 +379,4 @@ public class DataServer
 
 	}
 
-	/**
-	 * 获取TrasactionService服务,服务器内部使用
-	 * 
-	 * @return TrasactionService
-	 */
-	public static DataServerTransactionManager getTransactionManager()
-	{
-		if (dataServer == null)
-		{
-			return null;
-		}
-		else
-		{
-			return dataServer.manager;
-		}
-	}
 }

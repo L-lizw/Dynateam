@@ -6,8 +6,10 @@
 package dyna.common.dto;
 
 import dyna.common.annotation.Cache;
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.FileTypeMapper;
 
 /**
  * 文件类型对象
@@ -16,6 +18,7 @@ import dyna.common.bean.data.SystemObjectImpl;
  * 
  */
 @Cache
+@EntryMapper(FileTypeMapper.class)
 public class FileType extends SystemObjectImpl implements SystemObject
 {
 

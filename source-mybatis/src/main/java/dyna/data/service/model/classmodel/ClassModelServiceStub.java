@@ -1,20 +1,5 @@
 package dyna.data.service.model.classmodel;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Optional;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.TreeSet;
-import java.util.stream.Collectors;
-
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.model.IconEntry;
 import dyna.common.bean.model.ReferenceCode;
@@ -28,18 +13,10 @@ import dyna.common.bean.model.code.CodeItem;
 import dyna.common.bean.model.itf.InterfaceObject;
 import dyna.common.bean.model.ui.UIIcon;
 import dyna.common.bean.model.ui.UIObject;
-import dyna.common.cache.AbstractCacheInfo;
-import dyna.common.cache.CacheConstants;
-import dyna.common.cache.CacheRefreshListener;
-import dyna.common.cache.DynaCacheObserver;
-import dyna.common.cache.DynaObserverMediator;
+import dyna.common.bean.xml.UpperKeyMap;
+import dyna.common.cache.*;
 import dyna.common.dto.model.bmbo.BOInfo;
-import dyna.common.dto.model.cls.ClassAction;
-import dyna.common.dto.model.cls.ClassField;
-import dyna.common.dto.model.cls.ClassFieldCRDetail;
-import dyna.common.dto.model.cls.ClassInfo;
-import dyna.common.dto.model.cls.NumberingModelInfo;
-import dyna.common.dto.model.cls.NumberingObjectInfo;
+import dyna.common.dto.model.cls.*;
 import dyna.common.dto.model.code.CodeObjectInfo;
 import dyna.common.dto.model.lf.LifecycleInfo;
 import dyna.common.dto.model.ui.UIAction;
@@ -55,11 +32,14 @@ import dyna.common.systemenum.SystemClassFieldEnum;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
-import dyna.common.bean.xml.UpperKeyMap;
 import dyna.data.context.DataServerContext;
 import dyna.data.service.model.DataCacheServiceStub;
 import dyna.data.service.sdm.FieldValueEqualsFilter;
 import dyna.data.service.sdm.SystemDataService;
+
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 public class ClassModelServiceStub extends DataCacheServiceStub<ClassModelServiceImpl>
 {
@@ -123,7 +103,7 @@ public class ClassModelServiceStub extends DataCacheServiceStub<ClassModelServic
 		String tranid = StringUtils.generateRandomUID(32);
 		try
 		{
-			DataServer.getTransactionService().startTransaction(tranid);
+//			DataServer.getTransactionService().startTransaction(tranid);
 			this.cacheInfo.setRemoveErrData(true);
 
 			this.doCheckAndClearUIObject();
@@ -134,18 +114,18 @@ public class ClassModelServiceStub extends DataCacheServiceStub<ClassModelServic
 
 			this.cacheInfo.setRemoveErrData(false);
 
-			DataServer.getTransactionService().commitTransaction(tranid);
+//			DataServer.getTransactionService().commitTransaction(tranid);
 		}
 		catch (DynaDataException e)
 		{
 			this.cacheInfo.setRemoveErrData(false);
-			DataServer.getTransactionService().rollbackTransaction(tranid);
+//			DataServer.getTransactionService().rollbackTransaction(tranid);
 			throw e;
 		}
 		catch (Exception e)
 		{
 			this.cacheInfo.setRemoveErrData(false);
-			DataServer.getTransactionService().rollbackTransaction(tranid);
+//			DataServer.getTransactionService().rollbackTransaction(tranid);
 			throw ServiceRequestException.createByException("ID_APP_SERVER_EXCEPTION", e);
 		}
 	}

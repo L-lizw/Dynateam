@@ -5,14 +5,17 @@
  */
 package dyna.common.dto.aas;
 
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.aas.UserWorkFolderMapper;
 import dyna.common.systemenum.UserWorkFolderTypeEnum;
 
 /**
  * @author Wanglei
  * 
  */
+@EntryMapper(UserWorkFolderMapper.class)
 public class UserWorkFolder extends SystemObjectImpl implements SystemObject
 {
 

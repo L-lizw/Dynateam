@@ -1,9 +1,11 @@
 package dyna.common.bean.data.ppms.indicator;
 
-import java.math.BigDecimal;
-
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.ppm.IndicatorAnalysisValMapper;
+
+import java.math.BigDecimal;
 
 /**
  * 指标分析结果
@@ -11,6 +13,7 @@ import dyna.common.bean.data.SystemObjectImpl;
  * @author duanll
  * 
  */
+@EntryMapper(IndicatorAnalysisValMapper.class)
 public class IndicatorAnalysisVal extends SystemObjectImpl implements SystemObject
 {
 	/**

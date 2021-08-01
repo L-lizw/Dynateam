@@ -5,16 +5,19 @@
  */
 package dyna.common.dto;
 
-import java.math.BigDecimal;
-
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.PreferenceDetailMapper;
+
+import java.math.BigDecimal;
 
 /**
  * 
  * @author Caogc
  * 
  */
+@EntryMapper(PreferenceDetailMapper.class)
 public class PreferenceDetail extends SystemObjectImpl implements SystemObject
 {
 

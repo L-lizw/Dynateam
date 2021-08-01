@@ -6,8 +6,10 @@
 package dyna.common.dto.model.code;
 
 import dyna.common.annotation.Cache;
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.model.code.CodeObjectInfoMapper;
 import dyna.common.systemenum.CodeDisplayEnum;
 import dyna.common.systemenum.CodeTypeEnum;
 import dyna.common.systemenum.LanguageEnum;
@@ -19,6 +21,7 @@ import dyna.common.util.StringUtils;
  *
  */
 @Cache
+@EntryMapper(CodeObjectInfoMapper.class)
 public class CodeObjectInfo extends SystemObjectImpl implements SystemObject
 {
 	private static final long	serialVersionUID			= -740223844971555613L;

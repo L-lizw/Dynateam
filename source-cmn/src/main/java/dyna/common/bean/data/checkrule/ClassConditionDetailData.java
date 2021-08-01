@@ -1,14 +1,17 @@
 package dyna.common.bean.data.checkrule;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.checkrule.ClassConditionDetailDataMapper;
 import dyna.common.systemenum.JoinTypeEnum;
 import dyna.common.systemenum.OperateSignEnum;
 import dyna.common.util.StringUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
+@EntryMapper(ClassConditionDetailDataMapper.class)
 public class ClassConditionDetailData extends SystemObjectImpl implements SystemObject, Comparable<ClassConditionDetailData>
 {
 	/**

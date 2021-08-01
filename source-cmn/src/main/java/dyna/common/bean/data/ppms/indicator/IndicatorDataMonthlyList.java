@@ -1,7 +1,9 @@
 package dyna.common.bean.data.ppms.indicator;
 
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.ppm.IndicatorDataMonthlyListMapper;
 
 /**
  * 按月收集数据
@@ -9,6 +11,7 @@ import dyna.common.bean.data.SystemObjectImpl;
  * @author Administrator
  * 
  */
+@EntryMapper(IndicatorDataMonthlyListMapper.class)
 public class IndicatorDataMonthlyList extends SystemObjectImpl implements SystemObject
 {
 

@@ -5,12 +5,14 @@
  */
 package dyna.common.bean.data.ppms;
 
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.FoundationObject;
 import dyna.common.bean.data.ObjectGuid;
 import dyna.common.bean.data.ppms.calculation.EarnedValueManagement;
 import dyna.common.bean.data.ppms.calculation.StatusCalculated;
 import dyna.common.bean.data.ppms.check.TaskCheck;
 import dyna.common.bean.data.ppms.wbs.WBSPrepareContain;
+import dyna.common.dtomapper.ppm.PPMFoundationObjectUtilMapper;
 import dyna.common.systemenum.ppms.*;
 import dyna.common.util.BooleanUtils;
 import dyna.common.util.PMConstans;
@@ -23,6 +25,7 @@ import java.util.Date;
  * @author wangweixia
  * 
  */
+@EntryMapper(PPMFoundationObjectUtilMapper.class)
 public class PPMFoundationObjectUtil
 {
 

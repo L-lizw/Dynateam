@@ -5,20 +5,17 @@
  */
 package dyna.common.dto.wf;
 
+import dyna.common.annotation.EntryMapper;
+import dyna.common.bean.data.SystemObject;
+import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.wf.ActivityRuntimeMapper;
+import dyna.common.systemenum.*;
+import dyna.common.util.BooleanUtils;
+import dyna.common.util.StringUtils;
+
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
-
-import dyna.common.bean.data.SystemObject;
-import dyna.common.bean.data.SystemObjectImpl;
-import dyna.common.systemenum.ActRuntimeModeEnum;
-import dyna.common.systemenum.DecisionEnum;
-import dyna.common.systemenum.LanguageEnum;
-import dyna.common.systemenum.PerformerTypeEnum;
-import dyna.common.systemenum.SubProcessTypeEnum;
-import dyna.common.systemenum.WorkflowActivityType;
-import dyna.common.util.BooleanUtils;
-import dyna.common.util.StringUtils;
 
 /**
  * 工作流程活动
@@ -26,6 +23,7 @@ import dyna.common.util.StringUtils;
  * @author Wanglei
  * 
  */
+@EntryMapper(ActivityRuntimeMapper.class)
 public class ActivityRuntime extends SystemObjectImpl implements SystemObject
 {
 	private List<Performer>		performerList		= null;

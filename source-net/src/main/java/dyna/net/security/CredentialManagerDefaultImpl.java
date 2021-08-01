@@ -5,11 +5,12 @@
  */
 package dyna.net.security;
 
+import dyna.net.security.signature.Signature;
+import org.springframework.stereotype.Component;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-
-import dyna.net.security.signature.Signature;
 
 /**
  * 凭证管理器默认实现
@@ -17,6 +18,7 @@ import dyna.net.security.signature.Signature;
  * @author Wanglei
  * 
  */
+@Component
 public class CredentialManagerDefaultImpl implements CredentialManager
 {
 	private Map<String, Signature>	signatureCache	= Collections.synchronizedMap(new HashMap<String, Signature>());

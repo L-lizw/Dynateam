@@ -19,77 +19,58 @@ import dyna.common.util.EnvUtils;
 import dyna.common.util.SetUtils;
 import dyna.data.DataServer;
 import dyna.data.cache.CacheManagerDelegate;
-import dyna.data.common.function.DatabaseFunctionFactory;
+import dyna.dbcommon.function.DatabaseFunctionFactory;
 import dyna.net.connection.ConnectionManager;
-import dyna.net.connection.ConnectionManagerDefaultImpl;
 import dyna.net.dispatcher.sync.ServiceStateManager;
-import dyna.net.dispatcher.sync.ServiceStateManagerDefaultImpl;
 import dyna.net.security.CredentialManager;
-import dyna.net.security.CredentialManagerDefaultImpl;
 import dyna.net.service.Service;
-import org.apache.ibatis.io.Resources;
-import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
-import java.io.Reader;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
 /**
  * @author Wanglei
- *
  */
-@SuppressWarnings({ "rawtypes" })
+@Repository @SuppressWarnings({ "rawtypes" })
 public class DataServerContextImpl extends AbstractSvContext implements DataServerContext
 {
 	/**
 	 *
 	 */
-	private static final long				serialVersionUID				= -992145370055197280L;
+	private static final long serialVersionUID = -992145370055197280L;
 
-	private static final String				SCAN_BEAN_ANNOTATION_PACKAGE	= "dyna.common.dto";
+	private static final String SCAN_BEAN_ANNOTATION_PACKAGE = "dyna.common.dto";
 
-	private static final String				MODEL_CONFIG_PATH				= EnvUtils.getConfRootPath() + "conf/om";
+	private static final String MODEL_CONFIG_PATH = EnvUtils.getConfRootPath() + "conf/om";
 
-	private static final String				CLASSIFICATION_CONFIG_PATH		= EnvUtils.getConfRootPath() + "conf/cf";
+	private static final String              CLASSIFICATION_CONFIG_PATH = EnvUtils.getConfRootPath() + "conf/cf";
 
-	private CredentialManager				credentialManager				= null;
+	private   Map<String, DynamicTableBean> dynamicTableBeanMap  = null;
 
-	private ConnectionManager				connectionManager				= null;
+	private   Map<Class, Class> entryToDaoMapper = null;
 
-	private ServiceStateManager				serviceStateManager				= null;
-
-	private SqlSessionFactory 				sqlSessionFactory				= null;
-
-	private Map<String, DynamicTableBean>	dynamicTableBeanMap				= null;
-
-	private CacheManagerDelegate			cacheManagerDelegate			= null;
-
-	private Map<Class,Class>                entryToDaoMapper                = null;
+	@Autowired
+	private   DynaObjectMapper    dynaObjectMapper           = null;
+	@Autowired
+	private   CredentialManager   credentialManager          = null;
+	@Autowired
+	private   ConnectionManager   connectionManager          = null;
+	@Autowired
+	private   ServiceStateManager serviceStateManager        = null;
+	@Autowired
+	private SqlSessionFactory     sqlSessionFactory = null;
+	@Autowired
+	private CacheManagerDelegate          cacheManagerDelegate = null;
 
 	public DataServerContextImpl() throws IOException
 	{
 		super("DataServer");
-
-		this.loadTableData();
-
-		this.loadEntryDaoInfo();
-
-		this.cacheManagerDelegate = new CacheManagerDelegate(this);
-
-		// credential manager initialize.
-		this.credentialManager = new CredentialManagerDefaultImpl();
-
-		// connection manager initialize.
-		this.connectionManager = new ConnectionManagerDefaultImpl(this.credentialManager);
-
-		// service state manager initialize
-		this.serviceStateManager = new ServiceStateManagerDefaultImpl(this.connectionManager);
 	}
 
 	/*
@@ -97,8 +78,7 @@ public class DataServerContextImpl extends AbstractSvContext implements DataServ
 	 *
 	 * @see dyna.common.context.AbstractContext#init()
 	 */
-	@Override
-	public void init() throws Exception
+	@Override public void init() throws Exception
 	{
 		DynaLogger.info("***************************************************");
 		DynaLogger.info("************* " + Version.getProductName() + " " + Version.getVersionInfo() + "**********");
@@ -108,31 +88,24 @@ public class DataServerContextImpl extends AbstractSvContext implements DataServ
 		DynaLogger.print("\tConnecting to Database...");
 		// mapper initialize.
 		String configFile = "dm/mybatis-config.xml";
-		Resources.setCharset(StandardCharsets.UTF_8);
-		Reader reader = Resources.getResourceAsReader(configFile);
-		this.sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
-		reader.close();
-		SqlSession sqlSession = null;
 		try
 		{
-			sqlSession = this.sqlSessionFactory.openSession();
-			sqlSession.getMapper(DynaObjectMapper.class).pingQuery();
+			dynaObjectMapper.pingQuery();
 		}
 		catch (Exception e)
 		{
 			DynaLogger.println("[FAILED]" + e.getMessage());
 			throw new Exception(e.getMessage());
 		}
-		finally
-		{
-			sqlSession.close();
-		}
-		DatabaseFunctionFactory.databaseType =this.sqlSessionFactory.getConfiguration().getDatabaseId();
+
+		DatabaseFunctionFactory.databaseType = this.sqlSessionFactory.getConfiguration().getDatabaseId();
 		DynaLogger.println("[OK]");
+		this.loadTableData();
+
+		this.loadEntryDaoInfo();
 	}
 
-	@Override
-	public SqlSessionFactory getSqlSessionFactory()
+	@Override public SqlSessionFactory getSqlSessionFactory()
 	{
 		return this.sqlSessionFactory;
 	}
@@ -142,8 +115,7 @@ public class DataServerContextImpl extends AbstractSvContext implements DataServ
 	 *
 	 * @see dyna.data.context.DataServerContext#getCredentialManager()
 	 */
-	@Override
-	public CredentialManager getCredentialManager()
+	@Override public CredentialManager getCredentialManager()
 	{
 		return this.credentialManager;
 	}
@@ -153,8 +125,7 @@ public class DataServerContextImpl extends AbstractSvContext implements DataServ
 	 *
 	 * @see dyna.data.context.DataServerContext#getModelConfigPath()
 	 */
-	@Override
-	public String getModelConfigPath()
+	@Override public String getModelConfigPath()
 	{
 		return MODEL_CONFIG_PATH;
 	}
@@ -164,8 +135,7 @@ public class DataServerContextImpl extends AbstractSvContext implements DataServ
 	 *
 	 * @see dyna.data.context.DataServerContext#getModelConfigPath()
 	 */
-	@Override
-	public String getClassificationConfigPath()
+	@Override public String getClassificationConfigPath()
 	{
 		return CLASSIFICATION_CONFIG_PATH;
 	}
@@ -175,9 +145,7 @@ public class DataServerContextImpl extends AbstractSvContext implements DataServ
 	 *
 	 * @see dyna.data.context.DataServerContext#getInternalService(java.lang.Class)
 	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public <T extends Service> T getInternalService(Class<T> serviceClass)
+	@SuppressWarnings("unchecked") @Override public <T extends Service> T getInternalService(Class<T> serviceClass)
 	{
 		return (T) this.getAttribute(serviceClass.getName());
 	}
@@ -187,8 +155,7 @@ public class DataServerContextImpl extends AbstractSvContext implements DataServ
 	 *
 	 * @see dyna.data.context.DataServerContext#addInternalService(java.lang.Class, dyna.net.service.Service)
 	 */
-	@Override
-	public void setInternalService(Class<?> serviceClass, Object service)
+	@Override public void setInternalService(Class<?> serviceClass, Object service)
 	{
 		this.setAttribute(serviceClass.getName(), service);
 	}
@@ -198,8 +165,7 @@ public class DataServerContextImpl extends AbstractSvContext implements DataServ
 	 *
 	 * @see dyna.data.context.DataServerContext#getConnectionManager()
 	 */
-	@Override
-	public ConnectionManager getConnectionManager()
+	@Override public ConnectionManager getConnectionManager()
 	{
 		return this.connectionManager;
 	}
@@ -209,8 +175,7 @@ public class DataServerContextImpl extends AbstractSvContext implements DataServ
 	 *
 	 * @see dyna.data.context.DataServerContext#getServiceStateManager()
 	 */
-	@Override
-	public ServiceStateManager getServiceStateManager()
+	@Override public ServiceStateManager getServiceStateManager()
 	{
 		return this.serviceStateManager;
 	}
@@ -225,8 +190,7 @@ public class DataServerContextImpl extends AbstractSvContext implements DataServ
 	 *
 	 * @see dyna.common.context.AbstractContext#setServiceState(dyna.common.systemenum.ServiceStateEnum)
 	 */
-	@Override
-	public synchronized ServiceStateEnum setServiceState(ServiceStateEnum serviceState)
+	@Override public synchronized ServiceStateEnum setServiceState(ServiceStateEnum serviceState)
 	{
 		ServiceStateEnum newState = super.setServiceState(serviceState);
 
@@ -238,8 +202,7 @@ public class DataServerContextImpl extends AbstractSvContext implements DataServ
 		return newState;
 	}
 
-	@SuppressWarnings({ "unchecked" })
-	private void loadTableData()
+	@SuppressWarnings({ "unchecked" }) private void loadTableData()
 	{
 		dynamicTableBeanMap = new HashMap<>();
 		Set<Class<?>> set = AnnotationUtil.scanAnnotation(SCAN_BEAN_ANNOTATION_PACKAGE, Cache.class);
@@ -247,14 +210,15 @@ public class DataServerContextImpl extends AbstractSvContext implements DataServ
 		{
 			for (Class<?> clz : set)
 			{
-				Cache table = clz.getAnnotation(Cache.class);
-				if (table != null)
+				Cache cacheAnnotation = clz.getAnnotation(Cache.class);
+				if (cacheAnnotation != null)
 				{
 					DynamicTableBean tableBean = new DynamicTableBean();
 					tableBean.setCache(true);
 					tableBean.setBeanClass(clz);
 					dynamicTableBeanMap.put(clz.getName(), tableBean);
 				}
+
 			}
 		}
 	}
@@ -276,9 +240,7 @@ public class DataServerContextImpl extends AbstractSvContext implements DataServ
 		}
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public Map<String, DynamicTableBean> getDynaimcTableBeanMap()
+	@SuppressWarnings("unchecked") @Override public Map<String, DynamicTableBean> getDynaimcTableBeanMap()
 	{
 		return this.dynamicTableBeanMap;
 	}
@@ -288,9 +250,7 @@ public class DataServerContextImpl extends AbstractSvContext implements DataServ
 		return this.entryToDaoMapper;
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public <T extends SystemObject> CacheManagerDelegate<T> getCacheManager()
+	@SuppressWarnings("unchecked") @Override public <T extends SystemObject> CacheManagerDelegate<T> getCacheManager()
 	{
 		return this.cacheManagerDelegate;
 	}

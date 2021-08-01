@@ -1,49 +1,56 @@
 package dyna.data.cache;
 
+import dyna.common.bean.data.DynamicTableBean;
+import dyna.common.bean.data.SystemObject;
+import dyna.common.cache.CacheConstants;
+import dyna.common.cache.DynaObserverMediator;
+import dyna.common.dtomapper.DynaCacheMapper;
+import dyna.common.exception.ServiceRequestException;
+import dyna.common.systemenum.DataExceptionEnum;
+import dyna.common.util.SetUtils;
+import dyna.data.DataServer;
 import dyna.data.cache.controller.DynaCacheController;
 import dyna.data.cache.event.AddCacheEventListener;
 import dyna.data.cache.event.EventListener;
 import dyna.data.cache.event.RemoveCacheEventListener;
 import dyna.data.cache.event.UpdateCacheEventListener;
-import dyna.data.common.exception.DynaDataExceptionAll;
-import dyna.data.common.exception.DynaDataNormalException;
 import dyna.data.context.DataServerContext;
-import dyna.common.bean.data.DynamicTableBean;
-import dyna.common.bean.data.SystemObject;
-import dyna.common.cache.CacheConstants;
-import dyna.common.cache.DynaObserverMediator;
-import dyna.common.exception.ServiceRequestException;
-import dyna.common.systemenum.DataExceptionEnum;
-import dyna.common.util.SetUtils;
+import dyna.data.context.DataServerContextImpl;
+import dyna.dbcommon.exception.DynaDataExceptionAll;
+import dyna.dbcommon.exception.DynaDataNormalException;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Repository
 public class CacheManagerDelegate<T extends SystemObject>
 {
 	private final Map<String, DynaCacheModel<T>>      cacheModels;
-	private final Map<String, DynamicTableBean<T>>    tableBeanMap;
+	private       Map<String, DynamicTableBean<T>>    tableBeanMap = null;
+	private       Map<Class,Class>                    entryToDaoMapper = null;
 	private final DynaCacheController<T>              controller;
-	private       SqlSessionFactory                   sqlSessionFactory;
-	private       DataServerContext                   context;
 	private       ThreadLocal<List<EventListener<T>>> executeListeners = null;
+	@Autowired
+	private       SqlSessionFactory                   sqlSessionFactory;
 
-	public CacheManagerDelegate(DataServerContext context)
+	public CacheManagerDelegate()
 	{
 		this.executeListeners = new ThreadLocal<>();
 		this.cacheModels = new HashMap<>();
-		this.tableBeanMap = context.getDynaimcTableBeanMap();
-		this.context = context;
 		this.controller = new DynaCacheController<T>();
 	}
 
 	public void init() throws ServiceRequestException
 	{
-		this.sqlSessionFactory = context.getSqlSessionFactory();
+		DataServerContext context = DataServer.getApplicationContext().getBean(DataServerContextImpl.class);
+		this.tableBeanMap = context.getDynaimcTableBeanMap();
+		this.entryToDaoMapper = context.getEntryMapperMap();
 		this.addModels();
 	}
 
@@ -177,21 +184,15 @@ public class CacheManagerDelegate<T extends SystemObject>
 				return null;
 			}
 
-			String sqlStatementId = dynamicTableBean.getBeanClass().getName() + "." + "selectForLoad";
 			List<T> dataList = null;
-			SqlSession sqlSession = null;
 			try
 			{
-				sqlSession = sqlSessionFactory.openSession();
-				dataList = sqlSession.selectList(sqlStatementId);
+				Class<? extends DynaCacheMapper> mapperClass = entryToDaoMapper.get(Class.forName(this.clzName));
+				dataList = DataServer.getRepositoryBean(mapperClass).selectForLoad();
 			}
 			catch (Exception e)
 			{
-				throw new DynaDataExceptionAll("select() selectStatement = " + sqlStatementId, e, DataExceptionEnum.SDS_SELECT);
-			}
-			finally
-			{
-				sqlSession.close();
+				throw new DynaDataExceptionAll("select() selectStatement = " + this.clzName + "selectForLoad", e, DataExceptionEnum.SDS_SELECT);
 			}
 			cacheModels.get(dynamicTableBean.getBeanClass().getName()).cacheAll(dataList);
 			return dataList;

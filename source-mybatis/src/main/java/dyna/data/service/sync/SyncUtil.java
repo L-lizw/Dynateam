@@ -6,13 +6,13 @@ import dyna.common.log.DynaLogger;
 import dyna.common.systemenum.FieldTypeEnum;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
-import dyna.data.common.function.DatabaseFunctionFactory;
-import dyna.data.common.function.columntype.ColumnTypeFunction;
-import dyna.data.common.function.sqlconvert.DDLConvertFunction;
-import dyna.data.common.function.typename.TypeNameConvertFunction;
 import dyna.data.service.sync.bean.ColumnModel;
 import dyna.data.service.sync.bean.TableIndexModel;
 import dyna.data.service.sync.bean.TableIndexObject;
+import dyna.dbcommon.function.DatabaseFunctionFactory;
+import dyna.dbcommon.function.columntype.ColumnTypeFunction;
+import dyna.dbcommon.function.sqlconvert.DDLConvertFunction;
+import dyna.dbcommon.function.typename.TypeNameConvertFunction;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 

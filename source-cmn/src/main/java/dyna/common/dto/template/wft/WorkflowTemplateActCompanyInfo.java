@@ -6,8 +6,10 @@
 package dyna.common.dto.template.wft;
 
 import dyna.common.annotation.Cache;
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.template.wft.WorkflowTemplateActCompanyInfoMapper;
 
 /**
  * 工作流模板活动节点通知人Bean
@@ -16,6 +18,7 @@ import dyna.common.bean.data.SystemObjectImpl;
  * 
  */
 @Cache
+@EntryMapper(WorkflowTemplateActCompanyInfoMapper.class)
 public class WorkflowTemplateActCompanyInfo extends SystemObjectImpl implements SystemObject
 {
 

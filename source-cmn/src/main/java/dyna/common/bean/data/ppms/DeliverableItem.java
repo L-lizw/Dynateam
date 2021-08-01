@@ -5,8 +5,10 @@
  */
 package dyna.common.bean.data.ppms;
 
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.ppm.DeliverableItemMapper;
 import dyna.common.systemenum.ppms.WBSOperateEnum;
 import dyna.common.util.BooleanUtils;
 
@@ -16,6 +18,7 @@ import dyna.common.util.BooleanUtils;
  * @author wangweixia
  * 
  */
+@EntryMapper(DeliverableItemMapper.class)
 public class DeliverableItem extends SystemObjectImpl implements SystemObject
 {
 

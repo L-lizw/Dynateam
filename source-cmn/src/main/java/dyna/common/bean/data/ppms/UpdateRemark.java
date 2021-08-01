@@ -5,13 +5,16 @@
  */
 package dyna.common.bean.data.ppms;
 
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.ppm.UpdateRemarkMapper;
 
 /**
  * @author wangweixia
  * 
  */
+@EntryMapper(UpdateRemarkMapper.class)
 public class UpdateRemark extends SystemObjectImpl implements SystemObject
 {
 	private static final long	serialVersionUID		= -3602980090638191414L;

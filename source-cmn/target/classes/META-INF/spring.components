@@ -1,1 +1,4 @@
+dyna.common.conf.ConfigurableConnToDSImpl=org.springframework.stereotype.Component
+dyna.common.conf.loader.ConfigLoaderClientImpl=org.springframework.stereotype.Component
+dyna.common.conf.loader.ConfigLoaderConnToDSImpl=org.springframework.stereotype.Component
 dyna.spring.conf.SpringConfigForCommon=org.springframework.stereotype.Component

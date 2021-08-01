@@ -8,6 +8,7 @@ package dyna.net.dispatcher.sync;
 import dyna.common.log.DynaLogger;
 import dyna.common.systemenum.ServiceStateEnum;
 import dyna.net.dispatcher.ServiceDispatcher;
+import org.springframework.stereotype.Repository;
 
 /**
  * 服务状态交换器(同步)
@@ -15,6 +16,7 @@ import dyna.net.dispatcher.ServiceDispatcher;
  * @author Wanglei
  * 
  */
+@Repository
 public class ServiceStateExchangerRMIImpl implements ServiceStateExchanger
 {
 

@@ -6,8 +6,10 @@
 package dyna.common.dto;
 
 import dyna.common.annotation.Cache;
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.FileItemAndConfigMapper;
 
 /**
  * 文件浏览工具使用
@@ -17,6 +19,7 @@ import dyna.common.bean.data.SystemObjectImpl;
  * 
  */
 @Cache
+@EntryMapper(FileItemAndConfigMapper.class)
 public class FileItemAndConfig extends SystemObjectImpl implements SystemObject
 {
 

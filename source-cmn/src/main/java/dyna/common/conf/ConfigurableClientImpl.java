@@ -5,11 +5,11 @@
  */
 package dyna.common.conf;
 
+import dyna.common.systemenum.ConnectionModeEnum;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import dyna.common.systemenum.ConnectionMode;
 
 /**
  * 读取客户端配置信息
@@ -20,7 +20,7 @@ import dyna.common.systemenum.ConnectionMode;
 public class ConfigurableClientImpl extends ConfigurableAdapter
 {
 
-	private ConnectionMode		clientMode			= ConnectionMode.ALL_IN_ONE;
+	private ConnectionModeEnum clientMode = ConnectionModeEnum.ALL_IN_ONE;
 
 	private int						defaultLookupServicePort	= 1299;
 	private ConnToASConfig			defaultHost					= null;
@@ -95,7 +95,7 @@ public class ConfigurableClientImpl extends ConfigurableAdapter
 	/**
 	 * @return the clientMode
 	 */
-	public ConnectionMode getClientMode()
+	public ConnectionModeEnum getClientMode()
 	{
 		return this.clientMode;
 	}
@@ -104,7 +104,7 @@ public class ConfigurableClientImpl extends ConfigurableAdapter
 	 * @param clientMode
 	 *            the clientMode to set
 	 */
-	public void setClientMode(ConnectionMode clientMode)
+	public void setClientMode(ConnectionModeEnum clientMode)
 	{
 		this.clientMode = clientMode;
 	}

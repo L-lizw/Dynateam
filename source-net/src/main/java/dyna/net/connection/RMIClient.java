@@ -6,7 +6,6 @@
 package dyna.net.connection;
 
 import dyna.common.conf.ConfigurableClientImpl;
-import dyna.common.conf.loader.ConfigLoaderFactory;
 import dyna.net.impl.ServiceProviderFactory;
 import dyna.net.impl.rmi.ServiceLocatorRMIImpl;
 import dyna.net.security.signature.Signature;
@@ -24,15 +23,15 @@ public class RMIClient extends AbstractClient
 	private String			moduleName		= null;
 	private ServiceLocator	serviceLocator	= null;
 
-	public RMIClient() throws Exception
-	{
-		this(Signature.MODULE_CLIENT, ConfigLoaderFactory.getLoader4Client().load());
-	}
-
-	public RMIClient(String moduleName) throws Exception
-	{
-		this(moduleName, ConfigLoaderFactory.getLoader4Client().load());
-	}
+//	public RMIClient() throws Exception
+//	{
+//		this(Signature.MODULE_CLIENT, ConfigLoaderFactory.getLoader4Client().load());
+//	}
+//
+//	public RMIClient(String moduleName) throws Exception
+//	{
+//		this(moduleName, ConfigLoaderFactory.getLoader4Client().load());
+//	}
 
 	/**
 	 * @throws Exception

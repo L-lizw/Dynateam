@@ -6,8 +6,10 @@
 package dyna.common.dto.model.wf;
 
 import dyna.common.annotation.Cache;
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.model.wf.WorkflowProcessInfoMapper;
 import dyna.common.systemenum.LanguageEnum;
 import dyna.common.systemenum.WorkflowType;
 import dyna.common.util.StringUtils;
@@ -17,6 +19,7 @@ import dyna.common.util.StringUtils;
  * 
  */
 @Cache
+@EntryMapper(WorkflowProcessInfoMapper.class)
 public class WorkflowProcessInfo extends SystemObjectImpl implements SystemObject
 {
 	private static final long	serialVersionUID	= -7446298478270942777L;

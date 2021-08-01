@@ -5,19 +5,21 @@
  */
 package dyna.common.bean.data.ppms;
 
-import java.math.BigDecimal;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.ppm.PMCalendarSpecialDateMapper;
 import dyna.common.systemenum.ppms.DayOfMonthEnum;
 import dyna.common.systemenum.ppms.DayOfWeekEnum;
 import dyna.common.systemenum.ppms.MonthOfYearEnum;
 import dyna.common.systemenum.ppms.RepeatModeEnum;
 import dyna.common.util.BooleanUtils;
 import dyna.common.util.StringUtils;
+
+import java.math.BigDecimal;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author Duanll<br>
@@ -38,6 +40,7 @@ import dyna.common.util.StringUtils;
  *         BEGIN_DATE~END_DATE。
  *         </ul>
  */
+@EntryMapper(PMCalendarSpecialDateMapper.class)
 public class PMCalendarSpecialDate extends SystemObjectImpl implements SystemObject
 {
 	private static final long				serialVersionUID	= 9091840089903186760L;

@@ -5,16 +5,19 @@
  */
 package dyna.common.dto;
 
-import java.util.List;
-
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.PreferenceMapper;
+
+import java.util.List;
 
 /**
  * 
  * @author Caogc
  * 
  */
+@EntryMapper(PreferenceMapper.class)
 public class Preference extends SystemObjectImpl implements SystemObject
 {
 

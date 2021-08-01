@@ -1,8 +1,8 @@
 package dyna.data.service.sdm;
 
-import java.io.Serializable;
-
 import dyna.common.bean.data.SystemObject;
+
+import java.io.Serializable;
 
 public interface BeanFilter<E extends SystemObject> extends Serializable, Cloneable
 {

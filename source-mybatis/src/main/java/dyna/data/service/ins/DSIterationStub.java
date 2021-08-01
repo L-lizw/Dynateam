@@ -23,13 +23,13 @@ import dyna.common.systemenum.*;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
-import dyna.data.common.exception.DynaDataExceptionAll;
-import dyna.data.common.exception.DynaDataExceptionSQL;
-import dyna.data.common.sqlbuilder.DSIterationSqlBuilder;
-import dyna.data.common.util.DSCommonUtil;
 import dyna.data.context.DataServerContext;
 import dyna.data.service.DSAbstractServiceStub;
 import dyna.data.service.sdm.FieldValueEqualsFilter;
+import dyna.data.sqlbuilder.DSIterationSqlBuilder;
+import dyna.dbcommon.exception.DynaDataExceptionAll;
+import dyna.dbcommon.exception.DynaDataExceptionSQL;
+import dyna.dbcommon.util.DSCommonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.sql.SQLException;
@@ -130,7 +130,7 @@ public class DSIterationStub extends DSAbstractServiceStub<InstanceServiceImpl>
 		}
 		catch (Exception e)
 		{
-			DataServer.getTransactionManager().rollbackTransaction();
+//			DataServer.getTransactionManager().rollbackTransaction();
 			if (e instanceof DynaDataExceptionSQL)
 			{
 				throw (DynaDataExceptionSQL) e;
@@ -270,7 +270,7 @@ public class DSIterationStub extends DSAbstractServiceStub<InstanceServiceImpl>
 		catch (Exception e)
 		{
 			e.printStackTrace();
-			DataServer.getTransactionManager().rollbackTransaction();
+//			DataServer.getTransactionManager().rollbackTransaction();
 			if (e instanceof DynaDataExceptionSQL)
 			{
 				throw (DynaDataExceptionSQL) e;

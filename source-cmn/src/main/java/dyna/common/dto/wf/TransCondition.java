@@ -5,8 +5,10 @@
  */
 package dyna.common.dto.wf;
 
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.wf.TransConditionMapper;
 import dyna.common.systemenum.WorkflowTransitionConditionType;
 
 /**
@@ -15,6 +17,7 @@ import dyna.common.systemenum.WorkflowTransitionConditionType;
  * @author Wanglei
  * 
  */
+@EntryMapper(TransConditionMapper.class)
 public class TransCondition extends SystemObjectImpl implements SystemObject
 {
 

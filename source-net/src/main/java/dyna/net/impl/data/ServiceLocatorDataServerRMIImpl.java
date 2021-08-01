@@ -5,8 +5,6 @@
  */
 package dyna.net.impl.data;
 
-import org.springframework.remoting.support.RemoteInvocationFactory;
-
 import dyna.common.conf.ConfigurableConnToDSImpl;
 import dyna.common.exception.ServiceNotFoundException;
 import dyna.common.util.SetUtils;
@@ -14,6 +12,7 @@ import dyna.net.connection.GenericClient;
 import dyna.net.impl.GenericRMIServiceLocator;
 import dyna.net.service.Service;
 import dyna.net.spi.DataServiceLocator;
+import org.springframework.remoting.support.RemoteInvocationFactory;
 
 /**
  * 数据服务定位器

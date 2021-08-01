@@ -5,12 +5,14 @@
  */
 package dyna.common.dto;
 
-import java.math.BigDecimal;
-
 import dyna.common.annotation.Cache;
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.FileOpenSubjectMapper;
 import dyna.common.systemenum.AccessConditionEnum;
+
+import java.math.BigDecimal;
 
 /**
  * 打开文件配置时的基本信息块
@@ -19,6 +21,7 @@ import dyna.common.systemenum.AccessConditionEnum;
  * 
  */
 @Cache
+@EntryMapper(FileOpenSubjectMapper.class)
 public class FileOpenSubject extends SystemObjectImpl implements SystemObject
 {
 

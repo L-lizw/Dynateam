@@ -1,8 +1,11 @@
 package dyna.common.bean.data.coding;
 
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.ClassificationNumberTransMapper;
 
+@EntryMapper(ClassificationNumberTransMapper.class)
 public class ClassificationNumberTrans extends SystemObjectImpl implements SystemObject
 {
 

@@ -5,16 +5,8 @@
  */
 package dyna.data.service.folder;
 
-import java.math.BigDecimal;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import dyna.common.bean.model.cls.ClassObject;
+import dyna.common.bean.xml.UpperKeyMap;
 import dyna.common.dto.Folder;
 import dyna.common.dto.Session;
 import dyna.common.dto.aas.Group;
@@ -32,15 +24,18 @@ import dyna.common.util.BooleanUtils;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
-import dyna.data.common.exception.DynaDataExceptionAll;
-import dyna.data.common.exception.DynaDataExceptionSQL;
-import dyna.common.bean.xml.UpperKeyMap;
 import dyna.data.context.DataServerContext;
 import dyna.data.service.DSAbstractServiceStub;
 import dyna.data.service.acl.AclService;
 import dyna.data.service.common.DSCommonService;
 import dyna.data.service.sdm.FieldValueEqualsFilter;
 import dyna.data.service.sdm.SystemDataService;
+import dyna.dbcommon.exception.DynaDataExceptionAll;
+import dyna.dbcommon.exception.DynaDataExceptionSQL;
+
+import java.math.BigDecimal;
+import java.sql.SQLException;
+import java.util.*;
 
 /**
  * 处理文件夹
@@ -111,7 +106,7 @@ public class DSFolderStub extends DSAbstractServiceStub<FolderServiceImpl>
 		folder.setGuid(null);
 		try
 		{
-			DataServer.getTransactionManager().startTransaction(fixTranId);
+//			DataServer.getTransactionManager().startTransaction(fixTranId);
 			// 创建folder
 			folder.setOwnerUserGuid(userGuid);
 			String libuser = this.getLibraryuser(folder);
@@ -149,17 +144,17 @@ public class DSFolderStub extends DSAbstractServiceStub<FolderServiceImpl>
 
 			this.decorateFolder(folder);
 
-			DataServer.getTransactionManager().commitTransaction();
+//			DataServer.getTransactionManager().commitTransaction();
 		}
 		catch (SQLException e)
 		{
-			DataServer.getTransactionManager().rollbackTransaction();
+//			DataServer.getTransactionManager().rollbackTransaction();
 			throw new DynaDataExceptionAll("createFolder error." + folder.getName(), e, DataExceptionEnum.DS_CREATE_FOLDER);
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
-			DataServer.getTransactionManager().rollbackTransaction();
+//			DataServer.getTransactionManager().rollbackTransaction();
 			if (e instanceof DynaDataExceptionSQL)
 			{
 				throw (DynaDataExceptionSQL) e;
@@ -466,7 +461,7 @@ public class DSFolderStub extends DSAbstractServiceStub<FolderServiceImpl>
 		}
 		try
 		{
-			DataServer.getTransactionManager().startTransaction(fixTranId);
+//			DataServer.getTransactionManager().startTransaction(fixTranId);
 			if (sds.save(folder).equals("0"))
 			{
 				throw new DynaDataExceptionAll("updateFolder error.", null, DataExceptionEnum.DS_UPDATEFOLDER_ERROR);
@@ -482,16 +477,16 @@ public class DSFolderStub extends DSAbstractServiceStub<FolderServiceImpl>
 				this.checkLibName(folder.getName());
 			}
 
-			DataServer.getTransactionManager().commitTransaction();
+//			DataServer.getTransactionManager().commitTransaction();
 		}
 		catch (SQLException e)
 		{
-			DataServer.getTransactionManager().rollbackTransaction();
+//			DataServer.getTransactionManager().rollbackTransaction();
 			throw new DynaDataExceptionAll("updateFolder error." + folder.getName(), e, DataExceptionEnum.DS_UPDATEFOLDER_ERROR);
 		}
 		catch (Exception e)
 		{
-			DataServer.getTransactionManager().rollbackTransaction();
+//			DataServer.getTransactionManager().rollbackTransaction();
 			if (e instanceof DynaDataExceptionSQL)
 			{
 				throw (DynaDataExceptionSQL) e;

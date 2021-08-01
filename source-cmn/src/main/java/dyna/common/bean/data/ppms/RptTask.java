@@ -5,18 +5,21 @@
  */
 package dyna.common.bean.data.ppms;
 
+import dyna.common.annotation.EntryMapper;
+import dyna.common.bean.data.SystemObject;
+import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.ppm.RptTaskMapper;
+import dyna.common.util.DateFormat;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Date;
-
-import dyna.common.bean.data.SystemObject;
-import dyna.common.bean.data.SystemObjectImpl;
-import dyna.common.util.DateFormat;
 
 /**
  * @author fanjq
  * 
  */
+@EntryMapper(RptTaskMapper.class)
 public class RptTask extends SystemObjectImpl implements SystemObject
 {
 	private static final long	serialVersionUID	= -2379774949869019380L;

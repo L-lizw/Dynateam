@@ -1,12 +1,15 @@
 package dyna.common.dto.model.wf;
 
-import java.math.BigDecimal;
-
 import dyna.common.annotation.Cache;
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.model.wf.WorkflowActrtLifecyclePhaseInfoMapper;
+
+import java.math.BigDecimal;
 
 @Cache
+@EntryMapper(WorkflowActrtLifecyclePhaseInfoMapper.class)
 public class WorkflowActrtLifecyclePhaseInfo extends SystemObjectImpl implements SystemObject
 {
 	/**

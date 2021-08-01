@@ -3,7 +3,6 @@ package dyna.common.dtomapper;
 import dyna.common.bean.data.foundation.BOMView;
 import dyna.common.bean.data.structure.BOMStructure;
 import dyna.common.bean.xml.UpperKeyMap;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -13,7 +12,6 @@ import java.util.Map;
  * @author Lizw
  * @date 2021/7/18
  **/
-@Mapper
 public interface BomObjectMapper
 {
 

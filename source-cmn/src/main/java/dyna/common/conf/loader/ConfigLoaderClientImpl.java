@@ -5,29 +5,28 @@
  */
 package dyna.common.conf.loader;
 
-import java.util.Iterator;
-
 import dyna.common.conf.ConfigurableClientImpl;
 import dyna.common.conf.ConfigurableKVElementImpl;
 import dyna.common.conf.ConnToASConfig;
-import dyna.common.systemenum.ConnectionMode;
+import dyna.common.systemenum.ConnectionModeEnum;
 import dyna.common.util.EnvUtils;
 import dyna.common.util.FileUtils;
 import dyna.common.util.StringUtils;
+import org.springframework.stereotype.Component;
+
+import java.util.Iterator;
 
 /**
  * 读取服务端配置
- * 
- * @see dyna.common.conf.ConfigurableClientImpl
+ *
  * @author Wanglei
- * 
+ * @see dyna.common.conf.ConfigurableClientImpl
  */
-public class ConfigLoaderClientImpl extends AbstractConfigLoader<ConfigurableClientImpl>
+@Component public class ConfigLoaderClientImpl extends AbstractConfigLoader<ConfigurableClientImpl>
 {
+	private ConfigurableClientImpl clientConfig = null;
 
-	private ConfigurableClientImpl	clientConfig	= null;
-
-	private String					filePath		= EnvUtils.getConfRootPath() + "conf/client.xml";
+	private String filePath = EnvUtils.getConfRootPath() + "conf/client.xml";
 
 	protected ConfigLoaderClientImpl()
 	{
@@ -36,29 +35,25 @@ public class ConfigLoaderClientImpl extends AbstractConfigLoader<ConfigurableCli
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see dyna.common.conf.loader.ConfigLoader#load()
 	 */
-	@Override
-	public synchronized ConfigurableClientImpl load(String xmlFilePath)
+	@Override public synchronized void load(String xmlFilePath)
 	{
-		if (this.clientConfig == null)
-		{
-			this.clientConfig = new ConfigurableClientImpl();
+		this.clientConfig = new ConfigurableClientImpl();
 
-			this.setConfigFile(FileUtils.newFileEscape(xmlFilePath));
-			ConfigurableKVElementImpl loader = super.loadDefault();
+		this.setConfigFile(FileUtils.newFileEscape(xmlFilePath));
+		ConfigurableKVElementImpl loader = super.loadDefault();
 
-			this.clientConfig.setClientMode(ConnectionMode.BUILT_IN_SERVER);
-			this.clientConfig.setDefaultLookupServicePort(Integer.valueOf(loader.getElementValue("client.service-lookup.port")));
+		this.clientConfig.setClientMode(ConnectionModeEnum.BUILT_IN_SERVER);
+		this.clientConfig.setDefaultLookupServicePort(Integer.valueOf(loader.getElementValue("client.service-lookup.port")));
 
-			this.configServerList(loader);
+		this.configServerList(loader);
 
-			this.clientConfig.setLookupServiceHost(this.clientConfig.getDefaultServiceHost());
+		this.clientConfig.setLookupServiceHost(this.clientConfig.getDefaultServiceHost());
 
-			this.clientConfig.configured();
-		}
-		return this.clientConfig;
+		this.clientConfig.configured();
+
 	}
 
 	private void configServerList(ConfigurableKVElementImpl rootEl)
@@ -67,7 +62,7 @@ public class ConfigLoaderClientImpl extends AbstractConfigLoader<ConfigurableCli
 		int port = 0;
 		boolean isDefault = false;
 		String tmpStr = null;
-		for (Iterator<ConfigurableKVElementImpl> iter = rootEl.iterator("client.server-list.server"); iter.hasNext();)
+		for (Iterator<ConfigurableKVElementImpl> iter = rootEl.iterator("client.server-list.server"); iter.hasNext(); )
 		{
 			asConf = iter.next();
 			ConnToASConfig conf = new ConnToASConfig();
@@ -94,13 +89,17 @@ public class ConfigLoaderClientImpl extends AbstractConfigLoader<ConfigurableCli
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see dyna.common.conf.loader.ConfigLoader#load(java.lang.String)
 	 */
-	@Override
-	public ConfigurableClientImpl load()
+	@Override public void load()
 	{
-		return this.load(this.filePath);
+		 this.load(this.filePath);
+	}
+
+	@Override public ConfigurableClientImpl getConfigurable()
+	{
+		return this.clientConfig;
 	}
 
 }

@@ -6,18 +6,21 @@
 package dyna.data.dispatch;
 
 import dyna.common.bean.serv.ServiceBean;
-import dyna.common.conf.ConfigurableDataServerImpl;
 import dyna.common.conf.ServiceDefinition;
 import dyna.common.exception.ServiceNotFoundException;
 import dyna.common.log.DynaLogger;
 import dyna.common.util.StringUtils;
+import dyna.data.conf.xmlconfig.ConfigurableDataServerImpl;
 import dyna.data.context.DataServerContext;
 import dyna.net.dispatcher.sync.ServiceStateExchanger;
 import dyna.net.impl.AbstractServiceLocator;
 import dyna.net.service.Service;
 import dyna.net.spi.DataServiceLocator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.remoting.rmi.RmiServiceExporter;
 import org.springframework.remoting.support.RemoteInvocationExecutor;
+import org.springframework.stereotype.Repository;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Proxy;
@@ -31,30 +34,29 @@ import java.util.Iterator;
  * @author Wanglei
  * 
  */
+@Repository
 public class ServiceLocatorDataServerImpl extends AbstractServiceLocator implements DataServiceLocator
 {
-	private DataServerContext			context		= null;
-	private ConfigurableDataServerImpl	dsConfig	= null;
-	private DataServiceExporter			exporter	= null;
-	private RemoteInvocationExecutor	executor	= null;
-	private ServiceStateExchanger		ssExchanger	= null;
+	@Autowired
+	private DataServerContext          context;
+	@Autowired
+	private ConfigurableDataServerImpl dsConfig;
+	@Autowired
+	private DataServiceExporter        exporter    = null;
+	@Autowired
+	private RemoteInvocationExecutor   executor    = null;
+	@Qualifier("serviceStateExchangerDataServerImpl")
+	private ServiceStateExchanger      ssExchanger = null;
 
-	public ServiceLocatorDataServerImpl(DataServerContext context, ConfigurableDataServerImpl dsConfig)
+	public ServiceLocatorDataServerImpl()
 	{
 		super();
-		this.context = context;
-		this.dsConfig = dsConfig;
-
-		this.ssExchanger = new ServiceStateExchangerDataServerImpl(this.context);
-		this.getServiceStateSync().setExchanger(this.ssExchanger);
-
-		this.exporter = new DataServiceExporter(context, this.dsConfig);
-		this.executor = new DataServiceRemoteInvocationExecutorImpl();
 	}
 
 	@SuppressWarnings("unchecked")
 	public void init()
 	{
+		this.getServiceStateSync().setExchanger(this.ssExchanger);
 		this.serviceList = new ArrayList<ServiceBean>();
 
 		boolean exportable = true;

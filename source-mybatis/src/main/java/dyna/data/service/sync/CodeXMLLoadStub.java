@@ -135,7 +135,8 @@ public class CodeXMLLoadStub extends DSAbstractServiceStub<SyncModelServiceImpl>
 	{
 		final ConfigLoaderDefaultImpl confLoader = new ConfigLoaderDefaultImpl();
 		confLoader.setConfigFile(new File(objectModelPath));
-		ConfigurableKVElementImpl modelElement = confLoader.load();
+		confLoader.load();
+		ConfigurableKVElementImpl modelElement = confLoader.getConfigurable();
 
 		String groupName = modelElement.getAttributeValue("code-item.name");
 		String masterCode = modelElement.getAttributeValue("code-item.mastername");
@@ -176,7 +177,8 @@ public class CodeXMLLoadStub extends DSAbstractServiceStub<SyncModelServiceImpl>
 	{
 		final ConfigLoaderDefaultImpl confLoader = new ConfigLoaderDefaultImpl();
 		confLoader.setConfigFile(new File(objectModelPath));
-		ConfigurableKVElementImpl modelElement = confLoader.load();
+		confLoader.load();
+		ConfigurableKVElementImpl modelElement = confLoader.getConfigurable();
 
 		String groupName = modelElement.getAttributeValue("code-item.name");
 		String masterClassification = modelElement.getAttributeValue("code-item.mastername");

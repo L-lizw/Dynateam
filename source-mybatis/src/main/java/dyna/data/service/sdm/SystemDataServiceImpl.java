@@ -6,15 +6,10 @@
 
 package dyna.data.service.sdm;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import dyna.common.bean.configure.ProjectModel;
 import dyna.common.bean.data.DynamicTableBean;
 import dyna.common.bean.data.SystemObject;
+import dyna.common.bean.xml.UpperKeyMap;
 import dyna.common.conf.ServiceDefinition;
 import dyna.common.exception.DynaDataException;
 import dyna.common.exception.ServiceRequestException;
@@ -27,11 +22,16 @@ import dyna.data.cache.CacheManagerDelegate;
 import dyna.data.cache.event.AddCacheEventListener;
 import dyna.data.cache.event.RemoveCacheEventListener;
 import dyna.data.cache.event.UpdateCacheEventListener;
-import dyna.data.common.exception.DynaDataExceptionAll;
-import dyna.data.common.exception.DynaDataNormalException;
-import dyna.common.bean.xml.UpperKeyMap;
 import dyna.data.context.DataServerContext;
 import dyna.data.service.DataRuleService;
+import dyna.dbcommon.exception.DynaDataExceptionAll;
+import dyna.dbcommon.exception.DynaDataNormalException;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 系统数据服务SystemDataService的实现
@@ -605,7 +605,8 @@ public class SystemDataServiceImpl extends DataRuleService implements SystemData
 	public void notifyRefreshCacheListeners()
 	{
 		// 当操作不在事务中时，马上执行listener，否则在事务结束时通知
-		if (DataServer.getTransactionManager().getCountOfNotCommitTranscation() == 0)
+		//TODO
+//		if (DataServer.getTransactionManager().getCountOfNotCommitTranscation() == 0)
 		{
 			DynaLogger.debug("Notify CacheRefreshListener.");
 			this.getCacheDelegate().notifyListeners();

@@ -1,8 +1,11 @@
 package dyna.common.bean.data.checkrule;
 
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.checkrule.End2CheckRuleMapper;
 
+@EntryMapper(End2CheckRuleMapper.class)
 public class End2CheckRule extends SystemObjectImpl implements SystemObject
 {
 	/**

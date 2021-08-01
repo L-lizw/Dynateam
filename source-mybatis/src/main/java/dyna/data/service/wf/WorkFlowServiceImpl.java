@@ -14,7 +14,6 @@ import dyna.common.exception.DynaDataException;
 import dyna.common.systemenum.WorkflowActivityType;
 import dyna.data.context.DataServerContext;
 import dyna.data.service.DataRuleService;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -23,7 +22,6 @@ import java.util.List;
  * 
  * @author XiaSheng
  */
-@Repository
 public class WorkFlowServiceImpl extends DataRuleService implements WorkFlowService
 {
 	private WorkflowStub			workflowStub			= null;

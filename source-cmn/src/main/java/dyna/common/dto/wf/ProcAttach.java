@@ -5,17 +5,19 @@
  */
 package dyna.common.dto.wf;
 
+import dyna.common.annotation.EntryMapper;
+import dyna.common.bean.data.ShortObject;
+import dyna.common.bean.data.SystemObject;
+import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.wf.ProcAttachMapper;
+import dyna.common.util.BooleanUtils;
+import dyna.common.util.NumberUtils;
+import dyna.common.util.StringUtils;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import dyna.common.bean.data.ShortObject;
-import dyna.common.bean.data.SystemObject;
-import dyna.common.bean.data.SystemObjectImpl;
-import dyna.common.util.BooleanUtils;
-import dyna.common.util.NumberUtils;
-import dyna.common.util.StringUtils;
 
 /**
  * 工作流程附件
@@ -23,6 +25,7 @@ import dyna.common.util.StringUtils;
  * @author Wanglei
  * 
  */
+@EntryMapper(ProcAttachMapper.class)
 public class ProcAttach extends SystemObjectImpl implements SystemObject
 {
 

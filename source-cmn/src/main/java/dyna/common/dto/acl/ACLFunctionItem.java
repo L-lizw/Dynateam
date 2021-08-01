@@ -5,20 +5,23 @@
  */
 package dyna.common.dto.acl;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.acl.ACLFunctionItemMapper;
 import dyna.common.systemenum.AccessFunctionConditionEnum;
 import dyna.common.systemenum.AuthorityEnum;
 import dyna.common.systemenum.PermissibleEnum;
 import dyna.common.util.StringUtils;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author Lizw
  * 
  */
+@EntryMapper(ACLFunctionItemMapper.class)
 public class ACLFunctionItem extends SystemObjectImpl implements SystemObject
 {
 

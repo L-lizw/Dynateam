@@ -21,13 +21,6 @@ public class DynaCacheController<T extends SystemObject> implements CacheControl
 		cache.remove(cacheModel.getId());
 	}
 
-	// @Override
-	// public T fresh(DynaCacheModel<T> cacheModel, T object)
-	// {
-	// cache.get(cacheModel.getId()).put(object.getGuid(), object);
-	// return object;
-	// }
-
 	@Override
 	public void cacheAll(DynaCacheModel<T> cacheModel, Map<String, T> dataMap)
 	{

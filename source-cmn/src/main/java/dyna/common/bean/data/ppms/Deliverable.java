@@ -5,13 +5,15 @@
  */
 package dyna.common.bean.data.ppms;
 
-import java.math.BigDecimal;
-
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.ObjectGuid;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.ppm.DeliverableMapper;
 import dyna.common.systemenum.SystemClassFieldEnum;
 import dyna.common.systemenum.SystemStatusEnum;
+
+import java.math.BigDecimal;
 
 /**
  * 交付物
@@ -19,6 +21,7 @@ import dyna.common.systemenum.SystemStatusEnum;
  * @author wangweixia
  * 
  */
+@EntryMapper(DeliverableMapper.class)
 public class Deliverable extends SystemObjectImpl implements SystemObject
 {
 

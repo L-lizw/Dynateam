@@ -5,9 +5,10 @@
  */
 package dyna.common.conf;
 
-import java.io.Serializable;
+import dyna.common.systemenum.ConnectionModeEnum;
+import org.springframework.stereotype.Component;
 
-import dyna.common.systemenum.ConnectionMode;
+import java.io.Serializable;
 
 /**
  * 读取客户端配置信息
@@ -15,6 +16,7 @@ import dyna.common.systemenum.ConnectionMode;
  * @author Wanglei
  * 
  */
+@Component
 public class ConfigurableConnToDSImpl extends ConfigurableAdapter implements Serializable
 {
 
@@ -23,7 +25,7 @@ public class ConfigurableConnToDSImpl extends ConfigurableAdapter implements Ser
 	 */
 	private static final long	serialVersionUID	= -5385555761197880191L;
 
-	private ConnectionMode		clientMode			= ConnectionMode.ALL_IN_ONE;
+	private ConnectionModeEnum clientMode = ConnectionModeEnum.ALL_IN_ONE;
 
 	private String			lookupServiceHost	= "127.0.0.1";
 	private int				lookupServicePort	= 1299;
@@ -65,7 +67,7 @@ public class ConfigurableConnToDSImpl extends ConfigurableAdapter implements Ser
 	/**
 	 * @return the clientMode
 	 */
-	public ConnectionMode getClientMode()
+	public ConnectionModeEnum getClientMode()
 	{
 		return this.clientMode;
 	}
@@ -74,7 +76,7 @@ public class ConfigurableConnToDSImpl extends ConfigurableAdapter implements Ser
 	 * @param clientMode
 	 *            the clientMode to set
 	 */
-	public void setClientMode(ConnectionMode clientMode)
+	public void setClientMode(ConnectionModeEnum clientMode)
 	{
 		this.clientMode = clientMode;
 	}

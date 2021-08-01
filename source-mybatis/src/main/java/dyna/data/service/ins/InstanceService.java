@@ -8,7 +8,6 @@ import dyna.common.dto.model.lf.LifecyclePhaseInfo;
 import dyna.common.exception.DynaDataException;
 import dyna.common.exception.ServiceRequestException;
 import dyna.common.systemenum.SystemStatusEnum;
-import dyna.data.common.exception.DynaDataSqlException;
 import dyna.net.service.Service;
 
 import java.util.Date;

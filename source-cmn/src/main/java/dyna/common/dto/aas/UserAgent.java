@@ -5,16 +5,18 @@
  */
 package dyna.common.dto.aas;
 
-import java.util.Date;
-
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
 import dyna.common.util.BooleanUtils;
+
+import java.util.Date;
 
 /**
  * @author WangLHB
  * 
  */
+@EntryMapper(UserAgent.class)
 public class UserAgent extends SystemObjectImpl implements SystemObject
 {
 	/**

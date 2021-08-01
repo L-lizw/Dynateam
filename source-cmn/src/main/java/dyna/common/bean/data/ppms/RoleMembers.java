@@ -5,13 +5,15 @@
  */
 package dyna.common.bean.data.ppms;
 
-import java.math.BigDecimal;
-
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.DynaObject;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
 import dyna.common.dto.aas.User;
+import dyna.common.dtomapper.ppm.RoleMembersMapper;
 import dyna.common.systemenum.ppms.WBSOperateEnum;
+
+import java.math.BigDecimal;
 
 /**
  * 项目角色成员
@@ -19,6 +21,7 @@ import dyna.common.systemenum.ppms.WBSOperateEnum;
  * @author wangweixia
  * 
  */
+@EntryMapper(RoleMembersMapper.class)
 public class RoleMembers extends SystemObjectImpl implements SystemObject
 {
 

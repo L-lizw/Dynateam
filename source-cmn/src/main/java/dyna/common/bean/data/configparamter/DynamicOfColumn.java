@@ -1,8 +1,10 @@
 package dyna.common.bean.data.configparamter;
 
-import java.util.Map;
-
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
+import dyna.common.dtomapper.cpb.DynamicOfColumnMapper;
+
+import java.util.Map;
 
 /**
  * 动态列
@@ -10,6 +12,7 @@ import dyna.common.bean.data.SystemObject;
  * @author wwx
  * 
  */
+@EntryMapper(DynamicOfColumnMapper.class)
 public class DynamicOfColumn extends ConfigBase implements SystemObject
 {
 	private static final long	serialVersionUID	= -8380474666256640100L;

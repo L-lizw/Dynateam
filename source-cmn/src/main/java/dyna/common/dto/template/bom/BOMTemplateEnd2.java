@@ -5,13 +5,15 @@
  */
 package dyna.common.dto.template.bom;
 
-import java.util.Date;
-
 import dyna.common.annotation.Cache;
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.template.bom.BOMTemplateEnd2Mapper;
 import dyna.common.systemenum.LanguageEnum;
 import dyna.common.util.StringUtils;
+
+import java.util.Date;
 
 /**
  * 
@@ -19,6 +21,7 @@ import dyna.common.util.StringUtils;
  * 
  */
 @Cache
+@EntryMapper(BOMTemplateEnd2Mapper.class)
 public class BOMTemplateEnd2 extends SystemObjectImpl implements SystemObject
 {
 

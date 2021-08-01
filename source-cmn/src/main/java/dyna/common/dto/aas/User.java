@@ -5,19 +5,22 @@
  */
 package dyna.common.dto.aas;
 
-import java.util.Date;
-
 import dyna.common.annotation.Cache;
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.aas.UserMapper;
 import dyna.common.util.BooleanUtils;
 import dyna.common.util.StringUtils;
+
+import java.util.Date;
 
 /**
  * @author xiasheng
  * 
  */
 @Cache
+@EntryMapper(UserMapper.class)
 public class User extends SystemObjectImpl implements SystemObject
 {
 	private static final long	serialVersionUID	= -7267860794534000689L;

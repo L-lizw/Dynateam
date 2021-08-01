@@ -5,11 +5,11 @@
  */
 package dyna.common.dto.template.relation;
 
-import java.math.BigDecimal;
-
 import dyna.common.annotation.Cache;
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.template.relation.RelationTemplateInfoMapper;
 import dyna.common.systemenum.LanguageEnum;
 import dyna.common.systemenum.ModelInterfaceEnum;
 import dyna.common.systemenum.RelationTemplateActionEnum;
@@ -17,12 +17,15 @@ import dyna.common.systemenum.RelationTemplateTypeEnum;
 import dyna.common.util.BooleanUtils;
 import dyna.common.util.StringUtils;
 
+import java.math.BigDecimal;
+
 /**
  * 
  * @author Caogc
  * 
  */
 @Cache
+@EntryMapper(RelationTemplateInfoMapper.class)
 public class RelationTemplateInfo extends SystemObjectImpl implements SystemObject
 {
 

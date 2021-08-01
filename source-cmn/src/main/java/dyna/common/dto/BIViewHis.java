@@ -5,13 +5,16 @@
  */
 package dyna.common.dto;
 
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.BIViewHisMapper;
 
 /**
  *BIViewHis 记录查询的历史对象的实体bean
  * 
  */
+@EntryMapper(BIViewHisMapper.class)
 public class BIViewHis extends SystemObjectImpl implements SystemObject
 {
 	private static final long serialVersionUID = -8041854755543561578L;

@@ -1,6 +1,5 @@
 package dyna.data.service.sync;
 
-import dyna.data.service.sync.bean.ModelXMLCache;
 import dyna.common.bean.model.ReferenceCode;
 import dyna.common.bean.model.ReferenceField;
 import dyna.common.bean.model.cls.ClassObject;
@@ -16,9 +15,10 @@ import dyna.common.util.EnvUtils;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
-import dyna.data.common.exception.DynaDataSqlException;
 import dyna.data.context.DataServerContext;
 import dyna.data.service.DSAbstractServiceStub;
+import dyna.data.service.sync.bean.ModelXMLCache;
+import dyna.dbcommon.exception.DynaDataSqlException;
 
 import java.io.File;
 import java.util.*;
@@ -115,7 +115,9 @@ public class ClassXMLLoadStub extends DSAbstractServiceStub<SyncModelServiceImpl
 		{
 			final ConfigLoaderDefaultImpl confLoader = new ConfigLoaderDefaultImpl();
 			confLoader.setConfigFile(new File(objectModelPath));
-			ConfigurableKVElementImpl modelElement = (confLoader.load()).iterator("object-models").next();
+			//TODO
+//			ConfigurableKVElementImpl modelElement = (confLoader.load()).iterator("object-models").next();
+			ConfigurableKVElementImpl modelElement = null;
 
 			for (Iterator<ConfigurableKVElementImpl> objectIterator = modelElement.iterator("class-model.class-object"); objectIterator.hasNext();)
 			{

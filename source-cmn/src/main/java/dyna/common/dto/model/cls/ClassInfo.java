@@ -6,17 +6,20 @@
 
 package dyna.common.dto.model.cls;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import dyna.common.annotation.Cache;
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.model.cls.ClassInfoMapper;
 import dyna.common.systemenum.ModelInterfaceEnum;
 import dyna.common.util.BooleanUtils;
 import dyna.common.util.StringUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Cache
+@EntryMapper(ClassInfoMapper.class)
 public class ClassInfo extends SystemObjectImpl implements SystemObject
 {
 	private static final long			serialVersionUID	= 3783060613022909967L;

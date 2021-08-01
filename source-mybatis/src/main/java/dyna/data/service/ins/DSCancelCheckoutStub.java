@@ -12,10 +12,10 @@ import dyna.common.exception.ServiceRequestException;
 import dyna.common.systemenum.AuthorityEnum;
 import dyna.common.systemenum.DataExceptionEnum;
 import dyna.data.DataServer;
-import dyna.data.common.exception.DynaDataExceptionAll;
-import dyna.data.common.exception.DynaDataExceptionSQL;
 import dyna.data.context.DataServerContext;
 import dyna.data.service.DSAbstractServiceStub;
+import dyna.dbcommon.exception.DynaDataExceptionAll;
+import dyna.dbcommon.exception.DynaDataExceptionSQL;
 
 /**
  * 取消检出
@@ -64,13 +64,13 @@ public class DSCancelCheckoutStub extends DSAbstractServiceStub<InstanceServiceI
 
 		try
 		{
-			DataServer.getTransactionManager().startTransaction(fixTranId);
+//			DataServer.getTransactionManager().startTransaction(fixTranId);
 			this.stubService.rollbackIteration(foundationObject.getObjectGuid(), foundationObject.getIterationId() - 1, false, sessionId);
-			DataServer.getTransactionManager().commitTransaction();
+//			DataServer.getTransactionManager().commitTransaction();
 		}
 		catch (Exception e)
 		{
-			DataServer.getTransactionManager().rollbackTransaction();
+//			DataServer.getTransactionManager().rollbackTransaction();
 			if (e instanceof DynaDataExceptionSQL)
 			{
 				throw (DynaDataExceptionSQL) e;

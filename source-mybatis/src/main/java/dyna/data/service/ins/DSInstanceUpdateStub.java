@@ -26,7 +26,6 @@ import dyna.common.dto.model.cls.ClassField;
 import dyna.common.dto.model.lf.LifecyclePhaseInfo;
 import dyna.common.dto.template.bom.BOMTemplateInfo;
 import dyna.common.dto.template.relation.RelationTemplateInfo;
-import dyna.common.dtomapper.DynaObjectMapper;
 import dyna.common.dtomapper.FoundationObjectMapper;
 import dyna.common.exception.DynaDataException;
 import dyna.common.exception.ServiceRequestException;
@@ -38,15 +37,14 @@ import dyna.common.util.DateFormat;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
-import dyna.data.common.exception.DynaDataExceptionAll;
-import dyna.data.common.exception.DynaDataExceptionSQL;
-import dyna.data.common.exception.DynaDataNoAuthorityException;
-import dyna.data.common.util.DSCommonUtil;
 import dyna.data.context.DataServerContext;
 import dyna.data.service.DSAbstractServiceStub;
 import dyna.data.service.acl.AclService;
 import dyna.data.service.sdm.FieldValueEqualsFilter;
 import dyna.data.service.sdm.SystemDataService;
+import dyna.dbcommon.exception.DynaDataExceptionAll;
+import dyna.dbcommon.exception.DynaDataExceptionSQL;
+import dyna.dbcommon.util.DSCommonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigDecimal;
@@ -213,7 +211,7 @@ public class DSInstanceUpdateStub extends DSAbstractServiceStub<InstanceServiceI
 
 		try
 		{
-			DataServer.getTransactionManager().startTransaction(fixTranId);
+//			DataServer.getTransactionManager().startTransaction(fixTranId);
 
 			String guid = foundationObject.getObjectGuid().getGuid();
 			if (isNeedAutoCheckout)
@@ -352,18 +350,18 @@ public class DSInstanceUpdateStub extends DSAbstractServiceStub<InstanceServiceI
 			FoundationObjectImpl retObject = (FoundationObjectImpl) foundationObject.getClass().getConstructor().newInstance();
 			retObject.sync(foundationObject);
 
-			DataServer.getTransactionManager().commitTransaction();
+//			DataServer.getTransactionManager().commitTransaction();
 
 			return retObject;
 		}
 		catch (SQLException e)
 		{
-			DataServer.getTransactionManager().rollbackTransaction();
+//			DataServer.getTransactionManager().rollbackTransaction();
 			throw new DynaDataExceptionSQL("save() Id =" + foundationObject.getId(), e, DataExceptionEnum.DS_SAVE_FOUNDATION, exceptionParameter);
 		}
 		catch (Exception e)
 		{
-			DataServer.getTransactionManager().rollbackTransaction();
+//			DataServer.getTransactionManager().rollbackTransaction();
 			if (e instanceof DynaDataExceptionSQL)
 			{
 				throw (DynaDataExceptionSQL) e;
@@ -686,7 +684,7 @@ public class DSInstanceUpdateStub extends DSAbstractServiceStub<InstanceServiceI
 		String updateguid = foundationObject.getObjectGuid().getGuid();
 		try
 		{
-			DataServer.getTransactionManager().startTransaction(fixTranId);
+//			DataServer.getTransactionManager().startTransaction(fixTranId);
 
 			if (foundationObject.isChanged(SystemClassFieldEnum.ID.getName()))
 			{
@@ -714,11 +712,11 @@ public class DSInstanceUpdateStub extends DSAbstractServiceStub<InstanceServiceI
 				this.dynaObjectMapper.updateAll(updateStr);
 			}
 
-			DataServer.getTransactionManager().commitTransaction();
+//			DataServer.getTransactionManager().commitTransaction();
 		}
 		catch (Exception e)
 		{
-			DataServer.getTransactionManager().rollbackTransaction();
+//			DataServer.getTransactionManager().rollbackTransaction();
 			if (e instanceof DynaDataExceptionSQL)
 			{
 				throw (DynaDataExceptionSQL) e;
@@ -821,7 +819,7 @@ public class DSInstanceUpdateStub extends DSAbstractServiceStub<InstanceServiceI
 				}
 			}
 
-			DataServer.getTransactionManager().startTransaction(fixTranId);
+//			DataServer.getTransactionManager().startTransaction(fixTranId);
 
 			// check auth
 			if ((ISCHECKACL && isCheckAcl) && isCreateMaster)
@@ -1001,13 +999,13 @@ public class DSInstanceUpdateStub extends DSAbstractServiceStub<InstanceServiceI
 			FoundationObjectImpl retObject = (FoundationObjectImpl) foundationObject.getClass().getConstructor().newInstance();
 			retObject.sync(foundationObject);
 
-			DataServer.getTransactionManager().commitTransaction();
+//			DataServer.getTransactionManager().commitTransaction();
 
 			return retObject;
 		}
 		catch (SQLException e)
 		{
-			DataServer.getTransactionManager().rollbackTransaction();
+//			DataServer.getTransactionManager().rollbackTransaction();
 
 			String masterTable = DataServer.getDSCommonService().getMasterTableName(classGuid);
 
@@ -1035,7 +1033,7 @@ public class DSInstanceUpdateStub extends DSAbstractServiceStub<InstanceServiceI
 		}
 		catch (Exception e)
 		{
-			DataServer.getTransactionManager().rollbackTransaction();
+//			DataServer.getTransactionManager().rollbackTransaction();
 			if (e instanceof DynaDataExceptionSQL)
 			{
 				throw (DynaDataExceptionSQL) e;
@@ -1062,7 +1060,7 @@ public class DSInstanceUpdateStub extends DSAbstractServiceStub<InstanceServiceI
 		SystemDataService sds = DataServer.getSystemDataService();
 		try
 		{
-			DataServer.getTransactionManager().startTransaction(fixTranId);
+//			DataServer.getTransactionManager().startTransaction(fixTranId);
 
 			Map<String, Object> deleteMap = new HashMap<>();
 			String guid = foundationObject.getObjectGuid().getGuid();
@@ -1228,11 +1226,11 @@ public class DSInstanceUpdateStub extends DSAbstractServiceStub<InstanceServiceI
 						exceptionParameter);
 			}
 
-			DataServer.getTransactionManager().commitTransaction();
+//			DataServer.getTransactionManager().commitTransaction();
 		}
 		catch (Exception e)
 		{
-			DataServer.getTransactionManager().rollbackTransaction();
+//			DataServer.getTransactionManager().rollbackTransaction();
 			if (e instanceof DynaDataExceptionSQL)
 			{
 				throw (DynaDataExceptionSQL) e;
@@ -1374,7 +1372,7 @@ public class DSInstanceUpdateStub extends DSAbstractServiceStub<InstanceServiceI
 		// 移交
 		try
 		{
-			DataServer.getTransactionManager().startTransaction(fixTranId);
+//			DataServer.getTransactionManager().startTransaction(fixTranId);
 			// 查找出此实例对应的checkout实例
 			String className = foundationObject.getObjectGuid().getClassName();
 			// update revision
@@ -1413,7 +1411,7 @@ public class DSInstanceUpdateStub extends DSAbstractServiceStub<InstanceServiceI
 			foundationObject.put(SystemClassFieldEnum.UPDATETIME.getName(), simpleObj.getUpdateTime());
 			foundationObject.put(SystemClassFieldEnum.CHECKOUTTIME.getName(), simpleObj.getCheckedOutTime());
 
-			DataServer.getTransactionManager().commitTransaction();
+//			DataServer.getTransactionManager().commitTransaction();
 
 			FoundationObjectImpl retObject = (FoundationObjectImpl) foundationObject.getClass().getConstructor().newInstance();
 			retObject.sync(foundationObject);
@@ -1422,7 +1420,7 @@ public class DSInstanceUpdateStub extends DSAbstractServiceStub<InstanceServiceI
 		}
 		catch (Exception e)
 		{
-			DataServer.getTransactionManager().rollbackTransaction();
+//			DataServer.getTransactionManager().rollbackTransaction();
 			if (e instanceof DynaDataExceptionSQL)
 			{
 				throw (DynaDataExceptionSQL) e;
@@ -1532,7 +1530,7 @@ public class DSInstanceUpdateStub extends DSAbstractServiceStub<InstanceServiceI
 		String guid = objectGuid.getGuid();
 		try
 		{
-			DataServer.getTransactionManager().startTransaction(fixTranId);
+//			DataServer.getTransactionManager().startTransaction(fixTranId);
 			// 1,判断map中传进的数据值是否符合规范
 			if ((ownerUserGuid != null || ownerGroupGuid != null || revisionId != null) && updatetime == null)
 			{
@@ -1584,11 +1582,11 @@ public class DSInstanceUpdateStub extends DSAbstractServiceStub<InstanceServiceI
 				throw new DynaDataExceptionAll("save failed. guid = " + guid, null, DataExceptionEnum.DS_SAVE_FOUNDATION);
 			}
 
-			DataServer.getTransactionManager().commitTransaction();
+//			DataServer.getTransactionManager().commitTransaction();
 		}
 		catch (Exception e)
 		{
-			DataServer.getTransactionManager().rollbackTransaction();
+//			DataServer.getTransactionManager().rollbackTransaction();
 			if (e instanceof DynaDataExceptionSQL)
 			{
 				throw (DynaDataExceptionSQL) e;
@@ -1617,7 +1615,7 @@ public class DSInstanceUpdateStub extends DSAbstractServiceStub<InstanceServiceI
 
 		try
 		{
-			DataServer.getTransactionManager().startTransaction(fixTranId);
+//			DataServer.getTransactionManager().startTransaction(fixTranId);
 			// 设置废弃时间
 			Map<String, Object> effectMap = new HashMap<>();
 			effectMap.put("table", DataServer.getDSCommonService().getTableName(foundationObjectGuid.getClassName()));
@@ -1658,11 +1656,11 @@ public class DSInstanceUpdateStub extends DSAbstractServiceStub<InstanceServiceI
 
 				this.calculateInstanceLatesttestVal(foundationObjectGuid.getClassGuid(), masterGuid);
 			}
-			DataServer.getTransactionManager().commitTransaction();
+//			DataServer.getTransactionManager().commitTransaction();
 		}
 		catch (Exception e)
 		{
-			DataServer.getTransactionManager().rollbackTransaction();
+//			DataServer.getTransactionManager().rollbackTransaction();
 			if (e instanceof DynaDataExceptionSQL)
 			{
 				throw (DynaDataExceptionSQL) e;
@@ -1757,7 +1755,7 @@ public class DSInstanceUpdateStub extends DSAbstractServiceStub<InstanceServiceI
 		}
 		catch (Exception e)
 		{
-			DataServer.getTransactionManager().rollbackTransaction();
+//			DataServer.getTransactionManager().rollbackTransaction();
 			if (e instanceof DynaDataExceptionSQL)
 			{
 				throw (DynaDataExceptionSQL) e;
@@ -1926,7 +1924,7 @@ public class DSInstanceUpdateStub extends DSAbstractServiceStub<InstanceServiceI
 	{
 		try
 		{
-			DataServer.getTransactionManager().startTransaction(fixTranId);
+//			DataServer.getTransactionManager().startTransaction(fixTranId);
 			// 取出master下的所有版本
 			String tableName = DataServer.getDSCommonService().getTableName(classGuid);
 			Map<String, Object> paraMap = new HashMap<>();
@@ -1992,11 +1990,11 @@ public class DSInstanceUpdateStub extends DSAbstractServiceStub<InstanceServiceI
 				DataServer.getConfigManagerService().deleteConfigTable(masterGuid, true, ModelInterfaceEnum.IManufacturingRule, sessionId);
 			}
 
-			DataServer.getTransactionManager().commitTransaction();
+//			DataServer.getTransactionManager().commitTransaction();
 		}
 		catch (Exception e)
 		{
-			DataServer.getTransactionManager().rollbackTransaction();
+//			DataServer.getTransactionManager().rollbackTransaction();
 			if (e instanceof DynaDataExceptionSQL)
 			{
 				throw (DynaDataExceptionSQL) e;
@@ -2116,7 +2114,7 @@ public class DSInstanceUpdateStub extends DSAbstractServiceStub<InstanceServiceI
 
 		try
 		{
-			DataServer.getTransactionManager().startTransaction(fixTranId);
+//			DataServer.getTransactionManager().startTransaction(fixTranId);
 
 			Map<String, Object> releaseMap = new HashMap<>();
 			releaseMap.put("table", DataServer.getDSCommonService().getTableName(foundationObjectGuid.getClassName()));
@@ -2126,7 +2124,7 @@ public class DSInstanceUpdateStub extends DSAbstractServiceStub<InstanceServiceI
 			int updateCount = this.dynaObjectMapper.release(releaseMap);
 			if (updateCount == 0)
 			{
-				DataServer.getTransactionManager().rollbackTransaction();
+//				DataServer.getTransactionManager().rollbackTransaction();
 				throw new DynaDataExceptionAll("release error data lost.", null, DataExceptionEnum.DS_RELEASE_DATA_LOST);
 			}
 
@@ -2143,11 +2141,11 @@ public class DSInstanceUpdateStub extends DSAbstractServiceStub<InstanceServiceI
 				DataServer.getConfigManagerService().releaseConfigTable(foundationObjectGuid.getMasterGuid(), null, ModelInterfaceEnum.IOption, sessionId);
 			}
 
-			DataServer.getTransactionManager().commitTransaction();
+//			DataServer.getTransactionManager().commitTransaction();
 		}
 		catch (Exception e)
 		{
-			DataServer.getTransactionManager().rollbackTransaction();
+//			DataServer.getTransactionManager().rollbackTransaction();
 			if (e instanceof DynaDataExceptionSQL)
 			{
 				throw (DynaDataExceptionSQL) e;
@@ -2219,7 +2217,7 @@ public class DSInstanceUpdateStub extends DSAbstractServiceStub<InstanceServiceI
 				return;
 			}
 
-			DataServer.getTransactionManager().startTransaction(fixTranId);
+//			DataServer.getTransactionManager().startTransaction(fixTranId);
 			param.put("tablesql", tableBuffer.toString());
 			param.put("DESTVIEWGUID", destViewGuid);
 			String guid = (String) this.dynaObjectMapper.insertAllStructureInfo(param);
@@ -2289,11 +2287,11 @@ public class DSInstanceUpdateStub extends DSAbstractServiceStub<InstanceServiceI
 
 			this.dynaObjectMapper.updateDynamic(data);
 
-			DataServer.getTransactionManager().commitTransaction();
+//			DataServer.getTransactionManager().commitTransaction();
 		}
 		catch (Exception e)
 		{
-			DataServer.getTransactionManager().rollbackTransaction();
+//			DataServer.getTransactionManager().rollbackTransaction();
 			if (e instanceof DynaDataExceptionSQL)
 			{
 				throw (DynaDataExceptionSQL) e;
@@ -2312,7 +2310,7 @@ public class DSInstanceUpdateStub extends DSAbstractServiceStub<InstanceServiceI
 		{
 			SystemDataService sds = DataServer.getSystemDataService();
 
-			DataServer.getTransactionManager().startTransaction(fixTranId);
+//			DataServer.getTransactionManager().startTransaction(fixTranId);
 			Map<String, Object> filter = new HashMap<>();
 			filter.put(DSSFileInfo.REVISION_GUID, srcObject.getObjectGuid().getGuid());
 			filter.put(DSSFileInfo.ITERATION_ID, srcObject.getIterationId());
@@ -2331,11 +2329,11 @@ public class DSInstanceUpdateStub extends DSAbstractServiceStub<InstanceServiceI
 			fileInfo.put("DESTREVISIONGUID", destObject.getObjectGuid().getGuid());
 			fileInfo.put("TABLENAME", DataServer.getDSCommonService().getTableName(destObject.getObjectGuid().getClassGuid()));
 			sds.save(fileInfo, "updatePrimaryFileAfterCopyOnly");
-			DataServer.getTransactionManager().commitTransaction();
+//			DataServer.getTransactionManager().commitTransaction();
 		}
 		catch (Exception e)
 		{
-			DataServer.getTransactionManager().rollbackTransaction();
+//			DataServer.getTransactionManager().rollbackTransaction();
 			if (e instanceof DynaDataExceptionSQL)
 			{
 				throw (DynaDataExceptionSQL) e;
@@ -2362,13 +2360,13 @@ public class DSInstanceUpdateStub extends DSAbstractServiceStub<InstanceServiceI
 		filter.put("tablename", DataServer.getDSCommonService().getTableName(foundationClassGuid));
 		try
 		{
-			DataServer.getTransactionManager().startTransaction(fixTranId);
+//			DataServer.getTransactionManager().startTransaction(fixTranId);
 			sds.update(FoundationObject.class, filter, "updateFoundationPhase");
-			DataServer.getTransactionManager().commitTransaction();
+//			DataServer.getTransactionManager().commitTransaction();
 		}
 		catch (Exception e)
 		{
-			DataServer.getTransactionManager().rollbackTransaction();
+//			DataServer.getTransactionManager().rollbackTransaction();
 			if (e instanceof DynaDataExceptionSQL)
 			{
 				throw (DynaDataExceptionSQL) e;

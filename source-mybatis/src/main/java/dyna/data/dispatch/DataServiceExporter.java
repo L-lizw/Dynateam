@@ -5,16 +5,16 @@
  */
 package dyna.data.dispatch;
 
-import java.rmi.RemoteException;
-
-import org.springframework.remoting.rmi.RmiServiceExporter;
-
-import dyna.common.conf.ConfigurableDataServerImpl;
 import dyna.common.log.DynaLogger;
 import dyna.common.util.StringUtils;
-import dyna.data.context.DataServerContext;
+import dyna.data.conf.xmlconfig.ConfigurableDataServerImpl;
 import dyna.net.dispatcher.DispatcherRemoteInvocationExecutor;
 import dyna.net.dispatcher.ServiceDispatcher;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.remoting.rmi.RmiServiceExporter;
+import org.springframework.stereotype.Repository;
+
+import java.rmi.RemoteException;
 
 /**
  * 数据服务分发器
@@ -22,17 +22,13 @@ import dyna.net.dispatcher.ServiceDispatcher;
  * @author Wanglei
  * 
  */
+@Repository
 public class DataServiceExporter
 {
-
-	private ConfigurableDataServerImpl	config	= null;
-	private ServiceDispatcher			serviceDispatcher	= null;
-
-	public DataServiceExporter(DataServerContext context, ConfigurableDataServerImpl config)
-	{
-		this.config = config;
-		this.serviceDispatcher = new DataServiceDispatcherImpl(context);
-	}
+	@Autowired
+	private ConfigurableDataServerImpl config            = null;
+	@Autowired
+	private ServiceDispatcher          serviceDispatcher = null;
 
 	public void initialize()
 	{

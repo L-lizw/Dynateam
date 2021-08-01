@@ -1,16 +1,9 @@
 package dyna.data.service.model.businessmodel;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.model.bmbo.BusinessModel;
 import dyna.common.bean.model.bmbo.BusinessObject;
+import dyna.common.bean.xml.UpperKeyMap;
 import dyna.common.cache.AbstractCacheInfo;
 import dyna.common.cache.CacheRefreshListener;
 import dyna.common.cache.DynaCacheObserver;
@@ -27,11 +20,13 @@ import dyna.common.systemenum.BusinessModelType;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
-import dyna.common.bean.xml.UpperKeyMap;
 import dyna.data.context.DataServerContext;
 import dyna.data.service.model.DataCacheServiceStub;
 import dyna.data.service.sdm.FieldValueEqualsFilter;
 import dyna.data.service.sdm.SystemDataService;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @Description:
@@ -68,7 +63,7 @@ public class BusinessModelServiceStub extends DataCacheServiceStub<BusinessModel
 		try
 		{
 			cacheInfo.setRemoveErrData(true);
-			DataServer.getTransactionService().startTransaction(tranid);
+//			DataServer.getTransactionService().startTransaction(tranid);
 
 			List<BOInfo> boList = DataServer.getSystemDataService().listFromCache(BOInfo.class, new FieldValueEqualsFilter<>(BOInfo.PARENTBOGUID, null));
 			if (!SetUtils.isNullList(boList))
@@ -78,19 +73,19 @@ public class BusinessModelServiceStub extends DataCacheServiceStub<BusinessModel
 					this.doCheckAndClearContainsChildBO(boInfo);
 				}
 			}
-			DataServer.getTransactionService().commitTransaction(tranid);
+//			DataServer.getTransactionService().commitTransaction(tranid);
 
 		}
 		catch (DynaDataException e)
 		{
 			cacheInfo.setRemoveErrData(false);
-			DataServer.getTransactionService().rollbackTransaction(tranid);
+//			DataServer.getTransactionService().rollbackTransaction(tranid);
 			throw e;
 		}
 		catch (Exception e)
 		{
 			cacheInfo.setRemoveErrData(false);
-			DataServer.getTransactionService().rollbackTransaction(tranid);
+//			DataServer.getTransactionService().rollbackTransaction(tranid);
 			throw ServiceRequestException.createByException("ID_APP_SERVER_EXCEPTION", e);
 		}
 		cacheInfo.setRemoveErrData(false);

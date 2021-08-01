@@ -1,9 +1,11 @@
 package dyna.common.bean.data.configparamter;
 
-import java.math.BigDecimal;
-
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
+import dyna.common.dtomapper.configparamter.DynamicColumnTitleMapper;
 import dyna.common.systemenum.ConfigParameterTableType;
+
+import java.math.BigDecimal;
 
 /**
  * 
@@ -12,6 +14,7 @@ import dyna.common.systemenum.ConfigParameterTableType;
  * @author wwx
  * 
  */
+@EntryMapper(DynamicColumnTitleMapper.class)
 public class DynamicColumnTitle extends ConfigBase implements SystemObject
 {
 	private static final long	serialVersionUID	= 7947344135529703180L;

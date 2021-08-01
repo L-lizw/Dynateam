@@ -5,8 +5,10 @@
  */
 package dyna.common.bean.data.ppms;
 
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.ppm.WarningNotifierMapper;
 import dyna.common.systemenum.ppms.WarningNotifiterEnum;
 
 /**
@@ -15,6 +17,7 @@ import dyna.common.systemenum.ppms.WarningNotifiterEnum;
  * @author wangweixia
  * 
  */
+@EntryMapper(WarningNotifierMapper.class)
 public class WarningNotifier extends SystemObjectImpl implements SystemObject
 {
 	private static final long	serialVersionUID	= 2505662070539320221L;

@@ -1,7 +1,10 @@
 package dyna.common.bean.data.trans;
 
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.trans.TransformFieldMappingMapper;
 
+@EntryMapper(TransformFieldMappingMapper.class)
 public class TransformFieldMapping extends SystemObjectImpl
 {
 	/**

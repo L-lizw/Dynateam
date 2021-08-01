@@ -5,12 +5,6 @@
  */
 package dyna.data.service.folder;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import dyna.common.bean.data.ObjectGuid;
 import dyna.common.dto.Folder;
 import dyna.common.dto.Session;
@@ -24,12 +18,17 @@ import dyna.common.systemenum.ModelInterfaceEnum;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
-import dyna.data.common.exception.DynaDataExceptionAll;
-import dyna.data.common.exception.DynaDataExceptionSQL;
 import dyna.data.context.DataServerContext;
 import dyna.data.service.DSAbstractServiceStub;
 import dyna.data.service.acl.AclService;
 import dyna.data.service.sdm.SystemDataService;
+import dyna.dbcommon.exception.DynaDataExceptionAll;
+import dyna.dbcommon.exception.DynaDataExceptionSQL;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 处理实例和文件夹的关联关系
@@ -150,7 +149,7 @@ public class DSFolderRelationStub extends DSAbstractServiceStub<FolderServiceImp
 				return null;
 			}
 
-			DataServer.getTransactionManager().startTransaction(fixTranId);
+//			DataServer.getTransactionManager().startTransaction(fixTranId);
 
 			// 2、从库移动到库
 			String locationFolder = null;
@@ -254,14 +253,14 @@ public class DSFolderRelationStub extends DSAbstractServiceStub<FolderServiceImp
 				}
 			}
 
-			DataServer.getTransactionManager().commitTransaction();
+//			DataServer.getTransactionManager().commitTransaction();
 
 			return locationFolder;
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
-			DataServer.getTransactionManager().rollbackTransaction();
+//			DataServer.getTransactionManager().rollbackTransaction();
 			if (e instanceof DynaDataExceptionSQL)
 			{
 				throw (DynaDataExceptionSQL) e;

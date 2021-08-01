@@ -1,13 +1,16 @@
 package dyna.common.dto.model.ui;
 
-import java.math.BigDecimal;
-
 import dyna.common.annotation.Cache;
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.model.ui.ClassificationUIFieldMapper;
 import dyna.common.util.BooleanUtils;
 
+import java.math.BigDecimal;
+
 @Cache
+@EntryMapper(ClassificationUIFieldMapper.class)
 public class ClassificationUIField extends SystemObjectImpl implements SystemObject
 {
 	/**

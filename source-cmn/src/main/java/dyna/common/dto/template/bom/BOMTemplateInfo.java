@@ -5,16 +5,18 @@
  */
 package dyna.common.dto.template.bom;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
 import dyna.common.annotation.Cache;
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.template.bom.BOMTemplateInfoMapper;
 import dyna.common.systemenum.BomPreciseType;
 import dyna.common.systemenum.LanguageEnum;
 import dyna.common.util.BooleanUtils;
 import dyna.common.util.StringUtils;
+
+import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * 
@@ -22,6 +24,7 @@ import dyna.common.util.StringUtils;
  * 
  */
 @Cache
+@EntryMapper(BOMTemplateInfoMapper.class)
 public class BOMTemplateInfo extends SystemObjectImpl implements SystemObject
 {
 

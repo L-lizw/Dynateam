@@ -5,28 +5,29 @@
  */
 package dyna.data.dispatch;
 
-import java.rmi.server.RemoteServer;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import org.acegisecurity.Authentication;
-import org.acegisecurity.context.SecurityContext;
-import org.acegisecurity.context.SecurityContextHolder;
-
 import dyna.common.bean.serv.ServiceBean;
-import dyna.common.conf.ConfigurableDataServerImpl;
 import dyna.common.conf.ServiceDefinition;
-import dyna.common.conf.loader.ConfigLoaderDataServerImpl;
-import dyna.common.conf.loader.ConfigLoaderFactory;
 import dyna.common.exception.ServiceRequestException;
 import dyna.common.log.DynaLogger;
 import dyna.common.systemenum.ServiceStateEnum;
 import dyna.common.util.StringUtils;
+import dyna.data.DataServer;
+import dyna.data.conf.XmlConfigLoaderFactory;
+import dyna.data.conf.xmlconfig.ConfigurableDataServerImpl;
 import dyna.data.context.DataServerContext;
 import dyna.net.dispatcher.ServiceDispatcher;
 import dyna.net.security.signature.ModuleSignature;
 import dyna.net.security.signature.Signature;
+import org.acegisecurity.Authentication;
+import org.acegisecurity.context.SecurityContext;
+import org.acegisecurity.context.SecurityContextHolder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import java.rmi.server.RemoteServer;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * 提供发布服务
@@ -34,14 +35,11 @@ import dyna.net.security.signature.Signature;
  * @author Wanglei
  * 
  */
+@Repository
 public class DataServiceDispatcherImpl implements ServiceDispatcher
 {
+	@Autowired
 	private DataServerContext	context				= null;
-
-	public DataServiceDispatcherImpl(DataServerContext context)
-	{
-		this.context = context;
-	}
 
 	/* (non-Javadoc)
 	 * @see dyna.net.lookup.ServiceLookup#listService()
@@ -51,9 +49,7 @@ public class DataServiceDispatcherImpl implements ServiceDispatcher
 	{
 		List<ServiceBean> retList = new ArrayList<ServiceBean>();
 
-		ConfigLoaderDataServerImpl loader = ConfigLoaderFactory.getLoader4DataServer();
-
-		ConfigurableDataServerImpl serviceConfig = loader.load();
+		ConfigurableDataServerImpl serviceConfig = DataServer.getRepositoryBean(XmlConfigLoaderFactory.class).getLoader4DataServer().getConfigurable();
 		Iterator<ServiceDefinition> iterator = serviceConfig.getServiceDefinitions();
 		for (; iterator.hasNext();)
 		{

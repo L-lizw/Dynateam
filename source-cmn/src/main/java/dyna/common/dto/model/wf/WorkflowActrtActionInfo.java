@@ -6,18 +6,21 @@
 
 package dyna.common.dto.model.wf;
 
+import dyna.common.annotation.Cache;
+import dyna.common.annotation.EntryMapper;
+import dyna.common.bean.data.SystemObject;
+import dyna.common.bean.model.AbstractScript;
+import dyna.common.bean.model.Script;
+import dyna.common.dtomapper.model.wf.WorkflowActrtActionInfoMapper;
+import dyna.common.systemenum.ScriptTypeEnum;
+import dyna.common.util.SetUtils;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import dyna.common.annotation.Cache;
-import dyna.common.bean.data.SystemObject;
-import dyna.common.bean.model.AbstractScript;
-import dyna.common.bean.model.Script;
-import dyna.common.systemenum.ScriptTypeEnum;
-import dyna.common.util.SetUtils;
-
 @Cache
+@EntryMapper(WorkflowActrtActionInfoMapper.class)
 public class WorkflowActrtActionInfo extends AbstractScript implements SystemObject
 {
 	private static final long	serialVersionUID	= -3699501028572128906L;

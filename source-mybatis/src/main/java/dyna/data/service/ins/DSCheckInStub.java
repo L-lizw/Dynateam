@@ -14,10 +14,10 @@ import dyna.common.systemenum.DataExceptionEnum;
 import dyna.common.systemenum.SystemClassFieldEnum;
 import dyna.common.util.DateFormat;
 import dyna.data.DataServer;
-import dyna.data.common.exception.DynaDataExceptionAll;
-import dyna.data.common.exception.DynaDataExceptionSQL;
 import dyna.data.context.DataServerContext;
 import dyna.data.service.DSAbstractServiceStub;
+import dyna.dbcommon.exception.DynaDataExceptionAll;
+import dyna.dbcommon.exception.DynaDataExceptionSQL;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -110,7 +110,7 @@ public class DSCheckInStub extends DSAbstractServiceStub<InstanceServiceImpl>
 	{
 		try
 		{
-			DataServer.getTransactionManager().startTransaction(fixTranId);
+//			DataServer.getTransactionManager().startTransaction(fixTranId);
 			Map<String, Object> checkinMap = new HashMap<>();
 			checkinMap.put("table", DataServer.getDSCommonService().getTableName(classGuid));
 			checkinMap.put("GUID", foundationGuid);
@@ -119,7 +119,7 @@ public class DSCheckInStub extends DSAbstractServiceStub<InstanceServiceImpl>
 			checkinMap.put("CURRENTTIME", currentDate);
 			checkinMap.put("CHECKOUTUSER", checkoutUserGuid);
 			int dataCount = this.dynaObjectMapper.checkin(checkinMap);
-			DataServer.getTransactionManager().commitTransaction();
+//			DataServer.getTransactionManager().commitTransaction();
 			if (dataCount == 0)
 			{
 				return "N";
@@ -128,7 +128,7 @@ public class DSCheckInStub extends DSAbstractServiceStub<InstanceServiceImpl>
 		}
 		catch (Exception e)
 		{
-			DataServer.getTransactionManager().rollbackTransaction();
+//			DataServer.getTransactionManager().rollbackTransaction();
 			throw new ServiceRequestException("", null, e);
 		}
 	}

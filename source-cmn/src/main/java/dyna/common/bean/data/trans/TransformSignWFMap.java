@@ -1,7 +1,10 @@
 package dyna.common.bean.data.trans;
 
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.trans.TransformSignWFMapMapper;
 
+@EntryMapper(TransformSignWFMapMapper.class)
 public class TransformSignWFMap extends SystemObjectImpl
 {
 	/**

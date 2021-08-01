@@ -5,13 +5,15 @@
  */
 package dyna.common.dto.template.wft;
 
-import java.math.BigDecimal;
-
 import dyna.common.annotation.Cache;
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.template.wft.WorkflowTemplateActInfoMapper;
 import dyna.common.systemenum.OverTimeActionEnum;
 import dyna.common.util.StringUtils;
+
+import java.math.BigDecimal;
 
 /**
  * 工作流模板活动节点Bean
@@ -20,6 +22,7 @@ import dyna.common.util.StringUtils;
  * 
  */
 @Cache
+@EntryMapper(WorkflowTemplateActInfoMapper.class)
 public class WorkflowTemplateActInfo extends SystemObjectImpl implements SystemObject
 {
 

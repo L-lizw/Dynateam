@@ -5,25 +5,24 @@
  */
 package dyna.common.conf.loader;
 
-import java.io.File;
-
+import dyna.common.conf.ConfigurableKVElementImpl;
 import org.xml.sax.InputSource;
 
-import dyna.common.conf.ConfigurableKVElementImpl;
+import java.io.File;
 
 /**
  * 通用的XML解析器
  * 
- * @author Wanglei
+ * @author Lizw
  * 
  */
 public class ConfigLoaderDefaultImpl extends AbstractConfigLoader<ConfigurableKVElementImpl>
 {
 
 	@Override
-	public ConfigurableKVElementImpl load()
+	public void load()
 	{
-		return super.loadDefault();
+		 super.loadDefault();
 	}
 
 	/*
@@ -32,16 +31,21 @@ public class ConfigLoaderDefaultImpl extends AbstractConfigLoader<ConfigurableKV
 	 * @see dyna.common.conf.loader.ConfigLoader#load(java.lang.String)
 	 */
 	@Override
-	public ConfigurableKVElementImpl load(String xmlFilePath)
+	public void load(String xmlFilePath)
 	{
 		this.setConfigFile(new File(xmlFilePath));
-		return this.load();
+		this.load();
 	}
 
 	@Override
-	public ConfigurableKVElementImpl load(InputSource inputSource)
+	public void load(InputSource inputSource)
 	{
 		this.setConfigInputSource(inputSource);
-		return this.load();
+		this.load();
+	}
+
+	@Override public ConfigurableKVElementImpl getConfigurable()
+	{
+		return kvElement;
 	}
 }

@@ -1,8 +1,11 @@
 package dyna.common.bean.data.configparamter;
 
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.configparamter.OrderSearchClassMapper;
 
+@EntryMapper(OrderSearchClassMapper.class)
 public class OrderSearchClass extends SystemObjectImpl implements SystemObject
 {
 	private static final long	serialVersionUID	= 1L;

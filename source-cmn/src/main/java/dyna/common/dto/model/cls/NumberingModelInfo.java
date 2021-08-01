@@ -7,12 +7,15 @@
 package dyna.common.dto.model.cls;
 
 import dyna.common.annotation.Cache;
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.model.cls.NumberingModelInfoMapper;
 import dyna.common.systemenum.SystemClassFieldEnum;
 import dyna.common.util.BooleanUtils;
 
 @Cache
+@EntryMapper(NumberingModelInfoMapper.class)
 public class NumberingModelInfo extends SystemObjectImpl implements SystemObject
 {
 	private static final long	serialVersionUID	= 5660807352929113750L;

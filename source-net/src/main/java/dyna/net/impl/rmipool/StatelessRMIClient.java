@@ -6,10 +6,8 @@
 package dyna.net.impl.rmipool;
 
 import dyna.common.conf.ConfigurableClientImpl;
-import dyna.common.conf.loader.ConfigLoaderFactory;
 import dyna.net.connection.AbstractClient;
 import dyna.net.impl.ServiceProviderFactory;
-import dyna.net.impl.rmi.ServiceLocatorRMIImpl;
 import dyna.net.security.signature.Signature;
 import dyna.net.spi.ServiceLocator;
 
@@ -25,15 +23,17 @@ public class StatelessRMIClient extends AbstractClient
 	private String			moduleName		= null;
 	private ServiceLocator	serviceLocator	= null;
 	private ThreadLocal<String> localSession = new ThreadLocal<String>();
-	public StatelessRMIClient() throws Exception
-	{
-		this(Signature.MODULE_CLIENT, ConfigLoaderFactory.getLoader4Client().load());
-	}
+//	public StatelessRMIClient(ConfigurableClientImpl clientConfig) throws Exception
+//	{
+////		this(Signature.MODULE_CLIENT, ConfigLoaderFactory.getLoader4Client().load());
+//		this(Signature.MODULE_CLIENT, clientConfig);
+//	}
 
-	public StatelessRMIClient(String moduleName) throws Exception
-	{
-		this(moduleName, ConfigLoaderFactory.getLoader4Client().load());
-	}
+
+//	public StatelessRMIClient(String moduleName) throws Exception
+//	{
+//		this(moduleName, ConfigLoaderFactory.getLoader4Client().load());
+//	}
 
 	/**
 	 * @throws Exception

@@ -1,11 +1,14 @@
 package dyna.common.dto.cfm;
 
 import dyna.common.annotation.Cache;
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.cfm.ClassficationFeatureItemInfoMapper;
 import dyna.common.util.BooleanUtils;
 
 @Cache
+@EntryMapper(ClassficationFeatureItemInfoMapper.class)
 public class ClassficationFeatureItemInfo extends SystemObjectImpl implements SystemObject
 {
 

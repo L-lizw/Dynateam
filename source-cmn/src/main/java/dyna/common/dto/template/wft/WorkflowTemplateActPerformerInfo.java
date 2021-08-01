@@ -5,9 +5,10 @@
  */
 package dyna.common.dto.template.wft;
 
-import dyna.common.annotation.Cache;
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.template.wft.WorkflowTemplateActPerformerInfoMapper;
 import dyna.common.systemenum.PerformerTypeEnum;
 import dyna.common.util.StringUtils;
 
@@ -17,7 +18,7 @@ import dyna.common.util.StringUtils;
  * @author WangLHB
  * 
  */
-@Cache
+@EntryMapper(WorkflowTemplateActPerformerInfoMapper.class)
 public class WorkflowTemplateActPerformerInfo extends SystemObjectImpl implements SystemObject
 {
 

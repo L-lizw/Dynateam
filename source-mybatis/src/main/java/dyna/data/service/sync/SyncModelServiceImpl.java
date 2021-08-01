@@ -1,16 +1,16 @@
 package dyna.data.service.sync;
 
-import java.util.List;
-import java.util.Map;
-
 import dyna.common.bean.configure.ProjectModel;
 import dyna.common.conf.ServiceDefinition;
 import dyna.common.exception.DynaDataException;
 import dyna.common.exception.ServiceRequestException;
 import dyna.common.systemenum.FieldTypeEnum;
-import dyna.data.common.function.DatabaseFunctionFactory;
 import dyna.data.context.DataServerContext;
 import dyna.data.service.DataRuleService;
+import dyna.dbcommon.function.DatabaseFunctionFactory;
+
+import java.util.List;
+import java.util.Map;
 
 public class SyncModelServiceImpl extends DataRuleService implements SyncModelService
 {

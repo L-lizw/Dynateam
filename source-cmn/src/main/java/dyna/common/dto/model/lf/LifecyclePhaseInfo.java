@@ -5,11 +5,13 @@
  */
 package dyna.common.dto.model.lf;
 
-import java.math.BigDecimal;
-
 import dyna.common.annotation.Cache;
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.model.lf.LifecyclePhaseInfoMapper;
+
+import java.math.BigDecimal;
 
 /**
  * 生命周期阶段对象
@@ -18,6 +20,7 @@ import dyna.common.bean.data.SystemObjectImpl;
  * 
  */
 @Cache
+@EntryMapper(LifecyclePhaseInfoMapper.class)
 public class LifecyclePhaseInfo extends SystemObjectImpl implements SystemObject
 {
 	private static final long	serialVersionUID	= -6207863329404221489L;

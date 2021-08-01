@@ -5,12 +5,14 @@
  */
 package dyna.common.dto;
 
-import java.util.List;
-
 import dyna.common.annotation.Cache;
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.FileOpenItemMapper;
 import dyna.common.systemenum.AccessTypeEnum;
+
+import java.util.List;
 
 /**
  * 打开文件配置时的规则块
@@ -19,6 +21,7 @@ import dyna.common.systemenum.AccessTypeEnum;
  * 
  */
 @Cache
+@EntryMapper(FileOpenItemMapper.class)
 public class FileOpenItem extends SystemObjectImpl implements SystemObject
 {
 

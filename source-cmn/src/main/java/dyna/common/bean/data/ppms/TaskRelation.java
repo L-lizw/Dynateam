@@ -5,14 +5,16 @@
  */
 package dyna.common.bean.data.ppms;
 
-import java.math.BigDecimal;
-
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.DynaObject;
 import dyna.common.bean.data.ObjectGuid;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.ppm.TaskRelationMapper;
 import dyna.common.systemenum.ppms.TaskDependEnum;
 import dyna.common.util.StringUtils;
+
+import java.math.BigDecimal;
 
 /**
  * 任务与任务的前后置关系
@@ -20,6 +22,7 @@ import dyna.common.util.StringUtils;
  * @author wangweixia
  * 
  */
+@EntryMapper(TaskRelationMapper.class)
 public class TaskRelation extends SystemObjectImpl implements SystemObject
 {
 

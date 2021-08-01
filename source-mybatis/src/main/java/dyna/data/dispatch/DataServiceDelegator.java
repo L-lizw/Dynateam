@@ -5,22 +5,21 @@
  */
 package dyna.data.dispatch;
 
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
-import dyna.data.common.exception.DynaDataGenericException;
-import dyna.data.service.model.ModelService;
-import org.acegisecurity.Authentication;
-import org.acegisecurity.context.SecurityContextHolder;
-import org.apache.log4j.Level;
-
 import dyna.common.exception.ServiceNotAvailableException;
 import dyna.common.invocationlog.InvocationLogger;
 import dyna.common.log.DynaLogger;
 import dyna.common.systemenum.ServiceStateEnum;
 import dyna.data.context.DataServerContext;
+import dyna.data.service.model.ModelService;
+import dyna.dbcommon.exception.DynaDataGenericException;
 import dyna.net.syncfile.SyncFileService;
+import org.acegisecurity.Authentication;
+import org.acegisecurity.context.SecurityContextHolder;
+import org.apache.log4j.Level;
+
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 /**
  * @author Wanglei

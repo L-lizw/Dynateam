@@ -6,8 +6,10 @@
 package dyna.common.dto.template.bom;
 
 import dyna.common.annotation.Cache;
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.template.bom.BOMReportTemplateMapper;
 import dyna.common.util.BooleanUtils;
 
 /**
@@ -15,6 +17,7 @@ import dyna.common.util.BooleanUtils;
  * 
  */
 @Cache
+@EntryMapper(BOMReportTemplateMapper.class)
 public class BOMReportTemplate extends SystemObjectImpl implements SystemObject
 {
 

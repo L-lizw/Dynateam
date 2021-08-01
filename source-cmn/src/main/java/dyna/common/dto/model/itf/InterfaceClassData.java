@@ -1,10 +1,13 @@
 package dyna.common.dto.model.itf;
 
 import dyna.common.annotation.Cache;
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.model.itf.InterfaceClassDataMapper;
 
 @Cache
+@EntryMapper(InterfaceClassDataMapper.class)
 public class InterfaceClassData extends SystemObjectImpl implements SystemObject
 {
 	/**

@@ -5,8 +5,10 @@
  */
 package dyna.common.dto.wf;
 
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.wf.ProcLockObjectMapper;
 
 /**
  * 工作流程锁定对象
@@ -14,6 +16,7 @@ import dyna.common.bean.data.SystemObjectImpl;
  * @author Wanglei
  * 
  */
+@EntryMapper(ProcLockObjectMapper.class)
 public class ProcLockObject extends SystemObjectImpl implements SystemObject
 {
 

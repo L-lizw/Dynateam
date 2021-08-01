@@ -1,11 +1,14 @@
 package dyna.common.bean.data.trans;
 
+import dyna.common.annotation.EntryMapper;
+import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.trans.TransformManualConfigMapper;
+import dyna.common.util.BooleanUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import dyna.common.bean.data.SystemObjectImpl;
-import dyna.common.util.BooleanUtils;
-
+@EntryMapper(TransformManualConfigMapper.class)
 public class TransformManualConfig extends SystemObjectImpl
 {
 	/**

@@ -9,11 +9,13 @@ import dyna.common.systemenum.ServiceStateEnum;
 import dyna.data.context.DataServerContext;
 import dyna.net.dispatcher.sync.ServiceStateChangeReactor;
 import dyna.net.dispatcher.sync.ServiceStateExchanger;
+import org.springframework.stereotype.Repository;
 
 /**
  * @author Wanglei
  *
  */
+@Repository("serviceStateExchangerDataServerImpl")
 public class ServiceStateExchangerDataServerImpl implements ServiceStateExchanger
 {
 

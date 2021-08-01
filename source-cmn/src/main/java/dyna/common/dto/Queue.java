@@ -5,12 +5,14 @@
  */
 package dyna.common.dto;
 
-import java.math.BigDecimal;
-
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.QueueMapper;
 import dyna.common.systemenum.JobGroupEnum;
 import dyna.common.systemenum.JobStatus;
+
+import java.math.BigDecimal;
 
 /**
  * Queue 队列
@@ -18,6 +20,7 @@ import dyna.common.systemenum.JobStatus;
  * @author caogc
  * 
  */
+@EntryMapper(QueueMapper.class)
 public class Queue extends SystemObjectImpl implements SystemObject
 {
 	private static final long	serialVersionUID	= -9137180160333458537L;

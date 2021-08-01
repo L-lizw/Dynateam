@@ -5,11 +5,11 @@
  */
 package dyna.net.security;
 
-import java.util.UUID;
-
 import dyna.common.exception.AuthorizeException;
 import dyna.net.security.signature.Signature;
 import dyna.net.security.signature.SignatureFactory;
+
+import java.util.UUID;
 
 /**
  * 凭证管理器接口

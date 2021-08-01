@@ -5,32 +5,28 @@
  */
 package dyna.data.service.wf;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import dyna.common.dto.wf.*;
 import dyna.common.dtomapper.wf.ProcAttachMapper;
 import dyna.common.dtomapper.wf.ProcLockObjectMapper;
 import dyna.common.dtomapper.wf.ProcessRuntimeMapper;
-import dyna.data.service.sdm.SystemDataService;
-import dyna.common.dto.wf.ActivityRuntime;
-import dyna.common.dto.wf.ProcAttach;
-import dyna.common.dto.wf.ProcLockObject;
-import dyna.common.dto.wf.ProcTrack;
-import dyna.common.dto.wf.ProcessRuntime;
 import dyna.common.exception.DynaDataException;
 import dyna.common.systemenum.DataExceptionEnum;
 import dyna.common.systemenum.WorkflowActivityType;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
-import dyna.data.common.exception.DynaDataExceptionAll;
-import dyna.data.common.exception.DynaDataExceptionSQL;
 import dyna.data.context.DataServerContext;
 import dyna.data.service.DSAbstractServiceStub;
+import dyna.data.service.sdm.SystemDataService;
+import dyna.dbcommon.exception.DynaDataExceptionAll;
+import dyna.dbcommon.exception.DynaDataExceptionSQL;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 对工作流提供支持

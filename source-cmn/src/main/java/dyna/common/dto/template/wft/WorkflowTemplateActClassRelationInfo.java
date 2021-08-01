@@ -6,8 +6,10 @@
 package dyna.common.dto.template.wft;
 
 import dyna.common.annotation.Cache;
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.template.wft.WorkflowTemplateActClassRelationInfoMapper;
 import dyna.common.systemenum.WFTemplateRelationTypeEnum;
 import dyna.common.util.BooleanUtils;
 
@@ -18,6 +20,7 @@ import dyna.common.util.BooleanUtils;
  * 
  */
 @Cache
+@EntryMapper(WorkflowTemplateActClassRelationInfoMapper.class)
 public class WorkflowTemplateActClassRelationInfo extends SystemObjectImpl implements SystemObject
 {
 

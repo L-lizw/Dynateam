@@ -1,10 +1,13 @@
 package dyna.common.bean.data.checkrule;
 
-import java.util.List;
-
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.checkrule.ClassConditionDataMapper;
 
+import java.util.List;
+
+@EntryMapper(ClassConditionDataMapper.class)
 public class ClassConditionData extends SystemObjectImpl implements SystemObject
 {
 	/**

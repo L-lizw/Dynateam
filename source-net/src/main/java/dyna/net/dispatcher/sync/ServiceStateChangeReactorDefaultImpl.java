@@ -6,11 +6,13 @@
 package dyna.net.dispatcher.sync;
 
 import dyna.common.systemenum.ServiceStateEnum;
+import org.springframework.stereotype.Component;
 
 /**
  * @author Wanglei
  *
  */
+@Component
 public class ServiceStateChangeReactorDefaultImpl implements ServiceStateChangeReactor
 {
 

@@ -6,16 +6,19 @@
 
 package dyna.common.dto.model.cls;
 
-import java.math.BigDecimal;
-
 import dyna.common.annotation.Cache;
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.model.cls.NumberingObjectInfoMapper;
 import dyna.common.systemenum.coding.CFMCodeRuleEnum;
 import dyna.common.util.BooleanUtils;
 import dyna.common.util.StringUtils;
 
+import java.math.BigDecimal;
+
 @Cache
+@EntryMapper(NumberingObjectInfoMapper.class)
 public class NumberingObjectInfo extends SystemObjectImpl implements SystemObject
 {
 	private static final long	serialVersionUID			= -8069925747893489637L;

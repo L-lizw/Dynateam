@@ -12,17 +12,16 @@ import dyna.common.util.FileUtils;
 
 /**
  * 读取连接GuardServer服务器配置
- * 
+ *
+ * @author Lizw
  * @see dyna.common.conf.ConfigurableConnToDSImpl
- * @author Wanglei
- * 
  */
 public class ConfigLoaderConnToGuardServerImpl extends AbstractConfigLoader<ConfigurableConnToGuardServerImpl>
 {
 
-	private ConfigurableConnToGuardServerImpl	connToGSConfig	= null;
+	private ConfigurableConnToGuardServerImpl connToGSConfig = null;
 
-	private String					filePath		= EnvUtils.getConfRootPath() + "conf/GuardServerConn.xml";
+	private String filePath = EnvUtils.getConfRootPath() + "conf/GuardServerConn.xml";
 
 	protected ConfigLoaderConnToGuardServerImpl()
 	{
@@ -31,37 +30,37 @@ public class ConfigLoaderConnToGuardServerImpl extends AbstractConfigLoader<Conf
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see dyna.common.conf.loader.ConfigLoader#load()
 	 */
-	@Override
-	public synchronized ConfigurableConnToGuardServerImpl load(String xmlFilePath)
+	@Override public synchronized void load(String xmlFilePath)
 	{
-		if (this.connToGSConfig == null)
-		{
-			this.connToGSConfig = new ConfigurableConnToGuardServerImpl();
 
-			this.setConfigFile(FileUtils.newFileEscape(xmlFilePath));
-			ConfigurableKVElementImpl loader = super.loadDefault();
+		this.connToGSConfig = new ConfigurableConnToGuardServerImpl();
 
-			this.connToGSConfig.setLookupServiceHost(loader.getElementValue("GuardServerConn.service-lookup.host"));
-			this.connToGSConfig.setLookupServicePort(Integer.valueOf(loader
-					.getElementValue("GuardServerConn.service-lookup.port")));
+		this.setConfigFile(FileUtils.newFileEscape(xmlFilePath));
+		ConfigurableKVElementImpl loader = super.loadDefault();
 
+		this.connToGSConfig.setLookupServiceHost(loader.getElementValue("GuardServerConn.service-lookup.host"));
+		this.connToGSConfig.setLookupServicePort(Integer.valueOf(loader.getElementValue("GuardServerConn.service-lookup.port")));
 
-			this.connToGSConfig.configured();
-		}
-		return this.connToGSConfig;
+		this.connToGSConfig.configured();
+
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see dyna.common.conf.loader.ConfigLoader#load(java.lang.String)
 	 */
-	@Override
-	public ConfigurableConnToGuardServerImpl load()
+	@Override public void load()
 	{
-		return this.load(this.filePath);
+		this.load(this.filePath);
 	}
+
+	@Override public ConfigurableConnToGuardServerImpl getConfigurable()
+	{
+		return connToGSConfig;
+	}
+
 }

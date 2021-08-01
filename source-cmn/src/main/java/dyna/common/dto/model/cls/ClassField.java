@@ -6,25 +6,27 @@
 
 package dyna.common.dto.model.cls;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import org.simpleframework.xml.Attribute;
-import org.simpleframework.xml.ElementList;
-
 import dyna.common.annotation.Cache;
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
 import dyna.common.bean.model.ReferenceCode;
+import dyna.common.dtomapper.model.cls.ClassFieldMapper;
 import dyna.common.exception.ServiceRequestException;
 import dyna.common.systemenum.FieldTypeEnum;
 import dyna.common.systemenum.LanguageEnum;
 import dyna.common.util.BooleanUtils;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
+import org.simpleframework.xml.Attribute;
+import org.simpleframework.xml.ElementList;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Cache
+@EntryMapper(ClassFieldMapper.class)
 public class ClassField extends SystemObjectImpl implements SystemObject
 {
 	private static final long	serialVersionUID	= -9065074751977527996L;

@@ -1,12 +1,15 @@
 package dyna.common.dto.acl;
 
 import dyna.common.annotation.Cache;
+import dyna.common.annotation.EntryMapper;
+import dyna.common.dtomapper.acl.PublicSearchACLItemMapper;
 import dyna.common.systemenum.PermissibleEnum;
 import dyna.common.systemenum.PublicSearchAuthorityEnum;
 import dyna.common.util.NumberUtils;
 import dyna.common.util.StringUtils;
 
 @Cache
+@EntryMapper(PublicSearchACLItemMapper.class)
 public class PublicSearchACLItem extends AbstractACLItem
 {
 

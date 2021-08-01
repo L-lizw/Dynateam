@@ -5,13 +5,16 @@
  */
 package dyna.common.dto;
 
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.MailReceiveUserMapper;
 
 /**
  * @author caogc
  * 
  */
+@EntryMapper(MailReceiveUserMapper.class)
 public class MailReceiveUser extends SystemObjectImpl implements SystemObject
 {
 

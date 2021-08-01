@@ -4,7 +4,7 @@ PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
 "../../mybatis-3-mapper.dtd">
 <mapper namespace="dyna.common.dtomapper.template.wft.WorkflowTemplateInfoMapper">
 
-	<select id="selectForLoad" parameterType="map" resultType="dyna.common.dto.template.wft.WorkflowTemplateInfo">
+	<select id="selectForLoad"  resultType="dyna.common.dto.template.wft.WorkflowTemplateInfo">
         SELECT *
           FROM WF_TEMPLATE A
     </select>

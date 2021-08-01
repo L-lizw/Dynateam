@@ -1,6 +1,8 @@
 package dyna.common.dto.acl;
 
 import dyna.common.annotation.Cache;
+import dyna.common.annotation.EntryMapper;
+import dyna.common.dtomapper.acl.FolderACLItemMapper;
 import dyna.common.systemenum.FolderAuthorityEnum;
 import dyna.common.systemenum.PermissibleEnum;
 import dyna.common.util.BooleanUtils;
@@ -8,6 +10,7 @@ import dyna.common.util.NumberUtils;
 import dyna.common.util.StringUtils;
 
 @Cache
+@EntryMapper(FolderACLItemMapper.class)
 public class FolderACLItem extends AbstractACLItem
 {
 	/**

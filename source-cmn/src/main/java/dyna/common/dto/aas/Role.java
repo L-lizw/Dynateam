@@ -6,14 +6,17 @@
 package dyna.common.dto.aas;
 
 import dyna.common.annotation.Cache;
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.aas.RoleMapper;
 
 /**
  * @author Wanglei
  *
  */
 @Cache
+@EntryMapper(RoleMapper.class)
 public class Role extends SystemObjectImpl implements SystemObject
 {
 

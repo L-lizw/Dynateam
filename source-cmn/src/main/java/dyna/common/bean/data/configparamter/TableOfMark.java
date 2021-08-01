@@ -1,8 +1,10 @@
 package dyna.common.bean.data.configparamter;
 
-import java.util.Map;
-
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
+import dyna.common.dtomapper.configparamter.TableOfMarkMapper;
+
+import java.util.Map;
 
 /**
  * 标记表(Mak表)
@@ -10,6 +12,7 @@ import dyna.common.bean.data.SystemObject;
  * @author wwx
  * 
  */
+@EntryMapper(TableOfMarkMapper.class)
 public class TableOfMark extends ConfigTableBase implements SystemObject
 {
 	private static final long	serialVersionUID	= -6499805383983920552L;

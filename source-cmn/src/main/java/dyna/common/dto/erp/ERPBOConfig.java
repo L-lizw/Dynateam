@@ -5,13 +5,16 @@
  */
 package dyna.common.dto.erp;
 
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.erp.ERPBOConfigMapper;
 
 /**
  * @author wangweixia
  * 
  */
+@EntryMapper(ERPBOConfigMapper.class)
 public class ERPBOConfig extends SystemObjectImpl implements SystemObject
 {
 	private static final long	serialVersionUID	= 3212021459608038851L;

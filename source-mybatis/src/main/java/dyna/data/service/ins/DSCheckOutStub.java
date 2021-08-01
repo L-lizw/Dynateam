@@ -5,13 +5,6 @@
  */
 package dyna.data.service.ins;
 
-import java.math.BigDecimal;
-import java.sql.SQLException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import dyna.common.bean.data.FoundationObject;
 import dyna.common.bean.data.FoundationObjectImpl;
 import dyna.common.bean.data.foundation.BOMView;
@@ -22,21 +15,24 @@ import dyna.common.dto.Session;
 import dyna.common.dtomapper.FoundationObjectMapper;
 import dyna.common.exception.DynaDataException;
 import dyna.common.exception.ServiceRequestException;
-import dyna.common.systemenum.AuthorityEnum;
-import dyna.common.systemenum.DataExceptionEnum;
-import dyna.common.systemenum.ModelInterfaceEnum;
-import dyna.common.systemenum.SystemClassFieldEnum;
-import dyna.common.systemenum.SystemStatusEnum;
+import dyna.common.systemenum.*;
 import dyna.common.util.DateFormat;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
-import dyna.data.common.exception.DynaDataExceptionAll;
-import dyna.data.common.exception.DynaDataExceptionSQL;
 import dyna.data.context.DataServerContext;
 import dyna.data.service.DSAbstractServiceStub;
 import dyna.data.service.acl.AclService;
+import dyna.dbcommon.exception.DynaDataExceptionAll;
+import dyna.dbcommon.exception.DynaDataExceptionSQL;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.math.BigDecimal;
+import java.sql.SQLException;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 检出的实现
@@ -95,7 +91,7 @@ public class DSCheckOutStub extends DSAbstractServiceStub<InstanceServiceImpl>
 		String sysTableName = DataServer.getDSCommonService().getTableName(className);
 		try
 		{
-			DataServer.getTransactionManager().startTransaction(fixTranId);
+//			DataServer.getTransactionManager().startTransaction(fixTranId);
 			// 创建新的实例 同时创建_r _rg表
 			this.checkOut(revisionGuid, //
 					className, //
@@ -119,7 +115,7 @@ public class DSCheckOutStub extends DSAbstractServiceStub<InstanceServiceImpl>
 				foundationObject.put(SystemClassFieldEnum.CHECKOUTUSER.getName(), checkOutUser);
 				foundationObject.put(SystemClassFieldEnum.UPDATETIME.getName(), simpleObj.getUpdateTime());
 				foundationObject.put(SystemClassFieldEnum.CHECKOUTTIME.getName(), simpleObj.getCheckedOutTime());
-				DataServer.getTransactionManager().commitTransaction();
+//				DataServer.getTransactionManager().commitTransaction();
 
 				if (isView)
 				{
@@ -181,17 +177,17 @@ public class DSCheckOutStub extends DSAbstractServiceStub<InstanceServiceImpl>
 			FoundationObjectImpl retObject = (FoundationObjectImpl) foundationObject.getClass().getConstructor().newInstance();
 			retObject.sync(foundationObject);
 
-			DataServer.getTransactionManager().commitTransaction();
+//			DataServer.getTransactionManager().commitTransaction();
 			return retObject;
 		}
 		catch (SQLException e)
 		{
-			DataServer.getTransactionManager().rollbackTransaction();
+//			DataServer.getTransactionManager().rollbackTransaction();
 			throw new DynaDataExceptionSQL("checkout error : checkout SQL exception . sessionId = " + sessionId, e, DataExceptionEnum.DS_CHECKOUT, foundationObject.getId());
 		}
 		catch (Exception e)
 		{
-			DataServer.getTransactionManager().rollbackTransaction();
+//			DataServer.getTransactionManager().rollbackTransaction();
 			if (e instanceof DynaDataExceptionSQL)
 			{
 				throw (DynaDataExceptionSQL) e;

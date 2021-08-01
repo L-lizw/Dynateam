@@ -5,23 +5,26 @@
  */
 package dyna.common.dto;
 
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.ObjectGuid;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.MailMapper;
 import dyna.common.systemenum.LanguageEnum;
 import dyna.common.systemenum.MailCategoryEnum;
 import dyna.common.systemenum.MailMessageType;
 import dyna.common.util.BooleanUtils;
 import dyna.common.util.StringUtils;
 
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
+
 /**
  * @author caogc
  * 
  */
+@EntryMapper(MailMapper.class)
 public class Mail extends SystemObjectImpl implements SystemObject
 {
 

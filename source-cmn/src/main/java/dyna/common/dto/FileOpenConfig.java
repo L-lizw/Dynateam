@@ -6,8 +6,10 @@
 package dyna.common.dto;
 
 import dyna.common.annotation.Cache;
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.FileOpenConfigMapper;
 import dyna.common.systemenum.FileOpenToolTypeEnum;
 
 /**
@@ -17,6 +19,7 @@ import dyna.common.systemenum.FileOpenToolTypeEnum;
  * 
  */
 @Cache
+@EntryMapper(FileOpenConfigMapper.class)
 public class FileOpenConfig extends SystemObjectImpl implements SystemObject
 {
 

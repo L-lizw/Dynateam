@@ -1,8 +1,10 @@
 package dyna.common.bean.data.configparamter;
 
-import java.util.Map;
-
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
+import dyna.common.dtomapper.configparamter.TableOfParameterMapper;
+
+import java.util.Map;
 
 /**
  * 参数(P表)
@@ -10,6 +12,7 @@ import dyna.common.bean.data.SystemObject;
  * @author wwx
  * 
  */
+@EntryMapper(TableOfParameterMapper.class)
 public class TableOfParameter extends ConfigTableBase implements SystemObject
 {
 	private static final long	serialVersionUID	= 198901519599475733L;

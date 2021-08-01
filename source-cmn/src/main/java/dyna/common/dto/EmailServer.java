@@ -5,8 +5,10 @@
  */
 package dyna.common.dto;
 
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.EmailServerMapper;
 import dyna.common.util.Base64Util;
 import dyna.common.util.BooleanUtils;
 import dyna.common.util.StringUtils;
@@ -15,6 +17,7 @@ import dyna.common.util.StringUtils;
  * @author WangLHB
  * 
  */
+@EntryMapper(EmailServerMapper.class)
 public class EmailServer extends SystemObjectImpl implements SystemObject
 {
 

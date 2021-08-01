@@ -1,10 +1,13 @@
 package dyna.common.dto.acl;
 
 import dyna.common.annotation.Cache;
+import dyna.common.annotation.EntryMapper;
+import dyna.common.dtomapper.acl.ShareFolderACLItemMapper;
 import dyna.common.systemenum.PermissibleEnum;
 import dyna.common.systemenum.ShareFolderAuthorityEnum;
 
 @Cache
+@EntryMapper(ShareFolderACLItemMapper.class)
 public class ShareFolderACLItem extends AbstractACLItem
 {
 

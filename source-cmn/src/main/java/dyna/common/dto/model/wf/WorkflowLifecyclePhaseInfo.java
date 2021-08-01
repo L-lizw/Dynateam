@@ -5,11 +5,13 @@
  */
 package dyna.common.dto.model.wf;
 
-import java.math.BigDecimal;
-
 import dyna.common.annotation.Cache;
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.model.wf.WorkflowLifecyclePhaseInfoMapper;
+
+import java.math.BigDecimal;
 
 /**
  * 工作流生命周期阶段
@@ -18,6 +20,7 @@ import dyna.common.bean.data.SystemObjectImpl;
  * 
  */
 @Cache
+@EntryMapper(WorkflowLifecyclePhaseInfoMapper.class)
 public class WorkflowLifecyclePhaseInfo extends SystemObjectImpl implements SystemObject
 {
 	private static final long	serialVersionUID	= 8791583082599496861L;

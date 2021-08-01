@@ -5,8 +5,10 @@
  */
 package dyna.common.dto.wf;
 
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.wf.TransRestrictionMapper;
 import dyna.common.systemenum.WorkflowRouteModeType;
 import dyna.common.systemenum.WorkflowRouteType;
 
@@ -16,6 +18,7 @@ import dyna.common.systemenum.WorkflowRouteType;
  * @author Wanglei
  * 
  */
+@EntryMapper(TransRestrictionMapper.class)
 public class TransRestriction extends SystemObjectImpl implements SystemObject
 {
 

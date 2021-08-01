@@ -5,11 +5,13 @@
  */
 package dyna.common.dto;
 
-import java.util.Date;
-
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.ConfigRuleReviseMapper;
 import dyna.common.systemenum.ReviseSeriesRuleEnum;
+
+import java.util.Date;
 
 /**
  * ConfigRuleRevise 固定版序规则
@@ -17,6 +19,7 @@ import dyna.common.systemenum.ReviseSeriesRuleEnum;
  * @author caogc
  * 
  */
+@EntryMapper(ConfigRuleReviseMapper.class)
 public class ConfigRuleRevise extends SystemObjectImpl implements SystemObject
 {
 

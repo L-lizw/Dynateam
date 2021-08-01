@@ -1,11 +1,14 @@
 package dyna.common.bean.data.iopconfigparamter;
 
-import java.util.Date;
-
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.cpb.IOPColumnTitleMapper;
 import dyna.common.util.BooleanUtils;
 
+import java.util.Date;
+
+@EntryMapper(IOPColumnTitleMapper.class)
 public class IOPColumnTitle extends SystemObjectImpl implements SystemObject
 {
 

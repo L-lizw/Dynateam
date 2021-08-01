@@ -7,11 +7,14 @@
 package dyna.common.dto.model.ui;
 
 import dyna.common.annotation.Cache;
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.model.ui.UIActionMapper;
 import dyna.common.util.BooleanUtils;
 
 @Cache
+@EntryMapper(UIActionMapper.class)
 public class UIAction extends SystemObjectImpl implements SystemObject
 {
 	private static final long	serialVersionUID	= 883480344725899251L;

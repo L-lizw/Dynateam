@@ -6,8 +6,10 @@
 package dyna.common.dto.acl;
 
 import dyna.common.annotation.Cache;
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.acl.SaAclFolderLibConfMapper;
 import dyna.common.util.BooleanUtils;
 
 /**
@@ -16,6 +18,7 @@ import dyna.common.util.BooleanUtils;
  * 
  */
 @Cache
+@EntryMapper(SaAclFolderLibConfMapper.class)
 public class SaAclFolderLibConf extends SystemObjectImpl implements SystemObject
 {
 

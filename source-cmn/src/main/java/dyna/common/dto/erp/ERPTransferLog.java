@@ -1,10 +1,13 @@
 package dyna.common.dto.erp;
 
-import java.math.BigDecimal;
-
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.erp.ERPTransferLogMapper;
 
+import java.math.BigDecimal;
+
+@EntryMapper(ERPTransferLogMapper.class)
 public class ERPTransferLog extends SystemObjectImpl implements SystemObject
 {
 

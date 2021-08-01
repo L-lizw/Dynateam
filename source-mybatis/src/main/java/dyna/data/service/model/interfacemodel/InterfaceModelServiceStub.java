@@ -1,14 +1,5 @@
 package dyna.data.service.model.interfacemodel;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import dyna.common.bean.model.ReferenceCode;
 import dyna.common.bean.model.ReferenceField;
 import dyna.common.bean.model.itf.InterfaceObject;
@@ -26,6 +17,10 @@ import dyna.data.context.DataServerContext;
 import dyna.data.service.DSAbstractServiceStub;
 import dyna.data.service.sync.bean.TableIndexModel;
 import dyna.data.service.sync.bean.TableIndexObject;
+
+import java.io.File;
+import java.util.*;
+import java.util.Map.Entry;
 
 public class InterfaceModelServiceStub extends DSAbstractServiceStub<InterfaceModelServiceImpl>
 {
@@ -50,7 +45,8 @@ public class InterfaceModelServiceStub extends DSAbstractServiceStub<InterfaceMo
 
 		ConfigLoaderDefaultImpl confLoader = new ConfigLoaderDefaultImpl();
 		confLoader.setConfigFile(interfaceModelFile);
-		Iterator<ConfigurableKVElementImpl> interfaceElementIterator = (confLoader.load()).iterator("interface-model.interface");
+		confLoader.load();
+		Iterator<ConfigurableKVElementImpl> interfaceElementIterator = (confLoader.getConfigurable()).iterator("interface-model.interface");
 
 		while (interfaceElementIterator.hasNext())
 		{

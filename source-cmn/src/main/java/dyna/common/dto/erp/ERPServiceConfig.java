@@ -5,8 +5,10 @@
  */
 package dyna.common.dto.erp;
 
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.erp.ERPServiceConfigMapper;
 import dyna.common.util.BooleanUtils;
 import dyna.common.util.StringUtils;
 
@@ -15,6 +17,7 @@ import dyna.common.util.StringUtils;
  * @author caogc
  * 
  */
+@EntryMapper(ERPServiceConfigMapper.class)
 public class ERPServiceConfig extends SystemObjectImpl implements SystemObject
 {
 	private static final long	serialVersionUID		= -8739956338174888435L;

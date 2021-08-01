@@ -5,12 +5,14 @@
  */
 package dyna.common.bean.data.ppms;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.ObjectGuid;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.ppm.CheckpointConfigMapper;
+
+import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * 里程碑的关卡列表设置
@@ -18,6 +20,7 @@ import dyna.common.bean.data.SystemObjectImpl;
  * @author wangweixia
  * 
  */
+@EntryMapper(CheckpointConfigMapper.class)
 public class CheckpointConfig extends SystemObjectImpl implements SystemObject
 {
 

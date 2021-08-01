@@ -4,7 +4,7 @@
 		"../../mybatis-3-mapper.dtd">
 <mapper namespace="dyna.common.dtomapper.model.lf.LifecycleGateMapper">
 
-	<select id="selectForLoad" parameterType="java.util.HashMap" resultType="dyna.common.dto.model.lf.LifecycleGate" statementType="STATEMENT">
+	<select id="selectForLoad"  resultType="dyna.common.dto.model.lf.LifecycleGate" statementType="STATEMENT">
 		select *
 		from ma_lifecycle_gate a
 		order by a.GATETYPE,a.fromphase

@@ -5,21 +5,24 @@
  */
 package dyna.common.dto.model.bmbo;
 
-import java.math.BigDecimal;
-
 import dyna.common.annotation.Cache;
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.model.bmbo.BOInfoMapper;
 import dyna.common.systemenum.BusinessModelTypeEnum;
 import dyna.common.systemenum.LanguageEnum;
 import dyna.common.util.BooleanUtils;
 import dyna.common.util.StringUtils;
+
+import java.math.BigDecimal;
 
 /**
  * @author Wanglei
  * 
  */
 @Cache
+@EntryMapper(BOInfoMapper.class)
 public class BOInfo extends SystemObjectImpl implements SystemObject
 {
 	private static final long	serialVersionUID	= 4181949505516193453L;

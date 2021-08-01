@@ -5,12 +5,14 @@
  */
 package dyna.common.dto;
 
-import java.math.BigDecimal;
-import java.util.Calendar;
-
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.SaLicenseOccupiedMapper;
 import dyna.common.util.DateFormat;
+
+import java.math.BigDecimal;
+import java.util.Calendar;
 
 /**
  * Queue 队列
@@ -18,6 +20,7 @@ import dyna.common.util.DateFormat;
  * @author caogc
  * 
  */
+@EntryMapper(SaLicenseOccupiedMapper.class)
 public class SaLicenseOccupied extends SystemObjectImpl implements SystemObject
 {
 	private static final long	serialVersionUID	= -9137180160333458537L;

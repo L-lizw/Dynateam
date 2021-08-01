@@ -1,15 +1,18 @@
 package dyna.common.bean.data.configparamter;
 
-import java.util.Map;
-
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
+import dyna.common.dtomapper.configparamter.DynamicOfMultiVariableMapper;
 import dyna.common.exception.ServiceRequestException;
+
+import java.util.Map;
 
 /**
  * 多变量列
  * 
  * @author wwx
  */
+@EntryMapper(DynamicOfMultiVariableMapper.class)
 public class DynamicOfMultiVariable extends ConfigBase implements SystemObject
 {
 	private static final long	serialVersionUID	= -8380474666256640100L;

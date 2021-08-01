@@ -6,8 +6,10 @@
 package dyna.common.dto.template.wft;
 
 import dyna.common.annotation.Cache;
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.template.wft.WorkflowTemplateScopeRTInfoMapper;
 import dyna.common.systemenum.LanguageEnum;
 import dyna.common.util.StringUtils;
 
@@ -16,6 +18,7 @@ import dyna.common.util.StringUtils;
  * 
  */
 @Cache
+@EntryMapper(WorkflowTemplateScopeRTInfoMapper.class)
 public class WorkflowTemplateScopeRTInfo extends SystemObjectImpl implements SystemObject
 {
 

@@ -5,11 +5,6 @@
  */
 package dyna.data.service.relation;
 
-import java.sql.SQLException;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.List;
-
 import dyna.common.bean.data.FoundationObject;
 import dyna.common.bean.data.ObjectGuid;
 import dyna.common.bean.data.foundation.BOMView;
@@ -19,14 +14,18 @@ import dyna.common.dto.template.bom.BOMTemplateInfo;
 import dyna.common.exception.DynaDataException;
 import dyna.common.exception.ServiceRequestException;
 import dyna.common.systemenum.DataExceptionEnum;
-import dyna.common.util.BooleanUtils;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
-import dyna.data.common.exception.DynaDataExceptionAll;
 import dyna.data.context.DataServerContext;
 import dyna.data.service.DSAbstractServiceStub;
 import dyna.data.service.sdm.SystemDataService;
+import dyna.dbcommon.exception.DynaDataExceptionAll;
+
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 处理BOM

@@ -5,16 +5,19 @@
  */
 package dyna.common.dto;
 
-import java.util.Date;
-
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.MyScheduleMapper;
 import dyna.common.util.DateFormat;
+
+import java.util.Date;
 
 /**
  * @author caogc
  * 
  */
+@EntryMapper(MyScheduleMapper.class)
 public class MySchedule extends SystemObjectImpl implements SystemObject
 {
 	private static final long	serialVersionUID	= -7367964919474962375L;

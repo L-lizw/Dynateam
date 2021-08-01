@@ -5,27 +5,25 @@
  */
 package dyna.common.conf.loader;
 
-import java.io.File;
-import java.io.FileFilter;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import dyna.common.conf.ConfigurableKVElementImpl;
 import dyna.common.conf.ConfigurableMSRImpl;
 import dyna.common.util.EnvUtils;
 import dyna.common.util.FileUtils;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 /**
- * @author Wanglei
- *
+ * @author Lizw
  */
 public class ConfigLoaderMSRImpl extends AbstractConfigLoader<ConfigurableMSRImpl>
 {
 
-	private ConfigurableMSRImpl	conf			= null;
+	private ConfigurableMSRImpl conf = null;
 
-	private String	confDirectory	= EnvUtils.getConfRootPath() + "conf/";
+	private String confDirectory = EnvUtils.getConfRootPath() + "conf/";
 
 	protected ConfigLoaderMSRImpl()
 	{
@@ -34,21 +32,15 @@ public class ConfigLoaderMSRImpl extends AbstractConfigLoader<ConfigurableMSRImp
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see dyna.common.conf.loader.ConfigLoaderDefaultImpl#load()
 	 */
-	@Override
-	public synchronized ConfigurableMSRImpl load(String xmlFilePath)
+	@Override public synchronized void load(String xmlFilePath)
 	{
-		if (this.conf != null)
-		{
-			return this.conf;
-		}
-
 		this.conf = new ConfigurableMSRImpl();
 		File confDir = FileUtils.newFileEscape(xmlFilePath);
-		List<File> msrFileList=new ArrayList<File>();
-		this.genMsrFileList(confDir,msrFileList);
+		List<File> msrFileList = new ArrayList<File>();
+		this.genMsrFileList(confDir, msrFileList);
 		String fileName = null;
 		String loc = null;
 		for (int i = 0; i < msrFileList.size(); i++)
@@ -63,7 +55,7 @@ public class ConfigLoaderMSRImpl extends AbstractConfigLoader<ConfigurableMSRImp
 			super.loadDefault();
 
 			ConfigurableKVElementImpl msr = null;
-			for (Iterator<ConfigurableKVElementImpl> iter = this.kvElement.iterator("msrs.msr"); iter.hasNext();)
+			for (Iterator<ConfigurableKVElementImpl> iter = this.kvElement.iterator("msrs.msr"); iter.hasNext(); )
 			{
 				msr = iter.next();
 				this.conf.putValue(msr.getElementValue("id"), msr.getElementValue("msg"), loc);
@@ -72,7 +64,6 @@ public class ConfigLoaderMSRImpl extends AbstractConfigLoader<ConfigurableMSRImp
 			this.kvElement.clear();
 		}
 		this.conf.configured();
-		return this.conf;
 	}
 
 	private void genMsrFileList(File confDir, List<File> msrFileList)
@@ -99,18 +90,22 @@ public class ConfigLoaderMSRImpl extends AbstractConfigLoader<ConfigurableMSRImp
 				}
 			}
 		}
-		
+
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see dyna.common.conf.loader.ConfigLoader#load(java.lang.String)
 	 */
-	@Override
-	public ConfigurableMSRImpl load()
+	@Override public void load()
 	{
-		return this.load(this.confDirectory);
+		this.load(this.confDirectory);
+	}
+
+	@Override public ConfigurableMSRImpl getConfigurable()
+	{
+		return conf;
 	}
 
 }

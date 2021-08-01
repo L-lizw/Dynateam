@@ -5,17 +5,20 @@
  */
 package dyna.common.dto;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.DSSFileTransMapper;
 import dyna.common.util.StringUtils;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 /**
  * @author Wanglei
  *
  */
+@EntryMapper(DSSFileTransMapper.class)
 public class DSSFileTrans extends SystemObjectImpl implements SystemObject
 {
 

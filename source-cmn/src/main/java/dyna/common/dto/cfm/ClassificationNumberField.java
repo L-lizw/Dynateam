@@ -1,15 +1,18 @@
 package dyna.common.dto.cfm;
 
-import java.math.BigDecimal;
-
 import dyna.common.annotation.Cache;
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
 import dyna.common.dto.model.cls.ClassField;
+import dyna.common.dtomapper.cfm.ClassificationNumberFieldMapper;
 import dyna.common.systemenum.coding.CFMCodeRuleEnum;
 import dyna.common.util.BooleanUtils;
 
+import java.math.BigDecimal;
+
 @Cache
+@EntryMapper(ClassificationNumberFieldMapper.class)
 public class ClassificationNumberField extends SystemObjectImpl implements SystemObject
 {
 

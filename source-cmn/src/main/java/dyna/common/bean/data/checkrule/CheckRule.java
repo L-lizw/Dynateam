@@ -1,14 +1,17 @@
 package dyna.common.bean.data.checkrule;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.checkrule.CheckRuleMapper;
 import dyna.common.systemenum.RuleTypeEnum;
 import dyna.common.util.BooleanUtils;
 import dyna.common.util.SetUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
+@EntryMapper(CheckRuleMapper.class)
 public class CheckRule extends SystemObjectImpl implements SystemObject
 {
 	/**

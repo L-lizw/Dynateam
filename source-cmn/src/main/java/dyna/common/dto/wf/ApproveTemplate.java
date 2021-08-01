@@ -5,10 +5,12 @@
  */
 package dyna.common.dto.wf;
 
-import java.util.List;
-
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.wf.ApproveTemplateMapper;
+
+import java.util.List;
 
 /**
  * 流程模板
@@ -16,6 +18,7 @@ import dyna.common.bean.data.SystemObjectImpl;
  * @author zhanghj
  * 
  */
+@EntryMapper(ApproveTemplateMapper.class)
 public class ApproveTemplate extends SystemObjectImpl implements SystemObject
 {
 

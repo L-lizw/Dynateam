@@ -5,12 +5,14 @@
  */
 package dyna.common.dto;
 
-import java.util.Date;
-
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.ConfigRuleBOPhaseSetMapper;
 import dyna.common.util.BooleanUtils;
 import dyna.common.util.StringUtils;
+
+import java.util.Date;
 
 /**
  * ConfigRuleBORevision 处于当前生命周期的数据能否修订
@@ -18,6 +20,7 @@ import dyna.common.util.StringUtils;
  * @author jianghl
  * 
  */
+@EntryMapper(ConfigRuleBOPhaseSetMapper.class)
 public class ConfigRuleBOPhaseSet extends SystemObjectImpl implements SystemObject
 {
 

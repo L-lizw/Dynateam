@@ -1,12 +1,14 @@
 package dyna.common.dtomapper.model.itf;
 
-/**
-*
-* @author   Lizw
-* @date     2021/7/11 16:56
-**/
+import dyna.common.dto.model.itf.InterfaceData;
+import dyna.common.dtomapper.DynaCacheMapper;
 
-public interface InterfaceDataMapper
+/**
+ * @author Lizw
+ * @date 2021/7/17
+ **/
+public interface InterfaceDataMapper extends DynaCacheMapper<InterfaceData>
 {
 
+	int deleteAll();
 }

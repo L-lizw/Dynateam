@@ -5,13 +5,15 @@
  */
 package dyna.common.dto.model.wf;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
-
 import dyna.common.annotation.Cache;
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.model.wf.WorkflowTransitionInfoMapper;
 import dyna.common.systemenum.WorkflowTransitionConditionType;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * 工作流程活动变迁
@@ -20,6 +22,7 @@ import dyna.common.systemenum.WorkflowTransitionConditionType;
  * 
  */
 @Cache
+@EntryMapper(WorkflowTransitionInfoMapper.class)
 public class WorkflowTransitionInfo extends SystemObjectImpl implements SystemObject
 {
 	private static final long	serialVersionUID	= 4899567710245121300L;

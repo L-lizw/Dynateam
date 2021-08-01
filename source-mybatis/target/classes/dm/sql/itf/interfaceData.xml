@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
 PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
 "../../mybatis-3-mapper.dtd">
-<mapper namespace="dyna.common.dtomapper.itf.InterfaceDataMapper">
+<mapper namespace="dyna.common.dtomapper.model.itf.InterfaceDataMapper">
 
     <select id="selectForLoad" parameterType="map" resultType="dyna.common.dto.model.itf.InterfaceData">
         SELECT GUID,

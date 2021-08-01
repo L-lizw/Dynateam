@@ -1,9 +1,12 @@
 package dyna.common.bean.data.trans;
 
+import dyna.common.annotation.EntryMapper;
+import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.trans.TransformSignMapper;
+
 import java.util.List;
 
-import dyna.common.bean.data.SystemObjectImpl;
-
+@EntryMapper(TransformSignMapper.class)
 public class TransformSign extends SystemObjectImpl
 {
 	/**

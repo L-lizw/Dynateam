@@ -5,14 +5,16 @@
  */
 package dyna.common.dto.wf;
 
-import java.util.Date;
-
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.wf.ProcessRuntimeMapper;
 import dyna.common.systemenum.LanguageEnum;
 import dyna.common.systemenum.ProcessStatusEnum;
 import dyna.common.util.BooleanUtils;
 import dyna.common.util.StringUtils;
+
+import java.util.Date;
 
 /**
  * 工作流程
@@ -20,6 +22,7 @@ import dyna.common.util.StringUtils;
  * @author Wanglei
  *
  */
+@EntryMapper(ProcessRuntimeMapper.class)
 public class ProcessRuntime extends SystemObjectImpl implements SystemObject
 {
 

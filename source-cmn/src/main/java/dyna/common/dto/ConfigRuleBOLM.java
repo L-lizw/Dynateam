@@ -5,13 +5,15 @@
  */
 package dyna.common.dto;
 
-import java.util.Date;
-import java.util.List;
-
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.ConfigRuleBOLMMapper;
 import dyna.common.util.BooleanUtils;
 import dyna.common.util.StringUtils;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * ConfigRuleBOLM 规则配置
@@ -20,6 +22,7 @@ import dyna.common.util.StringUtils;
  * @author caogc
  * 
  */
+@EntryMapper(ConfigRuleBOLMMapper.class)
 public class ConfigRuleBOLM extends SystemObjectImpl implements SystemObject
 {
 

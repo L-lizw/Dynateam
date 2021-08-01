@@ -5,9 +5,6 @@
  */
 package dyna.data.service.sync;
 
-import dyna.common.dtomapper.ModelSyncMapper;
-import dyna.common.dtomapper.SessionMapper;
-import dyna.data.service.model.interfacemodel.InterfaceModelService;
 import dyna.common.bean.configure.ProjectModel;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.model.cls.ClassObject;
@@ -19,22 +16,26 @@ import dyna.common.dto.SysTrack;
 import dyna.common.dto.aas.Group;
 import dyna.common.dto.aas.Role;
 import dyna.common.dto.aas.User;
+import dyna.common.dtomapper.ModelSyncMapper;
+import dyna.common.dtomapper.SessionMapper;
 import dyna.common.exception.DynaDataException;
 import dyna.common.exception.ServiceRequestException;
 import dyna.common.log.DynaLogger;
-import dyna.common.systemenum.*;
+import dyna.common.systemenum.ServiceStateEnum;
 import dyna.common.util.*;
 import dyna.data.DataServer;
-import dyna.data.common.exception.DynaDataModelException;
 import dyna.data.context.DataServerContext;
 import dyna.data.service.DSAbstractServiceStub;
+import dyna.data.service.model.interfacemodel.InterfaceModelService;
 import dyna.data.service.sdm.FieldValueEqualsFilter;
-import dyna.data.service.sync.bean.*;
+import dyna.data.service.sync.bean.CodeModelInfo;
+import dyna.data.service.sync.bean.DefaultStrategy;
+import dyna.data.service.sync.bean.DynaModel;
+import dyna.data.service.sync.bean.ModelXMLCache;
+import dyna.dbcommon.exception.DynaDataModelException;
 import dyna.net.security.signature.Signature;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -43,20 +44,20 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 系统数据服务 模型相关操作
  *
  * @author ZhangHW
  */
-@Repository
 public class SDSModelStub extends DSAbstractServiceStub<SyncModelServiceImpl>
 {
-	@Autowired
 	private ModelSyncMapper             modelSyncMapper;
 
-	@Autowired
 	private SessionMapper               sessionMapper;
 	/**
 	 * @param context
@@ -284,7 +285,7 @@ public class SDSModelStub extends DSAbstractServiceStub<SyncModelServiceImpl>
 
 	protected boolean isDeployLock(String sessionId) throws DynaDataException
 	{
-		DataServer.getTransactionManager().startTransaction(sessionId);
+//		DataServer.getTransactionManager().startTransaction(sessionId);
 		try (Connection conn = this.sqlSession.getConnection())
 		{
 			String sql = "SELECT PERMITSYNC FROM ma_sync_lock";
@@ -298,13 +299,13 @@ public class SDSModelStub extends DSAbstractServiceStub<SyncModelServiceImpl>
 				isLock = BooleanUtils.getBooleanByYN(lockString);
 			}
 
-			DataServer.getTransactionManager().commitTransaction();
+//			DataServer.getTransactionManager().commitTransaction();
 
 			return isLock;
 		}
 		catch (SQLException e)
 		{
-			DataServer.getTransactionManager().rollbackTransaction();
+//			DataServer.getTransactionManager().rollbackTransaction();
 			return false;
 		}
 		finally

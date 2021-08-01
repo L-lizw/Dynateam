@@ -5,19 +5,22 @@
  */
 package dyna.common.dto;
 
-import java.util.Date;
-
 import dyna.common.annotation.Cache;
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.SessionMapper;
 import dyna.common.systemenum.ApplicationTypeEnum;
 import dyna.common.systemenum.LanguageEnum;
+
+import java.util.Date;
 
 /**
  * @author sam
  *
  */
 @Cache
+@EntryMapper(SessionMapper.class)
 public class Session extends SystemObjectImpl implements SystemObject
 {
 	private static final long serialVersionUID = 7421915174906171354L;

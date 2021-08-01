@@ -5,15 +5,17 @@
  */
 package dyna.common.dto.model.wf;
 
-import java.math.BigDecimal;
-
 import dyna.common.annotation.Cache;
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
 import dyna.common.bean.model.Implementation;
+import dyna.common.dtomapper.model.wf.WorkflowActivityInfoMapper;
 import dyna.common.systemenum.LanguageEnum;
 import dyna.common.systemenum.ProcessingModeEnum;
 import dyna.common.util.StringUtils;
+
+import java.math.BigDecimal;
 
 /**
  * 工作流活动对象
@@ -22,6 +24,7 @@ import dyna.common.util.StringUtils;
  * 
  */
 @Cache
+@EntryMapper(WorkflowActivityInfoMapper.class)
 public class WorkflowActivityInfo extends SystemObjectImpl implements SystemObject
 {
 	private static final long	serialVersionUID	= 1852157630126589315L;

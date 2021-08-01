@@ -5,13 +5,16 @@
  */
 package dyna.common.bean.data.ppms;
 
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.ppm.RptWorkItemDeptStatMapper;
 
 /**
  * @author fanjq
  * 
  */
+@EntryMapper(RptWorkItemDeptStatMapper.class)
 public class RptWorkItemDeptStat extends SystemObjectImpl implements SystemObject
 {
 	private static final long	serialVersionUID	= -5313799462059525539L;

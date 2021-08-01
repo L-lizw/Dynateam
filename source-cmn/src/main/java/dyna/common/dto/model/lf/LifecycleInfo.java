@@ -6,8 +6,10 @@
 package dyna.common.dto.model.lf;
 
 import dyna.common.annotation.Cache;
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.model.lf.LifecycleInfoMapper;
 
 /**
  * 生命周期对象
@@ -16,6 +18,7 @@ import dyna.common.bean.data.SystemObjectImpl;
  * 
  */
 @Cache
+@EntryMapper(LifecycleInfoMapper.class)
 public class LifecycleInfo extends SystemObjectImpl implements SystemObject
 {
 	private static final long	serialVersionUID	= -4575865822004868692L;

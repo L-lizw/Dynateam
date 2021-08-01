@@ -5,12 +5,14 @@
  */
 package dyna.common.dto.wf;
 
-import java.util.Date;
-
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.wf.ProcTrackAttachMapper;
 import dyna.common.systemenum.LanguageEnum;
 import dyna.common.util.StringUtils;
+
+import java.util.Date;
 
 /**
  * 
@@ -19,6 +21,7 @@ import dyna.common.util.StringUtils;
  * @author zhanghj
  * 
  */
+@EntryMapper(ProcTrackAttachMapper.class)
 public class ProcTrackAttach extends SystemObjectImpl implements SystemObject
 {
 	private static final long	serialVersionUID	= 1L;

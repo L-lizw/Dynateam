@@ -1,14 +1,5 @@
 package dyna.data.service.model.featuremodel;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.model.code.ClassficationFeatureItem;
 import dyna.common.bean.model.code.CodeObject;
@@ -33,6 +24,9 @@ import dyna.data.service.model.codemodel.CodeModelService;
 import dyna.data.service.sdm.FieldValueEqualsFilter;
 import dyna.data.service.sdm.SystemDataService;
 
+import java.util.*;
+import java.util.stream.Collectors;
+
 public class ClassificationFeatureStub extends DSAbstractServiceStub<ClassificationFeatureServiceImpl>
 {
 	private static Map<String, ClassficationFeatureItem> ClassficationFeatureItemCache = new HashMap<>();
@@ -47,7 +41,7 @@ public class ClassificationFeatureStub extends DSAbstractServiceStub<Classificat
 		String tranid = StringUtils.generateRandomUID(32);
 		try
 		{
-			DataServer.getTransactionService().startTransaction(tranid);
+//			DataServer.getTransactionService().startTransaction(tranid);
 
 			SystemDataService sds = DataServer.getSystemDataService();
 			List<ClassficationFeature> featurList = sds.listFromCache(ClassficationFeature.class, null);
@@ -123,17 +117,17 @@ public class ClassificationFeatureStub extends DSAbstractServiceStub<Classificat
 					}
 				}
 			}
-			DataServer.getTransactionService().commitTransaction(tranid);
+//			DataServer.getTransactionService().commitTransaction(tranid);
 
 		}
 		catch (DynaDataException e)
 		{
-			DataServer.getTransactionService().rollbackTransaction(tranid);
+//			DataServer.getTransactionService().rollbackTransaction(tranid);
 			throw e;
 		}
 		catch (Exception e)
 		{
-			DataServer.getTransactionService().rollbackTransaction(tranid);
+//			DataServer.getTransactionService().rollbackTransaction(tranid);
 			throw ServiceRequestException.createByException("ID_APP_SERVER_EXCEPTION", e);
 		}
 	}
@@ -346,22 +340,22 @@ public class ClassificationFeatureStub extends DSAbstractServiceStub<Classificat
 				List<ClassificationNumberField> list = item.getFieldList();
 				saveClassificationNumberField(itemguid, list);
 			}
-			DataServer.getTransactionService().commitTransaction(tranid);
+//			DataServer.getTransactionService().commitTransaction(tranid);
 			return itemguid;
 		}
 		catch (DynaDataException e)
 		{
-			DataServer.getTransactionService().rollbackTransaction(tranid);
+//			DataServer.getTransactionService().rollbackTransaction(tranid);
 			throw e;
 		}
 		catch (ServiceRequestException e)
 		{
-			DataServer.getTransactionService().rollbackTransaction(tranid);
+//			DataServer.getTransactionService().rollbackTransaction(tranid);
 			throw e;
 		}
 		catch (Exception e)
 		{
-			DataServer.getTransactionService().rollbackTransaction(tranid);
+//			DataServer.getTransactionService().rollbackTransaction(tranid);
 			throw ServiceRequestException.createByException("ID_APP_SERVER_EXCEPTION", e);
 		}
 	}
@@ -410,7 +404,7 @@ public class ClassificationFeatureStub extends DSAbstractServiceStub<Classificat
 			String tranid = StringUtils.generateRandomUID(32);
 			try
 			{
-				DataServer.getTransactionService().startTransaction(tranid);
+//				DataServer.getTransactionService().startTransaction(tranid);
 				ClassficationFeatureItemCache.remove(featureItemGuid);
 				ClassficationFeatureItemInfo info = item.getInfo();
 				List<ClassificationNumberField> list = item.getFieldList();
@@ -422,16 +416,16 @@ public class ClassificationFeatureStub extends DSAbstractServiceStub<Classificat
 					}
 				}
 				DataServer.getSystemDataService().delete(info);
-				DataServer.getTransactionService().commitTransaction(tranid);
+//				DataServer.getTransactionService().commitTransaction(tranid);
 			}
 			catch (DynaDataException e)
 			{
-				DataServer.getTransactionService().rollbackTransaction(tranid);
+//				DataServer.getTransactionService().rollbackTransaction(tranid);
 				throw e;
 			}
 			catch (Exception e)
 			{
-				DataServer.getTransactionService().rollbackTransaction(tranid);
+//				DataServer.getTransactionService().rollbackTransaction(tranid);
 				throw ServiceRequestException.createByException("ID_APP_SERVER_EXCEPTION", e);
 			}
 

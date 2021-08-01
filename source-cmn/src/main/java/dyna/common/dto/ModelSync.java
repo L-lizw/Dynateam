@@ -1,8 +1,11 @@
 package dyna.common.dto;
 
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.ModelSyncMapper;
 
+@EntryMapper(ModelSyncMapper.class)
 public class ModelSync extends SystemObjectImpl implements SystemObject
 {
 

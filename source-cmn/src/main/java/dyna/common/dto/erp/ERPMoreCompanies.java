@@ -5,8 +5,10 @@
  */
 package dyna.common.dto.erp;
 
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.erp.ERPMoreCompaniesMapper;
 
 /**
  * 用于ERP中取多公司资料的配置
@@ -15,6 +17,7 @@ import dyna.common.bean.data.SystemObjectImpl;
  * 
  */
 
+@EntryMapper(ERPMoreCompaniesMapper.class)
 public class ERPMoreCompanies extends SystemObjectImpl implements SystemObject
 {
 

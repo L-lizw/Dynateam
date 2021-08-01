@@ -1,9 +1,11 @@
 package dyna.common.bean.data.configparamter;
 
-import java.util.Map;
-
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
+import dyna.common.dtomapper.configparamter.TableOfListMapper;
 import dyna.common.systemenum.ConfigParameterTableType;
+
+import java.util.Map;
 
 /**
  * 列表(La和Lb)
@@ -11,6 +13,7 @@ import dyna.common.systemenum.ConfigParameterTableType;
  * @author wwx
  * 
  */
+@EntryMapper(TableOfListMapper.class)
 public class TableOfList extends ConfigTableBase implements SystemObject
 {
 	private static final long	serialVersionUID	= -8178312263272838430L;

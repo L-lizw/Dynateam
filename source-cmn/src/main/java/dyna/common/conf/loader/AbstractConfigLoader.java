@@ -5,12 +5,9 @@
  */
 package dyna.common.conf.loader;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
+import dyna.common.Configurable;
+import dyna.common.conf.ConfigurableKVElementImpl;
+import dyna.common.util.StringUtils;
 import org.jdom.Attribute;
 import org.jdom.Document;
 import org.jdom.Element;
@@ -18,12 +15,14 @@ import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 import org.xml.sax.InputSource;
 
-import dyna.common.Configurable;
-import dyna.common.conf.ConfigurableKVElementImpl;
-import dyna.common.util.StringUtils;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
- * @author Wanglei
+ * @author Lizw
  * 
  */
 public abstract class AbstractConfigLoader<T extends Configurable> implements ConfigLoader<T>
@@ -50,9 +49,9 @@ public abstract class AbstractConfigLoader<T extends Configurable> implements Co
 		this.doc = null;
 	}
 	
-	public T load(InputSource inputSource)
+	public void load(InputSource inputSource)
 	{
-		return null;
+
 	}
 
 	public void setConfigInputSource(InputSource inputSource)

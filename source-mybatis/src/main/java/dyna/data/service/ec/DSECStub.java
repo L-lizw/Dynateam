@@ -5,23 +5,22 @@
  */
 package dyna.data.service.ec;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import dyna.common.bean.data.ObjectGuid;
 import dyna.common.dtomapper.DynaObjectMapper;
 import dyna.common.exception.DynaDataException;
 import dyna.common.systemenum.DataExceptionEnum;
 import dyna.common.util.SetUtils;
 import dyna.data.DataServer;
-import dyna.data.common.exception.DynaDataExceptionAll;
-import dyna.data.common.exception.DynaDataExceptionSQL;
 import dyna.data.context.DataServerContext;
 import dyna.data.service.DSAbstractServiceStub;
+import dyna.dbcommon.exception.DynaDataExceptionAll;
+import dyna.dbcommon.exception.DynaDataExceptionSQL;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 处理EC

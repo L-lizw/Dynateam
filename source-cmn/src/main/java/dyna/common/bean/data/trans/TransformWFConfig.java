@@ -1,7 +1,10 @@
 package dyna.common.bean.data.trans;
 
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.trans.TransformWFConfigMapper;
 
+@EntryMapper(TransformWFConfigMapper.class)
 public class TransformWFConfig extends SystemObjectImpl
 {
 	/**

@@ -1,8 +1,10 @@
 package dyna.common.bean.data.configparamter;
 
-import java.util.Map;
-
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
+import dyna.common.dtomapper.configparamter.TableOfGroupMapper;
+
+import java.util.Map;
 
 /**
  * 分组(G表)
@@ -10,6 +12,7 @@ import dyna.common.bean.data.SystemObject;
  * @author wwx
  * 
  */
+@EntryMapper(TableOfGroupMapper.class)
 public class TableOfGroup extends ConfigTableBase implements SystemObject
 {
 	private static final long	serialVersionUID	= 741177795259781144L;

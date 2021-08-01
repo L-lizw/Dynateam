@@ -4,9 +4,9 @@ PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
 "../../mybatis-3-mapper.dtd">
 <mapper namespace="dyna.common.dtomapper.template.wft.WorkflowTemplateActClassUIInfoMapper">
 
-    <select id="selectForLoad" parameterType="map" resultType="dyna.common.dto.template.wft.WorkflowTemplateActClassUIInfo">
+    <select id="selectForLoad"  resultType="dyna.common.dto.template.wft.WorkflowTemplateActClassUIInfo">
         SELECT *
-          FROM WF_TEMPLATE_ACTRT_BOCLASSUI A
+          FROM WF_TEMPLATE_ACTRT_BOCLASSUI
     </select>
     
     <select id="get" parameterType="java.lang.String" resultType="dyna.common.dto.template.wft.WorkflowTemplateActClassUIInfo" statementType="STATEMENT">

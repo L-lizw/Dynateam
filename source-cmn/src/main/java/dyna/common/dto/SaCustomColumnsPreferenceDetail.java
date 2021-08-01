@@ -5,15 +5,18 @@
  */
 package dyna.common.dto;
 
-import java.math.BigDecimal;
-
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.SaCustomColumnsPreferenceDetailMapper;
+
+import java.math.BigDecimal;
 
 /**
  * @author niumr
  *         表格自定义列明细字段
  */
+@EntryMapper(SaCustomColumnsPreferenceDetailMapper.class)
 public class SaCustomColumnsPreferenceDetail extends SystemObjectImpl implements SystemObject
 {
 	private static final long	serialVersionUID	= -5823574809902566778L;

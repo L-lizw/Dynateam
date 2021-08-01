@@ -1,21 +1,14 @@
 package dyna.data.service.config;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import dyna.common.dtomapper.cpb.IOPColumnTitleMapper;
-import dyna.common.dtomapper.configparamter.*;
-import dyna.common.dtomapper.cpb.DynamicOfColumnMapper;
-import dyna.data.service.relation.RelationServiceImpl;
 import dyna.common.bean.data.ObjectGuid;
 import dyna.common.bean.data.template.RelationTemplate;
 import dyna.common.bean.model.bmbo.BusinessObject;
 import dyna.common.bean.model.cls.ClassObject;
 import dyna.common.dto.Session;
 import dyna.common.dto.template.relation.RelationTemplateEnd2;
+import dyna.common.dtomapper.configparamter.*;
+import dyna.common.dtomapper.cpb.DynamicOfColumnMapper;
+import dyna.common.dtomapper.cpb.IOPColumnTitleMapper;
 import dyna.common.exception.DynaDataException;
 import dyna.common.exception.ServiceRequestException;
 import dyna.common.systemenum.DataExceptionEnum;
@@ -24,11 +17,18 @@ import dyna.common.util.DateFormat;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
-import dyna.data.common.exception.DynaDataExceptionAll;
-import dyna.data.common.exception.DynaDataExceptionSQL;
 import dyna.data.context.DataServerContext;
 import dyna.data.service.DSAbstractServiceStub;
+import dyna.data.service.relation.RelationServiceImpl;
+import dyna.dbcommon.exception.DynaDataExceptionAll;
+import dyna.dbcommon.exception.DynaDataExceptionSQL;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ConfigManagerStub extends DSAbstractServiceStub<ConfigManagerServiceImpl>
 {

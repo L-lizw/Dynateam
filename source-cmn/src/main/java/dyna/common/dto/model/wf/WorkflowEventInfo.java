@@ -5,14 +5,16 @@
  */
 package dyna.common.dto.model.wf;
 
-import java.util.Iterator;
-
 import dyna.common.annotation.Cache;
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.model.AbstractScript;
 import dyna.common.bean.model.EventScript;
 import dyna.common.bean.model.Script;
+import dyna.common.dtomapper.model.wf.WorkflowEventInfoMapper;
 import dyna.common.systemenum.ScriptTypeEnum;
 import dyna.common.util.SetUtils;
+
+import java.util.Iterator;
 
 /**
  * 工作流事件
@@ -21,6 +23,7 @@ import dyna.common.util.SetUtils;
  * 
  */
 @Cache
+@EntryMapper(WorkflowEventInfoMapper.class)
 public class WorkflowEventInfo extends AbstractScript implements EventScript
 {
 	private static final long	serialVersionUID	= -1394049540333838443L;

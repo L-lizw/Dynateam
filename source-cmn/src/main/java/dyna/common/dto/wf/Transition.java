@@ -5,8 +5,10 @@
  */
 package dyna.common.dto.wf;
 
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.wf.TransitionMapper;
 
 /**
  * 工作流程活动变迁
@@ -14,6 +16,7 @@ import dyna.common.bean.data.SystemObjectImpl;
  * @author Wanglei
  * 
  */
+@EntryMapper(TransitionMapper.class)
 public class Transition extends SystemObjectImpl implements SystemObject
 {
 

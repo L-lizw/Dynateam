@@ -36,7 +36,6 @@ import java.util.List;
 import java.util.Map;
 
 @SuppressWarnings("unchecked")
-@Repository
 public class SyncClassObject extends SyncService
 {
 	// 分类缓存
@@ -64,19 +63,12 @@ public class SyncClassObject extends SyncService
 
 	private int maxColumnIndex = 1;
 
-	@Autowired
 	public final ModelXMLCache                  dataModel;
-	@Autowired
 	private LifecycleInfoMapper                 lifecycleInfoMapper;
-	@Autowired
 	private ClassInfoMapper                     classInfoMapper;
-	@Autowired
 	private ClassFieldMapper                    classFieldMapper;
-	@Autowired
 	private CodeObjectInfoMapper                codeObjectInfoMapper;
-	@Autowired
 	private ClassFieldCRDetailMapper            classFieldCRDetailMapper;
-	@Autowired
 	private TreeDataRelationMapper              treeDataRelationMapper;
 
 	public SyncClassObject(SqlSessionFactory sqlSessionFactory, String userGuid, ModelXMLCache dataModel)

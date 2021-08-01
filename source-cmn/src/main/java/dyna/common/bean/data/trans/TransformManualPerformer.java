@@ -5,8 +5,10 @@
  */
 package dyna.common.bean.data.trans;
 
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.trans.TransformManualPerformerMapper;
 import dyna.common.systemenum.PerformerTypeEnum;
 
 /**
@@ -15,6 +17,7 @@ import dyna.common.systemenum.PerformerTypeEnum;
  * @author WangLHB
  * 
  */
+@EntryMapper(TransformManualPerformerMapper.class)
 public class TransformManualPerformer extends SystemObjectImpl implements SystemObject
 {
 

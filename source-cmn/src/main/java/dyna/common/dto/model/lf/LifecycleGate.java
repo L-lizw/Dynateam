@@ -6,8 +6,10 @@
 package dyna.common.dto.model.lf;
 
 import dyna.common.annotation.Cache;
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.model.lf.LifecycleGateMapper;
 import dyna.common.systemenum.EventTypeEnum;
 import dyna.common.systemenum.LifecycleGateType;
 
@@ -16,6 +18,7 @@ import dyna.common.systemenum.LifecycleGateType;
  *
  */
 @Cache
+@EntryMapper(LifecycleGateMapper.class)
 public class LifecycleGate extends SystemObjectImpl implements SystemObject
 {
 	private static final long	serialVersionUID	= 4309944830943953803L;

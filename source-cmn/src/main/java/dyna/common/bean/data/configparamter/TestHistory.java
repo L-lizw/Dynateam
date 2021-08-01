@@ -1,7 +1,9 @@
 package dyna.common.bean.data.configparamter;
 
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.configparamter.TestHistoryMapper;
 
 /**
  * 驱动测试时，界面参数bean
@@ -9,6 +11,7 @@ import dyna.common.bean.data.SystemObjectImpl;
  * @author Administrator
  * 
  */
+@EntryMapper(TestHistoryMapper.class)
 public class TestHistory extends SystemObjectImpl implements SystemObject
 {
 

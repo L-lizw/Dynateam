@@ -1,18 +1,21 @@
 package dyna.common.bean.data.configparamter;
 
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.List;
-
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
+import dyna.common.dtomapper.configparamter.TableOfInputVariableMapper;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 输入变量表
  *
  * @author wwx
  */
+@EntryMapper(TableOfInputVariableMapper.class)
 public class TableOfInputVariable extends ConfigTableBase implements SystemObject
 {
 	private static final long                         serialVersionUID = 5474372883389913067L;

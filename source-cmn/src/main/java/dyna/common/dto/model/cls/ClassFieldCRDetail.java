@@ -1,10 +1,13 @@
 package dyna.common.dto.model.cls;
 
 import dyna.common.annotation.Cache;
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.model.cls.ClassFieldCRDetailMapper;
 
 @Cache
+@EntryMapper(ClassFieldCRDetailMapper.class)
 public class ClassFieldCRDetail extends SystemObjectImpl implements SystemObject
 {
 	/**

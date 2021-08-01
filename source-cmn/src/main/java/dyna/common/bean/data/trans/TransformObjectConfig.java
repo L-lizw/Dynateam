@@ -1,8 +1,11 @@
 package dyna.common.bean.data.trans;
 
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.trans.TransformObjectConfigMapper;
 import dyna.common.util.BooleanUtils;
 
+@EntryMapper(TransformObjectConfigMapper.class)
 public class TransformObjectConfig extends SystemObjectImpl
 {
 	/**

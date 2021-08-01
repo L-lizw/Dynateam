@@ -5,14 +5,16 @@
  */
 package dyna.common.bean.data.ppms;
 
-import java.util.List;
-
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.ObjectGuid;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
 import dyna.common.dto.aas.User;
+import dyna.common.dtomapper.ppm.UpdateTaskStatusMapper;
 import dyna.common.systemenum.ppms.ProgressRateEnum;
 import dyna.common.util.PMConstans;
+
+import java.util.List;
 
 /**
  * 更新任务状态
@@ -20,6 +22,7 @@ import dyna.common.util.PMConstans;
  * @author wangweixia
  * 
  */
+@EntryMapper(UpdateTaskStatusMapper.class)
 public class UpdateTaskStatus extends SystemObjectImpl implements SystemObject
 {
 	private static final long	serialVersionUID	= -2451461156189765722L;

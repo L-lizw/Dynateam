@@ -5,10 +5,6 @@
  */
 package dyna.net.service.brs;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
-
 import dyna.common.SearchCondition;
 import dyna.common.bean.data.ObjectGuid;
 import dyna.common.bean.data.template.BOMTemplate;
@@ -39,6 +35,10 @@ import dyna.common.exception.ServiceRequestException;
 import dyna.common.systemenum.ModelInterfaceEnum;
 import dyna.common.systemenum.UITypeEnum;
 import dyna.net.service.Service;
+
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Enterprise Model Management 企业建模信息服务

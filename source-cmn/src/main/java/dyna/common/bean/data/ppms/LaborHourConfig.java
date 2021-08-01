@@ -5,11 +5,13 @@
  */
 package dyna.common.bean.data.ppms;
 
-import java.math.BigDecimal;
-
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.ppm.LaborHourConfigMapper;
 import dyna.common.util.BooleanUtils;
+
+import java.math.BigDecimal;
 
 /**
  * 工时基本参数设置
@@ -17,6 +19,7 @@ import dyna.common.util.BooleanUtils;
  * @author wangweixia
  * 
  */
+@EntryMapper(LaborHourConfigMapper.class)
 public class LaborHourConfig extends SystemObjectImpl implements SystemObject
 {
 

@@ -5,13 +5,15 @@
  */
 package dyna.common.dto.template.relation;
 
-import java.util.Date;
-
 import dyna.common.annotation.Cache;
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.template.relation.RelationTemplateEnd2Mapper;
 import dyna.common.systemenum.LanguageEnum;
 import dyna.common.util.StringUtils;
+
+import java.util.Date;
 
 /**
  * 
@@ -19,6 +21,7 @@ import dyna.common.util.StringUtils;
  *
  */
 @Cache
+@EntryMapper(RelationTemplateEnd2Mapper.class)
 public class RelationTemplateEnd2 extends SystemObjectImpl implements SystemObject
 {
 

@@ -5,8 +5,6 @@
  */
 package dyna.common.conf.loader;
 
-import java.util.Iterator;
-
 import dyna.common.conf.ConfigurableJSSImpl;
 import dyna.common.conf.ConfigurableKVElementImpl;
 import dyna.common.conf.JobDefinition;
@@ -14,6 +12,8 @@ import dyna.common.conf.SchedulerDefinition;
 import dyna.common.util.EnvUtils;
 import dyna.common.util.FileUtils;
 import dyna.common.util.StringUtils;
+
+import java.util.Iterator;
 
 /**
  * @author Qiuxq
@@ -37,13 +37,8 @@ public class ConfigLoaderJSSImpl extends AbstractConfigLoader<ConfigurableJSSImp
 	 * @see dyna.common.conf.loader.ConfigLoaderDefaultImpl#load()
 	 */
 	@Override
-	public synchronized ConfigurableJSSImpl load(String xmlFilePath)
+	public synchronized void load(String xmlFilePath)
 	{
-		if (this.conf != null)
-		{
-			return this.conf;
-		}
-
 		this.conf = new ConfigurableJSSImpl();
 		this.setConfigFile(FileUtils.newFileEscape(xmlFilePath));
 
@@ -94,7 +89,6 @@ public class ConfigLoaderJSSImpl extends AbstractConfigLoader<ConfigurableJSSImp
 			this.conf.addSchedulerDefinition(sd);
 		}
 		this.conf.configured();
-		return this.conf;
 	}
 
 	/*
@@ -103,9 +97,14 @@ public class ConfigLoaderJSSImpl extends AbstractConfigLoader<ConfigurableJSSImp
 	 * @see dyna.common.conf.loader.ConfigLoader#load(java.lang.String)
 	 */
 	@Override
-	public ConfigurableJSSImpl load()
+	public void load()
 	{
-		return this.load(this.confDirectory);
+		 this.load(this.confDirectory);
+	}
+
+	@Override public ConfigurableJSSImpl getConfigurable()
+	{
+		return conf;
 	}
 
 }

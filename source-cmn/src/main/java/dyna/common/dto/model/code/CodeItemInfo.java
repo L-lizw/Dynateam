@@ -5,20 +5,23 @@
  */
 package dyna.common.dto.model.code;
 
-import java.math.BigDecimal;
-
 import dyna.common.annotation.Cache;
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.model.code.CodeItemInfoMapper;
 import dyna.common.systemenum.LanguageEnum;
 import dyna.common.util.BooleanUtils;
 import dyna.common.util.StringUtils;
+
+import java.math.BigDecimal;
 
 /**
  * @author caogc
  * 
  */
 @Cache
+@EntryMapper(CodeItemInfoMapper.class)
 public class CodeItemInfo extends SystemObjectImpl implements SystemObject
 {
 

@@ -5,18 +5,21 @@
  */
 package dyna.common.bean.data.ppms;
 
+import dyna.common.annotation.EntryMapper;
+import dyna.common.bean.data.SystemObject;
+import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.ppm.RptMilestoneMapper;
+import dyna.common.util.DateFormat;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Date;
-
-import dyna.common.bean.data.SystemObject;
-import dyna.common.bean.data.SystemObjectImpl;
-import dyna.common.util.DateFormat;
 
 /**
  * @author fanjq
  * 
  */
+@EntryMapper(RptMilestoneMapper.class)
 public class RptMilestone extends SystemObjectImpl implements SystemObject
 {
 

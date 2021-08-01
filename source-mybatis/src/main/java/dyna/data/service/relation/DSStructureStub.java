@@ -31,16 +31,16 @@ import dyna.common.util.DateFormat;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
-import dyna.data.common.exception.DynaDataExceptionAll;
-import dyna.data.common.exception.DynaDataExceptionSQL;
-import dyna.data.common.sqlbuilder.ClassInstanceGetSqlBuilder;
-import dyna.data.common.sqlbuilder.RelationFromQuerySqlBuilder;
-import dyna.data.common.sqlbuilder.RelationToQuerySqlBuilder;
-import dyna.data.common.util.Constants;
-import dyna.data.common.util.DSCommonUtil;
 import dyna.data.context.DataServerContext;
 import dyna.data.service.DSAbstractServiceStub;
 import dyna.data.service.acl.AclService;
+import dyna.data.sqlbuilder.ClassInstanceGetSqlBuilder;
+import dyna.data.sqlbuilder.RelationFromQuerySqlBuilder;
+import dyna.data.sqlbuilder.RelationToQuerySqlBuilder;
+import dyna.dbcommon.exception.DynaDataExceptionAll;
+import dyna.dbcommon.exception.DynaDataExceptionSQL;
+import dyna.dbcommon.util.Constants;
+import dyna.dbcommon.util.DSCommonUtil;
 
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
@@ -231,7 +231,7 @@ public class DSStructureStub extends DSAbstractServiceStub<RelationServiceImpl>
 		}
 		try
 		{
-			DataServer.getTransactionManager().startTransaction(fixTranId);
+//			DataServer.getTransactionManager().startTransaction(fixTranId);
 			String end2 = null;
 			if (!isPrecise)
 			{
@@ -244,12 +244,12 @@ public class DSStructureStub extends DSAbstractServiceStub<RelationServiceImpl>
 				retObject.put("END2", end2);
 			}
 
-			DataServer.getTransactionManager().commitTransaction();
+//			DataServer.getTransactionManager().commitTransaction();
 			return retObject;
 		}
 		catch (Exception e)
 		{
-			DataServer.getTransactionManager().rollbackTransaction();
+//			DataServer.getTransactionManager().rollbackTransaction();
 			if (e instanceof DynaDataExceptionSQL)
 			{
 				throw (DynaDataExceptionSQL) e;
@@ -933,7 +933,7 @@ public class DSStructureStub extends DSAbstractServiceStub<RelationServiceImpl>
 		}
 		try
 		{
-			DataServer.getTransactionManager().startTransaction(fixTranId);
+//			DataServer.getTransactionManager().startTransaction(fixTranId);
 
 			List<SqlParamData> whereParamList = new ArrayList<>();
 			whereParamList.add(new SqlParamData("GUID", structureGuid, DSCommonUtil.getJavaTypeOfField(FieldTypeEnum.STRING)));
@@ -982,7 +982,7 @@ public class DSStructureStub extends DSAbstractServiceStub<RelationServiceImpl>
 				structureObject.put(SystemClassFieldEnum.END2.getName() + "MASTER", end2Master);
 			}
 
-			DataServer.getTransactionManager().commitTransaction();
+//			DataServer.getTransactionManager().commitTransaction();
 
 			StructureObjectImpl retObject = (StructureObjectImpl) structureObject.getClass().getConstructor().newInstance();
 			retObject.sync(structureObject);
@@ -991,7 +991,7 @@ public class DSStructureStub extends DSAbstractServiceStub<RelationServiceImpl>
 		}
 		catch (Exception e)
 		{
-			DataServer.getTransactionManager().rollbackTransaction();
+//			DataServer.getTransactionManager().rollbackTransaction();
 			if (e instanceof DynaDataExceptionSQL)
 			{
 				throw (DynaDataExceptionSQL) e;
@@ -1100,7 +1100,7 @@ public class DSStructureStub extends DSAbstractServiceStub<RelationServiceImpl>
 		try
 		{
 			ClassObject classObject = DataServer.getClassModelService().getClassObjectByGuid(structureClassGuid);
-			DataServer.getTransactionManager().startTransaction(fixTranId);
+//			DataServer.getTransactionManager().startTransaction(fixTranId);
 			for (StructureObject fo : list)
 			{
 				StructureObjectImpl structureObject = new StructureObjectImpl();
@@ -1131,12 +1131,12 @@ public class DSStructureStub extends DSAbstractServiceStub<RelationServiceImpl>
 				}
 				this.create(structureObject, sessionId, fixTranId);
 			}
-			DataServer.getTransactionManager().commitTransaction();
+//			DataServer.getTransactionManager().commitTransaction();
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
-			DataServer.getTransactionManager().rollbackTransaction();
+//			DataServer.getTransactionManager().rollbackTransaction();
 			if (e instanceof DynaDataExceptionSQL)
 			{
 				throw (DynaDataExceptionSQL) e;

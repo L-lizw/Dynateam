@@ -5,13 +5,16 @@
  */
 package dyna.common.bean.data.ppms;
 
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.ppm.RptTaskExecStateStatMapper;
 
 /**
  * @author fanjq
  * 
  */
+@EntryMapper(RptTaskExecStateStatMapper.class)
 public class RptTaskExecStateStat extends SystemObjectImpl implements SystemObject
 {
 

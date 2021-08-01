@@ -5,15 +5,18 @@
  */
 package dyna.common.bean.data.structure;
 
-import java.math.BigDecimal;
-import java.util.Map;
-
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.FoundationObject;
 import dyna.common.bean.data.ObjectGuid;
 import dyna.common.bean.data.StructureObject;
 import dyna.common.bean.data.StructureObjectImpl;
+import dyna.common.dtomapper.BomObjectMapper;
 import dyna.common.util.BooleanUtils;
 
+import java.math.BigDecimal;
+import java.util.Map;
+
+@EntryMapper(BomObjectMapper.class)
 public class BOMStructure extends StructureObjectImpl implements StructureObject
 {
 

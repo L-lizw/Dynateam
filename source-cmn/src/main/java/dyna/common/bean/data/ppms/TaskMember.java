@@ -5,20 +5,23 @@
  */
 package dyna.common.bean.data.ppms;
 
-import java.math.BigDecimal;
-
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.ObjectGuid;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.ppm.TaskMemberMapper;
 import dyna.common.systemenum.ppms.WBSOperateEnum;
 import dyna.common.util.BooleanUtils;
 import dyna.common.util.PMConstans;
 import dyna.common.util.StringUtils;
 
+import java.math.BigDecimal;
+
 /**
  * @author WangLHB
  * 
  */
+@EntryMapper(TaskMemberMapper.class)
 public class TaskMember extends SystemObjectImpl implements SystemObject
 {
 

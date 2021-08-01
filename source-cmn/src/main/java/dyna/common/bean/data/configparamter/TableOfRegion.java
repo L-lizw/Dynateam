@@ -1,9 +1,11 @@
 package dyna.common.bean.data.configparamter;
 
-import java.util.Map;
-
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
+import dyna.common.dtomapper.configparamter.TableOfRegionMapper;
 import dyna.common.systemenum.ConfigParameterTableType;
+
+import java.util.Map;
 
 /**
  * 范围(A-E表和 R-Q表)
@@ -11,6 +13,7 @@ import dyna.common.systemenum.ConfigParameterTableType;
  * @author wwx
  * 
  */
+@EntryMapper(TableOfRegionMapper.class)
 public class TableOfRegion extends ConfigTableBase implements SystemObject
 {
 	private static final long	serialVersionUID	= 198901519599475733L;

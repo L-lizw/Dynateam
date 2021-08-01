@@ -7,10 +7,13 @@
 package dyna.common.dto.model.cls;
 
 import dyna.common.annotation.Cache;
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.model.AbstractScript;
+import dyna.common.dtomapper.model.cls.ClassActionMapper;
 import dyna.common.systemenum.ScriptTypeEnum;
 
 @Cache
+@EntryMapper(ClassActionMapper.class)
 public class ClassAction extends AbstractScript
 {
 	private static final long	serialVersionUID	= -3699501028572128906L;

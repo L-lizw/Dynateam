@@ -5,20 +5,23 @@
  */
 package dyna.common.dto;
 
-import java.util.Date;
-
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.ObjectGuid;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.MailWorkFlowMapper;
 import dyna.common.systemenum.LanguageEnum;
 import dyna.common.systemenum.ProcessStatusEnum;
 import dyna.common.util.BooleanUtils;
 import dyna.common.util.StringUtils;
 
+import java.util.Date;
+
 /**
  * @author wangweixia
  * 
  */
+@EntryMapper(MailWorkFlowMapper.class)
 public class MailWorkFlow extends SystemObjectImpl implements SystemObject
 {
 	private static final long	serialVersionUID	= 6076824363035753361L;

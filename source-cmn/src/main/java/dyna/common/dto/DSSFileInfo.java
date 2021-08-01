@@ -5,15 +5,17 @@
  */
 package dyna.common.dto;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.ObjectGuid;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.DSSFileInfoMapper;
 import dyna.common.systemenum.LanguageEnum;
 import dyna.common.util.BooleanUtils;
 import dyna.common.util.StringUtils;
+
+import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * 文件信息bean
@@ -21,6 +23,7 @@ import dyna.common.util.StringUtils;
  * @author Wanglei
  * 
  */
+@EntryMapper(DSSFileInfoMapper.class)
 public class DSSFileInfo extends SystemObjectImpl implements SystemObject
 {
 

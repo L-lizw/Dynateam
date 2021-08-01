@@ -5,11 +5,13 @@
  */
 package dyna.common.dto.wf;
 
-import java.util.Date;
-
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.wf.ApproveTemplateDetailMapper;
 import dyna.common.systemenum.PerformerTypeEnum;
+
+import java.util.Date;
 
 /**
  * 审批模板明细
@@ -17,6 +19,7 @@ import dyna.common.systemenum.PerformerTypeEnum;
  * @author zhanghj
  * 
  */
+@EntryMapper(ApproveTemplateDetailMapper.class)
 public class ApproveTemplateDetail extends SystemObjectImpl implements SystemObject
 {
 

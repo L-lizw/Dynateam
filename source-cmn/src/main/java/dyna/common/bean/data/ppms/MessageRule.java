@@ -5,12 +5,14 @@
  */
 package dyna.common.bean.data.ppms;
 
-import java.util.List;
-
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.ppm.MessageRuleMapper;
 import dyna.common.systemenum.ppms.MessageTypeEnum;
 import dyna.common.util.BooleanUtils;
+
+import java.util.List;
 
 /**
  * 消息规则设置
@@ -18,6 +20,7 @@ import dyna.common.util.BooleanUtils;
  * @author wangweixia
  * 
  */
+@EntryMapper(MessageRuleMapper.class)
 public class MessageRule extends SystemObjectImpl implements SystemObject
 {
 

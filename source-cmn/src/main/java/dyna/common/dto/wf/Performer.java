@@ -5,14 +5,16 @@
  */
 package dyna.common.dto.wf;
 
-import java.util.Date;
-
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.wf.PerformerMapper;
 import dyna.common.systemenum.LanguageEnum;
 import dyna.common.systemenum.PerformerTypeEnum;
 import dyna.common.util.BooleanUtils;
 import dyna.common.util.StringUtils;
+
+import java.util.Date;
 
 /**
  * 工作流程活动执行人
@@ -20,6 +22,7 @@ import dyna.common.util.StringUtils;
  * @author Wanglei
  * 
  */
+@EntryMapper(PerformerMapper.class)
 public class Performer extends SystemObjectImpl implements SystemObject
 {
 

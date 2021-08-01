@@ -5,15 +5,18 @@
  */
 package dyna.common.dto;
 
-import java.math.BigDecimal;
-
 import dyna.common.annotation.Cache;
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.FolderMapper;
 import dyna.common.systemenum.FolderTypeEnum;
 import dyna.common.util.BooleanUtils;
 
+import java.math.BigDecimal;
+
 @Cache
+@EntryMapper(FolderMapper.class)
 public class Folder extends SystemObjectImpl implements SystemObject
 {
 

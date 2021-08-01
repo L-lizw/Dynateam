@@ -5,13 +5,15 @@
  */
 package dyna.common.bean.data.ppms;
 
-import java.util.List;
-
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
+import dyna.common.dtomapper.ppm.ProjectRoleMapper;
 import dyna.common.systemenum.ppms.WBSOperateEnum;
 import dyna.common.util.PMConstans;
 import dyna.common.util.SetUtils;
+
+import java.util.List;
 
 /**
  * 项目角色设置
@@ -19,6 +21,7 @@ import dyna.common.util.SetUtils;
  * @author wangweixia
  * 
  */
+@EntryMapper(ProjectRoleMapper.class)
 public class ProjectRole extends SystemObjectImpl implements SystemObject
 {
 

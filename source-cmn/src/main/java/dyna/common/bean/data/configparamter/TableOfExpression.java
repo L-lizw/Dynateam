@@ -1,8 +1,10 @@
 package dyna.common.bean.data.configparamter;
 
-import java.util.Map;
-
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
+import dyna.common.dtomapper.configparamter.TableOfExpressionMapper;
+
+import java.util.Map;
 
 /**
  * 公式表(F表)
@@ -10,6 +12,7 @@ import dyna.common.bean.data.SystemObject;
  * @author wwx
  * 
  */
+@EntryMapper(TableOfExpressionMapper.class)
 public class TableOfExpression extends ConfigTableBase implements SystemObject
 {
 	private static final long	serialVersionUID	= 198901519599475733L;

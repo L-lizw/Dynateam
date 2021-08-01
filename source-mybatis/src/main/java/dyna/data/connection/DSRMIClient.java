@@ -5,10 +5,10 @@
  */
 package dyna.data.connection;
 
-import dyna.data.service.transaction.DataServerTransactionManager;
-import dyna.common.conf.ConfigurableConnToDSImpl;
-import dyna.common.conf.loader.ConfigLoaderFactory;
 import dyna.common.util.StringUtils;
+import dyna.data.DataServer;
+import dyna.common.conf.ConfigurableConnToDSImpl;
+import dyna.common.conf.loader.ConfigLoaderConnToDSImpl;
 import dyna.net.connection.AbstractClient;
 import dyna.net.impl.DataServiceProviderFactory;
 import dyna.net.impl.data.ServiceLocatorDataServerRMIImpl;
@@ -21,12 +21,10 @@ import dyna.net.spi.DataServiceLocator;
  */
 public class DSRMIClient extends AbstractClient
 {
-	private String                       moduleName         = null;
-	private String                       configFilePath     = null;
-	private ConfigurableConnToDSImpl     connToDSConfig     = null;
-	private DataServiceLocator           dataServiceLocator = null;
-	private DataServerTransactionManager manager            = null;
-
+	private String                   moduleName         = null;
+	private String                   configFilePath     = null;
+	private ConfigurableConnToDSImpl connToDSConfig     = null;
+	private DataServiceLocator       dataServiceLocator = null;
 	/**
 	 * @throws Exception
 	 */
@@ -93,14 +91,13 @@ public class DSRMIClient extends AbstractClient
 		}
 		if (this.connToDSConfig == null)
 		{
-			if (StringUtils.isNullString(this.configFilePath))
+			if (!StringUtils.isNullString(this.configFilePath))
 			{
-				this.connToDSConfig = ConfigLoaderFactory.getLoader4ConnToDS().load();
+				DataServer.getRepositoryBean(ConfigLoaderConnToDSImpl.class).load(this.configFilePath);
 			}
-			else
-			{
-				this.connToDSConfig = ConfigLoaderFactory.getLoader4ConnToDS().load(this.configFilePath);
-			}
+
+			this.connToDSConfig = DataServer.getRepositoryBean(ConfigLoaderConnToDSImpl.class).getConfigurable();
+
 		}
 		this.dataServiceLocator = new ServiceLocatorDataServerRMIImpl(this, this.moduleName, this.connToDSConfig);
 		this.dataServiceLocator.getServiceStateSync().setReactor(this.getSscReactor());
@@ -119,21 +116,5 @@ public class DSRMIClient extends AbstractClient
 		return this.dataServiceLocator.isAvailable();
 	}
 
-	public String getRequestDetail()
-	{
-		if (manager == null)
-		{
-			return null;
-		}
-		else
-		{
-			return manager.getTransactionId();
-		}
-	}
-
-	public void setTransactionManager(DataServerTransactionManager manager)
-	{
-		this.manager = manager;
-	}
 
 }

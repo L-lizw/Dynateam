@@ -5,18 +5,14 @@
  */
 package dyna.net.connection;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
 import dyna.common.exception.AuthorizeException;
 import dyna.net.security.CredentialManager;
 import dyna.net.security.signature.ModuleSignature;
 import dyna.net.security.signature.Signature;
 import dyna.net.security.signature.SignatureFactory;
+import org.springframework.stereotype.Component;
+
+import java.util.*;
 
 /**
  * 连接管理器默认实现
@@ -24,18 +20,13 @@ import dyna.net.security.signature.SignatureFactory;
  * @author Wanglei
  * 
  */
+@Component
 public class ConnectionManagerDefaultImpl implements ConnectionManager
 {
-
 	private CredentialManager	credentialManager	= null;
 
 	private final Map<String, String>	moduleCredentialMap	= Collections
 	.synchronizedMap(new HashMap<String, String>());
-
-	public ConnectionManagerDefaultImpl(CredentialManager cm)
-	{
-		this.credentialManager = cm;
-	}
 
 	/* (non-Javadoc)
 	 * @see dyna.net.connection.ConnectionManager#listConnectionCredential()

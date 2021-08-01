@@ -5,27 +5,27 @@
  */
 package dyna.data.service.sync;
 
-import java.sql.SQLException;
-import java.util.List;
-import java.util.Map;
-
-import dyna.common.dtomapper.ModelSyncMapper;
-import dyna.data.service.sync.bean.ModelXMLCache;
 import dyna.common.bean.configure.ProjectModel;
 import dyna.common.dto.ModelSync;
 import dyna.common.dto.Session;
 import dyna.common.dto.aas.User;
+import dyna.common.dtomapper.ModelSyncMapper;
 import dyna.common.exception.DynaDataException;
 import dyna.common.log.DynaLogger;
 import dyna.common.systemenum.DataExceptionEnum;
 import dyna.common.util.DateFormat;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
-import dyna.data.common.exception.DynaDataSessionException;
-import dyna.data.common.exception.DynaDataSqlException;
 import dyna.data.context.DataServerContext;
+import dyna.data.service.sync.bean.ModelXMLCache;
+import dyna.dbcommon.exception.DynaDataSessionException;
+import dyna.dbcommon.exception.DynaDataSqlException;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 数据库同步

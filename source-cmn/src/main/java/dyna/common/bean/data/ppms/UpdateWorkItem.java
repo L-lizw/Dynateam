@@ -5,17 +5,20 @@
  */
 package dyna.common.bean.data.ppms;
 
-import java.util.List;
-
+import dyna.common.annotation.EntryMapper;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.data.SystemObjectImpl;
 import dyna.common.dto.aas.User;
+import dyna.common.dtomapper.ppm.UpdateWorkItemMapper;
 import dyna.common.systemenum.ppms.WorkItemStateEnum;
+
+import java.util.List;
 
 /**
  * @author wangweixia
  * 
  */
+@EntryMapper(UpdateWorkItemMapper.class)
 public class UpdateWorkItem extends SystemObjectImpl implements SystemObject
 {
 
