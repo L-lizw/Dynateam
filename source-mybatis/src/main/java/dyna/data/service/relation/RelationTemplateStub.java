@@ -17,10 +17,10 @@ import dyna.common.dto.template.relation.RelationTemplateInfo;
 import dyna.common.exception.ServiceRequestException;
 import dyna.common.util.SetUtils;
 import dyna.data.DataServer;
-import dyna.data.context.DataServerContext;
 import dyna.data.service.model.DataCacheServiceStub;
 import dyna.data.service.sdm.FieldValueEqualsFilter;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
@@ -29,6 +29,7 @@ import java.util.*;
  *
  * @author JiangHL
  */
+@Repository
 public class RelationTemplateStub extends DataCacheServiceStub<RelationServiceImpl>
 {
 	private static final Map<String, BOMTemplate>			BOMTEMPLATE_GUID_MAP			= Collections.synchronizedMap(new HashMap<>());
@@ -42,9 +43,9 @@ public class RelationTemplateStub extends DataCacheServiceStub<RelationServiceIm
 
 	private AbstractCacheInfo								cacheInfo						= null;
 
-	protected RelationTemplateStub(DataServerContext context, RelationServiceImpl service)
+	protected RelationTemplateStub()
 	{
-		super(context, service);
+		super();
 		this.cacheInfo = new TemplateCacheInfo();
 		this.cacheInfo.register();
 	}

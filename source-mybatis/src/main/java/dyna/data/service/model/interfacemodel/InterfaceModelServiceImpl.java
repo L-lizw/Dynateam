@@ -1,8 +1,5 @@
 package dyna.data.service.model.interfacemodel;
 
-import java.util.List;
-import java.util.Map;
-
 import dyna.common.bean.model.itf.InterfaceObject;
 import dyna.common.conf.ServiceDefinition;
 import dyna.common.dto.model.cls.ClassField;
@@ -11,6 +8,9 @@ import dyna.common.systemenum.ModelInterfaceEnum;
 import dyna.data.context.DataServerContext;
 import dyna.data.service.DataRuleService;
 import dyna.data.service.sync.bean.TableIndexModel;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @Description:
@@ -28,10 +28,6 @@ public class InterfaceModelServiceImpl extends DataRuleService implements Interf
 
 	public InterfaceModelServiceStub getModelStub()
 	{
-		if (this.modelStub == null)
-		{
-			this.modelStub = new InterfaceModelServiceStub(this.serviceContext, this);
-		}
 		return this.modelStub;
 	}
 

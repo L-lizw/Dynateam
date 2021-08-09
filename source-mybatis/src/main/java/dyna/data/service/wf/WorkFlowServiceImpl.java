@@ -33,10 +33,6 @@ public class WorkFlowServiceImpl extends DataRuleService implements WorkFlowServ
 
 	protected WorkflowStub getWorkflowStub()
 	{
-		if (this.workflowStub == null)
-		{
-			this.workflowStub = new WorkflowStub(this.serviceContext, this);
-		}
 		return this.workflowStub;
 	}
 

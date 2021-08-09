@@ -14,10 +14,10 @@ import dyna.common.systemenum.DataExceptionEnum;
 import dyna.common.systemenum.SystemClassFieldEnum;
 import dyna.common.util.DateFormat;
 import dyna.data.DataServer;
-import dyna.data.context.DataServerContext;
 import dyna.data.service.DSAbstractServiceStub;
 import dyna.dbcommon.exception.DynaDataExceptionAll;
 import dyna.dbcommon.exception.DynaDataExceptionSQL;
+import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -28,19 +28,9 @@ import java.util.Map;
  * 
  * @author JiangHL
  */
+@Repository
 public class DSCheckInStub extends DSAbstractServiceStub<InstanceServiceImpl>
 {
-
-	/**
-	 * @param context
-	 * @param service
-	 * @throws DynaDataException
-	 */
-	public DSCheckInStub(DataServerContext context, InstanceServiceImpl service)
-	{
-		super(context, service);
-	}
-
 	/**
 	 * 
 	 * @param foundationObject

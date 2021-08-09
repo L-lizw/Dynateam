@@ -41,6 +41,7 @@ import dyna.dbcommon.exception.DynaDataExceptionAll;
 import dyna.dbcommon.exception.DynaDataExceptionSQL;
 import dyna.dbcommon.util.Constants;
 import dyna.dbcommon.util.DSCommonUtil;
+import org.springframework.stereotype.Repository;
 
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
@@ -55,14 +56,10 @@ import java.util.regex.Pattern;
  *
  * @author JiangHL
  */
+@Repository
 public class DSStructureStub extends DSAbstractServiceStub<RelationServiceImpl>
 {
 	private static final Pattern CHINESE_CHAR_PATTERN = Pattern.compile("[\u4e00-\u9fa5]");
-
-	protected DSStructureStub(DataServerContext context, RelationServiceImpl service)
-	{
-		super(context, service);
-	}
 
 	/**
 	 * 创建structure

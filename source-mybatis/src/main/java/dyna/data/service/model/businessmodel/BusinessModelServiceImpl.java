@@ -6,9 +6,6 @@
 
 package dyna.data.service.model.businessmodel;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import dyna.common.bean.model.bmbo.BusinessModel;
 import dyna.common.bean.model.bmbo.BusinessObject;
 import dyna.common.conf.ServiceDefinition;
@@ -17,6 +14,9 @@ import dyna.common.dto.model.bmbo.BOInfo;
 import dyna.common.exception.ServiceRequestException;
 import dyna.data.context.DataServerContext;
 import dyna.data.service.DataRuleService;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * BusinessModelService服务的实现
@@ -34,10 +34,6 @@ public class BusinessModelServiceImpl extends DataRuleService implements Busines
 
 	public BusinessModelServiceStub getModelStub()
 	{
-		if (this.modelStub == null)
-		{
-			this.modelStub = new BusinessModelServiceStub(this.serviceContext, this);
-		}
 		return this.modelStub;
 	}
 

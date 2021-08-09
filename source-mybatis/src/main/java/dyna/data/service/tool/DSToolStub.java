@@ -17,20 +17,17 @@ import dyna.data.service.ins.InstanceServiceImpl;
 import dyna.data.service.sdm.SystemDataService;
 import dyna.dbcommon.exception.DynaDataExceptionAll;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+@Repository
 public class DSToolStub extends DSAbstractServiceStub<DSToolServiceImpl>
 {
 	@Autowired
 	private FoundationObjectMapper              foundationObjectMapper;
-
-	protected DSToolStub(DataServerContext context, DSToolServiceImpl service)
-	{
-		super(context, service);
-	}
 
 	protected void clearErrDataInMast(String className) throws ServiceRequestException
 	{

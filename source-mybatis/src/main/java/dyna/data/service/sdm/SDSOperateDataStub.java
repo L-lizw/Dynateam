@@ -17,6 +17,7 @@ import dyna.data.DataServer;
 import dyna.data.context.DataServerContext;
 import dyna.data.service.DSAbstractServiceStub;
 import dyna.dbcommon.exception.DynaDataExceptionAll;
+import org.springframework.stereotype.Repository;
 
 import java.lang.reflect.Method;
 import java.sql.SQLException;
@@ -30,6 +31,7 @@ import java.util.Map;
  *
  * @author ZhangHW
  */
+@Repository
 public class SDSOperateDataStub extends DSAbstractServiceStub<SystemDataServiceImpl>
 {
 	private static final String	INSERT_STATEMENT			= "insert";
@@ -37,16 +39,6 @@ public class SDSOperateDataStub extends DSAbstractServiceStub<SystemDataServiceI
 	private static final String	DELETE_STATEMENT			= "delete";
 	private static final String	DELETE_STATEMENT_ADVANCED	= "deleteAdvanced";
 	private static final String	SELECT_STATEMENT			= "select";
-
-	/**
-	 * @param context
-	 * @param service
-	 * @throws DynaDataException
-	 */
-	public SDSOperateDataStub(DataServerContext context, SystemDataServiceImpl service) throws DynaDataException
-	{
-		super(context, service);
-	}
 
 	/**
 	 * 保存一条记录（根据是否有guid来进行insert或update)

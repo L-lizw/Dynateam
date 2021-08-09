@@ -24,6 +24,7 @@ import dyna.data.service.acl.AclService;
 import dyna.data.service.sdm.SystemDataService;
 import dyna.dbcommon.exception.DynaDataExceptionAll;
 import dyna.dbcommon.exception.DynaDataExceptionSQL;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,18 +36,9 @@ import java.util.Map;
  *
  * @author JiangHL
  */
+@Repository
 public class DSFolderRelationStub extends DSAbstractServiceStub<FolderServiceImpl>
 {
-	/**
-	 * @param context
-	 * @param sd
-	 * @throws DynaDataException
-	 */
-	public DSFolderRelationStub(DataServerContext context, FolderServiceImpl service) throws DynaDataException
-	{
-		super(context, service);
-	}
-
 	/**
 	 * 剪切
 	 * 1、个人文件夹之间移动

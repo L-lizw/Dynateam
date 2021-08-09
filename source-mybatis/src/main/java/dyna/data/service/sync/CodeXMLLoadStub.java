@@ -1,6 +1,5 @@
 package dyna.data.service.sync;
 
-import dyna.data.service.sync.bean.ModelXMLCache;
 import dyna.common.bean.model.code.CodeItem;
 import dyna.common.bean.model.code.CodeObject;
 import dyna.common.conf.ConfigurableKVElementImpl;
@@ -13,8 +12,9 @@ import dyna.common.systemenum.CodeTypeEnum;
 import dyna.common.systemenum.FieldTypeEnum;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
-import dyna.data.context.DataServerContext;
 import dyna.data.service.DSAbstractServiceStub;
+import dyna.data.service.sync.bean.ModelXMLCache;
+import org.springframework.stereotype.Repository;
 
 import java.io.File;
 import java.util.*;
@@ -24,12 +24,9 @@ import java.util.*;
  * @author: duanll
  * @date: 2020年3月26日
  */
+@Repository
 public class CodeXMLLoadStub extends DSAbstractServiceStub<SyncModelServiceImpl>
 {
-	protected CodeXMLLoadStub(DataServerContext context, SyncModelServiceImpl service)
-	{
-		super(context, service);
-	}
 
 	protected void loadXMLCodeModel(ModelXMLCache xmlModel, String modelConfigPath)
 	{

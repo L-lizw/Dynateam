@@ -1,12 +1,12 @@
 package dyna.data.service.tool;
 
-import java.util.Map;
-
 import dyna.common.bean.data.FoundationObject;
 import dyna.common.conf.ServiceDefinition;
 import dyna.common.exception.ServiceRequestException;
 import dyna.data.context.DataServerContext;
 import dyna.data.service.DataRuleService;
+
+import java.util.Map;
 
 public class DSToolServiceImpl extends DataRuleService implements DSToolService
 {
@@ -19,10 +19,6 @@ public class DSToolServiceImpl extends DataRuleService implements DSToolService
 
 	protected DSToolStub getDSToolStub()
 	{
-		if (this.toolStub == null)
-		{
-			this.toolStub = new DSToolStub(this.serviceContext, this);
-		}
 		return this.toolStub;
 	}
 

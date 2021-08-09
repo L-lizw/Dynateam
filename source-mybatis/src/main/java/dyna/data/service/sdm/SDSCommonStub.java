@@ -7,9 +7,9 @@ package dyna.data.service.sdm;
 
 import dyna.common.exception.DynaDataException;
 import dyna.common.systemenum.DataExceptionEnum;
-import dyna.data.context.DataServerContext;
 import dyna.data.service.DSAbstractServiceStub;
 import dyna.dbcommon.exception.DynaDataExceptionAll;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -19,17 +19,9 @@ import java.util.List;
  * @author ZhangHW
  * 
  */
+@Repository
 public class SDSCommonStub extends DSAbstractServiceStub<SystemDataServiceImpl>
 {
-	/**
-	 * @param context
-	 * @param service
-	 * @throws DynaDataException
-	 */
-	public SDSCommonStub(DataServerContext context, SystemDataServiceImpl service) throws DynaDataException
-	{
-		super(context, service);
-	}
 
 	@SuppressWarnings("unchecked")
 	public List<String> executeQueryBySql(String sql) throws DynaDataException

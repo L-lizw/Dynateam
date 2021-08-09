@@ -1,12 +1,8 @@
 package dyna.data.service.acl;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-
-import dyna.data.service.sdm.FieldValueEqualsFilter;
 import dyna.common.bean.data.ObjectGuid;
 import dyna.common.bean.model.cls.ClassObject;
+import dyna.common.bean.xml.UpperKeyMap;
 import dyna.common.dto.aas.Group;
 import dyna.common.dto.aas.RIG;
 import dyna.common.dto.aas.Role;
@@ -17,17 +13,17 @@ import dyna.common.systemenum.AccessTypeEnum;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
-import dyna.common.bean.xml.UpperKeyMap;
-import dyna.data.context.DataServerContext;
 import dyna.data.service.DSAbstractServiceStub;
+import dyna.data.service.sdm.FieldValueEqualsFilter;
+import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
+@Repository
 public class AuthCommonStub extends DSAbstractServiceStub<AclServiceImpl>
 {
-	public AuthCommonStub(DataServerContext serviceContext, AclServiceImpl service)
-	{
-		super(serviceContext, service);
-	}
-
 	/**
 	 * 在同一个大组下面，则子组优先
 	 * 

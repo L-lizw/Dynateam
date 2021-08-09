@@ -11,12 +11,8 @@ import dyna.common.dtomapper.RelationobjectMapper;
 import dyna.common.dtomapper.model.cls.ClassificationModelMapper;
 import dyna.data.SqlExecuteInvocationHandler;
 import dyna.data.cache.CacheManagerDelegate;
-import dyna.data.context.DataServerContext;
-import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.lang.reflect.Proxy;
 
 /**
  * 服务分支
@@ -25,37 +21,31 @@ import java.lang.reflect.Proxy;
  */
 public abstract class DSAbstractServiceStub<T extends DataRuleService> extends DataAbstractServiceStub<T>
 {
-	protected static final boolean ISCHECKACL = true;
-
-	@Autowired
-	protected   DynaObjectMapper            dynaObjectMapper;
-	@Autowired
-	protected   RelationobjectMapper        relationobjectMapper;
-	@Autowired
-	protected   BomObjectMapper             bomObjectMapper;
-	@Autowired
-	protected   ClassificationModelMapper   classificationModelMapper;
-
 	public static final String ESCAPE_CHAR = "/";
+
+	protected static final boolean ISCHECKACL = true;
 
 	private static SqlExecuteInvocationHandler executeHandler = null;
 
-	protected final SqlSessionFactory sqlSessionFactory;
+	@Autowired protected DynaObjectMapper          dynaObjectMapper;
+	@Autowired protected RelationobjectMapper      relationobjectMapper;
+	@Autowired protected BomObjectMapper           bomObjectMapper;
+	@Autowired protected ClassificationModelMapper classificationModelMapper;
+	@Autowired protected CacheManagerDelegate      cacheManagerDelegate;
 
-	protected SqlSession sqlSession = null;
+	protected final SqlSessionFactory sqlSessionFactory = null;
 
-	protected final CacheManagerDelegate cacheManagerDelegate;
-
-	protected DSAbstractServiceStub(DataServerContext context, T service)
+	protected DSAbstractServiceStub()
 	{
-		super(context, service);
-		this.cacheManagerDelegate = context.getCacheManager();
+		super();
 		if (executeHandler == null)
 		{
 			executeHandler = new SqlExecuteInvocationHandler();
 		}
-		executeHandler.setExecuteClient(context.getSqlSessionFactory());
-		this.sqlSessionFactory = (SqlSessionFactory) Proxy
-				.newProxyInstance(context.getSqlSessionFactory().getClass().getClassLoader(), context.getSqlSessionFactory().getClass().getInterfaces(), executeHandler);
+		//TODO
+//		executeHandler.setExecuteClient(serviceContext.getSqlSessionFactory());
+//		this.sqlSessionFactory = (SqlSessionFactory) Proxy
+//				.newProxyInstance(serviceContext.getSqlSessionFactory().getClass().getClassLoader(), serviceContext.getSqlSessionFactory().getClass().getInterfaces(),
+//						executeHandler);
 	}
 }

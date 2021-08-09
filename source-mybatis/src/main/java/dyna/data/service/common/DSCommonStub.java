@@ -33,10 +33,12 @@ import dyna.data.service.sdm.SystemDataService;
 import dyna.dbcommon.exception.DynaDataExceptionAll;
 import dyna.dbcommon.exception.DynaDataExceptionSQL;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
 import java.util.*;
 
+@Repository
 public class DSCommonStub extends DSAbstractServiceStub<DSCommonServiceImpl>
 {
 	@Autowired
@@ -45,11 +47,6 @@ public class DSCommonStub extends DSAbstractServiceStub<DSCommonServiceImpl>
 	private QueueMapper             queueMapper;
 	@Autowired
 	private FoundationObjectMapper  foundationObjectMapper;
-
-	protected DSCommonStub(DataServerContext context, DSCommonServiceImpl service)
-	{
-		super(context, service);
-	}
 
 	/**
 	 * 若查询的字段,仅有系统字段时,直接返回0表

@@ -36,6 +36,8 @@ import dyna.dbcommon.exception.DynaDataModelException;
 import dyna.net.security.signature.Signature;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -54,20 +56,13 @@ import java.util.Map;
  *
  * @author ZhangHW
  */
+@Repository
 public class SDSModelStub extends DSAbstractServiceStub<SyncModelServiceImpl>
 {
+	@Autowired
 	private ModelSyncMapper             modelSyncMapper;
-
+	@Autowired
 	private SessionMapper               sessionMapper;
-	/**
-	 * @param context
-	 * @param service
-	 * @throws DynaDataException
-	 */
-	public SDSModelStub(DataServerContext context, SyncModelServiceImpl service) throws DynaDataException
-	{
-		super(context, service);
-	}
 
 	/**
 	 * 判断模型是否是同步的
@@ -285,32 +280,34 @@ public class SDSModelStub extends DSAbstractServiceStub<SyncModelServiceImpl>
 
 	protected boolean isDeployLock(String sessionId) throws DynaDataException
 	{
+		//TODO
 //		DataServer.getTransactionManager().startTransaction(sessionId);
-		try (Connection conn = this.sqlSession.getConnection())
-		{
-			String sql = "SELECT PERMITSYNC FROM ma_sync_lock";
-			PreparedStatement prepareStatement = conn.prepareStatement(sql);
-			ResultSet executeQuery = prepareStatement.executeQuery();
-
-			boolean isLock = false;
-			if (executeQuery.next())
-			{
-				String lockString = executeQuery.getString(1);
-				isLock = BooleanUtils.getBooleanByYN(lockString);
-			}
-
-//			DataServer.getTransactionManager().commitTransaction();
-
-			return isLock;
-		}
-		catch (SQLException e)
-		{
-//			DataServer.getTransactionManager().rollbackTransaction();
-			return false;
-		}
-		finally
-		{
-		}
+//		try (Connection conn = this.sqlSessionFactory.getConnection())
+//		{
+//			String sql = "SELECT PERMITSYNC FROM ma_sync_lock";
+//			PreparedStatement prepareStatement = conn.prepareStatement(sql);
+//			ResultSet executeQuery = prepareStatement.executeQuery();
+//
+//			boolean isLock = false;
+//			if (executeQuery.next())
+//			{
+//				String lockString = executeQuery.getString(1);
+//				isLock = BooleanUtils.getBooleanByYN(lockString);
+//			}
+//
+////			DataServer.getTransactionManager().commitTransaction();
+//
+//			return isLock;
+//		}
+//		catch (SQLException e)
+//		{
+////			DataServer.getTransactionManager().rollbackTransaction();
+//			return false;
+//		}
+//		finally
+//		{
+//		}
+		return false;
 	}
 
 	private void write(boolean hasClassificationLicense) throws DynaDataException

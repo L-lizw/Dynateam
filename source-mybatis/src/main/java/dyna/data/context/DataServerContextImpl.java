@@ -155,7 +155,7 @@ public class DataServerContextImpl extends AbstractSvContext implements DataServ
 	 *
 	 * @see dyna.data.context.DataServerContext#addInternalService(java.lang.Class, dyna.net.service.Service)
 	 */
-	@Override public void setInternalService(Class<?> serviceClass, Object service)
+	@Override public void putInternalService(Class<?> serviceClass, Object service)
 	{
 		this.setAttribute(serviceClass.getName(), service);
 	}

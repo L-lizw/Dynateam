@@ -20,10 +20,10 @@ import dyna.common.systemenum.BusinessModelType;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
-import dyna.data.context.DataServerContext;
 import dyna.data.service.model.DataCacheServiceStub;
 import dyna.data.service.sdm.FieldValueEqualsFilter;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Repository;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -33,6 +33,7 @@ import java.util.stream.Collectors;
  * @author: duanll
  * @date: 2020年3月26日
  */
+@Repository
 public class BusinessModelServiceStub extends DataCacheServiceStub<BusinessModelServiceImpl>
 {
 	private static Map<String, BusinessModel>	MODEL_BM_GUID_MAP	= Collections.synchronizedMap(new HashMap<>());
@@ -42,9 +43,9 @@ public class BusinessModelServiceStub extends DataCacheServiceStub<BusinessModel
 
 	private AbstractCacheInfo					cacheInfo			= null;
 
-	public BusinessModelServiceStub(DataServerContext context, BusinessModelServiceImpl service)
+	public BusinessModelServiceStub()
 	{
-		super(context, service);
+		super();
 		this.cacheInfo = new BusinessModelCacheInfo();
 		this.cacheInfo.register();
 	}

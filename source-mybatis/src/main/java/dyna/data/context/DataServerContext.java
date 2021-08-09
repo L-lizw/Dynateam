@@ -83,7 +83,7 @@ public interface DataServerContext extends SvContext
 	 * @param serviceClass
 	 * @param service
 	 */
-	public void setInternalService(Class<?> serviceClass, Object service);
+	public void putInternalService(Class<?> serviceClass, Object service);
 
 	/**
 	 * 取得通过包扫描得到的缓存类信息

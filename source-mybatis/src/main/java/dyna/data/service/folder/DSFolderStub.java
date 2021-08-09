@@ -32,6 +32,7 @@ import dyna.data.service.sdm.FieldValueEqualsFilter;
 import dyna.data.service.sdm.SystemDataService;
 import dyna.dbcommon.exception.DynaDataExceptionAll;
 import dyna.dbcommon.exception.DynaDataExceptionSQL;
+import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
@@ -40,20 +41,11 @@ import java.util.*;
 /**
  * 处理文件夹
  *
- * @author JiangHL
+ * @author Lizw
  */
+@Repository
 public class DSFolderStub extends DSAbstractServiceStub<FolderServiceImpl>
 {
-	/**
-	 * @param context
-	 * @param sd
-	 * @throws DynaDataException
-	 */
-	public DSFolderStub(DataServerContext context, FolderServiceImpl service) throws DynaDataException
-	{
-		super(context, service);
-	}
-
 	/**
 	 * 创建文件夹
 	 *

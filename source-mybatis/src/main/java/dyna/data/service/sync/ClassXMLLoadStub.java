@@ -15,10 +15,10 @@ import dyna.common.util.EnvUtils;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
-import dyna.data.context.DataServerContext;
 import dyna.data.service.DSAbstractServiceStub;
 import dyna.data.service.sync.bean.ModelXMLCache;
 import dyna.dbcommon.exception.DynaDataSqlException;
+import org.springframework.stereotype.Repository;
 
 import java.io.File;
 import java.util.*;
@@ -28,13 +28,9 @@ import java.util.*;
  * @author: duanll
  * @date: 2020年3月26日
  */
+@Repository
 public class ClassXMLLoadStub extends DSAbstractServiceStub<SyncModelServiceImpl>
 {
-	protected ClassXMLLoadStub(DataServerContext context, SyncModelServiceImpl service)
-	{
-		super(context, service);
-	}
-
 	protected void loadXMLClassObject(ModelXMLCache xmlModel, String modelPath)
 	{
 		DynaLogger.println("\tLoading class");

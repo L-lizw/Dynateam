@@ -5,13 +5,6 @@
  */
 package dyna.data.service.model.lifecyclemodel;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.model.lf.Lifecycle;
 import dyna.common.bean.model.lf.LifecyclePhase;
@@ -26,14 +19,18 @@ import dyna.common.exception.ServiceRequestException;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
-import dyna.data.context.DataServerContext;
 import dyna.data.service.model.DataCacheServiceStub;
 import dyna.data.service.sdm.FieldValueEqualsFilter;
+import org.springframework.stereotype.Repository;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author WangLHB
  * 
  */
+@Repository
 public class LifecycleModelServiceStub extends DataCacheServiceStub<LifecycleModelServiceImpl>
 {
 	private static final Map<String, Lifecycle>			LIFECYCLE_GUID_MAP			= Collections.synchronizedMap(new HashMap<>());
@@ -44,9 +41,9 @@ public class LifecycleModelServiceStub extends DataCacheServiceStub<LifecycleMod
 
 	private AbstractCacheInfo							cacheInfo					= null;
 
-	protected LifecycleModelServiceStub(DataServerContext context, LifecycleModelServiceImpl service)
+	protected LifecycleModelServiceStub()
 	{
-		super(context, service);
+		super();
 		this.cacheInfo = new LifecycleModelCacheInfo();
 		this.cacheInfo.register();
 	}

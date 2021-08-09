@@ -27,6 +27,7 @@ import dyna.data.sqlbuilder.AdvanceQuerySqlBuilder;
 import dyna.dbcommon.exception.DynaDataExceptionAll;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,19 +40,11 @@ import java.util.Map.Entry;
  * 
  * @author JiangHL
  */
+@Repository
 public class DSConditionQueryStub extends DSAbstractServiceStub<InstanceServiceImpl>
 {
 	@Autowired
 	private FoundationObjectMapper              foundationObjectMapper;
-	/**
-	 * @param context
-	 * @param service
-	 * @throws DynaDataException
-	 */
-	public DSConditionQueryStub(DataServerContext context, InstanceServiceImpl service) throws DynaDataException
-	{
-		super(context, service);
-	}
 
 	/**
 	 * 

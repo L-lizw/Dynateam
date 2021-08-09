@@ -13,28 +13,25 @@ import dyna.common.systemenum.TableIndexTypeEnum;
 import dyna.common.util.EnvUtils;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
-import dyna.data.context.DataServerContext;
 import dyna.data.service.DSAbstractServiceStub;
 import dyna.data.service.sync.bean.TableIndexModel;
 import dyna.data.service.sync.bean.TableIndexObject;
+import org.springframework.stereotype.Repository;
 
 import java.io.File;
 import java.util.*;
 import java.util.Map.Entry;
 
+@Repository
 public class InterfaceModelServiceStub extends DSAbstractServiceStub<InterfaceModelServiceImpl>
 {
+	private static final String							INTERFACE_MODEL_PATH			= EnvUtils.getConfRootPath() + "conf/interface-model.xml";
+
 	private final Map<String, List<ClassField>>			INTERFACE_NAME_FIELDNAME_MAP	= Collections.synchronizedMap(new HashMap<>());
 	private final Map<String, InterfaceObject>			INTERFACE_NAME_MAP				= Collections.synchronizedMap(new HashMap<>());
 	private final Map<String, List<String>>				INTERFACE_CHILD_NAME_MAP		= Collections.synchronizedMap(new HashMap<>());
 	private final Map<String, List<TableIndexModel>>	INTERFACE_NAME_INDEX_MAP		= Collections.synchronizedMap(new HashMap<>());
 
-	private static final String							INTERFACE_MODEL_PATH			= EnvUtils.getConfRootPath() + "conf/interface-model.xml";
-
-	protected InterfaceModelServiceStub(DataServerContext context, InterfaceModelServiceImpl service)
-	{
-		super(context, service);
-	}
 
 	/**
 	 * 装载接口

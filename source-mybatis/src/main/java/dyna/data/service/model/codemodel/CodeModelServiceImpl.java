@@ -5,9 +5,6 @@
  */
 package dyna.data.service.model.codemodel;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import dyna.common.bean.model.code.CodeItem;
 import dyna.common.bean.model.code.CodeObject;
 import dyna.common.bean.model.ui.ClassificationUIObject;
@@ -21,6 +18,9 @@ import dyna.common.exception.ServiceRequestException;
 import dyna.common.systemenum.UITypeEnum;
 import dyna.data.context.DataServerContext;
 import dyna.data.service.DataRuleService;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * CodeModelService服务的实现
@@ -52,10 +52,6 @@ public class CodeModelServiceImpl extends DataRuleService implements CodeModelSe
 
 	public CodeModelServiceStub getModelStub()
 	{
-		if (this.modelStub == null)
-		{
-			this.modelStub = new CodeModelServiceStub(this.serviceContext, this);
-		}
 		return this.modelStub;
 	}
 

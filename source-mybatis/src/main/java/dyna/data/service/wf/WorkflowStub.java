@@ -21,6 +21,7 @@ import dyna.data.service.sdm.SystemDataService;
 import dyna.dbcommon.exception.DynaDataExceptionAll;
 import dyna.dbcommon.exception.DynaDataExceptionSQL;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -34,6 +35,7 @@ import java.util.Map;
  * @author zhangHW
  * 
  */
+@Repository
 public class WorkflowStub extends DSAbstractServiceStub<WorkFlowServiceImpl>
 {
 
@@ -43,15 +45,6 @@ public class WorkflowStub extends DSAbstractServiceStub<WorkFlowServiceImpl>
 	private ProcessRuntimeMapper        processRuntimeMapper;
 	@Autowired
 	private ProcAttachMapper            procAttachMapper;
-	/**
-	 * @param context
-	 * @param service
-	 * @throws DynaDataException
-	 */
-	public WorkflowStub(DataServerContext context, WorkFlowServiceImpl service)
-	{
-		super(context, service);
-	}
 
 	@SuppressWarnings({ "unchecked", "unused" })
 	private boolean checkLock(String instanceGuid, String procrtGuid) throws SQLException

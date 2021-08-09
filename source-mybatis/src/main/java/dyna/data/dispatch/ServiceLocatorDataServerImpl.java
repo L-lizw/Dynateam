@@ -48,11 +48,6 @@ public class ServiceLocatorDataServerImpl extends AbstractServiceLocator impleme
 	@Qualifier("serviceStateExchangerDataServerImpl")
 	private ServiceStateExchanger      ssExchanger = null;
 
-	public ServiceLocatorDataServerImpl()
-	{
-		super();
-	}
-
 	@SuppressWarnings("unchecked")
 	public void init()
 	{
@@ -109,7 +104,7 @@ public class ServiceLocatorDataServerImpl extends AbstractServiceLocator impleme
 
 				}
 
-				this.context.setInternalService(interfaceClass, delegator);
+				this.context.putInternalService(interfaceClass, delegator);
 
 				service = Proxy.newProxyInstance(sd.getServiceInterface().getClassLoader(), new Class[] { interfaceClass },
 						new DataServiceDelegator(this.context, delegator));

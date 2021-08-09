@@ -1,10 +1,6 @@
 package dyna.data.service.acl;
 
-import java.math.BigDecimal;
-import java.util.*;
-
-import dyna.data.service.sdm.FieldValueEqualsFilter;
-import dyna.data.service.sdm.SystemDataService;
+import dyna.common.bean.xml.UpperKeyMap;
 import dyna.common.dto.Folder;
 import dyna.common.dto.aas.Group;
 import dyna.common.dto.aas.RIG;
@@ -23,17 +19,17 @@ import dyna.common.util.BooleanUtils;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
-import dyna.common.bean.xml.UpperKeyMap;
-import dyna.data.context.DataServerContext;
 import dyna.data.service.DSAbstractServiceStub;
+import dyna.data.service.sdm.FieldValueEqualsFilter;
+import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
+import java.util.*;
+
+@Repository
 public class FolderAuthStub extends DSAbstractServiceStub<AclServiceImpl>
 {
-	public FolderAuthStub(DataServerContext serviceContext, AclServiceImpl aclService)
-	{
-		super(serviceContext, aclService);
-	}
-
 	protected SaAclFolderLibConf getSaAclFolderLibConf(String folderGuid) throws DynaDataException
 	{
 		SystemDataService sds = DataServer.getSystemDataService();

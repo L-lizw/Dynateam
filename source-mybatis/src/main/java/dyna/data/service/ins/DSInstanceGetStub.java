@@ -28,6 +28,7 @@ import dyna.data.sqlbuilder.ClassInstanceGetSqlBuilder;
 import dyna.dbcommon.exception.DynaDataExceptionAll;
 import dyna.dbcommon.exception.DynaDataExceptionSQL;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
@@ -35,17 +36,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Repository
 public class DSInstanceGetStub extends DSAbstractServiceStub<InstanceServiceImpl>
 {
 	private static final String CLASSIFICATION_TABLE_AS = "CF$";
 
 	@Autowired
 	private FoundationObjectMapper          foundationObjectMapper;
-
-	protected DSInstanceGetStub(DataServerContext context, InstanceServiceImpl service)
-	{
-		super(context, service);
-	}
 
 	/**
 	 * 根据guid查找实例

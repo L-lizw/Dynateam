@@ -28,10 +28,6 @@ public class DSCommonServiceImpl extends DataRuleService implements DSCommonServ
 
 	public DSCommonStub getDSCommonStub()
 	{
-		if (this.commonStub == null)
-		{
-			this.commonStub = new DSCommonStub(this.serviceContext, this);
-		}
 		return this.commonStub;
 	}
 

@@ -126,8 +126,7 @@ public class DataServer
 	 */
 	public static <T> T getRepositoryBean(Class<T> clazz)
 	{
-		T t = applicationContext.getBean(clazz);
-		return t;
+		return applicationContext.getBean(clazz);
 	}
 
 	public static void close() throws Exception

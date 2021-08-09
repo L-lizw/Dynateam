@@ -29,28 +29,16 @@ public class SyncModelServiceImpl extends DataRuleService implements SyncModelSe
 
 	public SDSModelStub getModelStub()
 	{
-		if (this.modelStub == null)
-		{
-			this.modelStub = new SDSModelStub(this.serviceContext, this);
-		}
 		return modelStub;
 	}
 
 	public CodeXMLLoadStub getClassificationModelLoadStub()
 	{
-		if (this.codeXMLLoadStub == null)
-		{
-			this.codeXMLLoadStub = new CodeXMLLoadStub(this.serviceContext, this);
-		}
 		return codeXMLLoadStub;
 	}
 
 	public ClassXMLLoadStub getClassModelLoadStub()
 	{
-		if (this.classXMLLoadStub == null)
-		{
-			this.classXMLLoadStub = new ClassXMLLoadStub(this.serviceContext, this);
-		}
 		return classXMLLoadStub;
 	}
 

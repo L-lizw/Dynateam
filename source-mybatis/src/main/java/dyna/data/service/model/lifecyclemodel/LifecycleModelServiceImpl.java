@@ -5,9 +5,6 @@
  */
 package dyna.data.service.model.lifecyclemodel;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import dyna.common.bean.model.lf.Lifecycle;
 import dyna.common.bean.model.lf.LifecyclePhase;
 import dyna.common.conf.ServiceDefinition;
@@ -16,6 +13,9 @@ import dyna.common.dto.model.lf.LifecyclePhaseInfo;
 import dyna.common.exception.ServiceRequestException;
 import dyna.data.context.DataServerContext;
 import dyna.data.service.DataRuleService;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 生命周期模型服务服务的实现
@@ -53,10 +53,6 @@ public class LifecycleModelServiceImpl extends DataRuleService implements Lifecy
 
 	public LifecycleModelServiceStub getModelStub()
 	{
-		if (this.modelStub == null)
-		{
-			this.modelStub = new LifecycleModelServiceStub(this.serviceContext, this);
-		}
 		return this.modelStub;
 	}
 

@@ -1,7 +1,5 @@
 package dyna.data.service.folder;
 
-import java.util.List;
-
 import dyna.common.bean.data.ObjectGuid;
 import dyna.common.conf.ServiceDefinition;
 import dyna.common.dto.Folder;
@@ -9,6 +7,8 @@ import dyna.common.exception.DynaDataException;
 import dyna.common.exception.ServiceRequestException;
 import dyna.data.context.DataServerContext;
 import dyna.data.service.DataRuleService;
+
+import java.util.List;
 
 public class FolderServiceImpl extends DataRuleService implements FolderService
 {
@@ -23,19 +23,11 @@ public class FolderServiceImpl extends DataRuleService implements FolderService
 
 	protected DSFolderStub getFolderStub()
 	{
-		if (this.folderStub == null)
-		{
-			this.folderStub = new DSFolderStub(this.serviceContext, this);
-		}
 		return this.folderStub;
 	}
 
 	protected DSFolderRelationStub getFolderRelationStub()
 	{
-		if (this.folderRelationStub == null)
-		{
-			this.folderRelationStub = new DSFolderRelationStub(this.serviceContext, this);
-		}
 		return this.folderRelationStub;
 	}
 

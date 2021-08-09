@@ -53,10 +53,6 @@ public class ClassModelServiceImpl extends DataRuleService implements ClassModel
 
 	public ClassModelServiceStub getModelStub()
 	{
-		if (this.modelStub == null)
-		{
-			this.modelStub = new ClassModelServiceStub(this.serviceContext, this);
-		}
 		return this.modelStub;
 	}
 

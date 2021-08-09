@@ -26,6 +26,7 @@ import dyna.data.service.acl.AclService;
 import dyna.dbcommon.exception.DynaDataExceptionAll;
 import dyna.dbcommon.exception.DynaDataExceptionSQL;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
@@ -39,19 +40,11 @@ import java.util.Map;
  * 
  * @author JiangHL
  */
+@Repository
 public class DSCheckOutStub extends DSAbstractServiceStub<InstanceServiceImpl>
 {
 	@Autowired
 	private FoundationObjectMapper      foundationObjectMapper;
-	/**
-	 * @param context
-	 * @param sd
-	 * @throws DynaDataException
-	 */
-	public DSCheckOutStub(DataServerContext context, InstanceServiceImpl service)
-	{
-		super(context, service);
-	}
 
 	/**
 	 * 1、bomview和view 直接检出 2、库中的实例 首先根据源实例创建检出的实例，并把检出实例的sourceGuid设置为源实例的guid

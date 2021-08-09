@@ -105,19 +105,11 @@ public class SystemDataServiceImpl extends DataRuleService implements SystemData
 
 	public SDSOperateDataStub getOperateDataStub()
 	{
-		if (this.operateDataStub == null)
-		{
-			this.operateDataStub = new SDSOperateDataStub(this.serviceContext, this);
-		}
 		return operateDataStub;
 	}
 
 	public SDSCommonStub getCommonStub()
 	{
-		if (this.commonStub == null)
-		{
-			this.commonStub = new SDSCommonStub(this.serviceContext, this);
-		}
 		return commonStub;
 	}
 

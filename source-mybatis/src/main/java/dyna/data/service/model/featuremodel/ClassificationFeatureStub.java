@@ -18,23 +18,19 @@ import dyna.common.systemenum.coding.CFMCodeRuleEnum;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
-import dyna.data.context.DataServerContext;
 import dyna.data.service.DSAbstractServiceStub;
 import dyna.data.service.model.codemodel.CodeModelService;
 import dyna.data.service.sdm.FieldValueEqualsFilter;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Repository;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Repository
 public class ClassificationFeatureStub extends DSAbstractServiceStub<ClassificationFeatureServiceImpl>
 {
 	private static Map<String, ClassficationFeatureItem> ClassficationFeatureItemCache = new HashMap<>();
-
-	protected ClassificationFeatureStub(DataServerContext context, ClassificationFeatureServiceImpl service)
-	{
-		super(context, service);
-	}
 
 	protected void checkAndClearClassificationFeature(String userGuid) throws ServiceRequestException
 	{

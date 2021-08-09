@@ -46,6 +46,7 @@ import dyna.dbcommon.exception.DynaDataExceptionAll;
 import dyna.dbcommon.exception.DynaDataExceptionSQL;
 import dyna.dbcommon.util.DSCommonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
@@ -58,19 +59,11 @@ import java.util.Map.Entry;
  *
  * @author JiangHL
  */
+@Repository
 public class DSInstanceUpdateStub extends DSAbstractServiceStub<InstanceServiceImpl>
 {
 	@Autowired
 	private FoundationObjectMapper                foundationObjectMapper;
-	/**
-	 * @param context
-	 * @param service
-	 * @throws DynaDataException
-	 */
-	public DSInstanceUpdateStub(DataServerContext context, InstanceServiceImpl service) throws DynaDataException
-	{
-		super(context, service);
-	}
 
 	/**
 	 * 保存实例

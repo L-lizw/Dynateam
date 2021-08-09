@@ -16,6 +16,7 @@ import dyna.data.service.DSAbstractServiceStub;
 import dyna.dbcommon.exception.DynaDataExceptionAll;
 import dyna.dbcommon.exception.DynaDataExceptionSQL;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,14 +28,11 @@ import java.util.Map;
  * 
  * @author JiangHL
  */
+@Repository
 public class DSECStub extends DSAbstractServiceStub<ECServiceImpl>
 {
 	@Autowired
 	private DynaObjectMapper            dynaObjectMapper;
-	public DSECStub(DataServerContext context, ECServiceImpl service) throws DynaDataException
-	{
-		super(context, service);
-	}
 
 	protected void unlockByECO(ObjectGuid ecoObjectGuid, List<String> classNameList) throws DynaDataException
 	{

@@ -18,10 +18,6 @@ public class ConfigManagerServiceImpl extends DataRuleService implements ConfigM
 
 	public ConfigManagerStub getConfigManagerStub()
 	{
-		if (this.configManagerStub == null)
-		{
-			this.configManagerStub = new ConfigManagerStub(this.serviceContext, this);
-		}
 		return this.configManagerStub;
 	}
 

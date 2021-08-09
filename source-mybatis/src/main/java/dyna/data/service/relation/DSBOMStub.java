@@ -21,6 +21,7 @@ import dyna.data.context.DataServerContext;
 import dyna.data.service.DSAbstractServiceStub;
 import dyna.data.service.sdm.SystemDataService;
 import dyna.dbcommon.exception.DynaDataExceptionAll;
+import org.springframework.stereotype.Repository;
 
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -32,13 +33,9 @@ import java.util.Map;
  * 
  * @author JiangHL
  */
+@Repository
 public class DSBOMStub extends DSAbstractServiceStub<RelationServiceImpl>
 {
-	protected DSBOMStub(DataServerContext context, RelationServiceImpl service)
-	{
-		super(context, service);
-	}
-
 	/**
 	 * 精确非精确转换
 	 * 

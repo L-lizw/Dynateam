@@ -1,12 +1,12 @@
 package dyna.data.service.ec;
 
-import java.util.List;
-
 import dyna.common.bean.data.ObjectGuid;
 import dyna.common.conf.ServiceDefinition;
 import dyna.common.exception.ServiceRequestException;
 import dyna.data.context.DataServerContext;
 import dyna.data.service.DataRuleService;
+
+import java.util.List;
 
 public class ECServiceImpl extends DataRuleService implements ECService
 {
@@ -19,10 +19,6 @@ public class ECServiceImpl extends DataRuleService implements ECService
 
 	protected DSECStub getECStub()
 	{
-		if (this.ecStub == null)
-		{
-			this.ecStub = new DSECStub(this.serviceContext, this);
-		}
 		return this.ecStub;
 	}
 

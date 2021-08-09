@@ -32,15 +32,16 @@ import dyna.common.systemenum.SystemClassFieldEnum;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
-import dyna.data.context.DataServerContext;
 import dyna.data.service.model.DataCacheServiceStub;
 import dyna.data.service.sdm.FieldValueEqualsFilter;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Repository;
 
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
+@Repository
 public class ClassModelServiceStub extends DataCacheServiceStub<ClassModelServiceImpl>
 {
 	// classname:classguid
@@ -63,9 +64,9 @@ public class ClassModelServiceStub extends DataCacheServiceStub<ClassModelServic
 
 	private AbstractCacheInfo					cacheInfo						= null;
 
-	protected ClassModelServiceStub(DataServerContext context, ClassModelServiceImpl service)
+	protected ClassModelServiceStub()
 	{
-		super(context, service);
+		super();
 		this.cacheInfo = new ClassModelCacheInfo();
 		this.cacheInfo.register();
 	}

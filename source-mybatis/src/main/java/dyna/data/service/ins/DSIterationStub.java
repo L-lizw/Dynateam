@@ -31,6 +31,7 @@ import dyna.dbcommon.exception.DynaDataExceptionAll;
 import dyna.dbcommon.exception.DynaDataExceptionSQL;
 import dyna.dbcommon.util.DSCommonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.sql.SQLException;
 import java.util.*;
@@ -40,20 +41,11 @@ import java.util.*;
  *
  * @author JiangHL
  */
+@Repository
 public class DSIterationStub extends DSAbstractServiceStub<InstanceServiceImpl>
 {
-
 	@Autowired
 	private FoundationObjectMapper              foundationObjectMapper;
-	/**
-	 * @param context
-	 * @param service
-	 * @throws DynaDataException
-	 */
-	public DSIterationStub(DataServerContext context, InstanceServiceImpl service)
-	{
-		super(context, service);
-	}
 
 	/**
 	 * 获取iteration列表,只返回系统字段

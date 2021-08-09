@@ -11,20 +11,18 @@ import dyna.data.context.DataServerContext;
 import dyna.data.service.DSAbstractServiceStub;
 import dyna.dbcommon.exception.DynaDataExceptionAll;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
+@Repository
 public class NewRevisionRuleStub extends DSAbstractServiceStub<InstanceServiceImpl>
 {
 	@Autowired
 	private FoundationObjectMapper          foundationObjectMapper;
-	protected NewRevisionRuleStub(DataServerContext context, InstanceServiceImpl service)
-	{
-		super(context, service);
-	}
 
 	/**
 	 * 取得当前对象的下一个版本号

@@ -11,10 +11,12 @@ import dyna.common.exception.ServiceRequestException;
 import dyna.common.systemenum.SystemStatusEnum;
 import dyna.data.context.DataServerContext;
 import dyna.data.service.DataRuleService;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
 
+@Service
 public class InstanceServiceImpl extends DataRuleService implements InstanceService
 {
 	private DSIterationStub			iterationStub;
@@ -34,82 +36,46 @@ public class InstanceServiceImpl extends DataRuleService implements InstanceServ
 
 	protected DSIterationStub getIterationStub()
 	{
-		if (this.iterationStub == null)
-		{
-			this.iterationStub = new DSIterationStub(this.serviceContext, this);
-		}
 		return this.iterationStub;
 	}
 
 	protected DSCheckOutStub getCheckoutStub()
 	{
-		if (this.checkOutStub == null)
-		{
-			this.checkOutStub = new DSCheckOutStub(this.serviceContext, this);
-		}
 		return this.checkOutStub;
 	}
 
 	public DSInstanceUpdateStub getFoundationStub()
 	{
-		if (this.foundationStub == null)
-		{
-			this.foundationStub = new DSInstanceUpdateStub(this.serviceContext, this);
-		}
 		return this.foundationStub;
 	}
 
 	public NewRevisionRuleStub getRevisionRuleStub()
 	{
-		if (this.revisionRuleStub == null)
-		{
-			this.revisionRuleStub = new NewRevisionRuleStub(this.serviceContext, this);
-		}
 		return this.revisionRuleStub;
 	}
 
 	public DSCheckInStub getCheckInStub()
 	{
-		if (this.checkInStub == null)
-		{
-			this.checkInStub = new DSCheckInStub(this.serviceContext, this);
-		}
 		return this.checkInStub;
 	}
 
 	public DSCancelCheckoutStub getCancelCheckoutStub()
 	{
-		if (this.cancelCheckout == null)
-		{
-			this.cancelCheckout = new DSCancelCheckoutStub(this.serviceContext, this);
-		}
 		return this.cancelCheckout;
 	}
 
 	protected DSInstanceGetStub getInstanceGetStub()
 	{
-		if (this.instanceGetStub == null)
-		{
-			this.instanceGetStub = new DSInstanceGetStub(this.serviceContext, this);
-		}
 		return this.instanceGetStub;
 	}
 
 	protected DSQuickQueryStub getQuickQueryStub()
 	{
-		if (this.quickQueryStub == null)
-		{
-			this.quickQueryStub = new DSQuickQueryStub(this.serviceContext, this);
-		}
 		return this.quickQueryStub;
 	}
 
 	protected DSConditionQueryStub getConditionQueryStub()
 	{
-		if (this.conditionQuery == null)
-		{
-			this.conditionQuery = new DSConditionQueryStub(this.serviceContext, this);
-		}
 		return this.conditionQuery;
 	}
 

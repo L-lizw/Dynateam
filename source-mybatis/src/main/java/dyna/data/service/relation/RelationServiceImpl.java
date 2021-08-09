@@ -1,9 +1,5 @@
 package dyna.data.service.relation;
 
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
 import dyna.common.SearchCondition;
 import dyna.common.bean.data.FoundationObject;
 import dyna.common.bean.data.ObjectGuid;
@@ -22,6 +18,10 @@ import dyna.common.dto.template.relation.RelationTemplateInfo;
 import dyna.common.exception.ServiceRequestException;
 import dyna.data.context.DataServerContext;
 import dyna.data.service.DataRuleService;
+
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class RelationServiceImpl extends DataRuleService implements RelationService
 {
@@ -49,28 +49,16 @@ public class RelationServiceImpl extends DataRuleService implements RelationServ
 
 	public DSBOMStub getDSBOMStub()
 	{
-		if (this.bomStub == null)
-		{
-			this.bomStub = new DSBOMStub(this.serviceContext, this);
-		}
 		return this.bomStub;
 	}
 
 	public DSStructureStub getStructureStub()
 	{
-		if (this.structureStub == null)
-		{
-			this.structureStub = new DSStructureStub(this.serviceContext, this);
-		}
 		return this.structureStub;
 	}
 
 	public RelationTemplateStub getRelationTemplateStub()
 	{
-		if (this.relationTemplateStub == null)
-		{
-			this.relationTemplateStub = new RelationTemplateStub(this.serviceContext, this);
-		}
 		return this.relationTemplateStub;
 	}
 

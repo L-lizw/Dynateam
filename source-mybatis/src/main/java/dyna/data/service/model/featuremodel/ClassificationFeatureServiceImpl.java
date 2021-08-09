@@ -1,7 +1,5 @@
 package dyna.data.service.model.featuremodel;
 
-import java.util.List;
-
 import dyna.common.bean.model.code.ClassficationFeatureItem;
 import dyna.common.conf.ServiceDefinition;
 import dyna.common.dto.cfm.ClassficationFeature;
@@ -11,6 +9,8 @@ import dyna.common.exception.DynaDataException;
 import dyna.common.exception.ServiceRequestException;
 import dyna.data.context.DataServerContext;
 import dyna.data.service.DataRuleService;
+
+import java.util.List;
 
 public class ClassificationFeatureServiceImpl extends DataRuleService implements ClassificationFeatureService
 {
@@ -23,10 +23,6 @@ public class ClassificationFeatureServiceImpl extends DataRuleService implements
 
 	public ClassificationFeatureStub getFeatureStub()
 	{
-		if (this.featureStub == null)
-		{
-			this.featureStub = new ClassificationFeatureStub(this.serviceContext, this);
-		}
 		return this.featureStub;
 	}
 

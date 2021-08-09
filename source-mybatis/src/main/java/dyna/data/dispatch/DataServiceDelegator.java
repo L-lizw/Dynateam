@@ -22,7 +22,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
- * @author Wanglei
+ * 服务授权代理
+ * @author Lizw
  * 
  */
 public class DataServiceDelegator implements InvocationHandler

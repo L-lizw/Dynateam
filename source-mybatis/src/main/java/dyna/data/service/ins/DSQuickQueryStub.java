@@ -17,6 +17,7 @@ import dyna.data.context.DataServerContext;
 import dyna.data.service.DSAbstractServiceStub;
 import dyna.dbcommon.exception.DynaDataExceptionAll;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
@@ -25,19 +26,11 @@ import java.util.*;
  * 
  * @author JiangHL
  */
+@Repository
 public class DSQuickQueryStub extends DSAbstractServiceStub<InstanceServiceImpl>
 {
 	@Autowired
 	private FoundationObjectMapper              foundationObjectMapper;
-	/**
-	 * @param context
-	 * @param service
-	 * @throws DynaDataException
-	 */
-	public DSQuickQueryStub(DataServerContext context, InstanceServiceImpl service) throws DynaDataException
-	{
-		super(context, service);
-	}
 
 	/**
 	 * 一般情况请不要使用该查询，目前仅在产品配置材料明细结构中使用（因为模板可以关联多接口的子阶业务对象，所以需要跨表查询）,需要根据模板进行查询，只返回有限的几个系统字段,且只做普通对象查询，不做关联查询

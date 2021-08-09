@@ -12,28 +12,19 @@ import dyna.common.exception.ServiceRequestException;
 import dyna.common.systemenum.AuthorityEnum;
 import dyna.common.systemenum.DataExceptionEnum;
 import dyna.data.DataServer;
-import dyna.data.context.DataServerContext;
 import dyna.data.service.DSAbstractServiceStub;
 import dyna.dbcommon.exception.DynaDataExceptionAll;
 import dyna.dbcommon.exception.DynaDataExceptionSQL;
+import org.springframework.stereotype.Repository;
 
 /**
  * 取消检出
  * 
  * @author JiangHL
  */
+@Repository
 public class DSCancelCheckoutStub extends DSAbstractServiceStub<InstanceServiceImpl>
 {
-	/**
-	 * @param context
-	 * @param sd
-	 * @throws DynaDataException
-	 */
-	public DSCancelCheckoutStub(DataServerContext context, InstanceServiceImpl service)
-	{
-		super(context, service);
-	}
-
 	/**
 	 * 取消检出
 	 * 

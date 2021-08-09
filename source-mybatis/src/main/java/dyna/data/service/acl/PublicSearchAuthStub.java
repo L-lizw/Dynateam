@@ -1,12 +1,5 @@
 package dyna.data.service.acl;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
-import dyna.data.service.sdm.FieldValueEqualsFilter;
 import dyna.common.dto.Session;
 import dyna.common.dto.acl.PublicSearchACLItem;
 import dyna.common.exception.ServiceRequestException;
@@ -16,15 +9,19 @@ import dyna.common.systemenum.PublicSearchAuthorityEnum;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
-import dyna.data.context.DataServerContext;
 import dyna.data.service.DSAbstractServiceStub;
+import dyna.data.service.sdm.FieldValueEqualsFilter;
+import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+@Repository
 public class PublicSearchAuthStub extends DSAbstractServiceStub<AclServiceImpl>
 {
-	public PublicSearchAuthStub(DataServerContext serviceContext, AclServiceImpl aclService)
-	{
-		super(serviceContext, aclService);
-	}
 
 	public boolean hasAuthorityForPublicSearch(String publicSearchGuid, PublicSearchAuthorityEnum publicSearchAuthorityEnum, String sessionId) throws ServiceRequestException
 	{

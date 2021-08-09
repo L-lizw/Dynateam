@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
  * @author Wanglei
  *
  */
-@Repository("serviceStateExchangerDataServerImpl")
+@Repository(value = "serviceStateExchangerDataServerImpl")
 public class ServiceStateExchangerDataServerImpl implements ServiceStateExchanger
 {
 

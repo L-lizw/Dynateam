@@ -23,6 +23,7 @@ import dyna.data.service.relation.RelationServiceImpl;
 import dyna.dbcommon.exception.DynaDataExceptionAll;
 import dyna.dbcommon.exception.DynaDataExceptionSQL;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Repository
 public class ConfigManagerStub extends DSAbstractServiceStub<ConfigManagerServiceImpl>
 {
 	@Autowired
@@ -56,11 +58,6 @@ public class ConfigManagerStub extends DSAbstractServiceStub<ConfigManagerServic
 	private DynamicColumnTitleMapper        dynamicColumnTitleMapper;
 	@Autowired
 	private DynamicOfColumnMapper           dynamicOfColumnMapper;
-
-	protected ConfigManagerStub(DataServerContext context, ConfigManagerServiceImpl service)
-	{
-		super(context, service);
-	}
 
 	/**
 	 * 当订单合同改变时,需要刷新订单明细的所属订单合同字段

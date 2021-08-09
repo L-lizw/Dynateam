@@ -1,8 +1,5 @@
 package dyna.data.service.acl;
 
-import java.util.List;
-import java.util.Map;
-
 import dyna.common.bean.data.FoundationObject;
 import dyna.common.bean.data.ObjectGuid;
 import dyna.common.conf.ServiceDefinition;
@@ -18,6 +15,9 @@ import dyna.common.systemenum.PublicSearchAuthorityEnum;
 import dyna.common.systemenum.ShareFolderAuthorityEnum;
 import dyna.data.context.DataServerContext;
 import dyna.data.service.DataRuleService;
+
+import java.util.List;
+import java.util.Map;
 
 public class AclServiceImpl extends DataRuleService implements AclService
 {
@@ -36,37 +36,21 @@ public class AclServiceImpl extends DataRuleService implements AclService
 
 	public InstanceAuthStub getInstanceAuthStub()
 	{
-		if (this.instanceAuthStub == null)
-		{
-			this.instanceAuthStub = new InstanceAuthStub(this.serviceContext, this);
-		}
 		return this.instanceAuthStub;
 	}
 
 	public AuthCommonStub getAuthCommonStub()
 	{
-		if (this.authCommonStub == null)
-		{
-			this.authCommonStub = new AuthCommonStub(this.serviceContext, this);
-		}
 		return this.authCommonStub;
 	}
 
 	public FolderAuthStub getFolderAuthStub()
 	{
-		if (this.folderAuthStub == null)
-		{
-			this.folderAuthStub = new FolderAuthStub(this.serviceContext, this);
-		}
 		return this.folderAuthStub;
 	}
 
 	public PublicSearchAuthStub getPublicSearchAuthStub()
 	{
-		if (this.publicSearchAuthStub == null)
-		{
-			this.publicSearchAuthStub = new PublicSearchAuthStub(this.serviceContext, this);
-		}
 		return this.publicSearchAuthStub;
 	}
 

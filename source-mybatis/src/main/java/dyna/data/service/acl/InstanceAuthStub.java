@@ -1,14 +1,5 @@
 package dyna.data.service.acl;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Map;
-import java.util.List;
-import java.util.HashMap;
-
-import dyna.data.service.sdm.FieldValueEqualsFilter;
 import dyna.common.bean.data.FoundationObject;
 import dyna.common.bean.data.FoundationObjectImpl;
 import dyna.common.bean.data.ObjectGuid;
@@ -24,26 +15,21 @@ import dyna.common.dto.acl.ACLSubject;
 import dyna.common.dto.acl.FolderACLItem;
 import dyna.common.dto.model.lf.LifecyclePhaseInfo;
 import dyna.common.exception.ServiceRequestException;
-import dyna.common.systemenum.AccessConditionEnum;
-import dyna.common.systemenum.AccessTypeEnum;
-import dyna.common.systemenum.AuthorityEnum;
-import dyna.common.systemenum.FolderTypeEnum;
-import dyna.common.systemenum.PermissibleEnum;
-import dyna.common.systemenum.SystemStatusEnum;
+import dyna.common.systemenum.*;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
-import dyna.data.context.DataServerContext;
 import dyna.data.service.DSAbstractServiceStub;
+import dyna.data.service.sdm.FieldValueEqualsFilter;
+import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
+import java.util.*;
+
+@Repository
 public class InstanceAuthStub extends DSAbstractServiceStub<AclServiceImpl>
 {
 	protected static Map<String, ACLSubject> ACL_TREE_LIBRARY_MAP = Collections.synchronizedMap(new HashMap<String, ACLSubject>());
-
-	public InstanceAuthStub(DataServerContext serviceContext, AclServiceImpl aclService)
-	{
-		super(serviceContext, aclService);
-	}
 
 	/**
 	 * 按照树形结构返回权限列表
