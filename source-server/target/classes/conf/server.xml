@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server>
+	<!-- app server id, it is global unique -->
+	<id>APP Server</id>
+	<description>App Server</description>
+
+	
+	<!-- 服务发布端口 -->
+	<service-dispatch>
+		
+	    <rmiport>11299</rmiport>
+		<serverport>11300</serverport>
+	</service-dispatch>
+	
+	<!-- 线程池参数设定 ，-->
+	<!--
+	<thread-pool>
+		<count>16</count>
+		<delay>10</delay>
+	</thread-pool>
+	-->
+	
+	<!-- 定时调度任务线程池 -->
+	<scheduled-thread-pool>
+		<count>5</count>
+	</scheduled-thread-pool>
+	
+	<!-- 会话超时(min) -->
+	<session-timeout>
+		30
+	</session-timeout>
+	<!-- 会话倒计时提醒(s) -->
+	<session-prompt>
+		30
+	</session-prompt>
+	<language>
+	zh_CN
+	</language>
+	<!-- define storage(s) for this app server -->
+	<storage-list>
+		<storage>
+			<!-- storage id, it is unique in server context -->
+			<id>RDS001</id>
+			<name>RDStorage1</name>
+			<dsserver>ftps001</dsserver>
+			<path>/RDS001</path>
+		</storage>
+		<storage>
+			<!-- storage id, it is unique in server context -->
+			<id>RDS002</id>
+			<name>RDStorage2</name>
+			<dsserver>ftps001</dsserver>
+			<path>/RDS002</path>
+		</storage>
+	</storage-list>
+	
+	<!-- define dsserver(s) for this app server-->
+    <!-- 定義應用伺服器連結之檔案伺服器的資訊-->
+    <dsserver-list>
+		<dsserver>
+            <!-- dssserver.xml中<address>的IP位址若有修改，此處<ip>中的IP位址也需一併修改 -->
+            <!-- dsserver id, it is unique in server context -->
+			<id>ftps001</id>
+			<ip>127.0.0.1</ip>
+			<port>2222</port>
+		</dsserver>
+	</dsserver-list>
+</server>

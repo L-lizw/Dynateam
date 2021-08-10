@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<client>
+	
+	<!-- client mode -->
+	<!-- available mode: 
+	 all-in-one : Altogether mode
+	 built-in-server : C/S mode
+	 distributed: all is separated
+	-->
+	<mode name="distributed" />
+ 
+ 	<!-- 服务器地址 -->
+	<!-- 連接伺服器的資訊，於<ip>中填入伺服器IP -->
+	<server-list>
+		<server default="true">
+			<name>my server</name>
+			<ip>127.0.0.1</ip>
+		</server>
+		<server >
+			<name>erp server</name>
+			<ip>172.16.100.125</ip>
+			<port>1299</port>
+		</server>
+		<server >
+			<name>25server</name>
+			<ip>192.168.100.25</ip>
+			<port>1299</port>
+		</server>
+		<server >
+			<name>64server</name>
+			<ip>192.168.101.64</ip>
+			<port>1299</port>
+		</server>
+		<server>
+			<name>public server</name>
+			<ip>172.16.100.105</ip>
+			<!-- port 为可选, 没有指定则使用定义的默认端口号 -->
+			<!-- 有指定則用該埠號，未指定則使用預設埠號 -->
+			<port>1299</port>
+		</server>
+		<server>
+			<name>hej</name>
+			<ip>192.168.101.29</ip>
+		</server>
+	</server-list>
+	
+	<!-- 在默认服务器上搜索服务的端口 -->
+	<!-- 連接伺服器之預設埠號 -->
+	<service-lookup>
+		<port>1299</port>
+	</service-lookup>
+</client>

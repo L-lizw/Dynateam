@@ -1,0 +1,28 @@
+<object-models>
+	<class-model>
+		<class-object name="Product" superclass="Item" interface="IProduct" abstract="false" final="false" system="false" instancestring="Id" lifecycle="" uniquefields="Id" classification="ProductLine" persistent="false">
+			<fields>
+				<field name="model" mandatory="false" type="String"/>
+			</fields>
+		</class-object>
+	</class-model>
+	<ui-model>
+		<ui-object name="ItemUI" businessmodels="*" title="Item;产品零部件管理" type="Form">
+			<fields>
+				<field name="EnglishDes" type="String" title="EnglishDes;英文描述" titlevisible="true" width="" readonly="false" column="1" columnSpan="1" row="1" froze="false"/>
+				<field name="ERPPrice" type="Float" title="ERPPrice;ERP价格" titlevisible="true" readonly="false" column="1" columnSpan="1" row="2" froze="false"/>
+				<field name="Source" type="Code" title="Item Source;来源" titlevisible="true" readonly="false" column="1" columnSpan="1" row="17" froze="false"/>
+				<field name="model" type="String" title="model;产品型号" titlevisible="true" readonly="false" column="1" columnSpan="1" row="19" froze="false"/>
+				<field name="weight" type="String" title="weight;重量" titlevisible="true" readonly="false" column="1" columnSpan="1" row="21" froze="false"/>
+			</fields>
+			<actions/>
+		</ui-object>
+		<icon>
+			<classicon path="product.png"/>
+		</icon>
+	</ui-model>
+	<data-model synchorize="true"/>
+	<numbering-model mandatory="false" serialnumberwithfield="true" serialnumberwithdate="true">
+		<numbering-object type="Serial Number" typevalue="5"/>
+	</numbering-model>
+</object-models>

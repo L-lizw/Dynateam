@@ -1,0 +1,28 @@
+<business-models>
+	<model name="R&amp;D Model" title="R&amp;D;研发视图">
+		<business-object name="DocumentMgt" title="Document Managerment;文档管理" type="Package" showclassification="false"/>
+		<business-object name="DocumentTemplate" title="Document Template;文档模板" parent="DocumentMgt" type="Class" classname="DocumentTemplate" showclassification="false"/>
+		<business-object name="Document" title="Document;文档" parent="DocumentMgt" type="Class" classname="Document" showclassification="false"/>
+		<business-object name="Item" title="Items;物料管理" type="Package" showclassification="false"/>
+		<business-object name="Product" title="Product;产品;产品" parent="Item" type="Class" classname="Product" showclassification="false"/>
+		<business-object name="Part" title="Part;零部件" parent="Item" type="Class" classname="Part" showclassification="false"/>
+		<business-object name="RawMaterial" title="Raw Material;原材料" parent="Item" type="Class" classname="RawMaterial" showclassification="false"/>
+		<business-object name="EC" title="EC;工程变更" type="Package" showclassification="false"/>
+		<business-object name="ECR" title="ECR;工程变更请求" parent="EC" type="Class" classname="ECR" showclassification="false"/>
+		<business-object name="ECO" title="ECO;工程变更指令" parent="EC" type="Class" classname="ECO" showclassification="false"/>
+		<business-object name="CADModel" title="CAD Model;CAD图纸模型" type="Package" showclassification="false"/>
+		<business-object name="AutoCAD" title="AutoCAD Drawing;AutoCAD图纸" parent="CADModel" type="Class" classname="AutoCAD" showclassification="false"/>
+		<business-object name="ProE" title="Pro/E;Pro/E模型" parent="CADModel" type="Class" classname="ProE" showclassification="false"/>
+	</model>
+	<model name="Manufacture Model" title="Manufacture;制造视图">
+		<business-object name="DocumentMgt" title="Document Managerment;文档管理" parent="" type="Package" showclassification="false"/>
+		<business-object name="DocumentTemplate" title="Document Template;文档模板" parent="DocumentMgt" type="Class" classname="DocumentTemplate" showclassification="false"/>
+		<business-object name="Document" title="Document;文档" parent="DocumentMgt" type="Class" classname="Document" showclassification="false"/>
+		<business-object name="ECO" title="ECO;工程变更指令" parent="" type="Class" classname="ECO" showclassification="false"/>
+		<business-object name="CADModel" title="CAD Model;CAD图纸模型" parent="" type="Package" showclassification="false"/>
+		<business-object name="AutoCAD" title="AutoCAD Drawing;AutoCAD图纸" parent="CADModel" type="Class" classname="AutoCAD" showclassification="false"/>
+	</model>
+	<model name="TestModel" title="TestModel;测试模型;">
+		<business-object name="DocumentMgt" title="DocumentMgt;文档管理;" type="Package" showclassification="false"/>
+	</model>
+</business-models>

@@ -11,7 +11,6 @@ import dyna.common.bean.data.template.BOMTemplate;
 import dyna.common.bean.data.template.RelationTemplate;
 import dyna.common.bean.model.cls.NumberingModel;
 import dyna.common.bean.model.itf.InterfaceObject;
-import dyna.common.conf.ConfigurableConnToDSImpl;
 import dyna.common.dto.cfm.ClassficationFeature;
 import dyna.common.dto.cfm.ClassficationFeatureItemInfo;
 import dyna.common.dto.cfm.ClassificationNumberField;
@@ -56,13 +55,6 @@ public interface EMM extends Service
 	 * @throws ServiceRequestException
 	 */
 	public Date getSystemDate();
-
-	/**
-	 * 获取数据服务所对应的地址及端口信息
-	 * 
-	 * @throws ServiceRequestException
-	 */
-	public ConfigurableConnToDSImpl getConfigLoaderConnToDS() throws ServiceRequestException;
 
 	/** LifeCycle Manager **/
 

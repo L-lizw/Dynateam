@@ -1,0 +1,263 @@
+<workflowprocess name="complexflow" description="complexflow" title="complexflow;复杂流程;">
+	<activities>
+		<activity name="BEGIN" position="11,206,-1,-1"/>
+		<activity name="END" position="1164,148,-1,-1"/>
+		<activity name="1" description="1" position="75,84,-1,-1" title="lock;锁;">
+			<implementation>
+				<tool name="LOCK" type="APPLICATION"/>
+			</implementation>
+		</activity>
+		<activity name="2" description="2" position="162,98,-1,-1">
+			<route/>
+			<transitionrestriction>
+				<split type="AND">
+					<transitionrefs>
+						<transitionref name="22"/>
+						<transitionref name="23"/>
+						<transitionref name="24"/>
+					</transitionrefs>
+				</split>
+			</transitionrestriction>
+		</activity>
+		<activity name="3" description="3" position="231,21,-1,-1" gate="10" title="review1;审阅1;">
+			<implementation>
+				<tool type="MANUAL"/>
+			</implementation>
+		</activity>
+		<activity name="4" description="4" position="236,105,-1,-1" gate="20" title="review2;审阅2;">
+			<implementation>
+				<tool type="MANUAL"/>
+			</implementation>
+		</activity>
+		<activity name="5" description="5" position="236,190,-1,-1" gate="30" title="review3;审阅3;">
+			<implementation>
+				<tool type="MANUAL"/>
+			</implementation>
+		</activity>
+		<activity name="6" description="6" position="331,22,-1,-1" gate="40" title="review4;审阅4;">
+			<implementation>
+				<tool type="MANUAL"/>
+			</implementation>
+		</activity>
+		<activity name="7" description="7" position="390,114,-1,-1">
+			<route/>
+			<transitionrestriction>
+				<join type="XOR">
+					<transitionrefs>
+						<transitionref name="26"/>
+						<transitionref name="27"/>
+						<transitionref name="28"/>
+					</transitionrefs>
+				</join>
+			</transitionrestriction>
+		</activity>
+		<activity name="8" description="8" position="495,176,-1,-1" gate="50" title="review8;审阅5;">
+			<implementation>
+				<tool type="MANUAL"/>
+			</implementation>
+		</activity>
+		<activity name="9" description="9" position="566,98,-1,-1" title="inp;阶段转换;">
+			<implementation>
+				<tool name="CHANGE_PHASE" type="APPLICATION"/>
+			</implementation>
+			<phasechanges>
+				<phasechange lifecycle="Default" fromphase="Working" tophase="InProcess"/>
+			</phasechanges>
+		</activity>
+		<activity name="10" description="10" position="662,110,-1,-1">
+			<route/>
+			<transitionrestriction>
+				<split type="XOR">
+					<transitionrefs>
+						<transitionref name="32"/>
+						<transitionref name="33"/>
+					</transitionrefs>
+				</split>
+			</transitionrestriction>
+		</activity>
+		<activity name="11" description="11" position="704,32,-1,-1" gate="60" title="approve;批准1;">
+			<implementation>
+				<tool type="MANUAL"/>
+			</implementation>
+		</activity>
+		<activity name="12" description="12" position="806,29,-1,-1" gate="70" title="approve;批准2;">
+			<implementation>
+				<tool type="MANUAL"/>
+			</implementation>
+		</activity>
+		<activity name="13" description="13" position="916,53,-1,-1" gate="80" title="approve;批准3;">
+			<implementation>
+				<tool type="MANUAL"/>
+			</implementation>
+		</activity>
+		<activity name="14" description="14" position="810,168,-1,-1" gate="90" title="approve;批准4;">
+			<implementation>
+				<tool type="MANUAL"/>
+			</implementation>
+		</activity>
+		<activity name="15" description="15" position="943,130,-1,-1">
+			<route/>
+			<transitionrestriction>
+				<join type="AND">
+					<transitionrefs>
+						<transitionref name="36"/>
+						<transitionref name="37"/>
+					</transitionrefs>
+				</join>
+			</transitionrestriction>
+		</activity>
+		<activity name="16" description="16" position="996,209,-1,-1" gate="100" title="approve;批准5;">
+			<implementation>
+				<tool type="MANUAL"/>
+			</implementation>
+		</activity>
+		<activity name="17" description="17" position="1056,41,-1,-1" title="approve;批准6;">
+			<implementation>
+				<tool name="CHANGE_PHASE" type="APPLICATION"/>
+			</implementation>
+			<phasechanges>
+				<phasechange lifecycle="Default" fromphase="InProcess" tophase="Released"/>
+			</phasechanges>
+		</activity>
+		<activity name="18" description="18" position="1160,51,-1,-1" title="unlock;解锁;">
+			<implementation>
+				<tool name="UNLOCK" type="APPLICATION"/>
+			</implementation>
+		</activity>
+		<activity name="19" description="19" position="370,418,-1,-1" title="unlock;解锁;">
+			<implementation>
+				<tool name="UNLOCK" type="APPLICATION"/>
+			</implementation>
+		</activity>
+		<activity name="53" description="53" position="686,272,-1,-1" title="phasechange;阶段转换;">
+			<implementation>
+				<tool name="CHANGE_PHASE" type="APPLICATION"/>
+			</implementation>
+			<phasechanges>
+				<phasechange lifecycle="Default" fromphase="InProcess" tophase="Working"/>
+			</phasechanges>
+		</activity>
+	</activities>
+	<lifecyclephases>
+		<lifecyclephase lifecyclename="Default" phasename="Working"/>
+	</lifecyclephases>
+	<transitions>
+		<transition name="20" description="20" from="BEGIN" to="1">
+			<condition type="Regular"/>
+		</transition>
+		<transition name="21" description="21" from="1" to="2">
+			<condition type="Regular"/>
+		</transition>
+		<transition name="22" description="22" from="2" to="3">
+			<condition type="Regular"/>
+		</transition>
+		<transition name="23" description="23" from="2" to="4">
+			<condition type="Regular"/>
+		</transition>
+		<transition name="24" description="24" from="2" to="5">
+			<condition type="Regular"/>
+		</transition>
+		<transition name="25" description="25" from="3" to="6">
+			<condition type="Accept"/>
+		</transition>
+		<transition name="26" description="26" from="6" to="7">
+			<condition type="Accept"/>
+		</transition>
+		<transition name="27" description="27" from="4" to="7">
+			<condition type="Accept"/>
+		</transition>
+		<transition name="28" description="28" from="5" to="7">
+			<condition type="Accept"/>
+		</transition>
+		<transition name="29" description="29" from="7" to="8">
+			<condition type="Regular"/>
+		</transition>
+		<transition name="30" description="30" from="8" to="9">
+			<condition type="Accept"/>
+		</transition>
+		<transition name="31" description="31" from="9" to="10">
+			<condition type="Regular"/>
+		</transition>
+		<transition name="32" description="32" from="10" to="11">
+			<condition type="Regular"/>
+		</transition>
+		<transition name="33" description="33" from="10" to="14">
+			<condition type="Regular"/>
+		</transition>
+		<transition name="34" description="34" from="11" to="12">
+			<condition type="Accept"/>
+		</transition>
+		<transition name="35" description="35" from="12" to="13">
+			<condition type="Accept"/>
+		</transition>
+		<transition name="36" description="36" from="13" to="15">
+			<condition type="Accept"/>
+		</transition>
+		<transition name="37" description="37" from="14" to="15">
+			<condition type="Accept"/>
+		</transition>
+		<transition name="38" description="38" from="15" to="16">
+			<condition type="Regular"/>
+		</transition>
+		<transition name="39" description="39" from="16" to="17">
+			<condition type="Accept"/>
+		</transition>
+		<transition name="40" description="40" from="17" to="18">
+			<condition type="Regular"/>
+		</transition>
+		<transition name="41" description="41" from="18" to="END">
+			<condition type="Regular"/>
+		</transition>
+		<transition name="42" description="42" from="3" to="19">
+			<condition type="Reject"/>
+		</transition>
+		<transition name="43" description="43" from="4" to="19">
+			<condition type="Reject"/>
+		</transition>
+		<transition name="44" description="44" from="5" to="19">
+			<condition type="Reject"/>
+		</transition>
+		<transition name="45" description="45" from="19" to="BEGIN">
+			<condition type="Regular"/>
+		</transition>
+		<transition name="46" description="46" from="6" to="19">
+			<condition type="Reject"/>
+		</transition>
+		<transition name="47" description="47" from="8" to="19">
+			<condition type="Reject"/>
+		</transition>
+		<transition name="48" description="48" from="11" to="53">
+			<condition type="Reject"/>
+		</transition>
+		<transition name="49" description="49" from="12" to="53">
+			<condition type="Reject"/>
+		</transition>
+		<transition name="50" description="50" from="13" to="53">
+			<condition type="Reject"/>
+		</transition>
+		<transition name="51" description="51" from="14" to="53">
+			<condition type="Reject"/>
+		</transition>
+		<transition name="52" description="52" from="53" to="8">
+			<condition type="Regular"/>
+		</transition>
+		<transition name="53" description="53" from="16" to="53">
+			<condition type="Reject"/>
+		</transition>
+		<transition name="54" description="54" from="11" to="19">
+			<condition type="Reject"/>
+		</transition>
+		<transition name="55" description="55" from="12" to="19">
+			<condition type="Reject"/>
+		</transition>
+		<transition name="56" description="56" from="13" to="19">
+			<condition type="Reject"/>
+		</transition>
+		<transition name="57" description="57" from="14" to="19">
+			<condition type="Reject"/>
+		</transition>
+		<transition name="58" description="58" from="16" to="19">
+			<condition type="Reject"/>
+		</transition>
+	</transitions>
+</workflowprocess>

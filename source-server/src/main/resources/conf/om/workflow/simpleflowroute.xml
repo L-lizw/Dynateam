@@ -1,0 +1,110 @@
+<workflowprocess name="simpleflowroute" description="简单流程" title="simpleflowroute;简单流程;">
+	<activities>
+		<activity name="BEGIN" position="10,100"/>
+		<activity name="END" position="863,202,-1,-1"/>
+		<activity name="lock" description="lock" position="95,74,-1,-1" title="lock;锁;">
+			<implementation>
+				<tool name="LOCK" type="APPLICATION"/>
+			</implementation>
+		</activity>
+		<activity name="review" description="review" position="308,18,-1,-1" gate="10" title="review;审阅;">
+			<implementation>
+				<tool type="MANUAL"/>
+			</implementation>
+		</activity>
+		<activity name="review2" description="review2" position="314,150,-1,-1" gate="20" title="review2;审阅2;">
+			<implementation>
+				<tool type="MANUAL"/>
+			</implementation>
+		</activity>
+		<activity name="2" description="2" position="210,73,-1,-1">
+			<route/>
+			<transitionrestriction>
+				<split type="AND">
+					<transitionrefs>
+						<transitionref name="5"/>
+						<transitionref name="6"/>
+					</transitionrefs>
+				</split>
+			</transitionrestriction>
+		</activity>
+		<activity name="activity1" description="activity1" position="422,83,-1,-1">
+			<route/>
+			<transitionrestriction>
+				<join type="AND">
+					<transitionrefs>
+						<transitionref name="7"/>
+						<transitionref name="8"/>
+					</transitionrefs>
+				</join>
+			</transitionrestriction>
+		</activity>
+		<activity name="phasechange" description="phasechange" position="516,47,-1,-1" title="phasechange;阶段转换;">
+			<implementation>
+				<tool name="CHANGE_PHASE" type="APPLICATION"/>
+			</implementation>
+			<phasechanges>
+				<phasechange lifecycle="Default" fromphase="Working" tophase="Released"/>
+			</phasechanges>
+		</activity>
+		<activity name="notice" description="notice" position="722,62,-1,-1" gate="30" title="notice;通知;">
+			<implementation>
+				<tool name="NOTIFY" type="APPLICATION"/>
+			</implementation>
+		</activity>
+		<activity name="unlock" description="unlock" position="857,101,-1,-1" title="unlock;解锁;">
+			<implementation>
+				<tool name="UNLOCK" type="APPLICATION"/>
+			</implementation>
+		</activity>
+		<activity name="unlock1" description="unlock" position="142,184,-1,-1" title="unlock;解锁;">
+			<implementation>
+				<tool name="UNLOCK" type="APPLICATION"/>
+			</implementation>
+		</activity>
+	</activities>
+	<lifecyclephases>
+		<lifecyclephase lifecyclename="Default" phasename="Working"/>
+	</lifecyclephases>
+	<transitions>
+		<transition name="1" description="1" from="BEGIN" to="lock">
+			<condition type="Regular"/>
+		</transition>
+		<transition name="4" description="4" from="lock" to="2">
+			<condition type="Regular"/>
+		</transition>
+		<transition name="5" description="5" from="2" to="review">
+			<condition type="Regular"/>
+		</transition>
+		<transition name="6" description="6" from="2" to="review2">
+			<condition type="Regular"/>
+		</transition>
+		<transition name="7" description="7" from="review" to="activity1">
+			<condition type="Accept"/>
+		</transition>
+		<transition name="8" description="8" from="review2" to="activity1">
+			<condition type="Accept"/>
+		</transition>
+		<transition name="9" description="9" from="activity1" to="phasechange">
+			<condition type="Regular"/>
+		</transition>
+		<transition name="10" description="10" from="phasechange" to="notice">
+			<condition type="Regular"/>
+		</transition>
+		<transition name="11" description="11" from="review" to="unlock1">
+			<condition type="Reject"/>
+		</transition>
+		<transition name="12" description="12" from="unlock1" to="BEGIN">
+			<condition type="Regular"/>
+		</transition>
+		<transition name="13" description="13" from="review2" to="unlock1">
+			<condition type="Reject"/>
+		</transition>
+		<transition name="14" description="14" from="notice" to="unlock">
+			<condition type="Regular"/>
+		</transition>
+		<transition name="15" description="15" from="unlock" to="END">
+			<condition type="Regular"/>
+		</transition>
+	</transitions>
+</workflowprocess>

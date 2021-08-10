@@ -1,0 +1,23 @@
+<lifecycle-model>
+	<lifecycle name="Default" description="Default simple Lifecycle">
+		<phases>
+			<phase name="Working" description="WIP" title="Working;工作中;" released="false" obsolete="false"/>
+			<phase name="InProcess" description="INP" title="InProcess;预发布" released="false" obsolete="false"/>
+			<phase name="Released" description="RLS" title="Released;已发布" released="true" obsolete="false"/>
+			<phase name="Obsolete" description="OBS" title="Obsolete;已废弃" released="false" obsolete="true">
+				<gates>
+					<gate type="Event" fromphase="Create" classname="FoundationObject" eventtype="delete.after"/>
+				</gates>
+			</phase>
+		</phases>
+	</lifecycle>
+	<lifecycle name="Project">
+		<phases>
+			<phase name="Create" description="Create" title="Create;工作中;" released="false" obsolete="false"/>
+			<phase name="Firstphase" description="Fp" title="First phase;第一阶段;" released="false" obsolete="false"/>
+			<phase name="InProcess" description="InProcess" title="InProcess;预发布;" released="false" obsolete="false"/>
+			<phase name="Released" description="Released" title="Released;已发布;" released="true" obsolete="false"/>
+			<phase name="Obsolete" description="Obsolete" title="Obsolete;废弃;" released="false" obsolete="true"/>
+		</phases>
+	</lifecycle>
+</lifecycle-model>

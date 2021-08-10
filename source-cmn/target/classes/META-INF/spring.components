@@ -1,4 +1,11 @@
 dyna.common.conf.ConfigurableConnToDSImpl=org.springframework.stereotype.Component
 dyna.common.conf.loader.ConfigLoaderClientImpl=org.springframework.stereotype.Component
 dyna.common.conf.loader.ConfigLoaderConnToDSImpl=org.springframework.stereotype.Component
+dyna.common.conf.loader.ConfigLoaderConnToGuardServerImpl=org.springframework.stereotype.Component
+dyna.common.conf.loader.ConfigLoaderDSServerImpl=org.springframework.stereotype.Component
+dyna.common.conf.loader.ConfigLoaderFactory=org.springframework.stereotype.Component
+dyna.common.conf.loader.ConfigLoaderJSSImpl=org.springframework.stereotype.Component
+dyna.common.conf.loader.ConfigLoaderMSRImpl=org.springframework.stereotype.Component
+dyna.common.conf.loader.ConfigLoaderServerImpl=org.springframework.stereotype.Component
+dyna.common.conf.loader.ConfigLoaderServiceImpl=org.springframework.stereotype.Component
 dyna.spring.conf.SpringConfigForCommon=org.springframework.stereotype.Component

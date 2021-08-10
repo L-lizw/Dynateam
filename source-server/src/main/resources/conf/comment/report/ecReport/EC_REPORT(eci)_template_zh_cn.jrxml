@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="EC_REPORT_TEMPLATE" language="groovy" pageWidth="802" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="ECO.ID#" class="java.lang.String"/>
+	<field name="ISBATCH" class="java.lang.String"/>
+	<field name="ECBEFORE-END1#FULLNAME#" class="java.lang.String"/>
+	<field name="ECO.SOLVEITEM#FULLNAME#" class="java.lang.String"/>
+	<field name="ECI.CHANGETYPE" class="java.lang.String"/>
+	<field name="ECI.ECICONTENT" class="java.lang.String"/>
+	<field name="ECI.ECIEDITBEFORE" class="java.lang.String"/>
+	<field name="ECI.ECIEDITAFTER" class="java.lang.String"/>
+	<field name="ECO.INPROGRESSSOLUTION" class="java.lang.String"/>
+	<field name="ECO.INTRANSITSOLUTION" class="java.lang.String"/>
+	<field name="ECO.INVENTORYSOLUTION" class="java.lang.String"/>
+	<field name="ECO.CHANGEITEM#FULLNAME#" class="java.lang.String"/>
+	<field name="ECO.SOLVEITEM#REVISIONID#" class="java.lang.String"/>
+	<field name="ECI.ACTIONTYPE#NAME" class="java.lang.String"/>
+	<field name="ECI.CHANGETYPE#NAME" class="java.lang.String"/>
+	<field name="ECI.ACTIONTYPE#TITLE" class="java.lang.String"/>
+	<field name="END2_OLD#FULLNAME#" class="java.lang.String"/>
+	<field name="END2#FULLNAME#" class="java.lang.String"/>
+	<field name="QUANTITY" class="java.lang.String"/>
+	<field name="QUANTITY_OLD" class="java.lang.String"/>
+	<field name="BASE" class="java.lang.String"/>
+	<field name="BASE_OLD" class="java.lang.String"/>
+	<field name="SEQUENCE" class="java.lang.String"/>
+	<field name="SEQUENCE_OLD" class="java.lang.String"/>
+	<field name="DESIGNATORS" class="java.lang.String"/>
+	<field name="DESIGNATORS_OLD" class="java.lang.String"/>
+	<field name="END2#BOTITLE#" class="java.lang.String"/>
+	<field name="END2_OLD#BOTITLE#" class="java.lang.String"/>
+	<field name="ECI.FILENAME#" class="java.lang.String"/>
+	<field name="ECAFTER-END1#REVISIONID#" class="java.lang.String"/>
+	<field name="ECO.MODIFYTYPE#TITLE" class="java.lang.String"/>
+	<field name="ECO.BOMTEMPLATE" class="java.lang.String"/>
+	<field name="ECO.MODIFYTYPE#NAME" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="25" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="100" y="0" width="105" height="25" backcolor="#FFFF00"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
+				</textElement>
+				<text><![CDATA[变更对象]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="205" y="0" width="63" height="25" isPrintWhenDetailOverflows="true" backcolor="#FFFF00"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
+				</textElement>
+				<text><![CDATA[变更后版本]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="268" y="0" width="60" height="25" backcolor="#FFFF00"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
+				</textElement>
+				<text><![CDATA[变更项]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="328" y="0" width="74" height="25" backcolor="#FFFF00"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
+				</textElement>
+				<text><![CDATA[内容]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="402" y="0" width="200" height="25" backcolor="#FFFF00"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
+				</textElement>
+				<text><![CDATA[变更前]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="602" y="0" width="200" height="25" backcolor="#FFFF00"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
+				</textElement>
+				<text><![CDATA[变更后]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="100" height="25" backcolor="#FFFF00"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
+				</textElement>
+				<text><![CDATA[ECO编号]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="100" height="20" isPrintWhenDetailOverflows="true"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ECO.ID#}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="100" y="0" width="105" height="20" isPrintWhenDetailOverflows="true"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ISBATCH}?$F{ECBEFORE-END1#FULLNAME#}:$F{ECO.CHANGEITEM#FULLNAME#}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="205" y="0" width="63" height="20" isPrintWhenDetailOverflows="true"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ISBATCH}?$F{ECAFTER-END1#REVISIONID#}:$F{ECO.SOLVEITEM#REVISIONID#}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="268" y="0" width="60" height="20" isPrintWhenDetailOverflows="true"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ISBATCH}?$F{ECO.BOMTEMPLATE}:$F{ECI.CHANGETYPE}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="328" y="0" width="74" height="20" isPrintWhenDetailOverflows="true"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ISBATCH}?$F{ECO.MODIFYTYPE#TITLE}:($F{ECI.CHANGETYPE#NAME}.equals("Others")?"自定义":(($F{ECI.CHANGETYPE#NAME}.equals("Attribute"))?($F{ECI.ECICONTENT}):($F{ECI.ACTIONTYPE#TITLE})))]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="402" y="0" width="200" height="20" isPrintWhenDetailOverflows="true"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
+					<paragraph tabStopWidth="40"/>
+				</textElement>
+				<textFieldExpression><![CDATA[(($F{ECI.CHANGETYPE#NAME}.equals("Attribute"))||($F{ECI.CHANGETYPE#NAME}.equals("Others"))||($F{ECI.CHANGETYPE#NAME}.equals("Classification"))||($F{ECI.CHANGETYPE#NAME}.equals("ClassificationAttribute")))?$F{ECI.ECIEDITBEFORE}:($F{ECI.CHANGETYPE#NAME}.equals("Relation")?("Add".equals($F{ECI.ACTIONTYPE#NAME})?"":($F{END2_OLD#BOTITLE#}+":"+$F{END2_OLD#FULLNAME#})):((("BatchAdd".equals($F{ECO.MODIFYTYPE#NAME})||"Add".equals($F{ECI.ACTIONTYPE#NAME})) ? "":($F{END2_OLD#FULLNAME#}+($F{QUANTITY}.equals($F{QUANTITY_OLD})? "":("; 数量"+$F{QUANTITY_OLD}))+($F{BASE}.equals($F{BASE_OLD})? "":("; 底数"+$F{BASE_OLD}))+($F{SEQUENCE}.equals($F{SEQUENCE_OLD})? "":("; 顺序"+$F{SEQUENCE_OLD}))+($F{DESIGNATORS}.equals($F{DESIGNATORS_OLD})? "":("; 位号"+$F{DESIGNATORS_OLD}))))))
+]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="602" y="0" width="200" height="20" isPrintWhenDetailOverflows="true"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isStrikeThrough="false" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
+					<paragraph tabStopWidth="40"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{ECI.CHANGETYPE#NAME}.equals("Attribute")||$F{ECI.CHANGETYPE#NAME}.equals("Classification")||$F{ECI.CHANGETYPE#NAME}.equals("ClassificationAttribute"))?$F{ECI.ECIEDITAFTER}:($F{ECI.CHANGETYPE#NAME}.equals("Others")?(($F{ECI.ECIEDITAFTER})+";"+($F{ECI.FILENAME#})):($F{ECI.CHANGETYPE#NAME}.equals("Relation")?("Del".equals($F{ECI.ACTIONTYPE#NAME})?"":($F{END2#BOTITLE#}+":"+$F{END2#FULLNAME#})):(("BatchDel".equals($F{ECO.MODIFYTYPE#NAME})||"Del".equals($F{ECI.ACTIONTYPE#NAME}) ? "": ($F{END2#FULLNAME#}+($F{QUANTITY}.equals($F{QUANTITY_OLD})? "":("; 数量"+$F{QUANTITY}))+($F{BASE}.equals($F{BASE_OLD})? "":("; 底数"+$F{BASE}))+($F{SEQUENCE}.equals($F{SEQUENCE_OLD})? "":("; 顺序"+$F{SEQUENCE}))+($F{DESIGNATORS}.equals($F{DESIGNATORS_OLD})? "":("; 位号"+$F{DESIGNATORS})))))))]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

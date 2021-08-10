@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<services>
+	<service>
+		<id>LIC</id>
+		<name>LIC</name>
+		<description>License Control Service</description>
+		<interface>dyna.net.service.brs.LIC</interface>
+		<implement>dyna.app.service.brs.lic.LICImpl</implement>
+		<dispatch-port>15999</dispatch-port>
+	</service>
+	<service>
+		<id>MSRM</id>
+		<name>MSRM</name>
+		<description>Multi String Repository Management</description>
+		<interface>dyna.net.service.das.MSRM</interface>
+		<implement>dyna.app.service.das.MSRMImpl</implement>
+		<dispatch-port>16000</dispatch-port>
+	</service>
+	<service>
+		<id>AAS</id>
+		<name>AAS</name>
+		<description>Authorization and Authentication Service</description>
+		<interface>dyna.net.service.brs.AAS</interface>
+		<implement>dyna.app.service.brs.aas.AASImpl</implement>
+		<dispatch-port>16001</dispatch-port>
+		<init-param>
+			<name>t1</name>
+			<value>aaa</value>
+		</init-param>
+	</service>
+	<service>
+		<id>EMM</id>
+		<name>EMM</name>
+		<description>Enterprise Model Management</description>
+		<interface>dyna.net.service.brs.EMM</interface>
+		<implement>dyna.app.service.brs.emm.EMMImpl</implement>
+		<dispatch-port>16002</dispatch-port>
+	</service>
+	<service>
+		<id>ACL</id>
+		<name>ACL</name>
+		<description>Access Control List Service</description>
+		<interface>dyna.net.service.brs.ACL</interface>
+		<implement>dyna.app.service.brs.acl.ACLImpl</implement>
+		<dispatch-port>16003</dispatch-port>
+	</service>
+	<service>
+		<id>SLC</id>
+		<name>SLC</name>
+		<description>System Logical Configuration</description>
+		<interface>dyna.net.service.brs.SLC</interface>
+		<implement>dyna.app.service.brs.slc.SLCImpl</implement>
+		<dispatch-port>16004</dispatch-port>
+	</service>
+	<service>
+		<id>BOMS</id>
+		<name>BOMS</name>
+		<description>Bill Of Material Service</description>
+		<interface>dyna.net.service.brs.BOMS</interface>
+		<implement>dyna.app.service.brs.bom.BOMSImpl</implement>
+		<dispatch-port>16005</dispatch-port>
+	</service>
+	<service>
+		<id>EDAP</id>
+		<name>EDAP</name>
+		<description>Enterprise Directory Access Protocol</description>
+		<interface>dyna.net.service.brs.EDAP</interface>
+		<implement>dyna.app.service.brs.edap.EDAPImpl</implement>
+		<dispatch-port>16006</dispatch-port>
+	</service>
+	<service>
+		<id>BOAS</id>
+		<name>BOAS</name>
+		<description>Bussiness Object Access Service</description>
+		<interface>dyna.net.service.brs.BOAS</interface>
+		<implement>dyna.app.service.brs.boas.BOASImpl</implement>
+		<dispatch-port>16007</dispatch-port>
+	</service>
+	<service>
+		<id>POS</id>
+		<name>POS</name>
+		<description>Personal Object Service</description>
+		<interface>dyna.net.service.brs.POS</interface>
+		<implement>dyna.app.service.brs.pos.POSImpl</implement>
+		<dispatch-port>16008</dispatch-port>
+	</service>
+	<service>
+		<id>SMS</id>
+		<name>SMS</name>
+		<description>System Mail Service</description>
+		<interface>dyna.net.service.brs.SMS</interface>
+		<implement>dyna.app.service.brs.sms.SMSImpl</implement>
+		<dispatch-port>16009</dispatch-port>
+	</service>
+	<service>
+		<id>DSS</id>
+		<name>DSS</name>
+		<description>Distributed Storage Service</description>
+		<interface>dyna.net.service.brs.DSS</interface>
+		<implement>dyna.app.service.brs.dss.DSSImpl</implement>
+		<dispatch-port>16010</dispatch-port>
+		<init-param>
+			<name>delete-by-logic</name>
+			<value>true</value>
+		</init-param>
+	</service>
+	<service>
+		<id>WFM</id>
+		<name>WFM</name>
+		<description>Workflow Model</description>
+		<interface>dyna.net.service.brs.WFM</interface>
+		<implement>dyna.app.service.brs.wfm.WFMImpl</implement>
+		<dispatch-port>16011</dispatch-port>
+	</service>
+	<service>
+		<id>WFI</id>
+		<name>WFI</name>
+		<description>Workflow Instance</description>
+		<interface>dyna.net.service.brs.WFI</interface>
+		<implement>dyna.app.service.brs.wfi.WFIImpl</implement>
+		<dispatch-port>16012</dispatch-port>
+	</service>
+	<service>
+		<id>ERPI</id>
+		<name>ERPI</name>
+		<description>Enterprise Resource Planning Integrate</description>
+		<interface>dyna.net.service.brs.ERPI</interface>
+		<implement>dyna.app.service.brs.erpi.ERPIImpl</implement>
+		<dispatch-port>16014</dispatch-port>
+		<!-- 是否是新版t100集成方案 -->
+		<init-param>
+			<name>t100_is_old</name>
+			<value>true</value>
+		</init-param>
+		<!-- 是否有ERP处理中的状态，如果没有ERP处理中的状态，则不会启动JOB检查ERP状态 -->
+		<init-param>
+			<name>hasERPExceutingStatus</name>
+			<value>true</value>
+		</init-param>
+	</service>
+	<service>
+		<id>EOSS</id>
+		<name>EOSS</name>
+		<description>Enterprise Object Script Service</description>
+		<interface>dyna.net.service.brs.EOSS</interface>
+		<implement>dyna.app.service.brs.eoss.EOSSImpl</implement>
+		<dispatch-port>16016</dispatch-port>
+	</service>
+	<service>
+		<id>SRS</id>
+		<name>SRS</name>
+		<description>Simple Report Service</description>
+		<interface>dyna.net.service.brs.SRS</interface>
+		<implement>dyna.app.service.brs.srs.SRSImpl</implement>
+		<dispatch-port>16017</dispatch-port>
+	</service>
+	<service>
+		<id>CAD</id>
+		<name>CAD</name>
+		<description>CAD Service</description>
+		<interface>dyna.net.service.brs.CAD</interface>
+		<implement>dyna.app.service.brs.cad.CADImpl</implement>
+		<dispatch-port>16018</dispatch-port>
+	</service>
+	<service>
+		<id>PMS</id>
+		<name>PMS</name>
+		<description>Product Manage Service</description>
+		<interface>dyna.net.service.brs.PMS</interface>
+		<implement>dyna.app.service.brs.pms.PMSImpl</implement>
+		<dispatch-port>16019</dispatch-port>
+	</service>
+	<service>
+		<id>UDS</id>
+		<name>UDS</name>
+		<description>Upgrade Service</description>
+		<interface>dyna.net.service.das.UDS</interface>
+		<implement>dyna.app.service.das.UDSImpl</implement>
+		<dispatch-port>16020</dispatch-port>
+	</service>
+	<service>
+		<id>ATS</id>
+		<name>ATS</name>
+		<description>Action Track Service</description>
+		<interface>dyna.net.service.das.ATS</interface>
+		<implement>dyna.app.service.das.ATSImpl</implement>
+		<dispatch-port>16021</dispatch-port>
+	</service>
+	<service>
+		<id>JSS</id>
+		<name>JSS</name>
+		<description>Job Serialized Service</description>
+		<interface>dyna.net.service.das.JSS</interface>
+		<implement>dyna.app.service.das.jss.JSSImpl</implement>
+		<dispatch-port>16022</dispatch-port>
+		<!-- 队列调度是否启用 -->
+		<init-param>
+			<name>enable</name>
+			<value>true</value>
+		</init-param>
+		<!-- 轮询队列表的间隔时间，单位：秒 -->
+		<init-param>
+			<name>jobPollingTime</name>
+			<value>30</value>
+		</init-param>
+	</service>
+	<service>
+		<id>BRM</id>
+		<name>BRM</name>
+		<description>BOM Replace Manager Service</description>
+		<interface>dyna.net.service.brs.BRM</interface>
+		<implement>dyna.app.service.brs.brm.BRMImpl</implement>
+		<dispatch-port>16024</dispatch-port>
+		<!-- 取替代管控 -->
+		<init-param>
+			<name>ReplaceControl</name>
+			<value>false</value>
+		</init-param>
+	</service> 
+	<service>
+		<id>FBTS</id>
+		<name>FBTS</name>
+		<description>File Browser Tools Service</description>
+		<interface>dyna.net.service.brs.FBTS</interface>
+		<implement>dyna.app.service.brs.fbt.FBTSImpl</implement>
+		<dispatch-port>16025</dispatch-port>
+		<!-- AutoVue Web 参数 -->
+		<init-param>
+			<name>WebServer</name>
+			<value>john-PC:80</value>
+		</init-param>
+		<init-param>
+			<name>WebServerFilePath</name>
+			<value>D:\dss\Temp</value>
+		</init-param>
+	</service>
+	<service>
+		<id>PPMS</id>
+		<name>PPMS</name>
+		<description>Project Process Manager Service</description>
+		<interface>dyna.net.service.brs.PPMS</interface>
+		<implement>dyna.app.service.brs.ppms.PPMSImpl</implement>
+		<dispatch-port>16027</dispatch-port>
+	</service> 
+	<service>
+		<id>UECS</id>
+		<name>UECS</name>
+		<description>Updated Engineering Change Service</description>
+		<interface>dyna.net.service.brs.UECS</interface>
+		<implement>dyna.app.service.brs.uecs.UECSImpl</implement>
+		<dispatch-port>16029</dispatch-port>
+	</service>
+	<!-- this is the next to the last -->
+	<service>
+		<id>CSA</id>
+		<name>CSA</name>
+		<description>Common Service Access</description>
+		<interface>dyna.net.service.das.CSA</interface>
+		<implement>dyna.app.service.das.CSAImpl</implement>
+		<dispatch-port>16299</dispatch-port>
+	</service>
+	<service>
+		<id>FTS</id>
+		<name>FTS</name>
+		<description>File Transform Service</description>
+		<interface>dyna.net.service.brs.FTS</interface>
+		<implement>dyna.app.service.brs.fts.FTSImpl</implement>
+		<dispatch-port>16030</dispatch-port>
+	</service>
+	<service>
+		<id>CPB</id>
+		<name>CPB</name>
+		<description>Configuration Parameter BOM</description>
+		<interface>dyna.net.service.brs.CPB</interface>
+		<implement>dyna.app.service.brs.cpb.CPBImpl</implement>
+		<dispatch-port>16031</dispatch-port>
+		<init-param>
+			<name>columns</name>
+			<value>10</value>
+		</init-param>
+		<init-param>
+			<name>position</name><!--材料明细页签的位置  -->
+			<value>up</value><!--up/down/left/right  -->
+		</init-param>
+	</service>
+	<service>
+		<id>IOP</id>
+		<name>IOP</name>
+		<description>IOP Parameter</description>
+		<interface>dyna.net.service.brs.IOP</interface>
+		<implement>dyna.app.service.brs.iop.IOPImpl</implement>
+		<dispatch-port>16032</dispatch-port>
+	</service>
+	<service>
+		<id>DCR</id>
+		<name>DCR</name>
+		<description>Data Check Rule</description>
+		<interface>dyna.net.service.brs.DCR</interface>
+		<implement>dyna.app.service.brs.dcr.DCRImpl</implement>
+		<dispatch-port>16033</dispatch-port>
+	</service>
+	<service>
+		<id>MMS</id>
+		<name>MMS</name>
+		<description>Model Manage Service</description>
+		<interface>dyna.net.service.brs.MMS</interface>
+		<implement>dyna.app.service.brs.mms.MMSImpl</implement>
+		<dispatch-port>16034</dispatch-port>
+	</service>
+	<!-- this is last service -->
+	<service>
+		<id>SFS</id>
+		<name>SFS</name>
+		<description>Synchronized File(OM/ICON) Service</description>
+		<interface>dyna.net.syncfile.SyncFileService</interface>
+		<implement>dyna.net.syncfile.SyncFileServiceImpl</implement>
+		<dispatch-port>16300</dispatch-port>
+		<init-param>
+			<name>port</name>
+			<value>15910</value>
+		</init-param>
+	</service>
+</services>

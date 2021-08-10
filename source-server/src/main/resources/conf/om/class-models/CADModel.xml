@@ -1,0 +1,27 @@
+<object-models>
+	<class-model>
+		<class-object name="CADModel" superclass="FoundationObject" interface="IVersionable;IStorage" abstract="true" final="false" system="false" instancestring="Id" lifecycle="" persistent="true">
+			<fields>
+				<field name="name" mandatory="false" type="String"/>
+				<field name="drawingType" mandatory="false" type="Code" typevalue="CADFileType"/>
+				<field name="drawingSource" mandatory="false" type="Code" typevalue="CADFileSource"/>
+				<field name="remarks" mandatory="false" type="String"/>
+			</fields>
+		</class-object>
+	</class-model>
+	<ui-model>
+		<ui-object name="CADUI" businessmodels="*" title="CADUI;CADUI" type="Form">
+			<fields>
+				<field name="drawingSource" type="Code" title="drawingSource;来源" titlevisible="true" readonly="false" column="1" columnSpan="1" row="3" froze="false"/>
+				<field name="drawingType" type="Code" title="drawingType;类别" titlevisible="true" readonly="false" column="1" columnSpan="1" row="4" froze="false"/>
+				<field name="name" type="String" title="name;名称" titlevisible="true" readonly="false" column="1" columnSpan="1" row="7" froze="false"/>
+				<field name="remarks" type="String" title="remarks;备注" titlevisible="true" width="400" height="200" readonly="false" column="1" columnSpan="1" row="8" froze="false"/>
+			</fields>
+			<actions/>
+		</ui-object>
+	</ui-model>
+	<data-model synchorize="true"/>
+	<numbering-model mandatory="false" serialnumberwithfield="true" serialnumberwithdate="true">
+		<numbering-object type="Serial Number" typevalue="5"/>
+	</numbering-model>
+</object-models>

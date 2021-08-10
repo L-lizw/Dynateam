@@ -1,0 +1,41 @@
+<object-models>
+	<class-model>
+		<class-object name="Part" superclass="Item" interface="" abstract="false" final="false" system="false" instancestring="Id" lifecycle="" uniquefields="Id" persistent="false"/>
+		<class-object name="Part" superclass="Item" interface="" abstract="false" final="false" system="false" instancestring="Id" lifecycle="" uniquefields="Id" classification="part_category" persistent="false">
+			<fields>
+				<field name="UOM" mandatory="false" type="Code" typevalue="UOM"/>
+				<field name="surface" mandatory="false" type="Code" typevalue="surface"/>
+				<field name="part_type" mandatory="false" type="Code" typevalue="part_type"/>
+				<field name="rawmaterial" mandatory="false" type="Object" typevalue="*:RawMaterial"/>
+				<field name="Production_type" mandatory="false" type="Code" typevalue="Production_type"/>
+				<field name="manu_UOM" mandatory="false" type="String"/>
+				<field name="m_uom" mandatory="false" type="Code" typevalue="UOM"/>
+			</fields>
+			<actions/>
+		</class-object>
+	</class-model>
+	<ui-model>
+		<ui-object name="ItemUI" businessmodels="*" title="Item;产品零部件管理" type="Form">
+			<fields>
+				<field name="EnglishDes" type="String" title="EnglishDes;英文描述" titlevisible="true" width="200" readonly="false" column="1" columnSpan="2" row="1" froze="false"/>
+				<field name="ERPPrice" type="Float" title="ERPPrice;ERP价格" titlevisible="true" width="80" readonly="false" column="1" columnSpan="1" row="5" froze="false"/>
+				<field name="Source" type="Code" title="Item Source;来源" titlevisible="true" readonly="false" column="1" columnSpan="1" row="10" froze="false"/>
+				<field name="weight" type="String" title="weight;重量" titlevisible="true" readonly="false" column="1" columnSpan="1" row="18" froze="false"/>
+				<field name="m_uom" type="Code" title="m_uom;制造单位" titlevisible="true" width="80" readonly="false" column="2" columnSpan="1" row="10" froze="false"/>
+				<field name="surface" type="Code" title="surface;表面处理" titlevisible="true" readonly="false" column="1" columnSpan="1" row="20" froze="false"/>
+				<field name="UOM" type="Code" title="UOM;单位" titlevisible="true" width="80" readonly="false" column="1" columnSpan="1" row="10" froze="false"/>
+				<field name="part_type" type="Code" title="part_type;类别" titlevisible="true" readonly="false" column="1" columnSpan="1" row="2" froze="false"/>
+				<field name="rawmaterial" type="Object" title="rawmaterial;原材料" titlevisible="true" readonly="false" column="1" columnSpan="1" row="43" froze="false"/>
+				<field name="Production_type" type="Code" title="Production_type;生产类型" titlevisible="true" readonly="false" column="1" columnSpan="1" row="44" froze="false"/>
+			</fields>
+			<actions/>
+		</ui-object>
+		<icon>
+			<classicon path="part.png"/>
+		</icon>
+	</ui-model>
+	<data-model synchorize="true"/>
+	<numbering-model mandatory="false" serialnumberwithfield="false" serialnumberwithdate="false">
+		<numbering-object type="Serial Number" typevalue="5"/>
+	</numbering-model>
+</object-models>

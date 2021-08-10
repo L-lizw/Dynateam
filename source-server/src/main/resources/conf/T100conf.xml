@@ -1,0 +1,1500 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- 43.0版本之后（包含43.0）使用该配置文件，43.0版本之前，请把T100conf_old.xml内容覆盖到T100conf.xml中 -->
+	<!-- 基本參數設定 -->
+	<parameters>
+	    <!-- T100使用者賬號 -->
+		<param name="acct"	 value="tiptop" />
+		<param name="password" 	value="" />
+		<param name="application" 	value="PLM" />
+        <!--id: 環境區域識別碼 (t100標準有三區: topprd/toptst/topstd)，T100產中開發環境則是t10dev(測試區)和t10prd(正式區)-->
+		<param name="id" 	value="t10dev" />
+		<!-- ERP系統語系 zh_tw(繁體) zh_cn(簡體) en_us(英文) -->
+		<param name="language" 	value="zh_cn" />
+		<!-- 當value=3時，表示"ERP中文字":"PLM中文字"=3:1，即：當"maxLength"為40時，只能截取PLM端的13個中文字或者40個英文字。 -->
+		<param name="ERPcnSize"  value="3" />
+		<!-- 料件承認範本名稱 -->
+		<param name="maTemplate" 	value="ApproveItem" />
+		<!-- 預設BOM範本名稱，例外：(1)當手動拋轉指定BOM範本時(2)ECA項目指定BOM範本時 -->
+		<param name="defaultBOMTemplate" 	value="BOM" />
+		<!-- 易飛、易拓專用參數，輪詢間隔時間，預設值為20秒 -->
+		<param name="operationPollingTime" 	value="20" />
+		<!-- 每個Operation允許的最大等侯回應時間,超過則視為timeout,預設值為300秒 -->
+		<param name="operationLiveTime" 	value="300" />
+		<!-- 拋轉料號、取替代、料件承認等單筆資料的批次傳輸數量，預設值300 -->
+		<param name="batchSize" 	value="300" />
+		<!-- 拋轉BOM的批次傳輸數量(一個單階視為一個BOM)，預設值20 -->
+		<param name="BOMBatchSize" 	value="20" />
+		<!-- 流程拋轉合併到同一個隊列的對象數量，最大值120 -->
+		<param name="objectBatchSize" 	value="60" />
+		<!-- 是否保留生成的XML拋轉檔案，生成的檔案存放於\server\log\ERP資料夾中 -->
+		<param name="saveTempFile" 	value="true" />
+		<!-- 做資料初始化處理時，是否遍歷完所有實例，即使部分實例有錯誤，錯誤規則由“restrictions”部分或欄位mapping規則定義 -->
+		<param name="traverseAllInstanceIgnoringError" 	value="true" />
+		<!-- 在字串mapping中，需要組合plm字串時，定義字串之間的分隔符號 -->
+		<param name="${breaksign}" value=";" />
+		<!-- 此功能T100在v.1.1.03版本中支持：在jobLiveTime參數範圍內，每個job從ERP處理開始主動輪詢ERP處理結果的間隔時間，預設值建議為1200秒；當超過jobLiveTime則不再輪詢 -->
+		<param name="jobPollingTime" value="8200"/>
+		<!-- 每个job从ERP处理开始允许的最大等候相应时间，超过则视为timeout，默认值为7200秒 -->
+		<param name="jobLiveTime" value="7200"/>
+        <!-- URL方式看圖時，是否強制web客戶端單點登錄 -->
+		<param name="SingleSign-On" value="true"/>
+		<!-- URL方式看圖時，web應用的目錄 -->
+		<param name="webAppPath" value="172.16.100.101:38080/Web4PLM/"/>
+		<!-- ERP的DBlink連接 
+		<param name="ERPDBlink" value="jdbc:oracle:thin:@//192.168.100.61:1521/ORCL"/>
+		<param name="JDBC.Username" value="DEV_ME"/> 
+		<param name="JDBC.Password" value="DEV_ME"/>-->
+		
+		<param name="ERPDBlink" value="jdbc:oracle:thin:@//10.40.40.23:1521/t10tst"/>
+		<param name="JDBC.Username" value="dsawst"/> 
+		<param name="JDBC.Password" value="dsawst"/>
+	</parameters>
+	
+		<!-- 約束條件配置：根據約束條件設定，資料初始化時，如“skipOnFail”參數為true，則根據條件自動排出不滿足條件的資料不做拋轉，如“skipOnFail”參數為false，則自動報錯，終止資料集成 -->
+	<restrictions>
+		<!-- operator目前支持 = 、 != 、 in 、 !in 4種，分別表示等於、不等於、在...中，不在...中。category表示對哪些內容進行約束。skipOnFail表示前面的判斷條件失敗了是否略過 -->
+		<!-- 傳檢入狀態的料件，如果資料是檢出狀態則略過 -->
+		<!-- <restriction field="ISCHECKOUT$" operator="="	 value="N"       category="item"     skipOnFail="true" /> -->
+		<!-- 傳發佈狀態的料件，如果不是則略過 -->
+		<!--<restriction field="STATUS$"     operator="="   value="RLS"      category="item"     skipOnFail="true" /> -->
+		<!-- 傳以前沒有傳過的料件和BOM，如果不是則略過。 ${HasSent是內建字段，表示以前是否傳輸過} -->
+		<!-- <restriction field="${HasSent}"  operator="="    value="N"       category="item,bom" skipOnFail="true" /> -->
+	</restrictions>
+	
+	<!-- ERP能提供的所有Operation, name會顯示在傳輸結果中，用戶可以修改name屬性值，其它部分不能修改 -->
+	<operations>
+		<operation id="getOrgans"      category="organs"   			realtime="false"  			name="讀取營運中心"  />
+		<operation id="getMFG"         category="mfg" 				realtime="false"  			name="讀取製造單據性質"  />
+		<operation id="getItemGroup"   category="itemGroup" 		realtime="false"  			name="讀取料件分群碼" />
+		<operation id="getSupplier"    category="vendor" 			realtime="false"  			name="讀取供應商" />
+		<operation id="getBrand"       category="brand" 			realtime="false"  			name="讀取廠牌(製造商)" />
+		<operation id="getCurrency"    category="currency" 			realtime="false"  			name="讀取幣別" />
+		<operation id="getEmployee"    category="employee" 			realtime="false"  			name="讀取員工資料"  />
+		<operation id="getUnit"        category="unit" 				realtime="false"  			name="讀取單位" />
+		<operation id="createItem"     category="item" 				realtime="false"  			name="拋轉料件" />
+		<operation id="createBOM"      category="bom" 				realtime="false"  			name="拋轉BOM" />
+		<operation id="createSupplier" category="itemSupplier" 		realtime="false"  			name="拋轉料件供應商" />
+		<operation id="createLocalS"   category="replacesubstitute" realtime="false"  			name="拋轉指定替代" />
+		<operation id="createLocalR"   category="replacesubstitute" realtime="false"  			name="拋轉指定取代"  />
+		<operation id="createGlobalS"  category="replacesubstitute" realtime="false"  			name="拋轉全面替代" />
+		<operation id="createGlobalR"  category="replacesubstitute" realtime="false"  			name="拋轉全面取代" />
+		<operation id="createMA"       category="ma" 				realtime="false"  			name="拋轉料件承認" />
+		<operation id="getQuantity"    category="Quantity" 	        realtime="true"  			name="讀數量" />
+	</operations>
+
+	<!-- 從ERP能讀取的所有content, name會顯示在傳輸結果中，用戶可以修改name屬性值，其它部分不能修改 -->
+	<!-- 當PLM呼叫讀取價格、成本和數量時，ERP會提供所有的ima_file中的欄位，PLM端根據配置expandGet從response中挑選出需要呈現的結果-->
+	<contents>
+		<content id="colqty1" 	 tablename="imaatmp1"	   operation="getQuantity" 		 name="料件庫存量" />
+		<content id="colqty2" 	 tablename="imaatmp2"	   operation="getQuantity"		 name="受訂量" />
+		<content id="colqty3" 	 tablename="imaatmp3"	   operation="getQuantity"       name="工單備料量" />
+		<content id="colqty4" 	 tablename="imaatmp4"	   operation="getQuantity"       name="請購量" />
+		<content id="colqty5" 	 tablename="imaatmp5"	   operation="getQuantity"       name="採購量" />
+		<content id="colqty6" 	 tablename="imaatmp6"	   operation="getQuantity"       name="工單在製量" />
+		<content id="colqty7" 	 tablename="imaatmp7"	   operation="getQuantity"       name="委外在製量" />
+		<content id="imai021" 	 tablename="imai_t"	       operation="getQuantity"       name="最近採購單價" />
+		<content id="imai022" 	 tablename="imai_t"	       operation="getQuantity"       name="平均採購單價" />
+		<content id="imai221" 	 tablename="imai_t"	       operation="getQuantity"       name="最近銷售單價" />
+		<content id="imai222" 	 tablename="imai_t"	       operation="getQuantity"       name="平均銷售單價" />
+		<content id="imae018" 	 tablename="imae_t"	       operation="getQuantity"       name="最小生產數量" />
+		<content id="imae051" 	 tablename="imae_t"	       operation="getQuantity"       name="標準人工工時" />
+		<content id="imae052" 	 tablename="imae_t"	       operation="getQuantity"       name="標準機器工時" />
+		<content id="imae066" 	 tablename="imae_t"	       operation="getQuantity"       name="預計停產日" />
+		<content id="imae083" 	 tablename="imae_t"	       operation="getQuantity"       name="最小發料數量" />		
+		<content id="imaf026" 	 tablename="imaf_t"	       operation="getQuantity"       name="安全庫存" />
+		<content id="imaf027" 	 tablename="imaf_t"	       operation="getQuantity"       name="警戒庫存" />
+		<content id="imaf115" 	 tablename="imaf_t"	       operation="getQuantity"       name="最小銷售數量" />
+		<content id="imaf146" 	 tablename="imaf_t"	       operation="getQuantity"       name="最小採購數量" />
+		<content id="imaf148" 	 tablename="imaf_t"	       operation="getQuantity"       name="經濟訂購量" />
+		<content id="imaf149" 	 tablename="imaf_t"	       operation="getQuantity"       name="平均訂購量" />
+		<content id="imag015" 	 tablename="imag_t"	       operation="getQuantity"       name="成本計價方式" />
+		<content id="imag016" 	 tablename="imag_t"	       operation="getQuantity"       name="標準單位工時" />
+		<content id="imag017" 	 tablename="imag_t"	       operation="getQuantity"       name="標準單位機時" />
+		<content id="imag018" 	 tablename="imag_t"	       operation="getQuantity"       name="標準單位人工" />
+		<content id="imag019" 	 tablename="imag_t"	       operation="getQuantity"       name="標準單位制費" />
+	</contents>
+
+	<!-- 用戶自定義傳輸schema ，與定義集成範本中的“集成內容”對應-->
+	<!-- include表示該schema包含哪些Operation，各個Option用,分隔，排在前面的Operation優先執行。 name是在設定ERP整合範本的時候顯示。 -->
+	<!-- expandBOM表示是否展開BOM傳輸。 exportRSItem表示是否傳取替代件，前面是include中包含createItem -->
+	<!-- expandGet表示需要从ERP读取的具体内容，包含哪些content，各个content中间用","分隔，前提是include中包含getPrice、getCost或getQuantity -->
+	<!-- exportAllData表示是否拋轉選擇的所有數據：無論拋轉前後數據是否有修改，將所有資料生成xml文件，并更新拋轉標記表的記錄。 -->
+	<schemas>
+		<schema include="createItem"	 			name="僅拋轉料件"  exportAllData="true" />		
+		<schema include="createItem" 	 			name="拋轉料件(BOM展開)"		expandBOM="true" />		
+		<schema include="createItem,createBOM" 		name="拋轉單階料件和BOM" />		
+		<schema include="createBOM" 				name="僅拋轉BOM(展開BOM)"		expandBOM="true" />		
+		<schema include="createItem,createBOM" 		name="拋轉多階料件和BOM" 		expandBOM="true"    exportAllData="true"   />		
+		<schema include="createLocalS"  		    name="拋轉指定替代(展開BOM)"		expandBOM="true"  exportRSItem="true" exportAllData="true"  />		
+		<schema include="createLocalR"  		    name="拋轉指定取代(展開BOM)"		expandBOM="true"  exportRSItem="true"  exportAllData="true" />		
+		<schema include="createGlobalS" 			name="拋轉全面替代" expandBOM="true"  exportAllData="true"/> 		
+		<schema include="createGlobalR" 			name="拋轉全面取代" expandBOM="true"/>		
+		<schema include="createMA" 				    name="拋轉料件承認"	/>		
+		<schema include="createItem,createBOM" 		name="ECNERP"	expandBOM="true"	exportRSItem="true"/>
+		<schema include="getQuantity" 		        name="讀取ERP資訊"   expandGet="colqty1,imai021,imae018,imaf026" /> 
+	</schemas>
+	
+	<!-- ERP查看PLM圖文檔的文件範圍（見手冊說明），realtion為查看範圍內的關聯模板名稱、end2classname即料件關聯的圖文檔的類名、classification為其分類名、filetype為其文件後綴名格式 -->
+	<!-- 若要查看的圖文檔對象類有多個，則配置多個filter -->
+	<!-- downloadModelStructure表示是否同步下载3D模型结构 -->
+	<draws>
+	    <templates realtion="ITEM-CAD2D$,ITEM-CAD3D$,ITEM-ECAD$,RelatedDoc">
+	        <filter end2classname="AUTOCAD"         classification=""           filetype="dwt"             downloadModelStructure="false" />
+		    <filter end2classname="SolidWorksModel"    classification="asm,prt"    filetype="SLDASM,SLDPRT"   downloadModelStructure="false" />
+			<filter end2classname="Document"           classification=""           filetype="doc"             downloadModelStructure="false" />
+		</templates>
+	</draws>
+	
+	<!-- ECO抛转ERP——在ECO审批中，通过流程调用“ECNERP”集成模板，自动抛转变更后数据	-->
+	<patch>
+		<!-- 在哪個schema中拋轉, expandBOM exportRSItem繼承sourceSchema上的設定 -->
+		<EC sourceSchema="ECNERP">
+		<!-- —changeType為Normal，定義的filter適用於Ectype為普通變更，拋轉變更生成的解決對象。
+		BOMchange定義BOM是否發生變更：若BOM沒變則僅拋解決對象；若BOM變了，則拋解決對象以及解決對象的BOM。-->
+            <filter changeType="Normal"  BOMchange="false" 		operation="createItem" />
+			<filter changeType="Normal"  BOMchange="true" 		operation="createItem,createBOM" expandBOM="false"/>
+			<!-- 批量變更時，定義的filter適用於變更類型為“Batch”的變更，拋轉變更單中定義的變更範圍對象。當ECO為批量取代且自然取代時還要拋轉取代關係 -->
+			<filter changeType="Batch" 	 BOMchange="true"   	operation="createItem,createBOM,createLocalR" exportRSItem="true"/>
+        </EC>
+	</patch>
+	
+	<!-- 傳輸內容，目前支持item bom replacesubstitute ma  4種 -->
+	<category>
+		<item>
+			<tables>
+				<table id="master" name="plm_imaa_t"></table><!-- 料件主檔  -->
+				<table id="detail" name="plm_imaal_t"></table><!-- 料件多語言檔  -->
+			</tables>
+			<!-- 類別的字串設定，name表示類別名 -->
+			<class name="ItemManagement">
+				<table name="plm_imaa_t">
+				    <mapping>
+						<param name="PLMField" value="" /><!-- 主鍵 -->
+						<param name="ERPField" value="plm_pk" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="主鍵" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+						<param name="dataType" value="date" />
+						<param name="dateFormat" value="yyyyMMddHHmmssSSS" />
+					</mapping>
+				    <mapping>
+						<param name="PLMField" value="${JobId}" /><!-- JobID的值 -->
+						<param name="ERPField" value="seqkey" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="任務號" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="20" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="${Factory}" /><!-- 集團代碼 -->
+						<param name="ERPField" value="entid" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="企業編號" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="10" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="${Factory}" /><!-- 企业编号 -->
+						<param name="ERPField" value="imaaent" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="企业编号" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="10" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="${UserId}" /><!-- PLM的登入者帳號 -->
+						<param name="ERPField" value="plm_user" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="PLM的登入者帳號" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="10" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="" /><!-- 隊列傳輸筆數(第幾筆) -->
+						<param name="ERPField" value="seqkey_subcnt" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="隊列傳輸筆數(第幾筆)" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="10" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="${DataKey}" /><!-- DataKey(分包ID)，默认生成唯一值 -->
+						<param name="ERPField" value="dataKey" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="DataKey(分包ID)" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="20" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="" /><!-- DataKey傳輸總筆數,不分包，默认为1-->
+						<param name="ERPField" value="datakey_totcnt" />
+						<param name="defaultValue" value="1" />
+						<param name="description" value="DataKey傳輸總筆數" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="10" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="" /><!-- DataKey傳輸筆數(第幾筆),不分包，默认为1-->
+						<param name="ERPField" value="datakey_subcnt" />
+						<param name="defaultValue" value="1" />
+						<param name="description" value="DataKey傳輸筆數(第幾筆)" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="10" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="" />
+						<param name="ERPField" value="acttype" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="資料異動碼" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="ID$" />
+						<param name="ERPField" value="imaa001" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="料件編號" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="40" />
+					</mapping>
+					<!-- 固定選項範圍：A.组合/加工品,E.费用/软件,F.事务用品,M.材料/零件/商品,T.范本,X.虚拟品。分群碼預設，暫不傳	
+					<mapping>
+						<param name="PLMField" value="SourceType|code" />
+						<param name="ERPField" value="imat003" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="料件类别" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping> -->	
+					<mapping>
+						<param name="PLMField" value="CLASSIFICATION$|code" />
+						<param name="ERPField" value="imaa009" />
+						<param name="defaultValue" value="PLM01" />
+						<param name="description" value="產品特征組別" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="10" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="FQM|code" />
+						<param name="ERPField" value="imaa003" />
+						<param name="defaultValue" value="03" />
+						<param name="description" value="主分群码" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="10" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="LJLB|code" />
+						<param name="ERPField" value="imaa004" />
+						<param name="defaultValue" value="A" />
+						<param name="description" value="料件类别" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="10" />
+					</mapping>
+				</table>
+				<table name="plm_imaal_t">
+				    <mapping>
+						<param name="PLMField" value="" /><!-- 主鍵 -->
+						<param name="ERPField" value="plm_pk" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="主鍵" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+						<param name="dataType" value="date" />
+						<param name="dateFormat" value="yyyyMMddHHmmssSSS" />
+					</mapping>
+				    <mapping>
+						<param name="PLMField" value="${JobId}" /><!-- JobID的值 -->
+						<param name="ERPField" value="seqkey" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="任務號" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="20" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="${Factory}" /><!-- 集團代碼 -->
+						<param name="ERPField" value="entid" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="企業編號" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="10" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="${Factory}" /><!-- 企业编号 -->
+						<param name="ERPField" value="imaalent" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="企业编号" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="10" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="${UserId}" /><!-- PLM的登入者帳號 -->
+						<param name="ERPField" value="plm_user" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="PLM的登入者帳號" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="10" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="" /><!-- 隊列傳輸筆數(第幾筆) -->
+						<param name="ERPField" value="seqkey_subcnt" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="隊列傳輸筆數(第幾筆)" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="${DataKey}" /><!-- DataKey(分包ID)，默认生成唯一值 -->
+						<param name="ERPField" value="dataKey" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="DataKey(分包ID)" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="20" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="" /><!-- DataKey傳輸總筆數,不分包，默认为1-->
+						<param name="ERPField" value="datakey_totcnt" />
+						<param name="defaultValue" value="1" />
+						<param name="description" value="DataKey傳輸總筆數" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="" /><!-- DataKey傳輸筆數(第幾筆),不分包，默认为1-->
+						<param name="ERPField" value="datakey_subcnt" />
+						<param name="defaultValue" value="1" />
+						<param name="description" value="DataKey傳輸筆數(第幾筆)" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="" />
+					</mapping>
+				    <mapping>
+						<param name="PLMField" value="ID$" />
+						<param name="ERPField" value="imaal001" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="料件編號" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="40" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="" />
+						<param name="ERPField" value="imaal002" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="語系" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="6" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="NAME$" />
+						<param name="ERPField" value="imaal003" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="品名" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="255" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="Specification" />
+						<param name="ERPField" value="imaal004" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="規格" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="255" /><!-- PLM中欄位值的長度限制，如果超長，且“truncWhenLengthExceeds”參數值為“false”，不允許拋轉該筆資料，系統發出欄位超長通知 -->
+						<param name="truncWhenLengthExceeds" value="true" /><!-- 當欄位值超過“maxLength”中設定時，是否要自動截取，“false”或無該參數表示不截取 -->
+						<param name="LengthExceedsOrientation" value="left" /><!-- 表示“truncWhenLengthExceeds”中設定字段自動截取時，是否要從左往右自動截取（無此參數時，默認從左往右），“right”表示從右往左截取 -->
+					</mapping>
+				</table>
+			</class>
+		</item>
+
+		<bom>
+			<parameters>
+				<param name="formid" value="ECN|Z01"></param><!-- ECN單別  -->
+			</parameters>
+			<tables>
+				<table id="master" name="plm_bmaa_t"></table><!-- BOM單頭  -->
+				<table id="detail" name="plm_bmba_t"></table><!-- BOM單身  -->
+				<table id="plugin" name="plm_bmbc_t"></table><!-- BOM插件位置  -->
+			</tables>
+			<class name="BOMStructure">
+			    <table name="plm_bmaa_t">
+			        <mapping>
+						<param name="PLMField" value="" /><!-- 主鍵 -->
+						<param name="ERPField" value="plm_pk" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="主鍵" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+						<param name="dataType" value="date" />
+						<param name="dateFormat" value="yyyyMMddHHmmssSSS" />
+					</mapping>
+				    <mapping>
+						<param name="PLMField" value="${JobId}" /><!-- JobID的值 -->
+						<param name="ERPField" value="seqkey" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="任務號" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="20" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="${Factory}" /><!-- 集團代碼 -->
+						<param name="ERPField" value="entid" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="企業編號" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="10" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="${Factory}" /><!-- 企业编号 -->
+						<param name="ERPField" value="bmaaent" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="企业编号" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="10" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="${UserId}" /><!-- PLM的登入者帳號 -->
+						<param name="ERPField" value="plm_user" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="PLM的登入者帳號" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="10" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="" /><!-- 隊列傳輸筆數(第幾筆) -->
+						<param name="ERPField" value="seqkey_subcnt" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="隊列傳輸筆數(第幾筆)" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="${DataKey}" /><!-- DataKey(分包ID)，默认生成唯一值 -->
+						<param name="ERPField" value="dataKey" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="DataKey(分包ID)" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="20" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="" /><!-- DataKey傳輸總筆數,不分包，默认为1-->
+						<param name="ERPField" value="datakey_totcnt" />
+						<param name="defaultValue" value="1" />
+						<param name="description" value="DataKey傳輸總筆數" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="" /><!-- DataKey傳輸筆數(第幾筆),不分包，默认为1-->
+						<param name="ERPField" value="datakey_subcnt" />
+						<param name="defaultValue" value="1" />
+						<param name="description" value="DataKey傳輸筆數(第幾筆)" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="" />
+					</mapping>
+				    <mapping>
+						<param name="PLMField" value="" />
+						<param name="ERPField" value="acttype" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="異動碼" /><!-- A:新增,U:修改  -->
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="END1$ID$" />
+						<param name="ERPField" value="bmaa001" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="主件料件代號" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="TX" />
+						<param name="ERPField" value="BMAA002" />
+						<param name="defaultValue" value=" " />
+						<param name="description" value="料件特性" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="PCSL" />
+						<param name="ERPField" value="BMAA003" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="批次数量" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="SCDW" />
+						<param name="ERPField" value="BMAA004" />
+						<param name="defaultValue" value="PCS" />
+						<param name="description" value="生产单位" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+				</table>
+				<table name="plm_bmba_t">
+				    <mapping>
+						<param name="PLMField" value="" /><!-- 主鍵 -->
+						<param name="ERPField" value="plm_pk" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="主鍵" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+						<param name="dataType" value="date" />
+						<param name="dateFormat" value="yyyyMMddHHmmssSSS" />
+					</mapping>
+				    <mapping>
+						<param name="PLMField" value="${JobId}" /><!-- JobID的值 -->
+						<param name="ERPField" value="seqkey" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="任務號" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="20" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="${Factory}" /><!-- 集團代碼 -->
+						<param name="ERPField" value="entid" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="企業編號" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="10" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="${Factory}" /><!-- 企业编号 -->
+						<param name="ERPField" value="bmbaent" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="企业编号" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="10" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="${UserId}" /><!-- PLM的登入者帳號 -->
+						<param name="ERPField" value="plm_user" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="PLM的登入者帳號" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="10" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="" /><!-- 隊列傳輸筆數(第幾筆) -->
+						<param name="ERPField" value="seqkey_subcnt" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="隊列傳輸筆數(第幾筆)" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="${DataKey}" /><!-- DataKey(分包ID)，默认生成唯一值 -->
+						<param name="ERPField" value="dataKey" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="DataKey(分包ID)" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="20" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="" /><!-- DataKey傳輸總筆數,不分包，默认为1-->
+						<param name="ERPField" value="datakey_totcnt" />
+						<param name="defaultValue" value="1" />
+						<param name="description" value="DataKey傳輸總筆數" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="" /><!-- DataKey傳輸筆數(第幾筆),不分包，默认为1-->
+						<param name="ERPField" value="datakey_subcnt" />
+						<param name="defaultValue" value="1" />
+						<param name="description" value="DataKey傳輸筆數(第幾筆)" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="" />
+					</mapping>
+				    <mapping>
+						<param name="PLMField" value="END1$ID$" />
+						<param name="ERPField" value="bmba001" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="主件料號" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="END2$ID$" />
+						<param name="ERPField" value="bmba003" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="元件料號" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="PartNumber|code" />
+						<param name="ERPField" value="bmba004" />
+						<param name="defaultValue" value=" " />
+						<param name="description" value="部位編號" /> T100必填項，默認傳空  
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="${Date}" />
+						<param name="ERPField" value="bmba005" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="生效日期" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+						<param name="dataType" value="date" />
+						<param name="dateFormat" value="yyyyMMdd" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="" />
+						<param name="ERPField" value="bmba006" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="失效日期" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+						<param name="dataType" value="date" />
+						<param name="dateFormat" value="yyyyMMdd" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="Sequence" />
+						<param name="ERPField" value="bmba009" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="組合項次" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="Quantity" />
+						<param name="ERPField" value="bmba011" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="組成用量" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+						<param name="dataType" value="number" /><!-- 把欄位值強制轉化為“number”型別 -->
+						<param name="precision" value="6" /><!-- number型別欄位值的小數點精度 -->
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="Base" />
+						<param name="ERPField" value="bmba012" />
+						<param name="defaultValue" value="1" />
+						<param name="description" value="底數" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+						<param name="dataType" value="number" /><!-- 把欄位值強制轉化為“number”型別 -->
+						<param name="precision" value="6" /><!-- number型別欄位值的小數點精度 -->
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="" /><!-- 有插件位置則為Y，無則為N，程式判斷 -->
+						<param name="ERPField" value="bmba018" />
+						<param name="defaultValue" value="N" />
+						<param name="description" value="插件位置" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="TX" />
+						<param name="ERPField" value="bmba002" />
+						<param name="defaultValue" value=" " />
+						<param name="description" value="特性" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="ZYBH" />
+						<param name="ERPField" value="bmba007" />
+						<param name="defaultValue" value=" " />
+						<param name="description" value="作业编号" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="ZYX" />
+						<param name="ERPField" value="bmba008" />
+						<param name="defaultValue" value=" " />
+						<param name="description" value="作业序" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="FLDW" />
+						<param name="ERPField" value="bmba010" />
+						<param name="defaultValue" value="PCS" />
+						<param name="description" value="发料单位" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="BiY" />
+						<param name="ERPField" value="bmba013" />
+						<param name="defaultValue" value="Y" />
+						<param name="description" value="必要" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="TZGL" />
+						<param name="ERPField" value="bmba014" />
+						<param name="defaultValue" value="r" />
+						<param name="description" value="特征管理" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="ZDKW" />
+						<param name="ERPField" value="bmba015" />
+						<param name="defaultValue" value="c1" />
+						<param name="description" value="指定发料库位" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="ZDCW" />
+						<param name="ERPField" value="bmba016" />
+						<param name="defaultValue" value="c2" />
+						<param name="description" value="指定发料储位" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="FAS" />
+						<param name="ERPField" value="bmba017" />
+						<param name="defaultValue" value="F" />
+						<param name="description" value="FAS选择群组" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="CZYF" />
+						<param name="ERPField" value="bmba019" />
+						<param name="defaultValue" value="1" />
+						<param name="description" value="参照研发中心" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="KXJ" />
+						<param name="ERPField" value="bmba020" />
+						<param name="defaultValue" value="K" />
+						<param name="description" value="可选件" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="GDZK" />
+						<param name="ERPField" value="bmba021" />
+						<param name="defaultValue" value="G1" />
+						<param name="description" value="工单展开选项" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="DML" />
+						<param name="ERPField" value="bmba022" />
+						<param name="defaultValue" value="M" />
+						<param name="description" value="代买料" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="YJTL" />
+						<param name="ERPField" value="bmba023" />
+						<param name="defaultValue" value="31" />
+						<param name="description" value="元件投料时距" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="TDL" />
+						<param name="ERPField" value="bmba024" />
+						<param name="defaultValue" value="102" />
+						<param name="description" value="主要替代料" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="FSLJ" />
+						<param name="ERPField" value="bmba025" />
+						<param name="defaultValue" value="D" />
+						<param name="description" value="附属零件" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="YLSYGS" />
+						<param name="ERPField" value="bmba027" />
+						<param name="defaultValue" value="N" />
+						<param name="description" value="用量是否使用公式" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="YLGS" />
+						<param name="ERPField" value="bmba028" />
+						<param name="defaultValue" value="L" />
+						<param name="description" value="用量公式" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="SHL" />
+						<param name="ERPField" value="bmba029" />
+						<param name="defaultValue" value="O" />
+						<param name="description" value="损耗率型态" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="DKL" />
+						<param name="ERPField" value="bmba030" />
+						<param name="defaultValue" value="1" />
+						<param name="description" value="倒扣料" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="KGL" />
+						<param name="ERPField" value="bmba031" />
+						<param name="defaultValue" value="P" />
+						<param name="description" value="客供料" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="ZDKC" />
+						<param name="ERPField" value="bmba032" />
+						<param name="defaultValue" value="Z" />
+						<param name="description" value="指定库存管理特征" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="reglossrate" />
+						<param name="ERPField" value="reglossrate" />
+						<param name="defaultValue" value="3" />
+						<param name="description" value="固定損耗率" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<!--<mapping>
+						<param name="PLMField" value="BOMKey" />
+						<param name="ERPField" value="plm_key" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="BOMKey" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="" />
+					</mapping>-->
+				</table>
+				<table name="plm_bmbc_t">
+				    <mapping>
+						<param name="PLMField" value="" /><!-- 主鍵 -->
+						<param name="ERPField" value="plm_pk" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="主鍵" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+						<param name="dataType" value="date" />
+						<param name="dateFormat" value="yyyyMMddHHmmssSSS" />
+					</mapping>
+				    <mapping>
+						<param name="PLMField" value="${JobId}" /><!-- JobID的值 -->
+						<param name="ERPField" value="seqkey" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="任務號" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="20" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="${Factory}" /><!-- 集團代碼 -->
+						<param name="ERPField" value="entid" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="企業編號" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="10" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="${Factory}" /><!-- 企业编号 -->
+						<param name="ERPField" value="bmbcent" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="企业编号" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="10" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="${UserId}" /><!-- PLM的登入者帳號 -->
+						<param name="ERPField" value="plm_user" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="PLM的登入者帳號" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="10" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="" /><!-- 隊列傳輸筆數(第幾筆) -->
+						<param name="ERPField" value="seqkey_subcnt" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="隊列傳輸筆數(第幾筆)" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="${DataKey}" /><!-- DataKey(分包ID)，默认生成唯一值 -->
+						<param name="ERPField" value="dataKey" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="DataKey(分包ID)" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="20" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="" /><!-- DataKey傳輸總筆數,不分包，默认为1-->
+						<param name="ERPField" value="datakey_totcnt" />
+						<param name="defaultValue" value="1" />
+						<param name="description" value="DataKey傳輸總筆數" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="" /><!-- DataKey傳輸筆數(第幾筆),不分包，默认为1-->
+						<param name="ERPField" value="datakey_subcnt" />
+						<param name="defaultValue" value="1" />
+						<param name="description" value="DataKey傳輸筆數(第幾筆)" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="END1$ID$" />
+						<param name="ERPField" value="bmbc001" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="主件料號" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="40" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="END2$ID$" />
+						<param name="ERPField" value="bmbc003" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="元件料件編號" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="40" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="PartNumber|code" />
+						<param name="ERPField" value="bmbc004" />
+						<param name="defaultValue" value=" " />
+						<param name="description" value="部位編號" /> 
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping> 
+					<!-- 程序自动赋值1、2、3......  -->
+					<mapping>
+						<param name="PLMField" value="" />
+						<param name="ERPField" value="bmbc009" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="項次" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="Designators" />
+						<param name="ERPField" value="bmbc010" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="插件位置" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="Quantity" />
+						<param name="ERPField" value="bmbc011" />
+						<param name="defaultValue" value="1" />
+						<param name="description" value="數量" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="${Date}" />
+						<param name="ERPField" value="bmbc005" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="生效日期" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+						<param name="dataType" value="date" />
+						<param name="dateFormat" value="yyyyMMdd" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="TXDM" />
+						<param name="ERPField" value="bmbc002" />
+						<param name="defaultValue" value="A" />
+						<param name="description" value="特性代码" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="ZYBH" />
+						<param name="ERPField" value="bmbc007" />
+						<param name="defaultValue" value="B" />
+						<param name="description" value="作业编号" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="ZCDH" />
+						<param name="ERPField" value="bmbc008" />
+						<param name="defaultValue" value="C" />
+						<param name="description" value="制程段号" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+				</table>
+			</class>
+		</bom>
+
+	    <replacesubstitute>
+		    <parameters>
+				<param name="formid" value="ECN|Z01"></param><!-- ECN單別  -->
+			</parameters>
+			<tables>
+				<table id="detail" name="plm_bmea_t"></table><!-- 取替代  -->
+			</tables>
+			<class name="Substitute">
+				<table name="plm_bmea_t">
+				    <mapping>
+						<param name="PLMField" value="" /><!-- 主鍵 -->
+						<param name="ERPField" value="plm_pk" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="主鍵" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+						<param name="dataType" value="date" />
+						<param name="dateFormat" value="yyyyMMddHHmmssSSS" />
+					</mapping>
+				    <mapping>
+						<param name="PLMField" value="${JobId}" /><!-- JobID的值 -->
+						<param name="ERPField" value="seqkey" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="任務號" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="20" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="${Factory}" /><!-- 集團代碼 -->
+						<param name="ERPField" value="entid" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="企業編號" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="10" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="${Factory}" /><!-- 企业编号 -->
+						<param name="ERPField" value="bmeaent" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="企业编号" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="10" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="${UserId}" /><!-- PLM的登入者帳號 -->
+						<param name="ERPField" value="plm_user" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="PLM的登入者帳號" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="10" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="" /><!-- 隊列傳輸筆數(第幾筆) -->
+						<param name="ERPField" value="seqkey_subcnt" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="隊列傳輸筆數(第幾筆)" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="${DataKey}" /><!-- DataKey(分包ID)，默认生成唯一值 -->
+						<param name="ERPField" value="dataKey" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="DataKey(分包ID)" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="20" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="" /><!-- DataKey傳輸總筆數,不分包，默认为1-->
+						<param name="ERPField" value="datakey_totcnt" />
+						<param name="defaultValue" value="1" />
+						<param name="description" value="DataKey傳輸總筆數" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="" /><!-- DataKey傳輸筆數(第幾筆),不分包，默认为1-->
+						<param name="ERPField" value="datakey_subcnt" />
+						<param name="defaultValue" value="1" />
+						<param name="description" value="DataKey傳輸筆數(第幾筆)" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="MasterItem" /><!-- 如果萬用取替代的話，主件ALL  -->
+						<param name="ERPField" value="bmea001" />
+						<param name="defaultValue" value="ALL" />
+						<param name="description" value="主件料號" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="40" />
+					</mapping>
+					<!-- 取值為主件料號的特性  -->
+					<!--
+					<mapping>
+						<param name="PLMField" value="MasterItem|特性字段" />
+						<param name="ERPField" value="bmet002" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="主件特性" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="30" />
+					</mapping>
+					-->
+					<mapping>
+						<param name="PLMField" value="ComponentItem" />
+						<param name="ERPField" value="bmea003" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="元件料件編號" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="40" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="" /><!-- bmea004，T100必填項，等於BOM單身的部位編號，默認傳空 -->
+						<param name="ERPField" value="bmea004" />
+						<param name="defaultValue" value=" " />
+						<param name="description" value="部位編號" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="10" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="" /><!-- bmea005，等於BOM單身的作業編號，默認傳空 -->
+						<param name="ERPField" value="bmea005" />
+						<param name="defaultValue" value=" " />
+						<param name="description" value="作業編號" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="10" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="RSType" /><!--1.取代/2.替代-->
+						<param name="ERPField" value="bmea007" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="取代/替代" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="RSItem" />
+						<param name="ERPField" value="bmea008" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="取代替代料件編號" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="40" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="ComponentUsage" />
+						<param name="ERPField" value="bmea011" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="取替代量" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="20" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="" />
+						<param name="ERPField" value="bmea012" />
+						<param name="defaultValue" value="1" />
+						<param name="description" value="元件底數" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="" /><!--1.部分取替代,2.完全取替代-->
+						<param name="ERPField" value="bmea016" />
+						<param name="defaultValue" value="2" />
+						<param name="description" value="替代方式" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="EffectiveDate" />
+						<param name="ERPField" value="bmea009" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="生效日期" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+						<param name="dataType" value="date" />
+						<param name="dateFormat" value="yyyyMMdd" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="InvalidDate" />
+						<param name="ERPField" value="bmea010" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="失效日期" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+						<param name="dataType" value="date" />
+						<param name="dateFormat" value="yyyyMMdd" />
+					</mapping>
+				    <mapping>
+						<param name="PLMField" value="" />
+						<param name="ERPField" value="acttype" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="異動碼類型" /><!--原acttype逻辑，程序处理：A:新增,U:修改,D:刪除-->
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="2" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="" />
+						<param name="ERPField" value="bmea002" />
+						<param name="defaultValue" value=" " />
+						<param name="description" value="特性" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="" />
+						<param name="ERPField" value="bmea006" />
+						<param name="defaultValue" value=" " />
+						<param name="description" value="制程序" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="" />
+						<param name="ERPField" value="bmea013" />
+						<param name="defaultValue" value=" " />
+						<param name="description" value="替代料发料单位" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="" />
+						<param name="ERPField" value="bmea014" />
+						<param name="defaultValue" value=" " />
+						<param name="description" value="限定客户" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="" />
+						<param name="ERPField" value="bmea015" />
+						<param name="defaultValue" value="99" />
+						<param name="description" value="优先级" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="" />
+						<param name="ERPField" value="bmea017" />
+						<param name="defaultValue" value="100" />
+						<param name="description" value="部份替代上限比率" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="" />
+						<param name="ERPField" value="bmea018" />
+						<param name="defaultValue" value=" " />
+						<param name="description" value="参照研发中心" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="" />
+						<param name="ERPField" value="bmea019" />
+						<param name="defaultValue" value=" " />
+						<param name="description" value="产品特征" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+				</table>
+			</class>
+		</replacesubstitute>
+		
+		<ma>
+			<tables>
+				<table id="master" name="M1" />
+				<table id="detail" name="plm_bmif_t" />
+			</tables>
+			<class name="StructureObject">
+				<table name="plm_bmif_t">
+				    <mapping>
+						<param name="PLMField" value="" /><!-- 主鍵 -->
+						<param name="ERPField" value="plm_pk" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="主鍵" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+						<param name="dataType" value="date" />
+						<param name="dateFormat" value="yyyyMMddHHmmssSSS" />
+					</mapping>
+				    <mapping>
+						<param name="PLMField" value="${JobId}" /><!-- JobID的值 -->
+						<param name="ERPField" value="seqkey" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="任務號" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="20" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="${Factory}" /><!-- 集團代碼 -->
+						<param name="ERPField" value="entid" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="企業編號" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="10" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="${Factory}" /><!-- 企业编号 -->
+						<param name="ERPField" value="bmifent" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="企业编号" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="10" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="${UserId}" /><!-- PLM的登入者帳號 -->
+						<param name="ERPField" value="plm_user" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="PLM的登入者帳號" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="10" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="" /><!-- 隊列傳輸筆數(第幾筆) -->
+						<param name="ERPField" value="seqkey_subcnt" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="隊列傳輸筆數(第幾筆)" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="${DataKey}" /><!-- DataKey(分包ID)，默认生成唯一值 -->
+						<param name="ERPField" value="dataKey" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="DataKey(分包ID)" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="20" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="" /><!-- DataKey傳輸總筆數,不分包，默认为1-->
+						<param name="ERPField" value="datakey_totcnt" />
+						<param name="defaultValue" value="1" />
+						<param name="description" value="DataKey傳輸總筆數" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="" /><!-- DataKey傳輸筆數(第幾筆),不分包，默认为1-->
+						<param name="ERPField" value="datakey_subcnt" />
+						<param name="defaultValue" value="1" />
+						<param name="description" value="DataKey傳輸筆數(第幾筆)" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="" />
+					</mapping>
+				    <mapping>
+						<param name="PLMField" value="" />
+						<param name="ERPField" value="acttype" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="異動碼" /><!-- A:新增,U:修改  -->
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="END2$ID$" />
+						<param name="ERPField" value="bmif001" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="承認料件編號" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="" /><!--承認主件料號,無傳值則視為ALL-->
+						<param name="ERPField" value="bmif004" />
+						<param name="defaultValue" value="ALL" />
+						<param name="description" value="承認主件料號" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="" /><!--END1$Manufacturer|ID$制造商的维护，需人工维护-产品特征下的内容可以允许不是厂牌，或多个属性选项（用-分隔）-->
+						<param name="ERPField" value="bmif005" /><!-- T100必填項，默認傳空  -->
+						<param name="defaultValue" value=" " />
+						<param name="description" value="產品特征" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="END1$Vendor|ID$" />
+						<param name="ERPField" value="bmif007" />
+						<param name="defaultValue" value=" " />
+						<param name="description" value="廠商/客戶編號" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="" />
+						<param name="ERPField" value="bmif009" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="承認狀態" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<!--
+					<mapping>
+						<param name="PLMField" value="" />
+						<param name="ERPField" value="bmif010" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="承認次數" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					-->
+					<mapping>
+						<param name="PLMField" value="END1$ID$" />
+						<param name="ERPField" value="bmif012" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="承認文號" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="" />
+						<param name="ERPField" value="bmif016" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="失效日期(暫時承認)" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="" />
+						<param name="ERPField" value="bmif017" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="承認有效開始日期" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="" />
+						<param name="ERPField" value="bmif018" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="承認有效截止日期" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<!--
+					<mapping>
+						<param name="PLMField" value="" />
+						<param name="ERPField" value="bmif013" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="更新料件生命週期" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="" />
+						<param name="ERPField" value="bmif015" />
+						<param name="defaultValue" value="1" />
+						<param name="description" value="限制數量(暫時承認)" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					-->
+				</table>
+			</class>
+		</ma>
+	</category>
+</root>

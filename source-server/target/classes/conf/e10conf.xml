@@ -1,0 +1,626 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<!-- 基本參數配置 -->
+	<parameters>
+		<param name="user"	 	value="dcms" />
+		<param name="TokenId" 	value="" />
+		<!-- 語言，三種可選項：ZH_TW, ZH_CN, EN -->
+		<param name="language"	 value="ZH_CN" />
+		<!-- 當value=1時，表示"ERP中文字":"PLM中文字"=1:1，即：當"maxLength"為40時，只能截取PLM端的40個中文字或者40個英文字。 -->
+		<param name="ERPcnSize"  value="1" />
+		<!-- 默認BOM範本名稱 ,如果用戶在UI上選擇BOM範本則以用戶選擇為准-->
+		<param name="defaultBOMTemplate"	 value="BOM" />
+		<!-- 輪詢間隔時間，默認20s -->
+		<param name="operationPollingTime" 	value="10" />
+		<!-- 每個Operation允許生成的最大時間,默認300s -->
+		<param name="operationLiveTime"	 value="300" />
+		<!-- 傳料件、取料件等實例時批量傳輸數量，默認100 -->
+		<param name="batchSize" 	value="100" />
+		<!-- 傳BOM結構時批量傳輸數量，默認20 -->
+		<param name="BOMBatchSize" 	value="20" />
+		<!-- 流程拋轉合併到同一個佇列的對象數量，最大值120 -->
+		<param name="objectBatchSize" 	value="60" />
+		<!-- 是否保留生成的xml數據檔 -->
+		<param name="saveTempFile" 	value="true" />
+		<!-- 是否遍曆完所有實例，即使部分實例有錯誤 -->
+		<param name="traverseAllInstanceIgnoringError" 	value="true" />
+		<!-- 工廠，多個用,分隔 -->
+		<param name="factory" 	value="HJ01,001" />
+		<!-- 是否保存拋轉歷史記錄 -->
+		<param name="saveTransferStatus" 	value="false" />
+		<!-- 是否拋轉空BOM -->
+		<param name="containEmptyBOMXML"    value="true" />
+		<!-- 是否同步下載3D模型結構 -->
+		<param name="downloadModelStructure" 	value="false" />
+		<!-- URL方式看圖時，是否強制web客戶端單點登錄 -->
+		<param name="SingleSign-On" value="true"/>
+		<!-- URL方式看圖時，web應用的目錄 -->
+		<param name="webAppPath" value="http://172.16.100.101:38080/WebLight/"/>
+	</parameters>
+	
+	<!-- 約束條件配置 -->
+	<restrictions>
+		<!-- operator目前支持 = != in !in 4種，分別表示等於、不等於、在...中，不在...中。 category表示對哪些內容進行約束。skipOnFail表示前面的判斷條件失敗了是否跳過 -->
+		<!-- 傳檢入狀態的料件，如果實例是檢出狀態則跳過 -->
+		<!-- <restriction field="ISCHECKOUT$" operator="="	 value="N"       category="item"     skipOnFail="true" /> -->
+		<!-- 傳發佈狀態的料件，如果不是則跳過 -->
+		<!-- <restriction field="STATUS$"     operator="="   value="RLS"      category="item"     skipOnFail="true" /> -->
+		<!-- 傳以前沒有傳過的料件和BOM，如果不是則跳過。 ${HasSent是內置字段，表示以前是否傳輸過} -->
+		<!-- <restriction field="${HasSent}"  operator="="    value="N"       category="item,bom" skipOnFail="true" /> -->
+	</restrictions>
+	
+	<!-- ERP能提供的所有Operation, name會顯示在傳輸結果中，用戶可以修改name屬性值，其他部分不能修改 -->
+	<operations>
+		<operation id="createItem" 		        category="item" 				realtime="false"	name="傳料件" />
+		<operation id="createBOM" 		        category="bom" 					realtime="false"	name="傳BOM" />
+		<operation id="createLocalR" 	        category="replacesubstitute" 	realtime="false"	name="傳局部取代" />
+		<operation id="createLocalS" 	        category="replacesubstitute" 	realtime="false"	name="傳局部替代" />
+		<operation id="createGlobalS" 	        category="replacesubstitute" 	realtime="false"	name="傳全局替代" />
+		<operation id="createCodeitem" 	        category="codeitem" 	    	realtime="false"    name="傳分類字段" />
+		<operation id="createFieldG" 	        category="fieldgroup" 	     	realtime="false"    name="傳分類節點" />
+		<operation id="getPrice" 	            category="Price" 	         	realtime="true"     name="讀價格" />
+		<operation id="getCost" 	            category="Cost" 	         	realtime="true"     name="讀成本" />
+		<operation id="getQuantity" 	        category="Quantity" 	        realtime="true"     name="讀數量" />
+	</operations>
+	
+	<!-- ERP查看PLM圖文檔的檔範圍（見手冊說明），realtion為查看範圍內的關聯範本名稱、end2classname即料件關聯的圖文檔的類名、classification為其分類名、filetype為其檔尾碼名格式 -->
+	<!-- 若要查看的圖文檔對象類有多個，則配置多個filter -->
+	<!-- downloadModelStructure表示是否同步下載3D模型結構 -->
+	<draws>
+	    <templates realtion="ITEM-CAD2D$,ITEM-CAD3D$,ITEM-ECAD$,RelatedDoc">
+	        <filter end2classname="AutocadDRW"         classification=""           filetype="dwg"             downloadModelStructure="false" />
+		    <filter end2classname="SolidWorksModel"    classification="asm,prt"    filetype="SLDASM,SLDPRT"   downloadModelStructure="false" />
+			<filter end2classname="Document"           classification=""           filetype="doc"             downloadModelStructure="false" />
+		</templates>
+	</draws>
+	
+	<!-- 從ERP能讀取的所有content, name會顯示在傳輸結果畫面中，用戶可以修改name屬性值，其他部分不能修改 -->
+	<contents>
+		<content id="CostPurchaseRec" 		    operation="getPrice" 		   name="最近採購入庫價" />
+		<content id="CostMovingAVG" 		    operation="getCost"		       name="移動平均價" />
+		<content id="UnitCostPeriod" 		    operation="getCost"            name="期間單位成本(含本期)" />
+		<content id="CostBenchMark" 	 	    operation="getCost"            name="基準成本" />
+		<content id="OnHandQty" 	 	        operation="getQuantity"        name="現有庫存量" />
+		<content id="SafeStockQty" 		        operation="getQuantity"        name="安全庫存量" />
+		<content id="ReserveQTY" 	 	        operation="getQuantity"        name="行政保留量" />
+		<content id="PreSalesDeliveryQty" 	  	operation="getQuantity"        name="預計銷貨量" />
+		<content id="MocAlLocatedQty" 	        operation="getQuantity"	       name="預計領料量" />
+		<content id="PrePurchaseQty" 	    	operation="getQuantity"        name="預計採購量" />
+		<content id="PreReceiptQty" 	    	operation="getQuantity"        name="預計進貨量" />
+		<content id="PurInspectQty" 	    	operation="getQuantity"        name="採購待驗量" />
+		<content id="PurReceiptQty" 	    	operation="getQuantity"        name="採購待入庫量" />
+		<content id="PreTransferInQty" 	    	operation="getQuantity"        name="預計調入量" />
+		<content id="MocOnOrderQty" 	    	operation="getQuantity"        name="預計生產量" />
+	</contents>
+
+	<!-- 用戶自定義傳輸schema -->
+	<!-- include表示該schema包含哪些Operation，各個Option用,分隔，排在前面的Operation優先執行。 name是在配置ERP集成範本的時候顯示。 -->
+	<!-- expandClassification表示是否集成分類主數據（IFV表），前提是include中包含createItem -->
+	<!-- expandBOM表示是否展開BOM傳輸。 exportRSItem表示是否傳取替代件，前提是include中包含createItem -->
+	<!-- expandGet表示需要從E10讀取的具體內容，包含哪些content，各個content中間用","分隔，前提是include中包含getPrice、getCost或getQuantity -->
+	<!-- exportAllData表示是否拋轉選擇的所有數據：無論拋轉前後數據是否有修改，將所有資料生成xml檔，並更新拋轉標記表的記錄。-->
+	<schemas>
+		<schema include="createItem" 				name="僅傳料件" />
+		<schema include="createItem" 				name="僅傳料件（強制拋轉）"   exportAllData="true" />
+		<schema include="createItem" 				name="傳料件（包含主分類）"   expandClassification="true" />
+		<schema include="createItem" 				name="傳料件(展開BOM)" 	expandBOM="true" />
+		<schema include="createItem" 				name="傳料件和主分類(展開BOM)"  expandClassification="true"	expandBOM="true" />
+		<schema include="createBOM" 				name="傳BOM"				expandBOM="true"  />
+		<schema include="createItem,createBOM"		name="傳單層料件和BOM"  expandBOM="false" />
+		<schema include="createItem,createBOM" 		name="傳料件加BOM"		expandBOM="true"  />
+		<schema include="createItem,createBOM" 		name="傳料件加BOM（強制拋轉）"		expandBOM="true"   exportAllData="true"  />
+		<schema include="createLocalS"  			name="拋轉指定替代(展開BOM)"		expandBOM="true" />
+		<schema include="createLocalR"  			name="拋轉指定取代(展開BOM)"		expandBOM="true" />
+		<schema include="createGlobalS" 			name="拋轉全面替代(展開BOM)"       expandBOM="true" /> 
+		<schema include="createItem,createBOM" 		name="ECNERP"	expandBOM="true"	exportRSItem="true"/>
+		<schema include="createCodeitem" 			name="僅傳分類字段" />
+		<schema include="createFieldG" 			    name="僅傳分類葉子節點" />
+		<schema include="createCodeitem,createFieldG" 	name="傳分類字段和分類葉子節點" />		
+		<schema include="getPrice" 				    name="讀價格" 	expandGet="CostPurchaseRec" />
+		<schema include="getPrice,getCost" 		    name="讀價格和成本" 	expandGet="CostPurchaseRec,CostBenchMark" />
+		<schema include="getPrice,getCost,getQuantity" 		name="讀價格、成本和數量"   expandGet="CostPurchaseRec,CostBenchMark,OnHandQty" />
+	</schemas>
+	
+	<!-- ECO拋轉ERP——在ECO審批中，通過流程調用“ECNERP”集成範本，自動拋轉變更後數據	-->
+	<patch>
+		<!-- 在哪個schema中拋轉, expandBOM exportRSItem繼承sourceSchema上的設置 -->
+		<EC sourceSchema="ECNERP">
+		<!-- —changeType為Normal，定義的filter適用於Ectype為普通變更，拋轉變更生成的解決對象。
+		BOMchange定義BOM是否發生變更：若BOM沒變則僅拋解決對象；若BOM變了，則拋解決對象以及解決對象的BOM。-->
+            <filter changeType="Normal"  BOMchange="false" 		operation="createItem" />
+			<filter changeType="Normal"  BOMchange="true" 		operation="createItem,createBOM" expandBOM="false"/>
+			<!-- 批量變更時，定義的filter適用於變更類型為“Batch”的變更，拋轉變更單中定義的變更範圍對象。當ECO為批量取代且自然取代時還要拋轉取代關係 -->
+			<filter changeType="Batch"   BOMchange="true"       operation="createItem,createBOM,createLocalR" exportRSItem="true"/>
+        </EC>
+	</patch>
+	
+	<!-- 傳輸內容，目前支持item bom replacesubstitute ma 4種 -->
+	<category>
+	    <codeitem>
+			<parameters>
+				<param name="strategy" value="Adjust" />
+			</parameters>
+			<tables>
+				<table id="FEATURE" primaryKey="FEATURE_CODE,Owner_Org" name="FEATURE" />
+				<table id="FEATURE_D" primaryKey="FEATURE_VALUE" name="FEATURE_D" />
+			</tables>
+				<table name="FEATURE">
+					<mapping>
+						<param name="PLMField" value="Field|Name" />
+						<param name="ERPField" value="FEATURE_CODE" />
+						<param name="description" value="屬性編號" />
+						<param name="isMandatory" value="true" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="Field|Title" />
+						<param name="ERPField" value="FEATURE_NAME" />
+						<param name="description" value="屬性名稱" />
+						<param name="defaultValue" value="" />
+						<param name="isMandatory" value="true" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="" />
+						<param name="ERPField" value="DATA_TYPE" />
+						<param name="description" value="數據類型" />
+						<param name="defaultValue" value = "1" />
+						<param name="isMandatory" value="true" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="DATA_SIZE" />
+						<param name="ERPField" value="DATA_SIZE" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="數據長度" />
+						<param name="isMandatory" value="true" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="USE_METHOD" />
+						<param name="ERPField" value="USE_METHOD" />
+						<param name="defaultValue" value="1" />
+						<param name="description" value="取值方式" />
+						<param name="isMandatory" value="true" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="${XMLPackageNo}" />
+						<param name="ERPField" value="PLM_DATAKEY" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="40" />
+					</mapping>
+				</table>
+				<table name="FEATURE_D">
+				    <mapping>
+						<param name="PLMField" value="Field|Name" />
+						<param name="ERPField" value="FEATURE__FEATURE_CODE" />
+						<param name="description" value="屬性編號" />
+						<param name="isMandatory" value="true" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="Codeitem|Name" />
+						<param name="ERPField" value="FEATURE_VALUE" />
+						<param name="description" value="屬性值" />
+						<param name="isMandatory" value="true" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="Codeitem|Title" />
+						<param name="ERPField" value="FEATURE_VALUE_DESC" />
+						<param name="description" value="屬性值描述" />
+						<param name="isMandatory" value="true" />
+					</mapping>
+				</table>
+		</codeitem>
+		
+		<fieldgroup>
+			<parameters>
+				<param name="strategy" value="Adjust" />
+			</parameters>
+			<tables>
+				<table id="FEATURE_GROUP" primaryKey="FEATURE_GROUP_CODE,Owner_Org" name="FEATURE_GROUP" />
+				<table id="FEATURE_GROUP_D" primaryKey="FEATURE_ID" name="FEATURE_GROUP_D" />
+			</tables>
+				<table name="FEATURE_GROUP">
+					<mapping>
+						<param name="PLMField" value="Classification|Name" />
+						<param name="ERPField" value="FEATURE_GROUP_CODE" />
+						<param name="description" value="品號群組編號" />
+						<param name="isMandatory" value="true" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="Classification|Title" />
+						<param name="ERPField" value="FEATURE_GROUP_NAME" />
+						<param name="description" value="品號群組名稱" />
+						<param name="isMandatory" value="true" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="" />
+						<param name="ERPField" value="ITEM_FEATURE_CONTROL" />
+						<param name="description" value="啟用特徵碼" />
+						<param name="defaultValue" value = "false" />
+						<param name="isMandatory" value="true" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="" />
+						<param name="ERPField" value="FEATURE_GENERATE_MODE" />
+						<param name="description" value="特徵碼產生模式" />
+						<param name="defaultValue" value="1" />
+						<param name="isMandatory" value="true" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="${XMLPackageNo}" />
+						<param name="ERPField" value="PLM_DATAKEY" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="40" />
+					</mapping>
+				</table>
+				<table name="FEATURE_GROUP_D">
+				    <mapping>
+						<param name="PLMField" value="Classification|Name" />
+						<param name="ERPField" value="FEATURE_GROUP__FEATURE_GROUP_CODE" />
+						<param name="description" value="品號群組編號" />
+						<param name="isMandatory" value="true" />
+					</mapping>
+      				<mapping>
+      					<param name="PLMField" value="Field|Name" />
+      					<param name="ERPField" value="FEATURE_CODE" />
+      					<param name="description" value="屬性" />
+      					<param name="isMandatory" value="true" />
+      				</mapping>
+					<mapping>
+						<param name="PLMField" value="" />
+						<param name="ERPField" value="INCLUDED_ITEM_CODING" />
+						<param name="description" value="納入編碼" />
+						<param name="defaultValue" value="0" />
+						<param name="isMandatory" value="true" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="" />
+						<param name="ERPField" value="SECTION_NO" />
+						<param name="description" value="段號 "/>
+						<param name="defaultValue" value="99" />
+						<param name="isMandatory" value="true" />
+					</mapping>
+				</table>
+		</fieldgroup>
+		
+		<item>
+			<!-- 料件策略用Adjust -->
+			<!-- BOM策略用InsertOnly -->
+			<!-- 取替代策略用Sync -->
+			<!-- 這些策略固定，不能用別的，PLM代碼中有控制 -->
+			<parameters>
+				<param name="strategy" value="Adjust" />
+			</parameters>
+			
+			<!-- primaryKey為unique key，不允許有重複值 -->
+			<tables>
+				<table id="GI" primaryKey="ITEM_CODE,ITEM_NAME" name="GI" />
+				<table id="PLI" primaryKey="GI__ITEM_CODE,PLANT_CODE" name="PLI" />
+				<table id="ITEM_FEATURE_VALUE" primaryKey="ITEM_BUSINESS_ID,ITEM_FEATURE_ID,FEATURE_ID" name="ITEM_FEATURE_VALUE" />
+			</tables>
+
+			<class name="Item">
+				<table name="GI">
+					<mapping>
+						<param name="PLMField" value="ID$" />
+						<param name="ERPField" value="ITEM_CODE" />
+						<param name="description" value="品號" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="40" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="NAME$" />
+						<param name="ERPField" value="ITEM_NAME" />
+						<param name="description" value="品名" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="60" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="Specification" />
+						<param name="ERPField" value="ITEM_SPECIFICATION" />
+						<param name="defaultValue" value="4S" />
+						<param name="description" value="規格" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="60" />
+						<param name="truncWhenLengthExceeds" value="true" /><!-- 當字段值超過“maxLength”中設置時，是否要自動截取，“false”或無該參數表示不截取 -->
+						<param name="LengthExceedsOrientation" value="left" /><!-- 表示“truncWhenLengthExceeds”中設置字段自動截取時，是否要從左往右自動截取（無此參數時，默認從左往右），“right”表示從右往左截取 -->
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="Classification|Name" /> <!-- 當集成分類葉子節點時，取Classification|Name，與FEATURE_GROUP表對應 -->
+						<param name="ERPField" value="FEATURE_GROUP_CODE" />
+						<param name="description" value="品號群組" />
+						<param name="defaultValue" value="" />
+						<param name="maxLength" value="40" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="${XMLPackageNo}" />
+						<param name="ERPField" value="PLM_DATAKEY" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="40" />
+					</mapping>
+                    <mapping>
+						<param name="PLMField" value="" />
+						<param name="ERPField" value="UNIT_CODE" />
+						<param name="defaultValue" value="001" />
+						<param name="description" value="庫存單位編號" />
+					</mapping>
+				</table>
+				
+				<table name="PLI">
+					<mapping>
+						<param name="PLMField" value="" />
+						<param name="ERPField" value="ITEM_PROPERTY" />
+						<param name="description" value="品號屬性" />
+						<param name="defaultValue" value="P" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="ID$" />
+						<param name="ERPField" value="GI__ITEM_CODE" />
+						<param name="description" value="品號" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="${Factory}" />
+						<param name="ERPField" value="PLANT_CODE" />
+						<param name="description" value="工廠編號" />
+						<param name="defaultValue" value="HJ01" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="" />
+						<param name="ERPField" value="REMARK" />
+						<param name="description" value="備註" />
+						<param name="defaultValue" value="HJ" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="${XMLPackageNo}" />
+						<param name="ERPField" value="PLM_DATAKEY" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="PLM傳輸批次號" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="40" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="" />
+						<param name="ERPField" value="MO_ISSUE_UNIT_CODE" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="領用單位" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="40" />
+					</mapping>
+				</table>
+				
+				<table name="ITEM_FEATURE_VALUE">
+					<mapping>
+						<param name="PLMField" value="Classification|Name" />   <!-- 分類葉子節點 -->
+						<param name="ERPField" value="FEATURE_GROUP_CODE" />
+						<param name="defaultValue" value="P113" />
+						<param name="description" value="品號群組代碼" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="40" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="Field|Name" />    <!-- 分類葉子節點的field -->
+						<param name="ERPField" value="FEATURE_CODE" />
+						<param name="description" value="屬性代碼" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="40" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="Codeitem|Name" />    <!-- 非code類型字段直接取輸入值 -->
+						<param name="ERPField" value="FEATURE_VALUE" />
+						<param name="description" value="屬性值" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="40" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="Codeitem|Title" />    <!-- 非code類型字段直接取輸入值 -->
+						<param name="ERPField" value="FEATURE_VALUE_DESC" />
+						<param name="description" value="屬性值描述" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="40" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="ID$" />
+						<param name="ERPField" value="ITEM__ITEM_CODE" />
+						<param name="description" value="通用品號ID" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="40" />
+					</mapping>
+				</table>	
+			</class>
+		</item>
+
+		<bom>
+			<parameters>
+				<param name="strategy" value="InsertOnly" />
+			</parameters>
+			<tables>
+				<table id="BOM" primaryKey="ITEM_CODE,PLANT_CODE" name="BOM" />
+				<table id="BOM_D" primaryKey="BOM__ITEM_CODE,BOM__PLANT_CODE,SequenceNumber" name="BOM_D" />
+			</tables>
+			<class name="BOMStructure">
+				<table name="BOM">
+					<mapping>
+						<param name="PLMField" value="" />
+						<param name="ERPField" value="STANDARD_BATCH_QTY" />
+						<param name="defaultValue" value="1" />
+						<param name="description" value="標準批量" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="END1$ID$" />
+						<param name="ERPField" value="ITEM_CODE" />
+						<param name="description" value="主件品號" />
+						<param name="isMandatory" value="true" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="${Factory}" />
+						<param name="ERPField" value="PLANT_CODE" />
+						<param name="description" value="工廠" />
+						<param name="defaultValue" value="HJ01" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="${Factory}" />
+						<param name="ERPField" value="REFERENCE_PLANT_CODE" />
+						<param name="description" value="引用工廠" />
+						<param name="defaultValue" value = "HJ01" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="${XMLPackageNo}" />
+						<param name="ERPField" value="PLM_DATAKEY" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="PLM傳輸批次號" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="40" />
+					</mapping>
+				</table>
+				<table name="BOM_D">
+      				<mapping>
+      					<param name="PLMField" value="Sequence" />
+      					<param name="ERPField" value="SequenceNumber" />
+      					<param name="description" value="序號" />
+      					<param name="isMandatory" value="true" />
+      				</mapping>
+					<mapping>
+						<param name="PLMField" value="Quantity" />
+						<param name="ERPField" value="QTY_PER" />
+						<param name="description" value="組成用量" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+						<param name="dataType" value="number" /><!-- 把欄位值強制轉化為“number”型別 -->
+						<param name="precision" value="2" /><!-- number型別欄位值的小數點精度 -->
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="Base" />
+						<param name="ERPField" value="DENOMINATOR" />
+						<param name="description" value="底數" />
+						<param name="defaultValue" value="1" />
+					</mapping>
+						<mapping>
+						<param name="PLMField" value="" />    <!-- 對應BOMStructure中的字段E10_ITEM_CATEGORY（根據E10專案需要調整） -->
+						<param name="ERPField" value="ITEM_CATEGORY" />
+						<param name="description" value="類別" />
+						<param name="defaultValue" value="1" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="END1$ID$" />
+						<param name="ERPField" value="BOM__ITEM_CODE" />
+						<param name="isMandatory" value="true" />
+						<param name="description" value="主件品號" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="${Factory}" />
+						<param name="ERPField" value="BOM__PLANT_CODE" />
+						<param name="description" value="工廠 "/>
+						<param name="defaultValue" value="HJ01" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="END2$ID$" />
+						<param name="ERPField" value="ITEM_CODE" />
+						<param name="isMandatory" value="true" />
+						<param name="description" value="元件品號" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="BOMKey" />
+						<param name="ERPField" value="PLM_OUID" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="PLM_BOMKEY" />
+					</mapping>
+					<!-- E10 2.0.2及之後的版本默認不需要該字段，如果客戶有需要傳遞，請顧問自己修改 -->
+					<!--
+					<mapping>
+						<param name="PLMField" value="" />
+						<param name="ERPField" value="ITEM_TYPE" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="材料類型" />
+					</mapping>
+					-->
+				</table>
+			</class>
+		</bom>
+		
+		<replacesubstitute>
+			<parameters>
+				<param name="strategy" value="Sync" />
+			</parameters>
+			<tables>
+				<table id="REPLACE_ITEM" primaryKey="PLANT_CODE,SUB_ITEM_CODE,PARENT_ITEM_CODE" name="REPLACE_ITEM" />
+				<table id="REPLACE_ITEM_D" primaryKey="REPLACE_ITEM__SUB_ITEM_CODE,REPLACE_ITEM__PARENT_ITEM_CODE,REPLACE_ITEM__PLANT_CODE,REPLACE_TYPE,REPLACE_PRORITY" name="REPLACE_ITEM_D" />
+			</tables>
+			<class name="Substitute">
+				<table name="REPLACE_ITEM">
+					<mapping>
+						<param name="PLMField" value="" />
+						<param name="ERPField" value="TO_MIXING" />
+						<param name="description" vlaue="可混料" />
+						<param name="defaultValue" value="Y" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="${Factory}" />
+						<param name="ERPField" value="PLANT_CODE" />
+						<param name="description" vlaue="工廠" />
+						<param name="defaultValue" value="HJ01" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="ComponentItem|ID$" />
+						<param name="ERPField" value="SUB_ITEM_CODE" />
+						<param name="description" value="元件品號" />					
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="MasterItem|ID$" />
+						<param name="ERPField" value="PARENT_ITEM_CODE" />
+						<param name="description" value="主件品號" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="${XMLPackageNo}" />
+						<param name="ERPField" value="PLM_DATAKEY" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="PLM傳輸批次號" />
+					</mapping>
+				</table>
+				<table name="REPLACE_ITEM_D">
+					<mapping>
+						<param name="PLMField" value="ComponentItem|ID$" />
+						<param name="ERPField" value="REPLACE_ITEM__SUB_ITEM_CODE" />
+						<param name="description" value="元件品號(單頭)" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="MasterItem|ID$" />
+						<param name="ERPField" value="REPLACE_ITEM__PARENT_ITEM_CODE" />
+						<param name="description" vlaue="主件品號(單頭)" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="${Factory}" />
+						<param name="ERPField" value="REPLACE_ITEM__PLANT_CODE" />
+						<param name="description" value="工廠" />
+						<param name="defaultValue" value="HJ01" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="ComponentUsage" />
+						<param name="ERPField" value="QTY" />
+						<param name="description" value="數量" />
+						<param name="defaultvalue" value="0" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="RSNumber" />
+						<param name="ERPField" value="REPLACE_PRORITY" />
+						<param name="description" value="取替代料順序" />
+						<param name="defaultValue" value="0" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="RSItem|ID$" />
+						<param name="ERPField" value="REPLACE_SUB_ITEM_CODE" />
+						<param name="description" value="元件品號" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="" />
+						<param name="ERPField" value="REPLACE_TYPE" />
+						<param name="description" value="取替代類型" />
+						<param name="defaultValue" value="1" />
+					</mapping>
+				</table>
+			</class>
+		</replacesubstitute>
+	</category>
+</root>

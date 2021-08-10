@@ -8,6 +8,7 @@ package dyna.net.dispatcher.sync;
 import dyna.common.log.DynaLogger;
 import dyna.common.systemenum.ServiceStateEnum;
 import dyna.net.dispatcher.ServiceDispatcher;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -16,11 +17,16 @@ import org.springframework.stereotype.Repository;
  * @author Wanglei
  * 
  */
-@Repository
+@Repository(value = "serviceStateExchangerRMIImpl")
 public class ServiceStateExchangerRMIImpl implements ServiceStateExchanger
 {
-
+	@Autowired
 	private ServiceDispatcher	dispatcher	= null;
+
+	public ServiceStateExchangerRMIImpl()
+	{
+
+	}
 
 	public ServiceStateExchangerRMIImpl(ServiceDispatcher dispatcher)
 	{

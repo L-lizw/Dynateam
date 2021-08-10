@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<views>
+		<view id="C001" name="产品项目分析">
+		    <view id="C0011" name="周期内完成项目工期总和">
+			    <rows>
+			        <row name="周期内分类别完成项目工期总和">
+			            <indicator id="V021" name="周期内分类别完成项目工期总和" charttype="LINE">
+				            <style-list>
+			                    <!-- 橫坐標軸尺規字體大小 -->
+			                    <style name="domainTickLabelFontSize" value="12"/>
+			                    <!-- 縱坐標軸刻度標籤字體大小 -->
+			                    <style name="rangeTickLabelFontSize" value="12"/>
+			                </style-list>
+			            </indicator>
+			        </row>
+			        <row name="零部件共用率">
+			            <indicator id="V015" name="零部件共用率" charttype="LINE" valuetype="RATE"/>
+			        </row>
+			    </rows>
+			</view>
+			<view id="C0012" name="物料BOM分析2">
+			    <rows>
+			        <row name="产品开发">
+			            <indicator id="V003" name="项目按期完成率" charttype="PIE" valuetype="RATE"/>
+			            <indicator id="V003" name="项目按期完成率" charttype="PIE" valuetype="RATE"/>
+			            <indicator id="V003" name="项目按期完成率" charttype="PIE" valuetype="RATE"/>
+			            <indicator id="V003" name="项目按期完成率" charttype="RING">
+			                <style-list>
+			                    <!-- 中心文字大小 -->
+			                    <style name="centerTextFontSize" value="25"/>
+			                    <!-- 中心文字是否加粗 -->
+			                    <style name="isCenterTextBold" value="true"/>
+			                </style-list>
+			            </indicator>
+			        </row>
+			        <row name="产品变更">
+			            <indicator id="V004" name="项目计划平均变更次数" charttype="BAR"/>
+			        </row>
+			        <row name="产品变更">
+			            <indicator id="V004" name="项目计划平均变更次数" charttype="LINE"/>
+			        </row>
+			    </rows>
+			</view>
+		</view>
+		<view id="C002" name="物料BOM分析3">
+		    <rows>
+		        <row name="物料BOM">
+		            <indicator id="V008" name="BOM平均产出周期" charttype="LINE"/>
+		            <indicator id="V009" name="BOM变更次数" charttype="RING"/>
+		        </row>
+		        <row name="零部件共用率">
+		            <indicator id="V015" name="零部件共用率" charttype="LINE" valuetype="RATE"/>
+		        </row>
+		    </rows>
+		</view>
+		<view id="C003" name="变更分析">
+		    <rows>
+		        <row name="图纸">
+		            <indicator id="V006" name="图纸平均设计完成周期" charttype="LINE"/>
+		            <indicator id="V007" name="图纸设计变更次数" charttype="BAR"/>
+		        </row>
+		        <row name="变更1">
+		            <indicator id="V012" name="变更处理周期" charttype="BAR"/>
+		            <indicator id="V013" name="变更影响分析时间" charttype="LINE"/>
+		        </row>
+		        <row name="变更2">
+		            <indicator id="V005" name="项目阶段按期完成率" charttype="LINE" valuetype="RATE"/>
+		        </row>
+		    </rows>
+		</view>
+		<view id="C004" name="流程分析">
+		    <rows>
+		        <row name="流程">
+		            <indicator id="V017" name="流程一次评审通过率" charttype="DAIL" valuetype="RATE"/>
+		            <indicator id="V009" name="BOM变更次数" charttype="DAIL">
+		                <style-list>
+		                    <!-- 數值框內字體大小 -->
+		                    <style name="dialValFontSize" value="10"/>
+		                    <!-- 儀錶盤刻度半徑 -->
+		                    <style name="tickRadius" value="0.8D"/>
+		                    <!-- 儀錶盤數值刻度的字體大小 -->
+		                    <style name="tickLabelFontSize" value="13"/>
+		                    <!-- 最大刻度，數值類型時有效，當數值包含小數點時，比如：50000.0，表明數值類型為浮點型，默認保留1比特小數 -->
+		                    <style name="maxScale" value="50000.0"/>
+		                </style-list>
+		            </indicator>
+		        </row>
+		    </rows>
+		</view>
+	</views>
+</root>

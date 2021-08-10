@@ -5,19 +5,12 @@
  */
 package dyna.common.util;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
+import dyna.common.log.DynaLogger;
+import org.apache.tools.zip.ZipEntry;
+import org.apache.tools.zip.ZipFile;
+import org.apache.tools.zip.ZipOutputStream;
+
+import java.io.*;
 import java.net.URLDecoder;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
@@ -26,8 +19,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Enumeration;
 import java.util.zip.CRC32;
 import java.util.zip.CheckedOutputStream;
-
-import dyna.common.log.DynaLogger;
 
 /**
  * @author Wanglei
@@ -278,6 +269,341 @@ public class FileUtils
 		}
 	}
 
+	/**
+	 * 压缩zip文件
+	 * 
+	 * @param fileOrDirectory
+	 *            需要压缩的文件或目录
+	 * @param toZipFile
+	 *            需要产生目标压缩文件
+	 * @throws Exception
+	 */
+	public static void compress(File fileOrDirectory, File toZipFile) throws Exception
+	{
+		compress(fileOrDirectory, toZipFile, true);
+	}
+
+	/**
+	 * 压缩指定文件zip文件
+	 * 
+	 * @param fileOrDirectory
+	 *            需要压缩的文件或目录
+	 * @param toZipFile
+	 *            需要产生目标压缩文件
+	 * @param withDirectory
+	 *            是否包含当前文件夹
+	 */
+	public static void compress(File[] fileOrDirectorys, File toZipFile, boolean withDirectory) throws Exception
+	{
+		ZipOutputStream out = null;
+		if (fileOrDirectorys == null)
+		{
+			return;
+		}
+		out = new ZipOutputStream(new CheckedOutputStream(new FileOutputStream(toZipFile), new CRC32()));
+		try
+		{
+			for (File fileOrDirectory : fileOrDirectorys)
+			{
+
+				if (!fileOrDirectory.exists())
+				{
+					continue;
+				}
+
+				if (fileOrDirectory.isDirectory() && !withDirectory)
+				{
+					for (File file : fileOrDirectory.listFiles())
+					{
+						doCompress("", file, out);
+					}
+				}
+				else
+				{
+					doCompress("", fileOrDirectory, out);
+				}
+
+			}
+		}
+		finally
+		{
+			if (out != null)
+			{
+				out.close();
+			}
+		}
+	}
+
+	/**
+	 * 压缩指定文件zip文件
+	 * 
+	 * @param fileOrDirectory
+	 *            需要压缩的文件或目录
+	 * @param toZipFile
+	 *            需要产生目标压缩文件
+	 * @param withDirectory
+	 *            是否包含当前文件夹
+	 */
+	public static void compress(String[] baseDirs, File[] fileOrDirectorys, File toZipFile, boolean withDirectory) throws Exception
+	{
+		ZipOutputStream out = null;
+		if (fileOrDirectorys == null)
+		{
+			return;
+		}
+		out = new ZipOutputStream(new CheckedOutputStream(new FileOutputStream(toZipFile), new CRC32()));
+		try
+		{
+			for (int i = 0; i < fileOrDirectorys.length; i++)
+			{
+
+				File fileOrDirectory = fileOrDirectorys[i];
+				if (!fileOrDirectory.exists())
+				{
+					continue;
+				}
+
+				if (fileOrDirectory.isDirectory() && !withDirectory)
+				{
+					for (File file : fileOrDirectory.listFiles())
+					{
+						doCompress(baseDirs[i] == null ? "" : baseDirs[i], file, out);
+					}
+				}
+				else
+				{
+					doCompress(baseDirs[i] == null ? "" : baseDirs[i], fileOrDirectory, out);
+				}
+
+			}
+		}
+		finally
+		{
+			if (out != null)
+			{
+				out.close();
+			}
+		}
+	}
+
+	/**
+	 * 压缩zip文件
+	 * 
+	 * @param fileOrDirectory
+	 *            需要压缩的文件或目录
+	 * @param toZipFile
+	 *            需要产生目标压缩文件
+	 * @param withDirectory
+	 *            是否包含当前文件夹
+	 */
+	public static void compress(File fileOrDirectory, File toZipFile, boolean withDirectory) throws Exception
+	{
+		if (!fileOrDirectory.exists())
+		{
+			return;
+		}
+
+		ZipOutputStream out = null;
+		try
+		{
+			out = new ZipOutputStream(new CheckedOutputStream(new FileOutputStream(toZipFile), new CRC32()));
+
+			if (fileOrDirectory.isDirectory() && !withDirectory)
+			{
+				for (File file : fileOrDirectory.listFiles())
+				{
+					doCompress("", file, out);
+				}
+			}
+			else
+			{
+				doCompress("", fileOrDirectory, out);
+			}
+
+		}
+		finally
+		{
+			if (out != null)
+			{
+				out.close();
+			}
+		}
+
+	}
+
+	private static void doCompress(String baseDir, File fileOrDirectory, ZipOutputStream out) throws Exception
+	{
+		if (fileOrDirectory.isDirectory())
+		{
+			compressDirectory(baseDir + fileOrDirectory.getName() + "/", fileOrDirectory, out);
+		}
+		else if (fileOrDirectory.isFile())
+		{
+			compressFile(baseDir, fileOrDirectory, out);
+		}
+	}
+
+	private static void compressFile(String baseDir, File file, ZipOutputStream zipOutput) throws Exception
+	{
+		BufferedInputStream bis = null;
+		try
+		{
+			bis = new BufferedInputStream(new FileInputStream(file));
+			ZipEntry entry = new ZipEntry(baseDir + file.getName());
+			zipOutput.putNextEntry(entry);
+
+			byte[] buf = new byte[BUFFER];
+			int readLen = 0;
+			while ((readLen = bis.read(buf, 0, BUFFER)) != -1)
+			{
+				zipOutput.write(buf, 0, readLen);
+			}
+		}
+		finally
+		{
+			if (bis != null)
+			{
+				bis.close();
+			}
+		}
+	}
+
+	private static void compressDirectory(String baseDir, File directory, ZipOutputStream zipOutput) throws Exception
+	{
+		File[] files = directory.listFiles();
+		if (files.length == 0)
+		{
+			// handle empty folder
+			zipOutput.putNextEntry(new ZipEntry(baseDir + ""));
+			return;
+		}
+		for (File file : files)
+		{
+			doCompress(baseDir, file, zipOutput);
+		}
+	}
+
+	/**
+	 * 解压缩zip文件到当前文件夹
+	 * 
+	 * @param zipFilePath
+	 * @param toDirectory
+	 * @throws Exception
+	 */
+	public static void decompress(String zipFilePath, File toDirectory) throws Exception
+	{
+		decompress(zipFilePath, toDirectory, false);
+	}
+
+	/**
+	 * 解压缩zip文件
+	 * 
+	 * @param zipFile
+	 *            zip文件路径
+	 * @param toDirectory
+	 *            解压到的文件夹
+	 * @param createFolder
+	 *            是否创建新文件夹
+	 */
+	public static void decompress(String zipFilePath, File toDirectory, boolean createFolder) throws Exception
+	{
+		decompress(zipFilePath, toDirectory, createFolder, null);
+	}
+
+	/**
+	 * 解压缩zip文件
+	 * 
+	 * @param zipFile
+	 *            zip文件路径
+	 * @param toDirectory
+	 *            解压到的文件夹
+	 * @param createFolder
+	 *            是否创建新文件夹
+	 * @param listener
+	 *            解压过程监听
+	 */
+	public static void decompress(String zipFilePath, File toDirectory, boolean createFolder, CopyFileListener listener) throws Exception
+	{
+		File sourceZipFile = newFileEscape(zipFilePath);
+		ZipFile zipFile = new ZipFile(zipFilePath);
+
+		String directory = null;
+		if (createFolder)
+		{
+			directory = toDirectory.getAbsolutePath() + "/" + sourceZipFile.getName() + "/";
+		}
+		else
+		{
+			directory = toDirectory.getAbsolutePath() + "/";
+		}
+
+		File dirFile = newFileEscape(directory);
+		if (!dirFile.exists())
+		{
+			dirFile.mkdirs();
+		}
+
+		long fileTotal = 0l;
+		@SuppressWarnings("rawtypes")
+		Enumeration enumeration = zipFile.getEntries();
+		while (enumeration.hasMoreElements())
+		{
+			enumeration.nextElement();
+			fileTotal++;
+		}
+
+		enumeration = zipFile.getEntries();
+		ZipEntry entry = null;
+		for (; enumeration.hasMoreElements();)
+		{
+			entry = (ZipEntry) enumeration.nextElement();
+
+			File file = newFileEscape(directory + entry.getName());
+
+			if (listener != null)
+			{
+				listener.fileCopied(file, fileTotal);
+			}
+
+			if (entry.isDirectory())
+			{
+				file.mkdir();
+				continue;
+			}
+
+			if (file.getParentFile() != null && !file.getParentFile().exists())
+			{
+				file.getParentFile().mkdirs();
+			}
+
+			OutputStream os = null;
+			InputStream is = null;
+			try
+			{
+				os = new BufferedOutputStream(new FileOutputStream(file));
+				is = new BufferedInputStream(zipFile.getInputStream(entry));
+
+				byte[] buf = new byte[BUFFER];
+				int readLen = 0;
+				while ((readLen = is.read(buf, 0, BUFFER)) != -1)
+				{
+					os.write(buf, 0, readLen);
+				}
+			}
+			finally
+			{
+				if (os != null)
+				{
+					os.close();
+				}
+				if (is != null)
+				{
+					is.close();
+				}
+			}
+		}
+		zipFile.close();
+	}
 
 	public static String getMD5(File file)
 	{

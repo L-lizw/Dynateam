@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <!-- 默認開啟debug模式，debug模式，會記錄資料來源的數據 -->
+    <debug>true</debug>
+    
+    <!-- 臨時數據保存時間，組織為月，超過該時間的臨時數據會被删除 -->
+    <!-- 當開啟debug模式時，該設定才有效 -->
+    <overTime>6</overTime>
+    
+    <!-- 多語言：en，zh_CN，zh_TW -->
+    <language>zh_CN</language>
+    
+    <!-- 默认不启用多線程 -->
+    <multi-thread>false</multi-thread>
+    
+    <dismensions>
+	    <dismension name="WD001">
+		    <!-- 數據收集維度，暫定最多10個維度 -->
+			<field name="ProgramType" description="项目类别" property="TITLE"/>
+			<field name="ProductType" description="产品类别" property="TITLE"/>
+			<!-- 自定義維度，通過函數計算維度值 -->
+			<!-- <field name="Group" description="用户组" isfunction="true"/> -->
+		</dismension>
+		<dismension name="WD002">
+		    <field name="Group" description="用户组" isfunction="true"/>
+		    <field name="Description" description="变更原因"/>
+		</dismension>
+    </dismensions>
+	
+	<indicator-vals>
+		<indicator-val id="iv001" dismension="WD001" name="周期内完成项目工期总和"/>
+		<indicator-val id="iv002" dismension="WD001" name="周期内完成项目的总数"/>
+		<indicator-val id="iv003" dismension="WD001" name="周期内按时完成项目的总数"/>
+		<indicator-val id="iv004" dismension="WD001" name="周期内计划完成的项目数"/>
+		<indicator-val id="iv005" name="周期内完成项目的变更次数"/>
+		<indicator-val id="iv006" name="任务中按时完成的阶段数"/>
+		<indicator-val id="iv007" name="任务中计划完成的阶段数"/>
+		<indicator-val id="iv008" name="周期内图纸从创建到第一次发布的时间总和"/>
+		<indicator-val id="iv009" name="周期内新增的图纸总数"/>
+		<indicator-val id="iv010" name="周期内新增的图纸版本数量"/>
+		<indicator-val id="iv011" name="物料从创建到首次发布的时间总和"/>
+		<indicator-val id="iv012" name="首次发布的带BOM物料总数"/>
+		<indicator-val id="iv013" name="新修订的BOM版本数量"/>
+		<indicator-val id="iv014" name="ECR/ECN从创建到发布的时间总和"/>
+		<indicator-val id="iv015" name="ECR/ECN数量"/>
+		<indicator-val id="iv016" name="ECN从创建到发起审批流程的时间总和"/>
+		<indicator-val id="iv019" name="当前用作BOM子件次数大于1的数量" accumulate="false"/>
+		<indicator-val id="iv020" name="用作BOM子件的零件总数" accumulate="false"/>
+		<indicator-val id="iv021" name="新产品新设计尾阶零件数"/>
+		<indicator-val id="iv022" name="新产品尾阶零件数"/>
+		<indicator-val id="iv023" name="已完成的审批流程执行时间总和"/>
+		<indicator-val id="iv024" name="审批流程个数"/>
+		<indicator-val id="iv025" name="一次通过审批流程数"/>
+		<indicator-val id="iv026" name="审批流程活动节点个数"/>
+		<indicator-val id="iv027" dismension="WD002" name="ECN数量"/>
+		<indicator-val id="iv028" name="周期内按时完成任务的总数"/>
+		<indicator-val id="iv029" name="周期内计划完成任务的总数"/>
+	</indicator-vals>
+	
+    <!-- 名額定義 -->
+    <indicators>
+		<indicator id="V001" name="分类别平均产品开发周期" function="divided">
+		    <dismension-filters>
+		        <filter name="改型项目" value="全新产品项目"/>
+		        <filter name="改型项目" value="改型项目"/>
+		    </dismension-filters>
+		    <params>
+		        <param name="numerator" value="iv001"/>
+		        <param name="denominator" value="iv002"/>
+		    </params>
+		</indicator>
+		<indicator id="V003" name="分类别项目按期完成率" function="divided">
+		    <params>
+		        <param name="numerator" value="iv003"/>
+		        <param name="denominator" value="iv004"/>
+		    </params>
+		</indicator>
+		<indicator id="V004" name="项目计划平均变更次数" function="divided">
+		    <dismension-filters>
+		        <filter name="改型项目" value="改型项目"/>
+		        <filter name="客户定制" value="客户定制"/>
+		        <filter name="全新产品项目" value="全新产品项目"/>
+		    </dismension-filters>
+		    <params>
+		        <param name="numerator" value="iv005"/>
+		        <param name="denominator" value="iv002"/>
+		    </params>
+		</indicator>
+		<indicator id="V005" name="项目阶段按期完成率" function="divided">
+		    <params>
+		        <param name="numerator" value="iv006"/>
+		        <param name="denominator" value="iv007"/>
+		    </params>
+		</indicator>
+		<indicator id="V006" name="图纸平均设计完成周期" function="divided">
+		    <params>
+		        <param name="numerator" value="iv008"/>
+		        <param name="denominator" value="iv009"/>
+		    </params>
+		</indicator>
+		<indicator id="V007" name="图纸设计变更次数">
+		    <params>
+		        <param name="numerator" value="iv010"/>
+		    </params>
+		</indicator>
+		<indicator id="V008" name="BOM平均产出周期" function="divided">
+		    <params>
+		        <param name="numerator" value="iv011"/>
+		        <param name="denominator" value="iv012"/>
+		    </params>
+		</indicator>
+		<indicator id="V009" name="BOM变更次数">
+		    <params>
+		        <param name="numerator" value="iv013"/>
+		    </params>
+		</indicator>
+		<indicator id="V012" name="变更处理周期" function="divided">
+		    <params>
+		        <param name="numerator" value="iv014"/>
+		        <param name="denominator" value="iv015"/>
+		    </params>
+		</indicator>
+		<indicator id="V013" name="变更影响分析时间" function="divided">
+		    <params>
+		        <param name="numerator" value="iv016"/>
+		        <param name="denominator" value="iv015"/>
+		    </params>
+		</indicator>
+		<indicator id="V014" name="新产品中新设计零件占比" function="divided">
+		    <params>
+		        <param name="numerator" value="iv021"/>
+		        <param name="denominator" value="iv022"/>
+		    </params>
+		</indicator>
+		<indicator id="V015" name="零部件共用率" function="divided">
+		    <params>
+		        <param name="numerator" value="iv019"/>
+		        <param name="denominator" value="iv020"/>
+		    </params>
+		</indicator>
+		<indicator id="V016" name="审批流程平均周期" function="divided">
+		    <params>
+		        <param name="numerator" value="iv023"/>
+		        <param name="denominator" value="iv024"/>
+		    </params>
+		</indicator>
+		<indicator id="V017" name="流程一次评审通过率" function="divided">
+		    <params>
+		        <param name="numerator" value="iv025"/>
+		        <param name="denominator" value="iv024"/>
+		    </params>
+		</indicator>
+		<indicator id="V018" name="核心流程各节点平均耗时" function="divided">
+		    <params>
+		        <param name="numerator" value="iv023"/>
+		        <param name="denominator" value="iv026"/>
+		    </params>
+		</indicator>
+		<indicator id="V019" name="产品设计变更频率">
+		    <params>
+		        <param name="numerator" value="iv027"/>
+		    </params>
+		</indicator>
+		<indicator id="V020" name="任务按时完工率" function="divided">
+		    <params>
+		        <param name="numerator" value="iv028"/>
+		        <param name="denominator" value="iv029"/>
+		    </params>
+		</indicator>
+    </indicators>
+</root>

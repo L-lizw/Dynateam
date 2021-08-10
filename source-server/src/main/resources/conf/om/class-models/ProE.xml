@@ -1,0 +1,14 @@
+<object-models>
+	<class-model>
+		<class-object name="ProE" superclass="CADModel" interface="ICAD3D" abstract="false" final="false" system="false" instancestring="Id" lifecycle="" persistent="false"/>
+	</class-model>
+	<ui-model>
+		<icon>
+			<classicon path="proe.png"/>
+		</icon>
+	</ui-model>
+	<data-model synchorize="true"/>
+	<numbering-model mandatory="false" serialnumberwithfield="true" serialnumberwithdate="true">
+		<numbering-object type="Serial Number" typevalue="5"/>
+	</numbering-model>
+</object-models>

@@ -5,81 +5,71 @@
  */
 package dyna.common.conf.loader;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 /**
  * @author Wanglei
  */
+@Component
 public class ConfigLoaderFactory
 {
+	@Autowired
+	private  ConfigLoaderClientImpl            clientLoader   = null;
+	@Autowired
+	private  ConfigLoaderDSServerImpl          dsserverLoader = null;
+	@Autowired
+	private  ConfigLoaderMSRImpl               msrLoader      = null;
+	@Autowired
+	private  ConfigLoaderServerImpl            serverLoader   = null;
+	@Autowired
+	private  ConfigLoaderServiceImpl           serviceLoader  = null;
+	@Autowired
+	private  ConfigLoaderJSSImpl               jssLoader      = null;
+	@Autowired
+	private  ConfigLoaderConnToGuardServerImpl connToGSLoader = null;
+	@Autowired
+	private        ConfigLoaderConnToDSImpl   connToDSLoader = null;
 
-	private static ConfigLoaderClientImpl            clientLoader   = null;
-	private static ConfigLoaderDSServerImpl          dsserverLoader = null;
-	private static ConfigLoaderMSRImpl               msrLoader      = null;
-	private static ConfigLoaderServerImpl            serverLoader   = null;
-	private static ConfigLoaderServiceImpl           serviceLoader  = null;
-	private static ConfigLoaderJSSImpl               jssLoader      = null;
-	private static ConfigLoaderConnToGuardServerImpl connToGSLoader = null;
-
-	public static ConfigLoaderClientImpl getLoader4Client()
+	public  ConfigLoaderClientImpl getLoader4Client()
 	{
-		if (clientLoader == null)
-		{
-			clientLoader = new ConfigLoaderClientImpl();
-		}
 		return clientLoader;
 	}
 
-	public static ConfigLoaderDSServerImpl getLoader4DSServer()
+	public  ConfigLoaderDSServerImpl getLoader4DSServer()
 	{
-		if (dsserverLoader == null)
-		{
-			dsserverLoader = new ConfigLoaderDSServerImpl();
-		}
 		return dsserverLoader;
 	}
 
-	public static ConfigLoaderMSRImpl getLoader4MSR()
+	public  ConfigLoaderMSRImpl getLoader4MSR()
 	{
-		if (msrLoader == null)
-		{
-			msrLoader = new ConfigLoaderMSRImpl();
-		}
 		return msrLoader;
 	}
 
-	public static ConfigLoaderJSSImpl getLoader4JSS()
+	public  ConfigLoaderJSSImpl getLoader4JSS()
 	{
-		if (jssLoader == null)
-		{
-			jssLoader = new ConfigLoaderJSSImpl();
-		}
 		return jssLoader;
 	}
 
-	public static ConfigLoaderServerImpl getLoader4Server()
+	public  ConfigLoaderServerImpl getLoader4Server()
 	{
-		if (serverLoader == null)
-		{
-			serverLoader = new ConfigLoaderServerImpl();
-		}
 		return serverLoader;
 	}
 
-	public static ConfigLoaderServiceImpl getLoader4Service()
+	public  ConfigLoaderServiceImpl getLoader4Service()
 	{
-		if (serviceLoader == null)
-		{
-			serviceLoader = new ConfigLoaderServiceImpl();
-		}
 		return serviceLoader;
 	}
 
-	public static ConfigLoaderConnToGuardServerImpl getLoader4ConnToGS()
+	public  ConfigLoaderConnToGuardServerImpl getLoader4ConnToGS()
 	{
-		if (connToGSLoader == null)
-		{
-			connToGSLoader = new ConfigLoaderConnToGuardServerImpl();
-		}
 		return connToGSLoader;
 	}
+
+	public  ConfigLoaderConnToDSImpl getLoader4ConnToDS()
+	{
+		return connToDSLoader;
+	}
+
 
 }

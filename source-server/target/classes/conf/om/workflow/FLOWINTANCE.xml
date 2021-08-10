@@ -1,0 +1,119 @@
+<workflowprocess name="FLOWINTANCE" description="带子流程的审批流程" title="Flow;带子流程的审批流程;">
+	<activities>
+		<activity name="BEGIN" position="0,124,-1,-1"/>
+		<activity name="END" position="815,244,-1,-1"/>
+		<activity name="activity1" description="review" position="121,75,-1,-1" gate="10" title="review;审阅;">
+			<implementation>
+				<tool type="MANUAL"/>
+			</implementation>
+		</activity>
+		<activity name="activity2" description="Lock" position="18,27,-1,-1" title="activity2">
+			<implementation>
+				<tool name="LOCK" type="APPLICATION"/>
+			</implementation>
+		</activity>
+		<activity name="activity4" description="Approve" position="560,109,-1,-1" gate="30" title="Approve;批准;">
+			<implementation>
+				<tool type="MANUAL"/>
+			</implementation>
+		</activity>
+		<activity name="activity5" description="RLS" position="654,13,-1,-1" title="RLS;发布;">
+			<implementation>
+				<tool name="CHANGE_PHASE" type="APPLICATION"/>
+			</implementation>
+			<phasechanges>
+				<phasechange lifecycle="Default" fromphase="InProcess" tophase="Released"/>
+			</phasechanges>
+		</activity>
+		<activity name="activity6" description="NOTICE" position="847,12,-1,-1" gate="50" title="activity6">
+			<implementation>
+				<tool name="NOTIFY" type="APPLICATION"/>
+			</implementation>
+		</activity>
+		<activity name="activity7" description="Unlock" position="889,126,-1,-1" title="activity7">
+			<implementation>
+				<tool name="UNLOCK" type="APPLICATION"/>
+			</implementation>
+		</activity>
+		<activity name="activity8" description="unlock" position="191,203,-1,-1" title="activity8">
+			<implementation>
+				<tool name="UNLOCK" type="APPLICATION"/>
+			</implementation>
+		</activity>
+		<activity name="activity9" description="REVIEW2" position="288,10,-1,-1" gate="20" title="REVIEW2;批阅;">
+			<implementation>
+				<tool type="MANUAL"/>
+			</implementation>
+		</activity>
+		<activity name="activity10" description="INP" position="457,0,-1,-1" title="INP;预发布;">
+			<implementation>
+				<tool name="CHANGE_PHASE" type="APPLICATION"/>
+			</implementation>
+			<phasechanges>
+				<phasechange lifecycle="Default" fromphase="Working" tophase="InProcess"/>
+			</phasechanges>
+		</activity>
+		<activity name="sonflow" description="sonflow" position="724,135,-1,-1" gate="40" title="sonflow;子流程;">
+			<implementation>
+				<tool type="SUB_PROCESS"/>
+			</implementation>
+			<subprocess process="sonflow"/>
+		</activity>
+	</activities>
+	<lifecyclephases>
+		<lifecyclephase lifecyclename="Default" phasename="Working"/>
+	</lifecyclephases>
+	<transitions>
+		<transition name="transition1" description="regular" from="BEGIN" to="activity2">
+			<condition type="Regular"/>
+		</transition>
+		<transition name="transition2" description="regular" from="activity2" to="activity1">
+			<condition type="Regular"/>
+		</transition>
+		<transition name="transition4" description="REJECT" from="activity1" to="activity8">
+			<condition type="Reject"/>
+		</transition>
+		<transition name="transition6" description="accept" from="activity4" to="activity5">
+			<condition type="Accept"/>
+		</transition>
+		<transition name="transition8" description="REGULAR" from="activity6" to="activity7">
+			<condition type="Regular"/>
+		</transition>
+		<transition name="transition9" description="REJECT" from="activity4" to="activity8">
+			<condition type="Reject"/>
+		</transition>
+		<transition name="transition10" description="transition10" from="activity8" to="BEGIN">
+			<condition type="Regular"/>
+		</transition>
+		<transition name="transition11" description="REGULAR" from="activity7" to="END">
+			<condition type="Regular"/>
+		</transition>
+		<transition name="transition12" description="ACCEPT" from="activity9" to="activity10">
+			<condition type="Accept"/>
+		</transition>
+		<transition name="transition13" description="reject" from="activity9" to="activity1">
+			<condition type="Reject"/>
+		</transition>
+		<transition name="transition14" description="reject" from="activity9" to="activity8">
+			<condition type="Reject"/>
+		</transition>
+		<transition name="transition15" description="REGULAR" from="activity10" to="activity4">
+			<condition type="Regular"/>
+		</transition>
+		<transition name="transition3" description="regular" from="activity1" to="activity9">
+			<condition type="Accept"/>
+		</transition>
+		<transition name="transition5" description="REJECT" from="activity4" to="activity1">
+			<condition type="Reject"/>
+		</transition>
+		<transition name="transition16" description="REJECT" from="activity4" to="activity9">
+			<condition type="Reject"/>
+		</transition>
+		<transition name="transition7" description="transition7" from="activity5" to="sonflow">
+			<condition type="Regular"/>
+		</transition>
+		<transition name="transition17" description="transition17" from="sonflow" to="activity6">
+			<condition type="Regular"/>
+		</transition>
+	</transitions>
+</workflowprocess>

@@ -1,0 +1,45 @@
+<object-models>
+	<class-model>
+		<class-object name="ECR" superclass="FoundationObject" interface="IECR;IStorage" abstract="false" final="false" system="false" instancestring="Id" lifecycle="" uniquefields="Id" persistent="true">
+			<fields/>
+		</class-object>
+	</class-model>
+	<ui-model>
+		<ui-object name="baseinfo" businessmodels="R&amp;D Model" title="base info;基本信息" type="Form">
+			<fields>
+				<field name="ECSpec" type="String" title="ECSpec;变更规格" titlevisible="true" readonly="false" column="1" columnSpan="1" row="2" froze="false"/>
+				<field name="ECReason" type="Code" title="ECReason;变更原因" titlevisible="true" readonly="false" column="2" columnSpan="1" row="2" froze="false"/>
+				<field name="ECSource" type="Code" title="ECSource;变更来源" titlevisible="true" readonly="false" column="3" columnSpan="1" row="2" froze="false"/>
+				<field name="Effective_Type" type="Code" title="Effective_Type;影响类别" titlevisible="true" readonly="false" column="1" columnSpan="1" row="3" froze="false"/>
+				<field name="Proposal" type="String" title="Proposal;建议方案" titlevisible="true" readonly="false" column="2" columnSpan="1" row="3" froze="false"/>
+				<field name="Priority" type="Integer" title="Priority;优先级别" titlevisible="true" readonly="false" column="3" columnSpan="1" row="3" froze="false"/>
+				<field name="Description" type="String" title="Description;描述" titlevisible="true" readonly="false" column="1" columnSpan="1" row="5" froze="false"/>
+			</fields>
+			<actions/>
+		</ui-object>
+		<ui-object name="baseinfo" businessmodels="R&amp;D Model" title="base info;基本信息" type="List">
+			<fields>
+				<field name="ID$" type="String" title="Number;编号" titlevisible="true" readonly="false" column="1" columnSpan="1" row="2" froze="false"/>
+				<field name="ECSpec" type="String" title="ECSpec;变更规格" titlevisible="true" readonly="false" column="1" columnSpan="1" row="2" froze="false"/>
+				<field name="ECReason" type="Code" title="ECReason;变更原因" titlevisible="true" readonly="false" column="2" columnSpan="1" row="2" froze="false"/>
+				<field name="ECSource" type="Code" title="ECSource;变更来源" titlevisible="true" readonly="false" column="3" columnSpan="1" row="2" froze="false"/>
+				<field name="Effective_Type" type="Code" title="Effective_Type;影响类别" titlevisible="true" readonly="false" column="1" columnSpan="1" row="3" froze="false"/>
+				<field name="Proposal" type="String" title="Proposal;建议方案" titlevisible="true" readonly="false" column="2" columnSpan="1" row="3" froze="false"/>
+				<field name="Priority" type="Integer" title="Priority;优先级别" titlevisible="true" readonly="false" column="3" columnSpan="1" row="3" froze="false"/>
+				<field name="Description" type="String" title="Description;描述" titlevisible="true" readonly="false" column="1" columnSpan="1" row="5" froze="false"/>
+			</fields>
+			<actions/>
+		</ui-object>
+		<icon>
+			<classicon path="ecr.png"/>
+		</icon>
+	</ui-model>
+	<data-model synchorize="true"/>
+	<numbering-model mandatory="true" serialnumberwithfield="false" serialnumberwithdate="false">
+		<numbering-object type="Year" typevalue="4"/>
+		<numbering-object type="Month" typevalue="2"/>
+		<numbering-object type="Day" typevalue="2"/>
+		<numbering-object type="String" typevalue="-"/>
+		<numbering-object type="Serial Number" typevalue="3"/>
+	</numbering-model>
+</object-models>

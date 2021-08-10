@@ -1,0 +1,25 @@
+<object-models>
+	<class-model>
+		<class-object name="BOMStructure" superclass="StructureObject" interface="IBOMStructure" abstract="true" final="false" system="false" instancestring="" lifecycle="" uniquefields="" persistent="false"/>
+	</class-model>
+	<ui-model>
+		<ui-object name="base" businessmodels="*" title="Base Info;基本信息" type="Form">
+			<fields>
+				<field name="Quantity" type="Float" title="Quantity;数量" titlevisible="true" readonly="false" column="1" columnSpan="1" row="1" froze="false"/>
+				<field name="UOM" type="Code" title="UOM;单位" titlevisible="true" width="" readonly="false" column="2" columnSpan="1" row="1" froze="false"/>
+				<field name="Sequence" type="String" title="Sequence;顺序" titlevisible="true" readonly="false" column="1" columnSpan="1" row="3" froze="false"/>
+			</fields>
+			<actions/>
+		</ui-object>
+		<ui-object name="baselist" businessmodels="*" title="base list" type="List">
+			<fields>
+				<field name="Quantity" type="Float" title="Quantity" titlevisible="true" readonly="false" column="1" columnSpan="1" row="1" froze="false"/>
+				<field name="UOM" type="Code" title="UOM" titlevisible="true" readonly="false" column="1" columnSpan="1" row="2" froze="false"/>
+				<field name="Sequence" type="String" title="Sequence" titlevisible="true" readonly="false" column="1" columnSpan="1" row="3" froze="false"/>
+			</fields>
+			<actions/>
+		</ui-object>
+	</ui-model>
+	<data-model synchorize="true"/>
+	<numbering-model mandatory="false" serialnumberwithfield="false" serialnumberwithdate="false"/>
+</object-models>

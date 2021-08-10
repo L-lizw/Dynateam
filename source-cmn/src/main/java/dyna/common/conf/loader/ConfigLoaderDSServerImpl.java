@@ -9,6 +9,7 @@ import dyna.common.conf.ConfigurableDSServerImpl;
 import dyna.common.conf.ConfigurableKVElementImpl;
 import dyna.common.util.EnvUtils;
 import dyna.common.util.FileUtils;
+import org.springframework.stereotype.Component;
 
 /**
  * 读取服务端配置
@@ -16,6 +17,7 @@ import dyna.common.util.FileUtils;
  * @author Wanglei
  * @see dyna.common.conf.ConfigurableServerImpl
  */
+@Component
 public class ConfigLoaderDSServerImpl extends AbstractConfigLoader<ConfigurableDSServerImpl>
 {
 

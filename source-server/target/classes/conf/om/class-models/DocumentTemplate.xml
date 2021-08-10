@@ -1,0 +1,34 @@
+<object-models>
+	<class-model>
+		<class-object name="DocumentTemplate" superclass="FoundationObject" interface="IStorage" abstract="false" final="false" system="false" instancestring="Id" uniquefields="Id" classification="DocumentType" persistent="false">
+			<fields>
+				<field name="remarks" mandatory="false" type="String"/>
+			</fields>
+			<actions>
+				<action name="Print" description="打印文档" runat="Server">
+					<script><![CDATA[
+							System.out.println();
+						]]></script>
+				</action>
+			</actions>
+		</class-object>
+	</class-model>
+	<ui-model>
+		<ui-object name="DocumentUI" businessmodels="*" title="DocumentUI;DocumentUI" type="Form">
+			<fields>
+				<field name="remarks" type="String" title="remarks;备注" titlevisible="true" width="400" height="300" readonly="false" column="1" columnSpan="1" row="5" froze="false"/>
+			</fields>
+			<actions>
+				<action name="Print" title="打印文档"/>
+			</actions>
+		</ui-object>
+		<icon>
+			<classicon path="documenttemplate.png"/>
+			<actionIcon name="Print" path="DocumentTemplate_Print.png"/>
+		</icon>
+	</ui-model>
+	<data-model synchorize="true"/>
+	<numbering-model mandatory="false" serialnumberwithfield="true" serialnumberwithdate="true">
+		<numbering-object type="Serial Number" typevalue="5"/>
+	</numbering-model>
+</object-models>

@@ -1,0 +1,5 @@
+<object-models>
+	<class-model>
+		<class-object name="GeneralObject" superclass="FoundationObject" interface="" abstract="true" final="false" system="true" instancestring="Id" lifecycle="" uniquefields="" persistent="true"/>
+	</class-model>
+</object-models>

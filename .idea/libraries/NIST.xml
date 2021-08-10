@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="NIST">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/NIST.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

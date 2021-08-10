@@ -1,0 +1,5 @@
+<object-models>
+	<class-model>
+		<class-object name="BOMView" superclass="ViewObject" interface="IBOMView" abstract="false" final="false" system="true" instancestring="" lifecycle="" uniquefields="" classification="BOMView" persistent="true"/>
+	</class-model>
+</object-models>

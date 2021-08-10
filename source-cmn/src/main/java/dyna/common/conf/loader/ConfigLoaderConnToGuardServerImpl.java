@@ -9,6 +9,7 @@ import dyna.common.conf.ConfigurableConnToGuardServerImpl;
 import dyna.common.conf.ConfigurableKVElementImpl;
 import dyna.common.util.EnvUtils;
 import dyna.common.util.FileUtils;
+import org.springframework.stereotype.Component;
 
 /**
  * 读取连接GuardServer服务器配置
@@ -16,6 +17,7 @@ import dyna.common.util.FileUtils;
  * @author Lizw
  * @see dyna.common.conf.ConfigurableConnToDSImpl
  */
+@Component
 public class ConfigLoaderConnToGuardServerImpl extends AbstractConfigLoader<ConfigurableConnToGuardServerImpl>
 {
 

@@ -6,9 +6,10 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="source-mybatis" />
+        <module name="source-server" />
         <module name="source-cmn" />
         <module name="source-net" />
-        <module name="source-mybatis" />
       </profile>
     </annotationProcessing>
   </component>

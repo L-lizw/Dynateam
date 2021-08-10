@@ -5,10 +5,6 @@
  */
 package dyna.net.service.brs;
 
-import java.sql.SQLException;
-import java.util.List;
-import java.util.Map;
-
 import dyna.common.bean.configure.ProjectModel;
 import dyna.common.bean.data.FoundationObject;
 import dyna.common.bean.data.SystemObject;
@@ -38,6 +34,10 @@ import dyna.common.dto.model.ui.UIObjectInfo;
 import dyna.common.dto.model.wf.WorkflowProcessInfo;
 import dyna.common.exception.ServiceRequestException;
 import dyna.net.service.Service;
+
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Model Manage Service 企业建模信息服务
@@ -590,5 +590,14 @@ public interface MMS extends Service
 	 * @throws ServiceRequestException
 	 */
 	public void updateSerialNumber(FoundationObject foundationObject) throws ServiceRequestException;
+
+	/**
+	 * 保存图标设置
+	 * @param filename
+	 * @param imageData
+	 * @throws ServiceRequestException
+	 */
+	public void saveIcon(String filename, byte[] imageData) throws ServiceRequestException;
+
 
 }

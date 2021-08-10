@@ -1,0 +1,756 @@
+﻿<!-- DynaTeam Interface Model Copyright(C) Digiwin -->
+
+<interface-model name="Interface" description="Interface">
+	<interface name="IUser" description="User" system="true"  />
+	<interface name="IGroup" description="Group" system="true"  />
+	<interface name="IVersionable" description="Versionable Object" system="true" />
+	<interface name="INonQueryable" description="Non-queryable object" system="true" />
+	<interface name="IStorage" description="For DSS" system="true"/>
+	<interface name="IDictionary" description="dictionary object" system="true"/>
+	<interface name="IProjectType" description="Project Type" system="true"  extend="IDictionary" createtable="true"/>
+	<interface name="IFoundation" description="Foundation object" >
+		<fields>
+			<field name="ID$" description="ID" mandatory="true" type="String" typevalue=""  defaultvalue="" size="128" validity="" system="true"/>
+			<field name="ALTERID$" description="ALTERID" mandatory="false" type="String" typevalue=""  defaultvalue="" size="128" validity="" system="true"/>
+			<field name="NAME$" description="NAME" mandatory="false" type="String" typevalue=""  defaultvalue="" size="128" validity="" system="true"/>
+			<field name="REVISIONID$" description="REVISIONID" mandatory="false" type="String" typevalue=""  defaultvalue="" size="32" validity="" system="true"/>
+			<field name="CLASSIFICATION$" description="CLASSIFICATION" mandatory="false" type="Classification" typevalue=""  defaultvalue="" size="" validity="" system="true" rollback="true"/>
+			<field name="LIFECYCLEPHASE$" description="LIFECYCLEPHASE" mandatory="true" type="String" typevalue=""  defaultvalue="" size="32" validity="" system="true" rollback="true"/>
+			<field name="STATUS$" description="STATUS" mandatory="true" type="Status" typevalue=""  defaultvalue="" size="" validity="" system="true" rollback="true"/>
+			<field name="ECFLAG$" description="EC Process flag" mandatory="false" type="Object" typevalue="FoundationObject" defaultvalue="" validity="" system="true" valuescope="IEC"/>
+			<field name="FILENAME$" description="FILENAME" mandatory="false" type="String" typevalue=""  defaultvalue="" size="512" validity="" system="true" rollback="true"/>
+			<field name="OWNERUSER$" description="OWNERUSER" mandatory="false" type="Object" typevalue="IUser"  defaultvalue="" size="" validity="" system="true" rollback="true"/>
+			<field name="OWNERGROUP$" description="OWNERGROUP" mandatory="false" type="Object" typevalue="IGroup"  defaultvalue="" size="" validity="" system="true" rollback="true"/>
+			<field name="ISEXPORTTOERP$" description="ISEXPORTTOERP" mandatory="false" type="Boolean" defaultvalue="false" size="" validity="" system="true"/>
+			<field name="CREATETIME$" description="CREATETIME" mandatory="false" type="DATETIME"  defaultvalue="" size="" validity="" system="true"/>
+			<field name="CREATEUSER$" description="CREATEUSER" mandatory="false" type="Object" typevalue="IUser"  defaultvalue="" size="" validity="" system="true"/>
+			<field name="UPDATETIME$" description="UPDATETIME" mandatory="false" type="DATETIME" defaultvalue="" size="" validity="" system="true" rollback="true"/>
+			<field name="UPDATEUSER$" description="UPDATEUSER" mandatory="false" type="Object" typevalue="IUser"  defaultvalue="" size="" validity="" system="true" rollback="true"/>
+			<field name="RELEASETIME$" description="RELEASETIME" mandatory="false" type="DATETIME" defaultvalue="" size="" validity="" system="true"/>
+			<field name="OBSOLETETIME$" description="OBSOLETETIME" mandatory="false" type="DATETIME" defaultvalue="" size="" validity="" system="true"/>
+			<field name="CHECKOUTUSER$" description="CHECKOUTUSER" mandatory="false" type="Object" typevalue="IUser"  defaultvalue="" size="" validity="" system="true"/>
+			<field name="CHECKOUTTIME$" description="CHECKOUTTIME" mandatory="false" type="DATETIME" defaultvalue="" size="" validity="" system="true"/>
+			<field name="OBSOLETEUSER$" description="OBSOLETEUSER" mandatory="false" type="Object" typevalue="IUser"  defaultvalue="" size="" validity="" system="true"/>
+			<field name="REPEAT$" description="REPEAT" mandatory="false" type="String"  defaultvalue="" size="1000" validity="" system="true" rollback="true"/>
+			<field name="GUID$" description="GUID" mandatory="true" type="String" typevalue=""  defaultvalue="" size="32" validity="" system="true"/>
+			<field name="MASTERFK$" description="MASTERFK" mandatory="true" type="String" typevalue=""  defaultvalue="" size="32" validity="" system="true"/>
+			<field name="BOGUID$" description="BOGUID" mandatory="true" type="String" typevalue=""  defaultvalue="" size="32" validity="" system="true"/>
+			<field name="CLASSGUID$" description="CLASSGUID" mandatory="true" type="String" typevalue=""  defaultvalue="" size="32" validity="" system="true"/>
+			<field name="REVISIONIDSEQUENCE$" description="REVISIONIDSEQUENCE" mandatory="true" type="Integer" typevalue=""  defaultvalue="" size="8" validity="" system="true"/>
+			<field name="LATESTREVISION$" description="LATESTREVISION" mandatory="true" type="String" typevalue=""  defaultvalue="" size="8" validity="" system="true"/>
+			<field name="ITERATIONID$" description="ITERATIONID" mandatory="true" type="Integer" typevalue=""  defaultvalue="" size="5" validity="" system="true" rollback="true"/>
+			<field name="ISCHECKOUT$" description="ISCHECKOUT" mandatory="false" type="Boolean" typevalue=""  defaultvalue="" size="1" validity="" system="true"/>
+			<field name="LOCATIONLIB$" description="LOCATIONLIB" mandatory="true" type="Folder" typevalue=""  defaultvalue="" size="32" validity="" system="true"/>
+			<field name="COMMITFOLDER$" description="COMMITFOLDER" mandatory="false" type="Folder" typevalue=""  defaultvalue="" size="32" validity="" system="true" rollback="true"/>
+			<field name="FILEGUID$" description="FILEGUID" mandatory="false" type="String" typevalue=""  defaultvalue="" size="32" validity="" system="true" rollback="true"/>
+			<field name="FILETYPE$" description="FILETYPE" mandatory="false" type="String" typevalue=""  defaultvalue="" size="128" validity="" system="true" rollback="true"/>
+			<field name="UNIQUES$" description="UNIQUES" mandatory="false" type="String" typevalue=""  defaultvalue="" size="1000" validity="" system="true" rollback="true"/>
+			<field name="MD5$" description="MD5" mandatory="false" type="String" typevalue=""  defaultvalue="" size="256" validity="" system="true" rollback="true"/>
+			<field name="NEXTREVISIONRLSTIME$" description="Next Revision Release Time" mandatory="false" type="DATETIME" typevalue=""  defaultvalue="" size="" validity="" system="true" rollback="false"/>
+			<field name="CUSTSTARTREVIDSEQUENCE$" description="RevisionId Custom Start Sequence" mandatory="false" type="Integer" system="true"/>
+		</fields>
+		<index-model type="index">
+			<index-object name="CLASSGUID$"/>
+		</index-model>
+		<index-model type="index">
+			<index-object name="MASTERFK$"/>
+		</index-model>
+		<index-model type="index">
+			<index-object name="ID$"/>
+		</index-model>
+		<index-model type="index">
+			<index-object name="CLASSIFICATION$"/>
+		</index-model>
+		<index-model type="index">
+			<index-object name="COMMITFOLDER$"/>
+		</index-model>
+		<index-model type="index">
+			<index-object name="UPDATETIME$"/>
+		</index-model>
+	</interface>
+	<interface name="IStructureObject" extend="INonQueryable" description="Structure Object" single="true">
+		<fields>
+			<field name="GUID$" description="GUID" mandatory="true" type="String" typevalue=""  defaultvalue="" size="32" validity="" system="true"/>
+			<field name="VIEWFK$" description="VIEWFK" mandatory="true" type="String" typevalue=""  defaultvalue="" size="32" validity="" system="true"/>
+			<field name="VIEWCLASSGUID$" description="VIEW CLASSGUID" mandatory="true" type="String" typevalue=""  defaultvalue="" size="32" validity="" system="true"/>
+			<field name="CLASSGUID$" description="CLASSGUID" mandatory="true" type="String" typevalue=""  defaultvalue="" size="32" validity="" system="true"/>
+			<field name="END2$" description="END2" mandatory="true" type="Object" typevalue="FoundationObject"  defaultvalue="" size="32" validity="" system="true"/>
+			<field name="CREATETIME$" description="CREATETIME" mandatory="false" type="DATETIME"  defaultvalue="" size="" validity="" system="true"/>
+			<field name="CREATEUSER$" description="CREATEUSER" mandatory="false" type="Object" typevalue="IUser"  defaultvalue="" size="32" validity="" system="true"/>
+			<field name="UPDATETIME$" description="UPDATETIME" mandatory="false" type="DATETIME" defaultvalue="" size="" validity="" system="true"/>
+			<field name="UPDATEUSER$" description="UPDATEUSER" mandatory="false" type="Object" typevalue="IUser"  defaultvalue="" size="32" validity="" system="true"/>
+			<field name="DATASEQ" description="Data Sequence" mandatory="true" type="String" typevalue=""  defaultvalue="" size="128" validity="" />
+			<field name="IsPrimary" description="Is Primary" mandatory="false" type="Boolean"  defaultvalue="false" size="1" validity="" />
+		</fields>
+		<index-model type="index">
+			<index-object name="VIEWFK$"/>
+		</index-model>
+		<index-model type="index">
+			<index-object name="END2$"/>
+		</index-model>
+		<index-model type="index" unique="true">
+			<index-object name="VIEWFK$"/>
+			<index-object name="DATASEQ"/>
+		</index-model>
+	</interface>
+	<interface name="ICADStructureObject" extend="IStructureObject;INonQueryable" description="Structure Object" single="true">
+		<fields>
+			<field name="Quantity" description="Quantity" mandatory="true" type="Float" typevalue=""  defaultvalue="" size="" validity="" />
+			<field name="ConfigInstance" description="Config Instance" mandatory="false" type="String" typevalue=""  defaultvalue="" size="32" validity=""/>
+			<field name="FilePath" description="File relative path" mandatory="false" type="String" typevalue=""  defaultvalue="" size="1024" validity="" />
+			<field name="ParentConfigInstance" description="Parent Config Instance" mandatory="false" type="String" typevalue=""  defaultvalue=""  size="32" validity=""/>
+			<field name="BOMRelated" description="BOM Related" mandatory="false" type="Boolean"  defaultvalue="false" validity="" />
+		</fields>
+	</interface>
+	<interface name="IBOMStructure" description="BOM Structure" extend="IStructureObject" >
+		<fields>
+			<field name="Quantity" description="Quantity" mandatory="true" type="Float" typevalue=""  defaultvalue="" size="" validity="" />
+			<field name="UOM" description="Usage Unit" mandatory="false" type="Code" typevalue="Q1Unit"  defaultvalue="" size="" validity="" />
+			<field name="IsFromCAD" description="IsFromCAD" mandatory="false" type="Boolean"  defaultvalue="false" validity="" />
+			<field name="Designators" description="Designators number" mandatory="false" type="String" defaultvalue="" size="1000" validity=""/>
+			<field name="Layer" description="Layer number" mandatory="false" type="String" defaultvalue="" size="500" validity=""/>
+			<field name="BOMKey" description="BOM Key" mandatory="false" type="String" typevalue=""  defaultvalue="" size="32" validity="" />
+			<field name="RSFlag" description="RS Flag" mandatory="false" type="Boolean"  defaultvalue="false" validity="" />
+			<field name="CADModel" description="CADModel" mandatory="false" type="String"  defaultvalue="" size="4000" validity="" />
+			<field name="CADQuantity" description="CADQuantity" mandatory="false" type="String"  defaultvalue="" size="4000" validity="" />
+		</fields>
+	</interface>
+	<interface name="IDependenceObject" extend="INonQueryable" description="Dependence Object" single="true">
+		<fields>
+			<field name="GUID$" description="GUID" mandatory="true" type="String" typevalue=""  defaultvalue="" size="32" validity="" system="true"/>
+			<field name="CREATETIME$" description="CREATETIME" mandatory="false" type="DATETIME"  defaultvalue="" size="" validity="" system="true"/>
+			<field name="CREATEUSER$" description="CREATEUSER" mandatory="false" type="Object" typevalue="IUser"  defaultvalue="" size="32" validity="" system="true"/>
+			<field name="UPDATETIME$" description="UPDATETIME" mandatory="false" type="DATETIME" defaultvalue="" size="" validity="" system="true"/>
+			<field name="UPDATEUSER$" description="UPDATEUSER" mandatory="false" type="Object" typevalue="IUser"  defaultvalue="" size="32" validity="" system="true"/>
+		</fields>
+	</interface>
+	<interface name="IViewObject" extend="IFoundation;INonQueryable" description="View Object" single="true" createtable="false">
+		<fields>
+			<field name="End1" description="End1" mandatory="true" type="Object" typevalue="FoundationObject"  defaultvalue="" validity="" valuescope="IFoundation" rollback="true"/>
+			<field name="TemplateID" description="Template ID" mandatory="false" type="String" typevalue=""  defaultvalue="" size="" validity="" rollback="true"/>
+		</fields>
+		<index-model type="index" unique="true">
+			<index-object name="End1"/>
+			<index-object name="TemplateID"/>
+		</index-model>
+		<index-model type="index">
+			<index-object name="End1"/>
+			<index-object name="NAME$"/>
+		</index-model>
+	</interface>
+	<interface name="IBOMView" description="BOM View" extend="IFoundation;INonQueryable" single="true" createtable="true">
+		<fields>
+			<field name="End1" description="End1" mandatory="true" type="Object" typevalue="FoundationObject"  defaultvalue="" validity="" valuescope="IFoundation" rollback="true"/>
+			<field name="IsPrecise" description="Is Precise" mandatory="true" type="Boolean" typevalue=""  defaultvalue="" size="" validity="" rollback="true"/>
+			<field name="TemplateID" description="Template ID" mandatory="false" type="String" typevalue=""  defaultvalue="" size="" validity="" rollback="true"/>
+		</fields>
+		<index-model type="index" unique="true">
+			<index-object name="End1"/>
+			<index-object name="TemplateID"/>
+		</index-model>
+		<index-model type="index">
+			<index-object name="End1"/>
+			<index-object name="NAME$"/>
+		</index-model>
+	</interface>
+	<interface name="IItem" description="Item Object" extend="IVersionable;IFoundation"  single="true">
+		<fields>
+			<field name="Specification" description="Specification" mandatory="false" type="String" size="256" defaultvalue=""/>
+			<field name="UOM" description="Unit" mandatory="false" type="Code" typevalue="Q1Unit"  defaultvalue="" size="" validity="" />
+			<field name="UHasBOM" description="UHasBOM" mandatory="false" type="code" typevalue="UHasBOM" defaultvalue="N" size="32" validity="" rollback="false"/>
+			<field name="PartTypeName" description="Part Type Name" mandatory="false" type="String" size="256" defaultvalue=""/>
+			<field name="PartTypeLibrary" description="Part Type Library" mandatory="false" type="String" size="256" defaultvalue=""/>
+			<field name="Decal" description="Decal" mandatory="false" type="String" size="256" defaultvalue=""/>
+			<field name="DecalLibrary" description="Decal Library" mandatory="false" type="String" size="256" defaultvalue=""/>
+			<field name="isBOMModified" description="Bom is modified" mandatory="false" type="Boolean" typevalue=""  defaultvalue="Y" size="" validity="" rollback="true"/>
+		</fields>
+	</interface>
+	<interface name="IProduct" description="Product Object" extend="IItem" system="true"/>
+	<interface name="IComponentMaterial" description="Component Material" extend="IItem" system="true"/>
+	<interface name="IBoardMaterial" description="Board Material" extend="IItem" system="true"/>
+	<interface name="IPCBBoard" description="PCB Board" extend="IItem" system="true"/>
+
+	<interface name="IDWTransfer" description="transfer draw to bom" system="true" createtable="true"/>
+
+	<interface name="ICAD" description="CAD Model" extend="IFoundation;IVersionable;IStorage"  single="true">
+		<fields>
+			<field name="ItemClass" description="Item Class" mandatory="false" type="String" size="32" defaultvalue=""/>
+			<field name="ApplicationType" description="Application Type" mandatory="false" type="String" size="32" defaultvalue=""/>
+		</fields>
+	</interface>
+	<interface name="ICAD2D" description="2D CAD Model" extend="ICAD" system="true">
+		<fields>
+			<field name="Scale" description="Drawing Scale" mandatory="false" type="code" typevalue="DrawingScale"/>
+			<field name="DrawingSize" description="Drawing Size" mandatory="false" type="code" typevalue="DrawingSize"/>
+		</fields>
+	</interface>
+	<interface name="ICAD3D" description="3D CAD Model" extend="ICAD" system="true">
+		<fields>
+			<field name="ModelClass" description="Model Class" mandatory="true" type="code" typevalue="ModelClassCode" defaultvalue="prt"/>
+			<field name="ModelType" description="Model Type" mandatory="true" type="Boolean" typevalue="true" defaultvalue="true"/>
+		</fields>
+	</interface>
+	<interface name="IECAD" description="E-CAD Model" extend="ICAD" system="true"/>
+	<interface name="ICADTemplate" description="CAD Template" extend="ICAD" single="true" system="true">
+		<fields>
+			<field name="CADFileType" description="CAD File Type" mandatory="false" type="code" typevalue="CADFileType"/>
+			<field name="CADType" description="CAD Classification" mandatory="true" type="code" typevalue="CADClassification"/>
+		</fields>
+	</interface>
+	<interface name="ICADTemplate2D" description="2D CAD Template" extend="ICADTemplate;ICAD2D" single="true" system="true">
+		<fields>
+			<field name="TitleName" description="Title Name" mandatory="true" type="String"/>
+			<field name="Orientation" description="Orientation" mandatory="false" type="code" typevalue="CAD2DOrientation"/>
+		</fields>
+	</interface>
+	<interface name="ICADTemplate3D" description="3D CAD Template" extend="ICADTemplate;ICAD3D" single="true" system="true"/>
+
+	<interface name="IDocument" description="Document Object" extend="IVersionable;IFoundation;IStorage"  single="true"/>
+	<interface name="IDocumentTemplate" description="Document Template Object" extend="IDocument" single="true" system="true"/>
+
+	<interface name="IPartialObject" description="Partial Object" extend="IFoundation;INonQueryable">
+		<fields>
+		</fields>
+	</interface>
+	<interface name="IDetailObject" description="Detail  Object" extend="IFoundation;INonQueryable">
+		<fields>
+		</fields>
+	</interface>
+	<interface name="IPM" description="Project Management" extend="IFoundation" single="true">
+		<fields>
+		</fields>
+	</interface>
+	<interface name="IPMWorkItem" description="PM Work Item" extend="IPM;INonQueryable">
+		<fields>
+			<field name="RelationProject" description="Sub Project" mandatory="false" type="Object" typevalue="FoundationObject"  valuescope="IPMProject"/>
+			<field name="RelationTask" description="Parent Project" mandatory="false" type="Object" typevalue="FoundationObject"  valuescope="IPMTask"/>
+			<field name="Executor" description="Executor" mandatory="true" type="Object" typevalue="IUser" valuescope="IUser"/>
+			<field name="ImportanceLevel" description="Importance Level" mandatory="false" type="Code" typevalue="ImportanceLevel"/>
+			<field name="PlanStartTime" description="Plan Start Time" mandatory="true" type="Date" />
+			<field name="PlanFinishTime" description="Plan Finish Time" mandatory="true" type="Date"/>
+			<field name="PlanWorkload" description="Plan Workload" mandatory="false" type="Float" defaultvalue=""/>
+			<field name="ActualWorkload" description="Actual Workload" mandatory="false" type="Float" defaultvalue=""/>
+			<field name="PlannedDuration" description="Planned Duration" mandatory="false" type="Integer" defaultvalue=""/>
+			<field name="Remark" description="Remark" mandatory="false" type="String" defaultvalue="" size="1000"/>
+			<field name="ExecuteStatus" description="Execute Status" mandatory="true" type="Code" typevalue="WorkItemStatus" defaultvalue="notAssigned"/>
+			<field name="CompletionRate" description="Completion Rate" mandatory="false" type="Float" defaultvalue=""/>
+			<field name="SPI" description="SPI" mandatory="false" type="Float" defaultvalue=""/>
+			<field name="OnTimeState" description="OnTime State" mandatory="false" type="Code" typevalue="OnTimeState"/>
+			<field name="ActualStartTime" description="Actual Start Time" mandatory="false" type="Date" />
+			<field name="ActualFinishTime" description="Actual Finish Time" mandatory="false" type="Date"/>
+		</fields>
+	</interface>
+	<interface name="IPMProject" description="PM Project" extend="IPM;INonQueryable">
+		<fields>
+			<field name="ProjectType" description="Project Type" mandatory="false" type="Object" typevalue="FoundationObject"  valuescope="IProjectType"/>
+			<field name="ProjectCalendar" description="Project Calendar" mandatory="false" type="Object" typevalue="IPMCalendar" valuescope="IPMCalendar"/>
+			<field name="ProjectInfoUpdateTime" description="Project Info Update Time" mandatory="false" type="DateTime" />
+			<field name="ExecuteStatus" description="Project Status" mandatory="true" type="Code" typevalue="ExecuteStatus" defaultvalue="INI"/>
+			<field name="PlanApproval" description="ProjectPlanApproval" mandatory="false" type="Boolean"/>
+			<field name="PlanStartTime" description="Plan Start Time" mandatory="false" type="Date" />
+			<field name="TaskStartType" description="TaskStartType" mandatory="false" type="Code" typevalue="TaskStartType" defaultvalue="Manual"/>
+			<field name="TaskPerformerType" description="TaskPerformerType" mandatory="false" type="Code" typevalue="TaskPerformerType" defaultvalue="Superior"/>
+			<field name="PlanFinishTime" description="Plan Finish Time" mandatory="false" type="Date"/>
+			<field name="ActualStartTime" description="Actual Start Time" mandatory="false" type="Date" />
+			<field name="ActualFinishTime" description="Actual Finish Time" mandatory="false" type="Date"/>
+			<field name="SPI" description="SPI" mandatory="false" type="Float" defaultvalue=""/>
+			<field name="CPI" description="CPI" mandatory="false" type="Float" defaultvalue=""/>
+			<field name="Executor" description="Executor" mandatory="false" type="Object" typevalue="IUser" valuescope="IUser"/>
+			<field name="ActualDuration" description="Actual Duration" mandatory="false" type="Integer" defaultvalue=""/>
+			<field name="PlannedDuration" description="Planned Duration" mandatory="false" type="Integer" defaultvalue=""/>
+			<field name="EarliestStartTime" description="Earliest Start Time" mandatory="false" type="Date" />
+			<field name="EarliestFinishTime" description="Earliest Finish Time" mandatory="false" type="Date"/>
+			<field name="LatestStartTime" description="Latest Start Time" mandatory="false" type="Date" />
+			<field name="LatestFinishTime" description="Latest Finish Time" mandatory="false" type="Date"/>
+			<field name="CompletionRate" description="Completion Rate" mandatory="false" type="Float" defaultvalue=""/>
+			<field name="ActualWorkload" description="Actual Workload" mandatory="false" type="Float" defaultvalue=""/>
+			<field name="PlanWorkload" description="Estimated Workload" mandatory="false" type="Float" defaultvalue=""/>
+			<field name="ImportanceLevel" description="Importance Level" mandatory="false" type="Code" typevalue="ImportanceLevel"/>
+			<field name="OnTimeState" description="OnTime State" mandatory="false" type="Code" typevalue="OnTimeState"/>
+			<field name="FromTemplate" description="From Template" mandatory="false" type="Object" typevalue="FoundationObject"  defaultvalue="" validity="" valuescope="IPMProjectTemplate"/>
+			<field name="RelationTask" description="Parent Project" mandatory="false" type="Object" typevalue="FoundationObject"  valuescope="IPMTask"/>
+			<field name="NormalINI" description="NormalINI" mandatory="false" type="Integer" defaultvalue=""/>
+			<field name="LateINI" description="LateINI" mandatory="false" type="Integer" defaultvalue=""/>
+			<field name="NormalCOP" description="NormalCOP" mandatory="false" type="Integer" defaultvalue=""/>
+			<field name="LateCOP" description="LateCOP" mandatory="false" type="Integer" defaultvalue=""/>
+			<field name="NormalRUN" description="NormalRUN" mandatory="false" type="Integer" defaultvalue=""/>
+			<field name="LateRUN" description="LateRUN" mandatory="false" type="Integer" defaultvalue=""/>
+			<field name="FinishedCheckPoint" description="FinishedCheckPoint" mandatory="false" type="String" defaultvalue=""/>
+			<field name="NextCheckPoint" description="NextCheckPoint" mandatory="false" type="String" defaultvalue=""/>
+			<field name="ProductType" description="Product Type" mandatory="false" type="Code" typevalue="ProductType"/>
+			<field name="ProgramType" description="Program Type" mandatory="false" type="Code" typevalue="ProgramType"/>
+		</fields>
+	</interface>
+	<interface name="IPMTask" description="PM Task" extend="IPM;INonQueryable">
+		<fields>
+			<field name="ExecutorRole" description="Executor Role" mandatory="false" type="Object" typevalue="IPMRole" valuescope="IPMRole"/>
+			<field name="TaskType" description="Task Type" mandatory="false" type="Code" typevalue="TaskType" defaultvalue="GENERAL"/>
+			<field name="OriginalStatus" description="Original Status" mandatory="false" type="String" defaultvalue=""/>
+			<field name="OwnerProject" description="Owner Project" mandatory="false" type="Object" typevalue="FoundationObject"  valuescope="IPMProject"/>
+			<field name="ParentTask" description="Parent Task" mandatory="false" type="Object" typevalue="FoundationObject"  valuescope="IPMTask"/>
+			<field name="WBSNumber" description="WBS Number" mandatory="false" type="String" defaultvalue=""/>
+			<field name="ExecuteStatus" description="Project Status" mandatory="true" type="Code" typevalue="ExecuteStatus" defaultvalue="INI"/>
+			<field name="SequenceID" description="Sequence ID" mandatory="false" type="Integer" defaultvalue=""/>
+			<field name="PredecessorRelation" description="Predecessor Relation" mandatory="false" type="String" defaultvalue="" size="256"/>
+			<field name="PlanStartTime" description="Plan Start Time" mandatory="false" type="Date" />
+			<field name="PlanFinishTime" description="Plan Finish Time" mandatory="false" type="Date"/>
+			<field name="ActualStartTime" description="Actual Start Time" mandatory="false" type="Date" />
+			<field name="ActualFinishTime" description="Actual Finish Time" mandatory="false" type="Date"/>
+			<field name="Executor" description="Executor" mandatory="false" type="Object" typevalue="IUser" valuescope="IUser"/>
+			<field name="ActualDuration" description="Actual Duration" mandatory="false" type="Integer" defaultvalue=""/>
+			<field name="PlannedDuration" description="Planned Duration" mandatory="false" type="Integer" defaultvalue=""/>
+			<field name="EarliestStartTime" description="Earliest Start Time" mandatory="false" type="Date" />
+			<field name="EarliestFinishTime" description="Earliest Finish Time" mandatory="false" type="Date"/>
+			<field name="LatestStartTime" description="Latest Start Time" mandatory="false" type="Date" />
+			<field name="LatestFinishTime" description="Latest Finish Time" mandatory="false" type="Date"/>
+			<field name="CompletionRate" description="Completion Rate" mandatory="false" type="Float" defaultvalue=""/>
+			<field name="ActualWorkload" description="Actual Workload" mandatory="false" type="Float" defaultvalue=""/>
+			<field name="PlanWorkload" description="Estimated Workload" mandatory="false" type="Float" defaultvalue=""/>
+			<field name="ImportanceLevel" description="Importance Level" mandatory="false" type="Code" typevalue="ImportanceLevel"/>
+			<field name="OnTimeState" description="OnTime State" mandatory="false" type="Code" typevalue="OnTimeState"/>
+			<field name="FromTemplate" description="From Template" mandatory="false" type="Object" typevalue="FoundationObject"  valuescope="IPMTaskTemplate"/>
+			<field name="RelationProject" description="Sub Project" mandatory="false" type="Object" typevalue="FoundationObject"  valuescope="IPMProject"/>
+			<field name="OperationState" description="Operation State" mandatory="false" type="Code" typevalue="OperationState" />
+			<field name="SPI" description="SPI" mandatory="false" type="Float" defaultvalue=""/>
+			<field name="CPI" description="CPI" mandatory="false" type="Float" defaultvalue=""/>
+			<field name="HasDeliveryItem" description="has DeliveryItem" mandatory="false" type="Boolean" defaultvalue="false"/>
+			<field name="isManualPlan" description="ManualPlan" mandatory="false" type="Boolean" defaultvalue=""/>
+			<field name="isNeedApprove" description="need manager approve" mandatory="false" type="Boolean" defaultvalue=""/>
+		</fields>
+	</interface>
+	<interface name="IPMProjectTemplate" description="PM Project Template" extend="IPM;IDictionary">
+		<fields>
+			<field name="PlanWorkload" description="Estimated Workload" mandatory="false" type="Float" defaultvalue=""/>
+			<field name="PlannedDuration" description="Plan Duration" mandatory="false" type="Integer" defaultvalue=""/>
+			<field name="ProjectType" description="Project Type" mandatory="false" type="Object" typevalue="FoundationObject"  valuescope="IProjectType"/>
+			<field name="ProjectCalendar" description="Project Calendar" mandatory="false" type="Object" typevalue="IPMCalendar" valuescope="IPMCalendar"/>
+			<field name="Remark" description="Remark" mandatory="false" type="String" defaultvalue="" size="1000"/>
+			<field name="EarliestStartPoint" description="Earliest Start Point" mandatory="false" type="Integer" defaultvalue="0"/>
+			<field name="PlanStartPoint" description="Start Point" mandatory="false" type="Integer" defaultvalue="0"/>
+			<field name="PlanFinishPoint" description="Finish Point" mandatory="false" type="Integer" defaultvalue="0"/>
+			<field name="LatestStartPoint" description="Latest Start Point" mandatory="false"  type="Integer" defaultvalue="0" />
+			<field name="LatestFinishPoint" description="Latest Finish Point" mandatory="false"  type="Integer" defaultvalue="0"/>
+			<field name="PlanApproval" description="ProjectPlanApproval" mandatory="false" type="Boolean"/>
+			<field name="ImportanceLevel" description="Importance Level" mandatory="false" type="Code" typevalue="ImportanceLevel"/>
+			<field name="FromTemplate" description="From Template" mandatory="false" type="Object" typevalue="FoundationObject"  valuescope="IPMTaskTemplate"/>
+			<field name="TaskStartType" description="TaskStartType" mandatory="false" type="Code" typevalue="TaskStartType" defaultvalue="Manual"/>
+			<field name="TaskPerformerType" description="TaskPerformerType" mandatory="false" type="Code" typevalue="TaskPerformerType" defaultvalue="Superior"/>
+			<field name="Available" description="Available" mandatory="false" type="Boolean" defaultvalue="true"/>
+			<field name="Executor" description="Executor" mandatory="false" type="Object" typevalue="IUser" valuescope="IUser"/>
+			<field name="ExecuteStatus" description="Project Status" mandatory="true" type="Code" typevalue="ExecuteStatus" defaultvalue="INI"/>
+			<field name="ProductType" description="Product Type" mandatory="false" type="Code" typevalue="ProductType"/>
+			<field name="ProgramType" description="Program Type" mandatory="false" type="Code" typevalue="ProgramType"/>
+		</fields>
+	</interface>
+	<interface name="IPMTaskTemplate" description="PM Task Template" extend="IPM;INonQueryable">
+		<fields>
+			<field name="EarliestStartPoint" description="Earliest Start Point" mandatory="false" type="Integer" defaultvalue="0"/>
+			<field name="PlanStartPoint" description="Start Point" mandatory="false" type="Integer" defaultvalue="0"/>
+			<field name="PlanFinishPoint" description="Finish Point" mandatory="false" type="Integer" defaultvalue="0"/>
+			<field name="LatestStartPoint" description="Latest Start Point" mandatory="false"  type="Integer" defaultvalue="0" />
+			<field name="LatestFinishPoint" description="Latest Finish Point" mandatory="false"  type="Integer" defaultvalue="0"/>
+			<field name="TaskType" description="Task Type" mandatory="false" type="Code" typevalue="TaskType" defaultvalue="GENERAL"/>
+			<field name="PlannedDuration" description="Plan Duration" mandatory="false" type="Integer" defaultvalue=""/>
+			<field name="SequenceID" description="Sequence ID" mandatory="false" type="Integer" defaultvalue=""/>
+			<field name="ParentTask" description="Parent Task" mandatory="false" type="Object" typevalue="FoundationObject"  valuescope="IPMTask"/>
+			<field name="PredecessorRelation" description="Predecessor Relation" mandatory="false" type="String" defaultvalue="" size="256"/>
+			<field name="OwnerProject" description="Owner Project" mandatory="false" type="Object" typevalue="FoundationObject"  valuescope="IPMProject"/>
+			<field name="WBSNumber" description="WBS Number" mandatory="false" type="String" defaultvalue=""/>
+			<field name="ExecutorRole" description="Executor Role" mandatory="false" type="Object" typevalue="IPMRole" valuescope="IPMRole"/>
+			<field name="PlanWorkload" description="Estimated Workload" mandatory="false" type="Float" defaultvalue=""/>
+			<field name="ExecuteStatus" description="Project Status" mandatory="true" type="Code" typevalue="ExecuteStatus" defaultvalue="INI"/>
+			<field name="HasDeliveryItem" description="has DeliveryItem" mandatory="false" type="Boolean" defaultvalue="false"/>
+			<field name="isManualPlan" description="ManualPlan" mandatory="false" type="Boolean" defaultvalue=""/>
+			<field name="isNeedApprove" description="need manager approve" mandatory="false" type="Boolean" defaultvalue=""/>
+		</fields>
+	</interface>
+	<interface name="IPMChangeRequest" description="PM Change Request" extend="IPM;IStorage;INonQueryable">
+		<fields>
+			<field name="ExecuteStatus" description="Project Status" mandatory="true" type="Code" typevalue="ExecuteStatus" defaultvalue="INI"/>
+			<field name="ChangeObject" description="Change Project" mandatory="false" type="Object" typevalue="FoundationObject" valuescope="IPMProject"/>
+
+			<field name="ProjectName" description="Project Name" size="128" mandatory="false" type="String" defaultvalue=""/>
+			<field name="ProjectType" description="Project Type" mandatory="false" type="Object" typevalue="FoundationObject"  valuescope="IProjectType"/>
+			<field name="Executor" description="Executor" mandatory="false" type="Object" typevalue="IUser" valuescope="IUser"/>
+			<field name="PlanFinishTime" description="Finish Time" mandatory="false" type="Date"/>
+			<field name="PlanStartTime" description="Start Time" mandatory="false" type="Date" />
+			<field name="ProjectCalendar" description="Project Calendar" mandatory="false" type="Object" typevalue="IPMCalendar" valuescope="IPMCalendar"/>
+			<field name="PlannedDuration" description="Planned Duration" mandatory="false" type="Integer" defaultvalue=""/>
+			<field name="ImportanceLevel" description="Importance Level" mandatory="false" type="Code" typevalue="ImportanceLevel"/>
+			<field name="FromTemplate" description="From Template" mandatory="false" type="Object" typevalue="FoundationObject"  defaultvalue="" validity="" valuescope="IPMProjectTemplate"/>
+			<field name="ChangeApproval" description="ProjectChangeApproval" mandatory="false" type="Boolean" defaultvalue="false"/>
+			<field name="PlanApproval" description="ProjectPlanApproval" mandatory="false" type="Boolean" />
+			<field name="TaskStartType" description="TaskStartType" mandatory="false" type="Code" typevalue="TaskStartType" defaultvalue="Manual"/>
+			<field name="TaskPerformerType" description="TaskPerformerType" mandatory="false" type="Code" typevalue="TaskPerformerType" defaultvalue="Superior"/>
+			<field name="NewProjectName" description="New Project Name" mandatory="false" type="String" defaultvalue=""/>
+			<field name="NewProjectType" description="New Project Type" mandatory="false" type="Object" typevalue="FoundationObject"  valuescope="IProjectType"/>
+			<field name="NewExecutor" description="New Executor" mandatory="false" type="Object" typevalue="IUser" valuescope="IUser"/>
+			<field name="NewPlanFinishTime" description="New Finish Time" mandatory="false" type="Date"/>
+			<field name="NewPlanStartTime" description="New Start Time" mandatory="false" type="Date" />
+			<field name="NewProjectCalendar" description="New Project Calendar" mandatory="false" type="Object" typevalue="IPMCalendar" valuescope="IPMCalendar"/>
+			<field name="NewPlannedDuration" description="New Planned Duration" mandatory="false" type="Float" defaultvalue=""/>
+			<field name="NewImportanceLevel" description="New Importance Level" mandatory="false" type="Code" typevalue="ImportanceLevel"/>
+			<field name="NewFromTemplate" description="New From Template" mandatory="false" type="Object" typevalue="FoundationObject"  defaultvalue="" validity="" valuescope="IPMProjectTemplate"/>
+			<field name="NewChangeApproval" description="New ProjectChangeApproval" mandatory="false" type="Boolean" defaultvalue="false"/>
+			<field name="NewPlanApproval" description="New ProjectPlanApproval" mandatory="false" type="Boolean" />
+			<field name="NewTaskStartType" description="New TaskStartType" mandatory="false" type="Code" typevalue="TaskStartType" defaultvalue="Manual"/>
+			<field name="NewTaskPerformerType" description="New TaskPerformerType" mandatory="false" type="Code" typevalue="TaskPerformerType" defaultvalue="Superior"/>
+			<field name="ChangeType" description="Project Change Type" mandatory="false" type="Code" typevalue="PMChangeType" defaultvalue=""/>
+			<field name="Description" description="Problem Description" mandatory="false" type="String" typevalue="" defaultvalue=""/>
+			<field name="Solution" description="Solution" mandatory="false" type="String" typevalue="" defaultvalue=""/>
+		</fields>
+	</interface>
+	<interface name="IPMChangeTask" description="PM Task" extend="IPM;INonQueryable">
+		<fields>
+			<field name="WBSNumber" description="WBS Number" mandatory="false" type="String" defaultvalue=""/>
+			<field name="SequenceID" description="Sequence ID" mandatory="false" type="Integer" defaultvalue=""/>
+			<field name="OwnerProject" description="Owner Project" mandatory="false" type="Object" typevalue="FoundationObject"  valuescope="IPMChangeRequest"/>
+			<field name="ParentTask" description="Parent Task" mandatory="false" type="Object" typevalue="FoundationObject"  valuescope="IPMTaskChange"/>
+			<field name="FromTask" description="From Task" mandatory="false" type="Object" typevalue="FoundationObject"  valuescope="IPMTask"/>
+			<field name="TaskType" description="Task Type" mandatory="false" type="Code" typevalue="TaskType" defaultvalue="GENERAL"/>
+			<field name="ExecuteStatus" description="Task Status" mandatory="true" type="Code" typevalue="ExecuteStatus" defaultvalue="INI"/>
+			<field name="PlanStartTime" description="Plan Start Time" mandatory="false" type="Date" />
+			<field name="PlanFinishTime" description="Plan Finish Time" mandatory="false" type="Date"/>
+			<field name="PlannedDuration" description="Planned Duration" mandatory="false" type="Integer" defaultvalue=""/>
+			<field name="PlanWorkload" description="Estimated Workload" mandatory="false" type="Float" defaultvalue=""/>
+			<field name="ExecutorRole" description="Executor Role" mandatory="false" type="Object" typevalue="IPMRole" valuescope="IPMRole"/>
+			<field name="Executor" description="Executor" mandatory="false" type="Object" typevalue="IUser" valuescope="IUser"/>
+			<field name="PredecessorRelation" description="Predecessor Relation" mandatory="false" type="String" defaultvalue="" size="256"/>
+			<field name="Operator" description="Operator" mandatory="false" type="Code" typevalue="ActionType"/>
+		</fields>
+	</interface>
+	<interface name="IPMRole" description="Project Role" system="true" extend="IPM"/>
+	<interface name="IPMCalendar" description="Project Calendar" system="true" extend="IPM"/>
+	<interface name="IReplaceSubstitute" description="Replace Substitute Relation" extend="IFoundation;IVersionable" single="true">
+		<fields>
+			<field name="RSNumber" description="Replace/Substitute Number" mandatory="false" type="String" defaultvalue="" />
+			<field name="MasterItem" description="Master Item" mandatory="false" type="Object" typevalue="FoundationObject" valuescope="IItem"/>
+			<field name="ComponentItem" description="Component Item" mandatory="false" type="Object" typevalue="FoundationObject" valuescope="IItem"/>
+			<field name="RSItem" description="Replace/Substitute Item" mandatory="true" type="Object" typevalue="FoundationObject" valuescope="IItem"/>
+			<field name="EffectiveDate" description="Effective Date" mandatory="false" type="Date" />
+			<field name="InvalidDate" description="Invalid Date" mandatory="false" type="Date" />
+			<field name="RSType" description="Replace/Substitute Type" mandatory="false" type="Code" typevalue="RSType" defaultvalue="Substitute"/>
+			<field name="BOMViewDisplay" description="BOMView Display" mandatory="false" type="String" defaultvalue="" />
+			<field name="ComponentUsage" description="Component Usage" mandatory="false" type="float"  defaultvalue="1"/>
+			<field name="Scope" description="Scope" mandatory="false" type="Code" typevalue="Scope" defaultvalue="Partial"/>
+			<field name="BOMKey" description="BOMKey" mandatory="false" type="String" defaultvalue="" size="32"/>
+			<field name="DATASEQ" description="Data Sequence" mandatory="false" type="String" defaultvalue="" size="128"/>
+			<field name="InUse" description="" mandatory="false" type="Boolean" defaultvalue="true"/>
+		</fields>
+	</interface>
+
+	<interface name="IRSApplyForm" description="Replace Substitute Apply Form" extend="IFoundation" single="true">
+		<fields>
+			<field name="ComponentItem" description="Component Item" mandatory="true" type="Object" typevalue="FoundationObject" valuescope="IItem"/>
+			<field name="RSItem" description="Replace/Substitute Item" mandatory="true" type="Object" typevalue="FoundationObject" valuescope="IItem"/>
+			<field name="BOMViewDisplay" description="BOMView Display" mandatory="true" type="Code" typevalue="BOMTemplate" defaultvalue="BOM" />
+			<field name="EffectiveDate" description="Effective Date" mandatory="false" type="Date" />
+			<field name="InvalidDate" description="Invalid Date" mandatory="false" type="Date" />
+			<field name="RSType" description="Replace/Substitute Type" mandatory="true" type="Code" typevalue="RSType" defaultvalue="Substitute"/>
+			<field name="RSCause" description="Replace/Substitute Cause" mandatory="false" type="String" defaultvalue="" />
+			<field name="ComponentUsage" description="Component Usage" mandatory="false" type="float"  defaultvalue="1"/>
+			<field name="Scope" description="Scope" mandatory="false" type="Code" typevalue="Scope" defaultvalue="Partial"/>
+			<field name="FormType" description="Form Type" mandatory="true" type="Code" typevalue="RSFormType" defaultvalue="ADD" />
+			<field name="ProcessResult" description="Process Result" mandatory="false" type="Boolean" defaultvalue="false" />
+			<field name="ExceptionDetail" description="Exception Detail" mandatory="false" type="String" defaultvalue="" size="4000" />
+		</fields>
+	</interface>
+	<interface name="IRSApplyFormPartial" description="Replace Substitute Apply Form For Partial" extend="IRSApplyForm" single="true" />
+	<interface name="IRSApplyFormGlobal" description="Replace Substitute Apply Form For Global" extend="IRSApplyForm" single="true" />
+
+	<interface name="IReplaceStructure" description="Batch Replace Structure" extend="IStructureObject">
+		<fields>
+			<field name="BOMKey" description="BOMKey" mandatory="false" type="String" defaultValue="" size="32"/>
+			<field name="BOMSequence" description="BOMSequence" mandatory="false" type="String" defaultValue="" size="25"/>
+			<field name="ProcessResult" description="Process Result" mandatory="false" type="Boolean" defaultValue=""/>
+			<field name="ExceptionDetail" description="Exception Detail" mandotory="false" type="String" size="4000" defaultValue=""/>
+			<field name="ComponentItem" description="Component Item" mandatory="false" type="Object" typevalue="FoundationObject" valuescope="IItem"/>
+			<field name="RSItem" description="RS Item" type="Object" typevalue="FoundationObject" valuescope="IItem" />
+			<field name="ReplaceData" description="Replace Data" type="Object" typevalue="FoundationObject" valueScope="IReplaceSubstitute"/>
+		</fields>
+	</interface>
+
+	<interface name="IChangeItem" description="IChangeItem" system="true" />
+	<interface name="IBatchForEc" description="IBatchForEc" system="true" />
+	<interface name="IIndependenceForEc" description="IIndependenceForEc" system="true" />
+	<interface name="INormalForEc" description="INormalForEc" system="true" />
+	<interface name="IUpdatedECR" description="IUpdatedECR" extend="IFoundation" single="true">
+		<fields>
+		</fields>
+	</interface>
+	<interface name="IUpdatedECN" description="IUpdatedECN" extend="IFoundation" single="true">
+		<fields>
+			<field name="Applier"  description="Applier" mandatory="false" type="Object" typevalue="IUser" valuescope="IUser" />
+			<field name="Subject"  description="Subject" mandatory="false" type="String"  size ="256" defaultvalue="" />
+		</fields>
+	</interface>
+	<interface name="INormalECPContent" description="INormalECPContent" extend="IFoundation" single="true">
+		<fields>
+			<field name="Subject"  description="Subject" mandatory="false" type="String"  size ="256" defaultvalue="" />
+			<field name="ModifyContent"  description="ModifyContent" mandatory="false" type="String"  size ="4000" defaultvalue="" />
+			<field name="ContentType"  description="ContentType" mandatory="false"  type="Code" typevalue="ContentType"  defaultvalue="" size="" validity=""/>
+			<field name="Description"  description="Description" mandatory="false" type="String"  size ="4000" defaultvalue="" />
+		</fields>
+	</interface>
+
+	<interface name="IECPM" description="IECPM" extend="IFoundation" single="true">
+		<fields>
+			<field name="ParentECP"  description="ParentECP" mandatory="false" type="Object" typevalue="FoundationObject"  valuescope="IECPM" />
+			<field name="Subject"  description="Subject" mandatory="false" type="String"  size ="256" defaultvalue="" />
+			<field name="AnaysisSourceType"  description="AnaysisSourceType" mandatory="false" type="String"  size ="256" defaultvalue=""/>
+			<field name="ChangeItem"  description="ChangeItem" mandatory="true" type="Object" typevalue="FoundationObject"  valuescope="IChangeItem" />
+			<field name="ECType"  description="ECType" mandatory="false" type="String" size ="256" defaultvalue="" />
+			<field name="valid"  description="valid" mandatory="false" type="Boolean" size ="" defaultvalue="true" />
+			<field name="ModifyType"  description="ModifyType" mandatory="false"  type="Code" typevalue="ModifyType"  defaultvalue="" size="" validity=""/>
+			<field name="BOMTemplate"  description="BOMTemplate" mandatory="false" type="String"  size ="96" defaultvalue="" />
+			<field name="Replacepolicy"  description="Replacepolicy" mandatory="false"  type="Code" typevalue="Replacepolicy"  defaultvalue="" size="" validity=""/>
+			<field name="TargetItem"  description="TargetItem" mandatory="false" type="Object" typevalue="FoundationObject"  valuescope="IItem" />
+			<field name="ReplaceRate"  description="ReplaceRate" mandatory="false" type="String"  size ="96" defaultvalue="" />
+			<field name="BOMInfo"  description="BOMInfo" mandatory="false" type="String"  size ="4000" defaultvalue="" />
+			<field name="BOMInfo1"  description="BOMInfo" mandatory="false" type="String"  size ="4000" defaultvalue="" />
+			<field name="BOMInfo2"  description="BOMInfo" mandatory="false" type="String"  size ="4000" defaultvalue="" />
+			<field name="SubjectContent"  description="SubjectContent" mandatory="false" type="String"  size ="4000" defaultvalue="" />
+		</fields>
+	</interface>
+	<interface name="IECOM" description="IECOM" extend="IFoundation" single="true">
+		<fields>
+			<field name="ParentECO"  description="ParentECO" mandatory="false" type="Object" typevalue="FoundationObject"  valuescope="IECOM" />
+			<field name="Subject"  description="Subject" mandatory="false" type="String"  size ="256" defaultvalue="" />
+			<field name="AnaysisSourceType"  description="AnaysisSourceType" mandatory="false" type="String" size ="256" defaultvalue="" />
+			<field name="ChangeItem"  description="ChangeItem" mandatory="true" type="Object" typevalue="FoundationObject"  valuescope="IChangeItem" rollback="false"/>
+			<field name="SolveItem"  description="SolveItem" mandatory="false" type="Object" typevalue="FoundationObject"  valuescope="IChangeItem" />
+			<field name="Performer"  description="Performer" mandatory="false" type="Object" typevalue="IUser" valuescope="IUser" />
+			<field name="ECType"  description="ECType" mandatory="false" type="String" size ="256" defaultvalue="" />
+			<field name="valid"  description="valid" mandatory="false" type="Boolean" size ="" defaultvalue="true" />
+			<field name="isCompleted"  description="isCompleted" mandatory="false" type="Boolean" size ="" defaultvalue="false" />
+			<field name="ModifyType"  description="ModifyType" mandatory="false"  type="Code" typevalue="ModifyType"  defaultvalue="" size="" validity="" rollback="false"/>
+			<field name="BOMTemplate"  description="BOMTemplate" mandatory="false" type="String"  size ="96" defaultvalue="" rollback="false"/>
+			<field name="Replacepolicy"  description="Replacepolicy" mandatory="false"  type="Code" typevalue="Replacepolicy"  defaultvalue="" size="" validity="" rollback="false"/>
+			<field name="TargetItem"  description="TargetItem" mandatory="false" type="Object" typevalue="FoundationObject"  valuescope="IItem" rollback="false"/>
+			<field name="ReplaceRate"  description="ReplaceRate" mandatory="false" type="String"  size ="96" defaultvalue="" rollback="false"/>
+			<field name="BOMInfo"  description="BOMInfo" mandatory="false" type="String"  size ="4000" defaultvalue="" rollback="false"/>
+			<field name="BOMInfo1"  description="BOMInfo" mandatory="false" type="String"  size ="4000" defaultvalue="" rollback="false"/>
+			<field name="BOMInfo2"  description="BOMInfo" mandatory="false" type="String"  size ="4000" defaultvalue="" rollback="false"/>
+			<field name="PlanDate"  description="PlanDate" mandatory="false" type="Date"/>
+			<field name="ecn"  description="ecn" mandatory="false" type="Object" typevalue="FoundationObject"  valuescope="IUpdatedECN" />
+			<field name="SubjectContent"  description="SubjectContent" mandatory="false" type="String"  size ="4000" defaultvalue="" />
+		</fields>
+	</interface>
+	<interface name="IECI" description="IECI" extend="IFoundation" single="true">
+		<fields>
+			<field name="ChangeType"  description="ChangeType" mandatory="false"  type="Code" typevalue="ChangeType"  defaultvalue="" size="" validity=""/>
+			<field name="Template"  description="Template" mandatory="false" type="String"  size ="96" defaultvalue="" />
+			<field name="ActionType"  description="ActionType" mandatory="false"  type="Code" typevalue="ActionType"  defaultvalue="" size="" validity=""/>
+			<field name="Value1"  description="Value1" mandatory="false" type="String"  size ="4000" defaultvalue="" />
+			<field name="Value2"  description="Value2" mandatory="false" type="String"  size ="4000" defaultvalue="" />
+			<field name="Value3"  description="Value3" mandatory="false" type="String"  size ="4000" defaultvalue="" />
+
+			<field name="EciContent"  description="EciContent" mandatory="false" type="String"  size ="512" defaultvalue="" />
+			<field name="EciEditBefore"  description="EciEditBefore" mandatory="false" type="String"  size ="512" defaultvalue="" />
+			<field name="EciEditAfter"  description="EciEditAfter" mandatory="false" type="String"  size ="512" defaultvalue="" />
+			<field name="Ecisubject"  description="Ecisubject" mandatory="false" type="String"  size ="512" defaultvalue="" />
+			<field name="Description"  description="Description" mandatory="false" type="String"  size ="512" defaultvalue="" />
+		</fields>
+	</interface>
+	<interface name="IManufacturingRule" description="Configure Rule" system="true">
+		<fields>
+			<field name="MatchedClass" description="New Class Name For Create" mandatory="false" type="Code" typevalue="MatchedClass" size="" validity="" rollback="true"/>
+			<field name="ItemClassification" description="New Classification For Create" mandatory="false" type="CODEREF" relationfield="MatchedClass" size="" validity="" rollback="true"/>
+		</fields>
+	</interface>
+	<interface name="IProductConfigureStructure" description="Product Configure Structure" extend="IStructureObject">
+		<fields>
+			<field name="PartNumber" description="Part Number" mandatory="false" type="String" size="128" validity="" rollback="false"/>
+			<field name="LNumber" description="LNumber" mandatory="false" type="String" size="128" validity="" rollback="false"/>
+			<field name="ConfigParameter" description="Config Parameter" mandatory="false" type="String" size="128" validity="" rollback="false"/>
+			<field name="Quantity" description="Quantity" mandatory="false" type="Float" size="" validity="" rollback="false"/>
+			<field name="CPName" description="Name of No Drawing Item" mandatory="false" type="String" size="256" validity="" rollback="false"/>
+			<field name="BOMKey" description="BOM Key" mandatory="false" type="String" typevalue=""  defaultvalue="" size="32" validity="" />
+			<field name="G01" description="G01" mandatory="false" type="String" size="128" validity="" rollback="false"/>
+			<field name="G02" description="G02" mandatory="false" type="String" size="128" validity="" rollback="false"/>
+			<field name="G03" description="G03" mandatory="false" type="String" size="128" validity="" rollback="false"/>
+			<field name="G04" description="G04" mandatory="false" type="String" size="128" validity="" rollback="false"/>
+			<field name="G05" description="G05" mandatory="false" type="String" size="128" validity="" rollback="false"/>
+			<field name="G06" description="G06" mandatory="false" type="String" size="128" validity="" rollback="false"/>
+			<field name="G07" description="G07" mandatory="false" type="String" size="128" validity="" rollback="false"/>
+			<field name="G08" description="G08" mandatory="false" type="String" size="128" validity="" rollback="false"/>
+			<field name="G09" description="G09" mandatory="false" type="String" size="128" validity="" rollback="false"/>
+			<field name="G10" description="G10" mandatory="false" type="String" size="128" validity="" rollback="false"/>
+			<field name="G11" description="G11" mandatory="false" type="String" size="128" validity="" rollback="false"/>
+			<field name="G12" description="G12" mandatory="false" type="String" size="128" validity="" rollback="false"/>
+			<field name="G13" description="G13" mandatory="false" type="String" size="128" validity="" rollback="false"/>
+			<field name="G14" description="G14" mandatory="false" type="String" size="128" validity="" rollback="false"/>
+			<field name="G15" description="G15" mandatory="false" type="String" size="128" validity="" rollback="false"/>
+			<field name="G16" description="G16" mandatory="false" type="String" size="128" validity="" rollback="false"/>
+			<field name="G17" description="G17" mandatory="false" type="String" size="128" validity="" rollback="false"/>
+			<field name="G18" description="G18" mandatory="false" type="String" size="128" validity="" rollback="false"/>
+			<field name="G19" description="G19" mandatory="false" type="String" size="128" validity="" rollback="false"/>
+			<field name="G20" description="G20" mandatory="false" type="String" size="128" validity="" rollback="false"/>
+			<field name="G21" description="G21" mandatory="false" type="String" size="128" validity="" rollback="false"/>
+			<field name="G22" description="G22" mandatory="false" type="String" size="128" validity="" rollback="false"/>
+		</fields>
+	</interface>
+	<interface name="INewProductOfConfigure" description="New Item By Driven" system="true">
+		<fields>
+			<field name="PartNumber" description="Part Number" mandatory="false" type="String" size="128" validity="" rollback="true"/>
+			<field name="LNumber" description="LNumber" mandatory="false" type="String" size="128" validity="" rollback="true"/>
+			<field name="LNumberWithoutL00" description="LNumber Without L00" mandatory="false" type="String" size="128" validity="" rollback="true"/>
+			<field name="ConfigParameter" description="Config Parameter" mandatory="false" type="String" size="128" validity="" rollback="true"/>
+			<field name="UniqueNo" description="UniqueNo Of New Class" mandatory="false" type="String" size="4000" validity="" rollback="true"/>
+			<field name="ORIGDRAW" description="Orignal Drawing Object" mandatory="false" type="Object" typevalue="FoundationObject" validity="" rollback="false"/>
+			<field name="ParameterDESC" description="All Config Parameter Description" mandatory="false" type="String" size="4000" validity="" rollback="false"/>
+			<field name="isNoDrawingItem" description="no drawing item" mandatory="false" type="Boolean" validity="" rollback="true"/>
+		</fields>
+		<index-model type="index">
+			<index-object name="UniqueNo"/>
+		</index-model>
+	</interface>
+	<interface name="IOrderContent" description="Order Content">
+		<fields>
+			<field name="OwnerContract" description="Owner Contract" mandatory="false" type="Object" typevalue="FoundationObject" validity="" rollback="true"/>
+			<field name="PartNumber" description="Part Number" mandatory="false" type="String" size="128" validity="" rollback="true"/>
+			<field name="LNumber" description="LNumber" mandatory="false" type="String" size="128" validity="" rollback="true"/>
+			<field name="ConfigParameter" description="Config Parameter" mandatory="false" type="String" size="128" validity="" rollback="true"/>
+			<field name="LatestExportTime" description="Export Time of Last Time" mandatory="false" type="Date" validity="" rollback="true"/>
+			<field name="OrderItem" description="Item of Drawing Order" mandatory="false" type="Object" typevalue="FoundationObject" validity="" rollback="true"/>
+			<field name="IsCanBeDriven" description="Is Order Content can be Driven" mandatory="false" type="Boolean" validity="" rollback="true"/>
+			<field name="Quantity" description="Order Quantity" mandatory="true" type="Float" typevalue=""  defaultvalue="" size="" validity="" />
+		</fields>
+	</interface>
+	<interface name="IOrderContract"  description="Order Contract" system="true"/>
+	<interface name="IOrderBOMStructure" description="Order BOM Structure" extend="IStructureObject">
+		<fields>
+			<field name="OrderDetail" description="Order Detail" mandatory="true" type="Object" typevalue="FoundationObject" validity=""/>
+		</fields>
+	</interface>
+	<interface name="IOption" description="Configure Rule" system="true">
+		<fields>
+			<field name="isClientProvideItem" description="is Client Provide Item" mandatory="false" type="Boolean"  validity="" rollback="true"/>
+		</fields>
+	</interface>
+	<interface name="IOptionStructure" description="Product Configure Structure" system="true">
+		<fields>
+			<field name="PartNumber" description="Part Number" mandatory="false" type="String" size="128" validity="" rollback="true"/>
+			<field name="Quantity" description="Quantity" mandatory="false" type="String" typevalue=""  defaultvalue="" size="" validity="" />
+			<field name="base" description="base" mandatory="false" type="String" size="128" validity="" rollback="false"/>
+			<field name="UniqueNo" description="UniqueNo Of New Class" mandatory="false" type="String" size="4000" validity="" rollback="true"/>
+		</fields>
+	</interface>
+
+	<interface name="IEPart" description="Electrical Part" system="true"/>
+	<interface name="IEProject" description="Electrical Project" system="true"/>
+
+	<interface name="IProcessFlowManagement"  description="Process Flow Management" system="true"/>
+	<interface name="IProcessFlow"  description="Process Flow" system="true"/>
+	<interface name="IProcess"  description="Process" system="true"/>
+	<interface name="IStandardProcessFlow"  description="Standard Process Flow" system="true"/>
+	<interface name="IStandardProcess"  description="Standard Process" system="true"/>
+	<interface name="ICalculationLibrary"  description="Calculation Library" system="true"/>
+
+	<interface name = "IERPType" description="Default Fields For ERP" system="true"/>
+
+	<interface name = "IERPTypeE10BOM" description="ERPType for E10BOM" extend="IERPType" system="true">
+		<fields>
+			<field name="E10_ITEM_CATEGORY" description="Item Category" mandatory="false" type="Code" typevalue="ItemCategory" defaultvalue="FixedElement" rollback="true"/>
+		</fields>
+	</interface>
+	<interface name = "IERPTypeE10Item" description="ERPType for E10Item" extend="IERPType" system="true"/>
+	<interface name = "IERPTypeE10MA" description="ERPType for E10MA" extend="IERPType" system="true"/>
+	<interface name = "IERPTypeE10Substitute" description="ERPType for E10Substitute" extend="IERPType" system="true"/>
+
+	<interface name = "IERPTypeSmartBOM" description="ERPType for SmartBOM" extend="IERPType" system="true"/>
+	<interface name = "IERPTypeSmartItem" description="ERPType for SmartItem" extend="IERPType" system="true"/>
+	<interface name = "IERPTypeSmartMA" description="ERPType for SmartMA" extend="IERPType" system="true"/>
+	<interface name = "IERPTypeSmartSubstitute" description="ERPType for SmartSubstitute" extend="IERPType" system="true"/>
+
+	<interface name = "IERPTypeT100BOM" description="ERPType for T100BOM" extend="IERPType" system="true">
+		<fields>
+			<field name="PartNumber" description="PartNumber" mandatory="false" type="String" size="128" rollback="true"/>
+		</fields>
+	</interface>
+	<interface name = "IERPTypeT100Item" description="ERPType for T100Item" extend="IERPType" system="true">
+		<fields>
+			<field name="PartClass" description="PartClass" mandatory="false" type="Code" typevalue="MaterialGroup" rollback="true"/>
+			<field name="ProCategory" description="Product Category" mandatory="false" type="Code" typevalue="ProCategory" rollback="true"/>
+		</fields>
+	</interface>
+	<interface name = "IERPTypeT100MA" description="ERPType for T100MA" extend="IERPType" system="true">
+		<fields>
+			<field name="ApprovalStatus" description="Approval Status" mandatory="false" type="Code" typevalue="ApprovalStatus" rollback="true"/>
+			<field name="ProductFeatures" description="Product Features" mandatory="false" type="String" size="128" rollback="true"/>
+		</fields>
+	</interface>
+	<interface name = "IERPTypeT100Substitute" description="ERPType for T100Substitute" extend="IERPType" system="true"/>
+
+	<interface name = "IERPTypeWFBOM" description="ERPType for WFBOM" extend="IERPType" system="true">
+		<fields>
+			<field name="WF_TR010" description="Production Process" mandatory="false" type="String" size="4" defaultvalue="****" rollback="true"/>
+			<field name="WF_TR014" description="Default Options" mandatory="false" type="Code" typevalue="Z_YN" rollback="true"/>
+			<field name="WF_TR015" description="Standard Cost Accounting" mandatory="false" type="Code" typevalue="Z_YN" rollback="true"/>
+			<field name="WF_TR017" description="Remark" mandatory="false" type="String" size="256" rollback="true"/>
+			<field name="WF_TR018" description="Material Form" mandatory="false" type="Code" typevalue="Z_TR018" rollback="true"/>
+			<field name="WF_TR020" description="" mandatory="false" type="String" size="80" rollback="true"/>
+			<field name="WF_TR021" description="" mandatory="false" type="String" size="80" rollback="true"/>
+			<field name="WF_TR022" description="" mandatory="false" type="String" size="80" rollback="true"/>
+			<field name="WF_TR023" description="" mandatory="false" type="String" size="80" rollback="true"/>
+			<field name="WF_TR024" description="" mandatory="false" type="String" size="80" rollback="true"/>
+		</fields>
+	</interface>
+	<interface name = "IERPTypeWFItem" description="ERPType for WFItem" extend="IERPType" system="true">
+		<fields>
+			<field name="WF_MB005" description="Classification1" mandatory="false" type="String" size="6" rollback="true"/>
+			<field name="WF_MB006" description="Classification2" mandatory="false" type="String" size="6" rollback="true"/>
+			<field name="WF_MB007" description="Classification3" mandatory="false" type="String" size="6" rollback="true"/>
+			<field name="WF_MB008" description="Classification4" mandatory="false" type="String" size="6" rollback="true"/>
+			<field name="WF_MB017" description="" mandatory="false" type="String" size="10" rollback="true"/>
+			<field name="WF_MB019" description="" mandatory="false" type="String" typevalue="Z_YN" size="32" rollback="true"/>
+			<field name="WF_MB025" description="" mandatory="false" type="Code" typevalue="Z_MB025" rollback="true"/>
+			<field name="WF_MB029" description="" mandatory="false" type="String" size="20" rollback="true"/>
+			<field name="WF_MB034" description="" mandatory="false" type="Code" typevalue="Z_MB034" rollback="true"/>
+			<field name="WF_MB043" description="" mandatory="false" type="Code" typevalue="Z_MB043" rollback="true"/>
+			<field name="WF_MB133" description="Property Code1" mandatory="false" type="String" size="6" rollback="true"/>
+			<field name="WF_MB134" description="Property Code2" mandatory="false" type="String" size="6" rollback="true"/>
+			<field name="WF_MB135" description="Property Code3" mandatory="false" type="String" size="6" rollback="true"/>
+			<field name="WF_MB136" description="Property Code4" mandatory="false" type="String" size="6" rollback="true"/>
+			<field name="WF_MB137" description="Property Code5" mandatory="false" type="String" size="6" rollback="true"/>
+			<field name="WF_MB138" description="Property Code6" mandatory="false" type="String" size="6" rollback="true"/>
+			<field name="WF_MB139" description="Property Code7" mandatory="false" type="String" size="6" rollback="true"/>
+			<field name="WF_MB140" description="Property Code8" mandatory="false" type="String" size="6" rollback="true"/>
+			<field name="WF_MB141" description="Property Code9" mandatory="false" type="String" size="6" rollback="true"/>
+			<field name="WF_MB152" description="Property Code10" mandatory="false" type="String" size="6" rollback="true"/>
+			<field name="WF_MB142" description="Property Code Group" mandatory="false" type="String" size="10" rollback="true"/>
+			<field name="WF_MB143" description="Property Content1" mandatory="false" type="String" size="10" rollback="true"/>
+			<field name="WF_MB144" description="Property Content2" mandatory="false" type="String" size="10" rollback="true"/>
+			<field name="WF_MB145" description="Property Content3" mandatory="false" type="String" size="10" rollback="true"/>
+			<field name="WF_MB146" description="Property Content4" mandatory="false" type="String" size="10" rollback="true"/>
+			<field name="WF_MB147" description="Property Content5" mandatory="false" type="String" size="10" rollback="true"/>
+			<field name="WF_MB148" description="Property Content6" mandatory="false" type="String" size="10" rollback="true"/>
+			<field name="WF_MB149" description="Property Content7" mandatory="false" type="String" size="10" rollback="true"/>
+			<field name="WF_MB150" description="Property Content8" mandatory="false" type="String" size="10" rollback="true"/>
+			<field name="WF_MB151" description="Property Content9" mandatory="false" type="String" size="10" rollback="true"/>
+			<field name="WF_MB153" description="Property Content10" mandatory="false" type="String" size="10" rollback="true"/>
+			<field name="WF_MC005" description="" mandatory="false" type="String" size="4" rollback="true"/>
+		</fields>
+	</interface>
+	<interface name = "IERPTypeWFMA" description="ERPType for WFMA" extend="IERPType" system="true"/>
+	<interface name = "IERPTypeWFSubstitute" description="ERPType for WFSubstitute" extend="IERPType" system="true"/>
+
+	<interface name = "IERPTypeYFBOM" description="ERPType for YFBOM" extend="IERPType" system="true"/>
+	<interface name = "IERPTypeYFItem" description="ERPType for YFItem" extend="IERPType" system="true">
+		<fields>
+			<field name="ItemCategory" description="Item Category" mandatory="false" type="String" size="128" rollback="true"/>
+			<field name="MainWarehouse" description="Main Warehouse" mandatory="false" type="String" size="128" rollback="true"/>
+		</fields>
+	</interface>
+	<interface name = "IERPTypeYFMA" description="ERPType for YFMA" extend="IERPType" system="true"/>
+	<interface name = "IERPTypeYFSubstitute" description="ERPType for YFSubstitute" extend="IERPType" system="true"/>
+
+	<interface name = "IERPTypeYTBOM" description="ERPType for YTBOM" extend="IERPType" system="true"/>
+	<interface name = "IERPTypeYTItem" description="ERPType for YTItem" extend="IERPType" system="true">
+		<fields>
+			<field name="PartClass" description="Part Class" mandatory="false" type="Code" typevalue="MaterialGroup" rollback="true"/>
+		</fields>
+	</interface>
+	<interface name = "IERPTypeYTMA" description="ERPType for YTMA" extend="IERPType" system="true"/>
+	<interface name = "IERPTypeYTSubstitute" description="ERPType for YTSubstitute" extend="IERPType" system="true"/>
+</interface-model>

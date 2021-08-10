@@ -12,6 +12,7 @@ import dyna.common.conf.SchedulerDefinition;
 import dyna.common.util.EnvUtils;
 import dyna.common.util.FileUtils;
 import dyna.common.util.StringUtils;
+import org.springframework.stereotype.Component;
 
 import java.util.Iterator;
 
@@ -19,6 +20,7 @@ import java.util.Iterator;
  * @author Qiuxq
  *
  */
+@Component
 public class ConfigLoaderJSSImpl extends AbstractConfigLoader<ConfigurableJSSImpl>
 {
 

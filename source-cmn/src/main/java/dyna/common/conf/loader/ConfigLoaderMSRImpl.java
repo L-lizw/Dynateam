@@ -9,6 +9,7 @@ import dyna.common.conf.ConfigurableKVElementImpl;
 import dyna.common.conf.ConfigurableMSRImpl;
 import dyna.common.util.EnvUtils;
 import dyna.common.util.FileUtils;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import java.util.List;
 /**
  * @author Lizw
  */
+@Component
 public class ConfigLoaderMSRImpl extends AbstractConfigLoader<ConfigurableMSRImpl>
 {
 

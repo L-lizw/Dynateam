@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dsserver>
+	<!-- 設定檔案伺服器的資訊，<rootdir>填入檔案放置目錄之路徑，<address>填入IP位址 -->
+	<rootdir>D:\\dss\\dssroot\\</rootdir>
+	<address>127.0.0.1</address>
+	<port>2222</port>
+	<pasvports>20000-20050</pasvports>
+</dsserver>

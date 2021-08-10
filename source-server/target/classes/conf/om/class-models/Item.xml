@@ -1,0 +1,28 @@
+<object-models>
+	<class-model>
+		<class-object name="Item" superclass="FoundationObject" interface="IItem" abstract="true" final="false" system="false" instancestring="Id" lifecycle="" uniquefields="Id" persistent="false">
+			<fields>
+				<field name="Material" mandatory="false" type="Code" typevalue="Material"/>
+				<field name="EnglishDes" mandatory="false" type="String"/>
+				<field name="weight" mandatory="false" type="String"/>
+				<field name="ERPPrice" mandatory="false" type="Float"/>
+			</fields>
+		</class-object>
+	</class-model>
+	<ui-model>
+		<ui-object name="ItemUI" businessmodels="*" title="Item;产品零部件管理" type="Form">
+			<fields>
+				<field name="EnglishDes" type="String" title="EnglishDes;英文描述" titlevisible="true" width="" readonly="false" column="1" columnSpan="1" row="2" froze="false"/>
+				<field name="ERPPrice" type="Float" title="ERPPrice" titlevisible="true" readonly="false" column="1" columnSpan="1" row="3" froze="false"/>
+				<field name="Material" type="Code" title="Material" titlevisible="true" readonly="false" column="1" columnSpan="1" row="5" froze="false"/>
+				<field name="Source" type="Code" title="Item Source" titlevisible="true" readonly="false" column="1" columnSpan="1" row="1" froze="false"/>
+				<field name="weight" type="String" title="weight" titlevisible="true" readonly="false" column="1" columnSpan="1" row="18" froze="false"/>
+			</fields>
+			<actions/>
+		</ui-object>
+	</ui-model>
+	<data-model synchorize="true"/>
+	<numbering-model mandatory="false" serialnumberwithfield="true" serialnumberwithdate="true">
+		<numbering-object type="Serial Number" typevalue="5"/>
+	</numbering-model>
+</object-models>

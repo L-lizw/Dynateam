@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<table id="INFO" title="基本信息">
+		<column name="ID$" default="">图号</column>
+		<column name="NAME$" default="">名称</column>
+		<column name="REVISIONID$" default="">版本</column>
+		<column name="EXPORTDATE" default="">导出时间</column>
+	</table>
+	<table id="G" title="G表">
+		<column name="INDEX" default="">序号</column>
+		<column name="ID_CLIENT_INSTANCE_CONFIG_G_GNUMBER" default="">G 番号</column>
+		<column name="ID_CLIENT_INSTANCE_CONFIG_L_DESCRIPTION" default="">描述</column>
+	</table>
+	<table id="La" title="La表">
+		<column name="INDEX" default="">序号</column>
+		<column name="ID_CLIENT_INSTANCE_CONFIG_L_GROUPVALUE" default="">分组</column>
+		<column name="ID_CLIENT_INSTANCE_CONFIG_L_DESCRIPTION" default="">L番含义描述</column>
+		<column name="ID_CLIENT_INSTANCE_CONFIG_L_LNUMBER" default="">L 番号</column>
+	</table>
+	<table id="Lb" title="Lb表">
+		<column name="INDEX" default="">序号</column>
+		<column name="ID_CLIENT_INSTANCE_CONFIG_L_GROUPVALUE" default="">分组</column>
+		<column name="ID_CLIENT_INSTANCE_CONFIG_L_DESCRIPTION" default="">L番含义描述</column>
+		<column name="ID_CLIENT_INSTANCE_CONFIG_L_LNUMBER" default="">L 番号</column>
+	</table>
+	<table id="A-E" title="A-E表">
+		<column name="INDEX" default="">序号</column>
+		<column name="ID_CLIENT_INSTANCE_CONFIG_AERQ_VARIABLE" default="">指定变量</column>
+		<column name="&gt;=;ID_CLIENT_INSTANCE_CONFIG_AE_LOWERLIMIT1" default="">&gt;=下限</column>
+		<column name="&lt;;ID_CLIENT_INSTANCE_CONFIG_AE_UPPERLIMIT1" default="">&lt;上限</column>
+	</table>
+	<table id="R-Q" title="R-Q表">
+		<column name="INDEX" default="">序号</column>
+		<column name="ID_CLIENT_INSTANCE_CONFIG_AERQ_VARIABLE;1" default="">指定变量1</column>
+		<column name="&gt;=;ID_CLIENT_INSTANCE_CONFIG_AE_LOWERLIMIT1;1" default="">&gt;=下限1</column>
+		<column name="&lt;;ID_CLIENT_INSTANCE_CONFIG_AE_UPPERLIMIT1;1" default="">&lt;上限1</column>
+		<column name="ID_CLIENT_INSTANCE_CONFIG_AERQ_VARIABLE;2" default="">指定变量2</column>
+		<column name="&gt;=;ID_CLIENT_INSTANCE_CONFIG_AE_LOWERLIMIT1;2" default="">&gt;=下限2</column>
+		<column name="&lt;;ID_CLIENT_INSTANCE_CONFIG_AE_UPPERLIMIT1;2" default="">&lt;上限2</column>
+	</table>
+	<table id="F" title="F表">
+		<column name="INDEX" default="">序号</column>
+		<column name="" default="">F 番号</column>
+		<column name="ID_CLIENT_INSTANCE_CONFIG_F_DRAWVARIABLE" default="">图面变量</column>
+		<column name="ID_CLIENT_INSTANCE_CONFIG_F_FORMULA" default="">计算公式</column>
+		<column name="ID_CLIENT_INSTANCE_CONFIG_AERQ_VARIABLE" default="">指定变量</column>
+	</table>
+	<table id="P" title="P表">
+		<column name="INDEX" default="">序号</column>
+		<column name="" default="">P表番号</column>
+		<column name="ID_CLIENT_INSTANCE_CONFIG_G_GNUMBER" default="">品群</column>
+		<column name="ID_CLIENT_CONFIG_P_AUTOTITLE;1" default="">变量1</column>
+		<column name="ID_CLIENT_CONFIG_P_AUTOTITLE;2" default="">变量2</column>
+		<column name="ID_CLIENT_CONFIG_P_AUTOTITLE;3" default="">变量3</column>
+	</table>
+	<table id="MAK" title="Mark">
+		<column name="INDEX" default="">序号</column>
+		<column name="ID_CLIENT_INSTANCE_CONFIG_MAK_NAME" default="">MAK值</column>
+		<column name="ID_CLIENT_INSTANCE_CONFIG_MAK_DESCRIPTION" default="">对应参数值</column>
+	</table>
+	<table id="INPT" title="输入变量">
+		<column name="INDEX" default="">序号</column>
+		<column name="NAME" default="">变量名称</column>
+		<column name="DESCRIPTION" default="">含义描述</column>
+		<column name="VALUETYPE" default="">值类型(0/1)（0 ：选择;1：输入）</column>
+		<column name="VALUERANGE" default="">值</column>
+		<column name="VALUEDESCRIPTION" default="">值描述</column>
+	</table>
+	<table id="M" title="M表">
+		<column name="GROUP" default="">组别</column>
+		<column name="DEFINITIONNAME" default="">变量名</column>
+		<column name="RELATIONCONDITION" default="">条件</column>
+		<column name="DEFINITIONVALUE" default="">变量值</column>
+		<column name="RESULT" default="">结果变量;结果变量值</column>
+	</table>
+	<table id="DETAIL" title="材料明细表">
+		<column name="INDEX" title="序号" default=""></column>
+		<column name="END2$CLASSNAME$" title="end2的类名" default="">end2$&lt;classname&gt;</column>	
+		<column name="END2$ID$" title="图号/品号" default="">end2$&lt;ID$&gt;</column>	
+		<column name="END2$NAME$" title="品名" default="">end2$&lt;NAME$&gt;</column>	
+		<column name="PARTNUMBER" title="品/群" default="">PartNumber</column>	
+		<column name="LNUMBER" title="L番" default="">LNumber</column>	
+		<column name="CONFIGPARAMETER" title="变量传递" default="">ConfigParameter</column>	
+		<column name="QUANTITY" title="数量" default="">Quantity</column>	
+		<column name="G" title="G番号" default=""></column>	
+	</table>
+	<!-- 根据图纸配置类,相关属性UI模型修改 -->
+	<table id="RC" title="相关配置">	
+		<column name="Length" title="长度" default="">Length</column>
+		<column name="Width" title="宽度" default="">Width</column>	
+		<column name="Thickness" title="厚度" default="">Thickness</column>	
+		<column name="Specification" title="规格" default="">Specification</column>	
+		<column name="Weight" title="单件重量" default="">Weight</column>	
+		<column name="IM008" title="工艺路线" default="">IM008</column>	
+		<column name="HZHI" title="H值" default="">HZHI</column>	
+		<column name="TZHI" title="T值" default="">TZHI</column>	
+		<column name="WZHI" title="W值" default="">WZHI</column>	
+		<column name="SSZHI" title="SS值" default="">SSZHI</column>	
+		<column name="ANKK" title="按钮开孔" default="">ANKK</column>	
+		<column name="CZSHU" title="层站数" default="">CZSHU</column>	
+		<column name="MPNR" title="铭牌内容" default="">MPNR</column>	
+		<column name="ZAIZHONG" title="载重" default="">ZAIZHONG</column>	
+		<column name="Material" title="材质" default="">Material</column>	
+		<column name="FLOORDE" title="楼层标记" default="">FLOORDE</column>	
+		<column name="AZFS" title="安装方式" default="">AZFS</column>	
+		<column name="Remark" title="备注" default="">Remark</column>	
+	</table>
+</root>

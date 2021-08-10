@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<!-- 自定義函數，需要集成類dyna.indicator.function.AbstractFunction -->
+	<functions>
+		<function name="sum" class="dyna.indicator.function.SumFunction" description="求和" />
+		<function name="count" class="dyna.indicator.function.CountFunction" description="計數" />
+		<function name="daysBetween" class="dyna.indicator.function.DaysBetweenFunction" description="兩個日期之間的天數" />
+		<!-- 废弃，最小单位天
+		<function name="hoursBetween" class="dyna.indicator.function.HoursBetweenFunction" description="兩個日期之間的工時數" />
+		<function name="minutesBetween" class="dyna.indicator.function.MinutesBetweenFunction" description="兩個日期之間的時間分鐘數" />
+		-->
+		<function name="countDistinct" class="dyna.indicator.function.CountDistinctFunction" description="對象去重個數總數" />
+		<!-- 废弃，最小单位天
+		<function name="wfHoursBetween" class="dyna.indicator.function.WFHoursBetweenFunction" description="工作流時間計算"/>
+		-->
+		<function name="wfDaysBetween" class="dyna.indicator.function.WFDaysBetweenFunction" description="工作流時間計算"/>
+		<function name="countLastLevelInBOM" class="dyna.indicator.function.CountLastLevelInBOMFunction" description="尾階物料總數"/>
+		<function name="countUsedInBOM" class="dyna.indicator.function.CountUsedInBOMFunction" description="BOM子件总数"/>
+		<function name="countWFAccessOneTimes" class="dyna.indicator.function.CountWFAccessOneTimes" description="一次通過流程數"/>
+		<function name="countChangeRequest" class="dyna.indicator.function.CountChangeRequestFunction" description="項目變更數"/>
+		<function name="countApproveActrt" class="dyna.indicator.function.CountWFApproveActrtFunction" description="流程審批節點個數"/>
+		<function name="countRelation" class="dyna.indicator.function.CountRelationFunction" description="關聯關係對象數量"/>
+		<function name="countUser" class="dyna.indicator.function.CountUserFunction" description="用戶數"/>
+		
+		<function name="GetUserGroup" class="dyna.indicator.function.GetUserGroupFunction" description="取得用戶組"/>
+		<function name="GetWFTemplateTitle" class="dyna.indicator.function.GetWorkflowTemplateTitleFunction" description="取得工作流模版标题"/>
+		
+		<function name="divided" class="dyna.common.bean.data.ppms.indicator.function.DividedFunction" description="一般除法運算"/>
+	</functions>
+</root>

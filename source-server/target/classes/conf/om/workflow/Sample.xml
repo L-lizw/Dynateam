@@ -1,0 +1,22 @@
+<workflowprocess name="Sample" description="示例" title="Sample;示例">
+	<activities>
+		<activity name="BEGIN" position="10,100"/>
+		<activity name="END" position="398,105,-1,-1"/>
+		<activity name="activity1" description="activity1" position="155,95,-1,-1" gate="10" title="activity1">
+			<implementation>
+				<tool type="MANUAL"/>
+			</implementation>
+		</activity>
+	</activities>
+	<lifecyclephases>
+		<lifecyclephase lifecyclename="Default" phasename="Working"/>
+	</lifecyclephases>
+	<transitions>
+		<transition name="transition1" description="transition1" from="BEGIN" to="activity1">
+			<condition type="Regular"/>
+		</transition>
+		<transition name="transition2" description="transition2" from="activity1" to="END">
+			<condition type="Regular"/>
+		</transition>
+	</transitions>
+</workflowprocess>

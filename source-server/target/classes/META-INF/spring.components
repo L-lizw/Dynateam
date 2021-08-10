@@ -1,0 +1,13 @@
+dyna.app.conf.ServerConfigaration=org.springframework.stereotype.Component
+dyna.app.core.i18n.NLSManager=org.springframework.stereotype.Component
+dyna.app.core.lic.LicenseManager=org.springframework.stereotype.Component
+dyna.app.core.pool.PoolManagerDefaultImpl=org.springframework.stereotype.Component
+dyna.app.core.sch.SchedulerManager=org.springframework.stereotype.Component
+dyna.app.core.track.TrackerManager=org.springframework.stereotype.Component
+dyna.app.net.impl.ServiceDispatcherImpl=org.springframework.stereotype.Component
+dyna.app.net.impl.server.ServiceLocatorServerImpl=org.springframework.stereotype.Component
+dyna.app.net.impl.server.ServiceStateExchangerServerImpl=org.springframework.stereotype.Component
+dyna.app.server.ServerImpl=org.springframework.stereotype.Component
+dyna.app.server.context.ApplicationServerContextImpl=org.springframework.stereotype.Component
+dyna.app.server.context.ServiceContextImpl=org.springframework.stereotype.Component
+dyna.client.ConnectionFactory=org.springframework.stereotype.Component

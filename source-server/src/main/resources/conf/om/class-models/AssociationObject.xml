@@ -1,0 +1,19 @@
+<object-models>
+	<class-model>
+		<class-object name="AssociationObject" superclass="ViewObject" abstract="false" final="false" system="false" instancestring="" lifecycle="Default" persistent="false">
+			<fields>
+				<field name="Sample" description="示例" mandatory="false" type="String"/>
+			</fields>
+		</class-object>
+	</class-model>
+	<ui-model>
+		<ui-object name="baseinfo" businessmodels="*" title="Base Info;基本信息" type="Form">
+			<fields>
+				<field name="Sample" type="String" title="Sample;示例" titlevisible="true" readonly="false" column="1" columnSpan="1" row="1" froze="false"/>
+			</fields>
+			<actions/>
+		</ui-object>
+	</ui-model>
+	<data-model synchorize="true"/>
+	<numbering-model mandatory="false" serialnumberwithfield="false" serialnumberwithdate="false"/>
+</object-models>

@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+  <!--            DynaTeam Built-in Model Configuration              -->
+  <!-- This document defines built-in objects for DynaTeam           -->
+  <!-- Licensed to DCIS. All rights reserved.                        -->
+  <!--                                                               -->
+  <!-- WARNING:  Do NOT change it                                    -->
+
+<object-models>
+	<class-model>
+		<class-object  name="DynaObject" superclass="" interface="" system="true" iterationlimit="10" abstract="true" final="true"  uniquefields="Id" icon="" instancestring="Id+&quot;/&quot;+Revisionid+&quot;.&quot;+Iterationid+&quot;-&quot;+Name" lifecycle="DEFAULT">
+		</class-object>
+		<class-object  name="FoundationObject" superclass="DynaObject" interface="IFoundation" system="true" iterationlimit="10" abstract="true" final="false"  icon="" instancestring="Id+&quot;/&quot;+Revisionid+&quot;.&quot;+Iterationid+&quot;-&quot;+Name" lifecycle="DEFAULT">
+		</class-object>
+	    <class-object  name="ViewObject" superclass="FoundationObject" interface="IViewObject" system="true" iterationlimit="10" abstract="true" final="false"  uniquefields="" icon="" instancestring="Id+&quot;/&quot;+Revisionid+&quot;.&quot;+Iterationid+&quot;-&quot;+Name" lifecycle="DEFAULT">
+		</class-object>
+		<class-object  name="AbstractBaseStructureObject" superclass="DynaObject" interface="IStructureObject" system="true" iterationlimit="10" abstract="true" final="false" uniquefields="" icon="" instancestring="" lifecycle="DEFAULT">
+		</class-object>
+		<class-object  name="AbstractBOMStructure" superclass="AbstractBaseStructureObject" interface="IBOMStructure" system="true" iterationlimit="10" abstract="true" final="false" uniquefields="" icon="" instancestring="" lifecycle="DEFAULT" createtable="true">
+		</class-object>
+		<class-object  name="AbstractStructureObject" superclass="AbstractBaseStructureObject" interface="IStructureObject" system="true" iterationlimit="10" abstract="true" final="false" uniquefields="" icon="" instancestring="" lifecycle="DEFAULT" createtable="false">
+		</class-object>
+	</class-model>
+	<ui-model>
+		<ui-object name="ListUI" businessmodels="*" title="list;结果集;結果集" type="LIST" visible="true" position="FoundationObject" reporttypes="">
+	         <fields>     
+	          	<field name="ID$" type="String" title="ID;编号;品號" titlevisible="true" readonly="false" column="0" columnspan="1" row="0" froze="true" showValWhenNoAuth="false" mandatory="false"/>
+				<field name="NAME$" type="String" title="Name;名称;品名" titlevisible="true" readonly="false" column="0" columnspan="1" row="1" froze="true" showValWhenNoAuth="false" mandatory="false"/>
+				<field name="REVISIONID$" type="String" title="revisionid;版本;版本" titlevisible="true" readonly="true" column="0" columnspan="1" row="2" froze="true" showValWhenNoAuth="false" mandatory="false"/>
+				<field name="ISCHECKOUT$" type="String" title="checkout;检出;檢出" titlevisible="true" readonly="true" column="0" columnspan="1" row="4" froze="true" showValWhenNoAuth="false" mandatory="false"/>
+				<field name="CLASSGUID$" type="String" title="classguid;类;類" titlevisible="true" readonly="true" column="0" columnspan="1" row="5" froze="true" showValWhenNoAuth="false" mandatory="false"/>
+				<field name="CLASSIFICATION$" type="Classification" title="Classfication;分类;分類" titlevisible="true" readonly="false" column="0" columnspan="1" row="6" froze="true" showValWhenNoAuth="false" mandatory="false"/>
+				<field name="STATUS$" type="Status" title="status;状态;狀態" titlevisible="true" readonly="true" column="0" columnspan="1" row="7" froze="true" showValWhenNoAuth="false" mandatory="false"/>
+				<field name="LIFECYCLEPHASE$" type="String" title="lifecycle;阶段;階段" titlevisible="true" readonly="true" column="0" columnspan="1" row="8" froze="true" showValWhenNoAuth="false" mandatory="false"/>
+				<field name="FILENAME$" type="String" title="filename;文件名;檔案名" titlevisible="true" readonly="true" column="0" columnspan="1" row="9" froze="true" showValWhenNoAuth="false" mandatory="false"/>
+				<field name="UPDATETIME$" type="Datetime" title="updatetime;更新于;更新於" titlevisible="true" readonly="true" column="0" columnspan="1" row="10" froze="true" showValWhenNoAuth="false" mandatory="false" format=""/>
+				<field name="CREATETIME$" type="Datetime" title="createtime;创建于;創建於" titlevisible="true" readonly="true" column="0" columnspan="1" row="11" froze="true" showValWhenNoAuth="false" mandatory="false" format=""/>
+				<field name="OWNERUSER$" type="Object" title="owneruser;所有者;擁有者" titlevisible="true" readonly="true" column="0" columnspan="1" row="12" froze="true" showValWhenNoAuth="false" mandatory="false" format=""/>
+	         </fields>
+      </ui-object>
+	 </ui-model>
+</object-models>

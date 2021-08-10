@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sapconf>
+
+<!-- 导出的基本配置 -->
+
+<exportconf>
+	<importStyle>BOM</importStyle> <!--导出类型 ITEM,BOM,ITEM_BOM,ITEM_AND_BOM -->
+	<BOMType>EBOM</BOMType><!--导出的BOM类型  -->
+	<filePath>D:\\SAP</filePath><!--导出时文件的存放路径 ,存路径需要双斜杠 -->
+</exportconf>
+
+<!-- 导出各种类型的设置 -->
+
+<!-- first class -->
+		<sapfieldconf>
+		<pdmclass>Item</pdmclass> 
+		<field>
+		<fieldId>ID$@REVISIONID$</fieldId>
+		<fieldName>品名版本号</fieldName>
+		</field><!--物料需要这样输出:"@"表示两个字段要合并  -->
+		<field>
+		<fieldId>gongchang</fieldId>
+		<fieldName>工厂</fieldName>
+		</field>
+		<field>
+		<fieldId>NAME$</fieldId>
+		<fieldName>名称</fieldName>
+		</field>
+		<field>
+		<fieldId>REVISIONID$</fieldId>
+		<fieldName>版本号</fieldName></field>
+		<field>
+		<fieldId>cailiao</fieldId>
+		<fieldName>材料</fieldName>
+		</field>
+		<field>
+		<fieldId>cailiaojc</fieldId>
+		<fieldName>材料简称</fieldName>
+		</field>
+		<field>
+		<fieldId>EngNAME</fieldId>
+		<fieldName>英文名</fieldName>
+		</field>
+		<field>
+		<fieldId>ID$</fieldId>
+		<fieldName>品号</fieldName>
+		</field>
+	<!-- 视图字段1 -->
+	
+	<view>
+		<viewId>GroupSheet:LGORT</viewId>
+		<viewName>库存地点</viewName>
+		</view>
+		<view>
+		<viewId>QMappend:AKTIV</viewId>
+		<viewName>明细1</viewName>
+		</view>
+		<view>
+		<viewId>QMappend:APA</viewId>
+		<viewName>明细2</viewName>
+		</view>
+		<view>
+		<viewId>QMappend:ART</viewId>
+		<viewName>明细3</viewName></view>
+		<view>
+		<viewId>QMappend:KURZTEXT</viewId>
+		<viewName>明细4</viewName></view>
+		
+		
+	</sapfieldconf>
+		
+<!--second class  -->
+		<sapfieldconf>
+		<pdmclass>BOMStructure</pdmclass>
+		<field><!--end1的物料号  -->
+		<fieldId>END1:ID$</fieldId>
+		<fieldName>主件号</fieldName>
+		</field>
+		<field><!--请默认写成这个字段  -->
+		<fieldId>END1:taitou</fieldId>
+		<fieldName>抬头</fieldName>
+		</field>
+		<field><!-- end2的物料号 -->
+		<fieldId>END2:ID$</fieldId>
+		<fieldName>子件号</fieldName>
+		</field>
+		<field><!--end1的单位  -->
+		<fieldId>END1:UOM</fieldId>
+		<fieldName>主件单位</fieldName>
+		</field>
+		<field><!--end2的单位  -->
+		<fieldId>END2:UOM</fieldId>
+		<fieldName>子件单位</fieldName>
+		</field>
+		<field><!-- 顺序 -->
+		<fieldId>Sequence</fieldId>
+		<fieldName>顺序</fieldName>
+		</field>
+		<field><!-- 数量 -->
+		<fieldId>leibie</fieldId>
+		<fieldName>类别</fieldName>
+		</field>
+		<field><!--BOM的有效日期  -->
+		<fieldId>Time</fieldId>
+		<fieldName>BOM的有效时间</fieldName>
+		</field>
+		
+		</sapfieldconf>
+</sapconf>

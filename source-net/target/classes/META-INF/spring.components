@@ -3,3 +3,4 @@ dyna.net.dispatcher.sync.ServiceStateChangeReactorDefaultImpl=org.springframewor
 dyna.net.dispatcher.sync.ServiceStateExchangerRMIImpl=org.springframework.stereotype.Component
 dyna.net.dispatcher.sync.ServiceStateManagerDefaultImpl=org.springframework.stereotype.Component
 dyna.net.security.CredentialManagerDefaultImpl=org.springframework.stereotype.Component
+dyna.net.syncfile.SyncFileServiceImpl=org.springframework.stereotype.Component

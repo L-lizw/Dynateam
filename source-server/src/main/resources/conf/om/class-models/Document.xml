@@ -1,0 +1,23 @@
+<object-models>
+	<class-model>
+		<class-object name="Document" superclass="DocumentTemplate" interface="" abstract="false" final="false" system="false" instancestring="Id" lifecycle="" uniquefields="Id" persistent="false"/>
+	</class-model>
+	<ui-model>
+		<ui-object name="DocumentUI" businessmodels="*" title="DocumentUI;DocumentUI" type="Form">
+			<fields>
+				<field name="remarks" type="String" title="remarks;备注" titlevisible="true" width="400" height="300" readonly="false" column="1" columnSpan="1" row="5" froze="false"/>
+				<field name="Keywords" type="String" title="Key Words;关键字" titlevisible="true" width="400" readonly="false" column="1" columnSpan="1" row="1" froze="false"/>
+			</fields>
+			<actions>
+				<action name="Print" title="打印文档"/>
+			</actions>
+		</ui-object>
+		<icon>
+			<classicon path="document.png"/>
+		</icon>
+	</ui-model>
+	<data-model synchorize="true"/>
+	<numbering-model mandatory="false" serialnumberwithfield="true" serialnumberwithdate="true">
+		<numbering-object type="Serial Number" typevalue="5"/>
+	</numbering-model>
+</object-models>

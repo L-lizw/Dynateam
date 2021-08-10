@@ -1,0 +1,5 @@
+<object-models>
+	<class-model>
+		<class-object name="Group" superclass="FoundationObject" interface="IGroup" abstract="true" final="true" system="true" instancestring="Id" lifecycle="" persistent="false"/>
+	</class-model>
+</object-models>

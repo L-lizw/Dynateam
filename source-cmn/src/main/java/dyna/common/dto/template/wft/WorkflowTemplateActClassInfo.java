@@ -168,7 +168,7 @@ public class WorkflowTemplateActClassInfo extends SystemObjectImpl implements Sy
 		this.put(HASSCRIPT, hasScript == true ? CLASS_TYPE_HAS : CLASS_TYPE_NOT);
 	}
 
-	public boolean hastestModify()
+	public boolean hasPropertyModify()
 	{
 		return this.hasEffectiveTime() || this.hasEditFile() || this.hasViewFile() || this.hasObsoleteTime() || this.hasScript();
 	}

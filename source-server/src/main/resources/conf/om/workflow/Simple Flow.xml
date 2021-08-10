@@ -1,0 +1,82 @@
+<workflowprocess name="Simple Flow" description="A Simple release flow" title="SimpleProcess;简单审批流程">
+	<activities>
+		<activity name="END" position="927,166,-1,-1"/>
+		<activity name="BEGIN" position="36,157,-1,-1"/>
+		<activity name="Review" description="Review" position="229,48,-1,-1" title="Review;审阅">
+			<implementation>
+				<tool type="MANUAL"/>
+			</implementation>
+		</activity>
+		<activity name="Approve" description="approve" position="423,159,-1,-1" title="Approve;批准">
+			<implementation>
+				<tool type="MANUAL"/>
+			</implementation>
+		</activity>
+		<activity name="Release" description="Release" position="526,56,-1,-1" title="Release;发布">
+			<implementation>
+				<tool name="CHANGE_PHASE" type="APPLICATION"/>
+			</implementation>
+			<phasechanges>
+				<phasechange lifecycle="Default" fromphase="Working" tophase="Released"/>
+			</phasechanges>
+		</activity>
+		<activity name="Notification" position="650,62,-1,-1" title="Notification;通知">
+			<implementation>
+				<tool name="NOTIFY" type="APPLICATION"/>
+			</implementation>
+		</activity>
+		<activity name="activity1" description="lock" position="74,71,-1,-1" title="activity1">
+			<implementation>
+				<tool name="LOCK" type="APPLICATION"/>
+			</implementation>
+		</activity>
+		<activity name="activity2" description="unlock" position="200,154,-1,-1" title="activity2">
+			<implementation>
+				<tool name="UNLOCK" type="APPLICATION"/>
+			</implementation>
+		</activity>
+		<activity name="activity3" description="Unlock" position="771,161,-1,-1" title="activity3">
+			<implementation>
+				<tool name="UNLOCK" type="APPLICATION"/>
+			</implementation>
+		</activity>
+	</activities>
+	<lifecyclephases>
+		<lifecyclephase lifecyclename="Default" phasename="Working"/>
+	</lifecyclephases>
+	<transitions>
+		<transition name="transition2" description="Accept" position="17,-13" from="Review" to="Approve">
+			<condition type="Accept"/>
+		</transition>
+		<transition name="transition6" description="Reject" position="-10,9" from="Approve" to="Review">
+			<condition type="Reject"/>
+		</transition>
+		<transition name="transition8" description="Accept" position="0,-7" from="Approve" to="Release">
+			<condition type="Accept"/>
+		</transition>
+		<transition name="transition11" description="" from="activity1" to="Review">
+			<condition type="Regular"/>
+		</transition>
+		<transition name="transition12" from="BEGIN" to="activity1">
+			<condition type="Regular"/>
+		</transition>
+		<transition name="transition1" description="Reject" from="Review" to="activity2">
+			<condition type="Reject"/>
+		</transition>
+		<transition name="transition3" from="activity2" to="BEGIN">
+			<condition type="Regular"/>
+		</transition>
+		<transition name="transition7" description="Reject" from="Approve" to="activity2">
+			<condition type="Reject"/>
+		</transition>
+		<transition name="transition4" description="" from="Release" to="Notification">
+			<condition type="Regular"/>
+		</transition>
+		<transition name="transition5" description="" from="Notification" to="activity3">
+			<condition type="Regular"/>
+		</transition>
+		<transition name="transition9" description="" from="activity3" to="END">
+			<condition type="Regular"/>
+		</transition>
+	</transitions>
+</workflowprocess>

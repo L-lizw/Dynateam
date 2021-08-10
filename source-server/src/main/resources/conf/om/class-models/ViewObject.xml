@@ -1,0 +1,5 @@
+<object-models>
+	<class-model>
+		<class-object name="ViewObject" superclass="FoundationObject" interface="IViewObject" abstract="false" final="false" system="true" instancestring="" lifecycle="" uniquefields="" persistent="true"/>
+	</class-model>
+</object-models>

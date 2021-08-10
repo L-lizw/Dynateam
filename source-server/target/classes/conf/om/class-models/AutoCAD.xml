@@ -1,0 +1,32 @@
+<object-models>
+	<class-model>
+		<class-object name="AutoCAD" superclass="CADModel" interface="ICAD2D" abstract="false" final="false" system="false" instancestring="Id" lifecycle="" persistent="false">
+			<fields>
+				<field name="GSize" mandatory="false" type="Code" typevalue="GraphSize"/>
+				<field name="GScale" mandatory="false" type="Code" typevalue="GraphScale"/>
+				<field name="masterItem" mandatory="false" type="Object" typevalue="*:Item"/>
+			</fields>
+		</class-object>
+	</class-model>
+	<ui-model>
+		<ui-object name="CADUI" businessmodels="*" title="CADUI;CADUI" type="Form">
+			<fields>
+				<field name="drawingSource" type="Code" title="drawingSource;来源" titlevisible="true" readonly="false" column="1" columnSpan="1" row="3" froze="false"/>
+				<field name="drawingType" type="Code" title="drawingType;类别" titlevisible="true" readonly="false" column="1" columnSpan="1" row="4" froze="false"/>
+				<field name="name" type="String" title="name;名称" titlevisible="true" readonly="false" column="1" columnSpan="1" row="7" froze="false"/>
+				<field name="remarks" type="String" title="remarks;备注" titlevisible="true" width="400" height="200" readonly="false" column="1" columnSpan="1" row="8" froze="false"/>
+				<field name="GScale" type="Code" title="GScale;比例" titlevisible="true" readonly="false" column="1" columnSpan="1" row="9" froze="false"/>
+				<field name="GSize" type="Code" title="GSize;图幅" titlevisible="true" readonly="false" column="1" columnSpan="1" row="10" froze="false"/>
+				<field name="masterItem" type="Object" title="masterItem;主物料" titlevisible="true" readonly="false" column="1" columnSpan="1" row="11" froze="false"/>
+			</fields>
+			<actions/>
+		</ui-object>
+		<icon>
+			<classicon path="autocad.png"/>
+		</icon>
+	</ui-model>
+	<data-model synchorize="true"/>
+	<numbering-model mandatory="false" serialnumberwithfield="true" serialnumberwithdate="true">
+		<numbering-object type="Serial Number" typevalue="5"/>
+	</numbering-model>
+</object-models>

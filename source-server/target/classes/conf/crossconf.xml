@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cross>
+  <crossserver>
+    <ip>192.168.168.159</ip>
+    <port>9999</port>
+    <servername>IntegrationEntry</servername>
+  </crossserver>
+  <host>
+    <ip>192.168.168.10</ip>
+    <id>PLM</id>
+    <ver>1.0</ver>
+    <port>38080</port>
+    <acct />
+    <isencoding>false</isencoding>
+    <servername>axis2/services/ERPIService</servername>
+  </host>
+  <servers>
+    <server>
+      <ip>192.168.168.159</ip>
+      <id />
+      <ver>4.0.5</ver>
+      <prod>WFGP</prod>
+    </server>
+    <server>
+      <ip>192.168.168.153</ip>
+      <id />
+      <ver>9.0.10.0</ver>
+      <prod>YIFEI</prod>
+    </server>
+    <server>
+      <ip>192.168.168.155</ip>
+      <id />
+      <ver>2.0</ver>
+      <prod>E10</prod>
+    </server>
+    <server>
+      <ip>192.168.168.152</ip>
+      <id>topprod</id>
+      <ver>5.30</ver>
+      <prod>TIPTOP</prod>
+    </server>
+    <server>
+      <ip>192.168.168.152</ip>
+      <id>topprod</id>
+      <ver>5.30</ver>
+      <prod>T100</prod>
+    </server>
+    <server>
+      <ip>192.168.168.210</ip>
+      <id />
+      <ver>9.2.1</ver>
+      <prod>SMERP</prod>
+    </server>
+  </servers>
+</cross>
+

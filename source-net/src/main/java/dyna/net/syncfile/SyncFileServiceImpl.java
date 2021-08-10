@@ -21,6 +21,7 @@ import dyna.net.syncfile.transfer.TransferEnum;
 import dyna.net.syncfile.transfer.TransferHelper;
 import dyna.net.syncfile.upload.Uploader;
 import dyna.net.syncfile.upload.UploaderImpl;
+import org.springframework.stereotype.Service;
 
 /**
  * 系统文件同步服务的实现
@@ -28,6 +29,7 @@ import dyna.net.syncfile.upload.UploaderImpl;
  * @author Wanglei
  * 
  */
+@Service
 public class SyncFileServiceImpl implements SyncFileService, Poolable
 {
 
@@ -62,6 +64,15 @@ public class SyncFileServiceImpl implements SyncFileService, Poolable
 	}
 
 	public SyncFileServiceImpl()
+	{
+
+	}
+
+	@Override public void setServiceDefinition(ServiceDefinition serviceDefinition)
+	{
+	}
+
+	@Override public void init()
 	{
 
 	}

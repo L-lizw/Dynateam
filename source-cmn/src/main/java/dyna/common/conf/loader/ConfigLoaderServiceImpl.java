@@ -11,6 +11,7 @@ import dyna.common.conf.ServiceDefinition;
 import dyna.common.util.EnvUtils;
 import dyna.common.util.FileUtils;
 import dyna.common.util.StringUtils;
+import org.springframework.stereotype.Component;
 
 import java.util.Iterator;
 
@@ -20,6 +21,7 @@ import java.util.Iterator;
  * @author Wanglei
  * @see dyna.common.conf.ConfigurableServiceImpl
  */
+@Component
 public class ConfigLoaderServiceImpl extends AbstractConfigLoader<ConfigurableServiceImpl>
 {
 

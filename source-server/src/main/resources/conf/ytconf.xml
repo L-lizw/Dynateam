@@ -1,0 +1,443 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<!-- 基本參數設定 -->
+	<parameters>
+		<param name="user"	 value="tiptop" />
+		<param name="password" 	value="" />
+		<param name="application" 	value="PLM" />
+		<!-- ERP系統語系 zh_tw(繁體) zh_cn(簡體) en_us(英文) -->
+		<param name="language" 	value="zh_cn" />
+		<!-- 料件承認範本名稱 -->
+		<param name="maTemplate" 	value="ApproveItem" />
+		<!-- 預設BOM範本名稱，例外：(1)當手動拋轉指定BOM範本時(2)ECA項目指定BOM範本時 -->
+		<param name="defaultBOMTemplate" 	value="BOM" />
+		<!-- 易飛、易拓專用參數，輪詢間隔時間，預設值為20秒 -->
+		<param name="operationPollingTime" 	value="20" />
+		<!-- 每個Operation允許的最大等侯回應時間,超過則視為timeout,預設值為300秒 -->
+		<param name="operationLiveTime" 	value="300" />
+		<!-- 易拓專用參數，ERP在超過operationLiveTime時間未回應後，是否繼續執行後面的Operation -->
+		<param name="continueWhenTimeout" 	value="true" />
+		<!-- 拋轉料號、取替代、料件承認等單筆資料的批次傳輸數量，預設值300 -->
+		<param name="batchSize" 	value="300" />
+		<!-- 拋轉BOM的批次傳輸數量(一個單階視為一個BOM)，預設值20 -->
+		<param name="BOMBatchSize" 	value="100" />
+		<!--是否保留暫存xml文件(在軟體安裝目錄的log資料夾下)  -->
+		<param name="saveTempFile" 	value="true" />
+		<!-- 資料發生錯誤時，是否仍持續拋轉，最後再一起通知錯誤，若false則發生錯誤後就會停止拋轉 -->
+		<param name="traverseAllInstanceIgnoringError" 	value="true" />
+		<!-- 是否儲存拋轉過的料號資訊(ID+版本)，若設為true，可配合約束條件達到料號不可重覆拋轉的功能 -->
+		<param name="saveTransferStatus"	 value="false" />
+		<!-- 做資料初始化處理時，是否遍歷完所有實例，即使部分實例有錯誤，錯誤規則由“restrictions”部分或欄位mapping規則定義 -->
+		<param name="traverseAllInstanceIgnoringError" 	value="true" />
+		<!-- 是否儲存拋轉歷史記錄(如果配置為false則${HasSent}永遠返回N -->
+		<param name="saveTransferStatus"	 value="false" />
+		<!-- 在欄位mapping中，需要組合plm欄位時，定義欄位之間的分割字元 -->
+		<param name="${breaksign}" value=";" />
+		<param name="printData4Comparison" value="true"/>
+
+	</parameters>
+	
+		<!-- 約束條件配置：根據約束條件設定，資料初始化時，如“skipOnFail”參數為true，則根據條件自動排出不滿足條件的資料不做拋轉，如“skipOnFail”參數為false，則自動報錯，終止資料集成 -->
+	<restrictions>
+		<!-- operator目前支持 = 、 != 、 in 、 !in 4種，分別表示等於、不等於、在...中，不在...中。category表示對哪些內容進行約束。skipOnFail表示前面的判斷條件失敗了是否略過 -->
+		<!-- 傳檢入狀態的料件，如果資料是檢出狀態則略過 -->
+		<!-- <restriction field="ISCHECKOUT$" operator="="	 value="N"       category="item"     skipOnFail="true" /> -->
+		<!-- 傳發佈狀態的料件，如果不是則略過 -->
+		<!-- <restriction field="STATUS$"     operator="="   value="RLS"      category="item"     skipOnFail="true" /> -->
+		<!-- 傳以前沒有傳過的料件和BOM，如果不是則略過。 ${HasSent是內建字段，表示以前是否傳輸過} -->
+		<!-- <restriction field="${HasSent}"  operator="="    value="N"       category="item,bom" skipOnFail="true" /> -->
+	</restrictions>
+	
+	<!-- ERP能提供的所有Operation, name會顯示在傳輸結果中，用戶可以修改name屬性值，其它部分不能修改 -->
+	<operations>
+		<operation id="getOrgans"      category="organs"   			name="讀取營運中心"  />
+		<operation id="getMFG"         category="mfg" 				name="讀取製造單據性質"  />
+		<operation id="getItemGroup"   category="itemGroup" 		name="讀取料件分群碼" />
+		<operation id="getSupplier"    category="vendor" 			name="讀取供應商" />
+		<operation id="getBrand"       category="brand" 			name="讀取廠牌(製造商)" />
+		<operation id="getCurrency"    category="currency" 			name="讀取幣別" />
+		<operation id="getEmployee"    category="employee" 			name="讀取員工資料"  />
+		<operation id="getUnit"        category="unit" 				name="讀取單位" />
+		<operation id="createItem"     category="item" 				name="拋轉料件" />
+		<operation id="createBOM"      category="bom" 				name="拋轉BOM" />
+		<operation id="createSupplier" category="itemSupplier" 		name="拋轉料件供應商" />
+		<operation id="createLocalS"   category="replacesubstitute" name="拋轉指定取代" />
+		<operation id="createLocalR"   category="replacesubstitute" name="拋轉指定替代"  />
+		<operation id="createGlobalS"  category="replacesubstitute" name="拋轉全面取代" />
+		<operation id="createGlobalR"  category="replacesubstitute" name="拋轉全面替代" />
+		<operation id="createMA"      category="ma" 				name="拋轉料件承認" />
+	</operations>
+
+	<!-- 用戶自定義傳輸schema ，與定義集成範本中的“集成內容”對應-->
+	<!-- include表示該schema包含哪些Operation，各個Option用,分隔，排在前面的Operation優先執行。 name是在設定ERP整合範本的時候顯示。 -->
+	<!--  expandBOM表示是否展開BOM傳輸。 exportRSItem表示是否傳取替代件，前面是include中包含createItem -->
+	<schemas>
+		<schema include="createItem"	 			name="僅拋轉料件" />
+		
+		<schema include="createItem" 	 			name="拋轉料件(BOM展開)"			expandBOM="true" />
+		
+		<schema include="createItem,createBOM" 		name="拋轉單階料件和BOM" />
+		
+		<schema include="createBOM" 				name="僅拋轉BOM(展開BOM)" 			        expandBOM="true" />
+		
+		<schema include="createItem,createBOM" 		name="拋轉多階料件和BOM" 			expandBOM="true" />
+		
+		<schema include="createLocalS"  			name="拋轉指定替代(展開BOM)"		expandBOM="true" />
+		
+		<schema include="createLocalR"  			name="拋轉指定取代(展開BOM)"		expandBOM="true" />
+		
+		<schema include="createGlobalS" 			name="拋轉全面替代" /> 
+		
+		<schema include="createGlobalR" 			name="拋轉全面取代" />
+		
+		<schema include="createMA" 				name="拋轉料件承認(展開BOM)" 		expandBOM="true" />
+	</schemas>
+	
+	<!-- ECO抛转ERP——在ECO审批中，通过流程调用“ECOERP”集成模板，自动抛转变更后数据	-->
+	<patch>
+		<!-- 在哪個schema中拋轉, expandBOM exportRSItem繼承sourceSchema上的設定 -->
+		<ECO sourceSchema="ECOERP">
+			<!-- 變更類型為修改資料時，只傳料件 -->
+			<filter changeType="ITEM" 		operation="createItem" />
+			<!-- 變更類型為修改BOM時，只傳BOM結構 -->
+			<filter changeType="BOM" 		operation="createBOM" />
+			<!-- 變更類型為替換時，只傳料件 -->
+			<filter changeType="REPLACE" 	operation="createItem" />
+		</ECO>
+	</patch>
+	
+	<!-- 傳輸內容，目前支持item bom replacesubstitute ma 4種 -->
+	<category>
+		<item>
+			<!-- ERP xml中要求的參數，具體參考相關xml格式 -->
+			<parameters>
+				<param name="status" value="Y"></param>
+			</parameters>
+			<!-- YTERP中最多三個表，分別是表頭、表身、插件，分别用Master Detail Detail表示，其中table中的id 屬性分別用master detail plugin表示，不能用其它的表示 -->
+			<tables>
+				<table id="master" name="ima_file"></table>
+			</tables>
+			<!-- 類別的字串設定， name表示類別名 -->
+			<class name="Item">
+				<table name="ima_file">
+					<mapping>
+						<param name="PLMField" value="ID$" />
+						<param name="ERPField" value="ima01" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="料件編號" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="20" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="NAME$" />
+						<param name="ERPField" value="ima02" />
+						<param name="defaultValue" value="默認名字" />
+						<param name="description" value="品名" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="" />
+						<param name="ERPField" value="ima06" />
+						<param name="defaultValue" value="002" /><!-- 欄位預設值，當Plm中該對應欄位值為空，或PLM中沒有對應欄位時，取預設值拋給ERP -->
+						<param name="description" value="分群碼" />
+						<param name="isMandatory" value="true" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="Specification+${breaksign}+Material+${breaksign}+Remark" /><!--幾個字段的組合方法-->
+						<param name="ERPField" value="ima021" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="規格" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="60" /><!-- PLM中欄位值的長度限制，如果超長，且“truncWhenLengthExceeds”參數值為“false”，不允許拋轉該筆資料，系統發出欄位超長通知 -->
+						<param name="truncWhenLengthExceeds" value="true" /><!-- 當欄位值超過“maxLength”中設定時，是否要自動截取，“false”或無該參數表示不截取 -->
+					</mapping>
+				</table>
+			</class>
+		</item>
+
+		<bom>
+			<parameters>
+				<param name="status" value="Y"></param>
+				<param name="smyslip" value="ECN"></param>
+			</parameters>
+			<tables>
+				<table id="master" name="bma_file"></table>
+				<table id="detail" name="bmb_file"></table>
+				<table id="plugin" name="bmt_file"></table>
+			</tables>
+
+			<class name="BOMStructure">
+				<table name="bma_file">
+				<mapping>
+						<param name="PLMField" value="" />
+						<param name="ERPField" value="acttype" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="END1$ID$" />
+						<param name="ERPField" value="bma01" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="主件料件代號" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+				</table>
+				<table name="bmb_file">
+					<mapping>
+						<param name="PLMField" value="Sequence" />
+						<param name="ERPField" value="bmb02" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="組合項次" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="END2$ID$" />
+						<param name="ERPField" value="bmb03" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="元件料件編號" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="${Date}" />
+						<param name="ERPField" value="bmb04" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="生效日期" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="" />
+						<param name="ERPField" value="bmb05" />
+						<param name="defaultValue" value="2050/12/30" />
+						<param name="description" value="失效日期" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="Quantity" />
+						<param name="ERPField" value="bmb06" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="組成用量" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+						<param name="dataType" value="number" /><!-- 把欄位值強制轉化為“number”型別 -->
+						<param name="precision" value="6" /><!-- number型別欄位值的小數點精度 -->
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="" />
+						<param name="ERPField" value="bmb07" />
+						<param name="defaultValue" value="1" />
+						<param name="description" value="底數" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="BOMKey" />
+						<param name="ERPField" value="bmb37" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+				</table>
+				<table name="bmt_file">
+					<mapping>
+						<param name="PLMField" value="Sequence" />
+						<param name="ERPField" value="bmt02" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="項次" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="END2$ID$" />
+						<param name="ERPField" value="bmt03" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="元件料件編號" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="${Date}" />
+						<param name="ERPField" value="bmt04" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="生效日期" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="" />
+						<param name="ERPField" value="bmt07" />
+						<param name="defaultValue" value="1" />
+						<param name="description" value="組成用量" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="${Designators}" />
+						<param name="ERPField" value="bmt06" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="插件位置" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+				</table>
+			</class>
+		</bom>
+
+		<replacesubstitute>
+			<tables>
+				<table id="master" name="bmd_file"></table>
+			</tables>
+			<class name="Substitute">
+				<table name="bmd_file">
+					<mapping>
+						<param name="PLMField" value="" />
+						<param name="ERPField" value="accttype" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="ComponentItem" />
+						<param name="ERPField" value="bmd01" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="原始料件編號" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="RSType" />
+						<param name="ERPField" value="bmd02" />
+						<param name="defaultValue" value="1" />
+						<param name="description" value="檔案類別" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="RSNumber" />
+						<param name="ERPField" value="bmd03" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="替代序號" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="RSItem" />
+						<param name="ERPField" value="bmd04" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="取代替代料件編號" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="EffectiveDate" />
+						<param name="ERPField" value="bmd05" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="生效日期" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="InvalidDate" />
+						<param name="ERPField" value="bmd06" />
+						<param name="defaultValue" value="2050/12/30" />
+						<param name="description" value="失效日期" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="Rate" />
+						<param name="ERPField" value="bmd07" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="取代替代量" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="MasterItem" />
+						<param name="ERPField" value="bmd08" />
+						<param name="defaultValue" value="ALL" />
+						<param name="description" value="主件編號，TIPTOP全面取替代主件為ALL" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+				</table>
+			</class>
+		</replacesubstitute>
+
+		<ma>
+			<tables>
+				<table id="master" name="bmj_file" />
+			</tables>
+			<class name="StructureObject">
+				<table name="bmj_file">
+					<mapping>
+						<param name="PLMField" value="End1$ID$" />
+						<param name="ERPField" value="bmj01" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="料件編號" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="End2$Manufacturer|ID$" />
+						<param name="ERPField" value="bmj02" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="製造商" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="End2$Vendor|ID$" />
+						<param name="ERPField" value="bmj03" />
+						<param name="defaultValue" value="供應商" />
+						<param name="description" value="" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="" />
+						<param name="ERPField" value="bmj04" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="廠商料號" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="" />
+						<param name="ERPField" value="bmj05" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="送樣編號" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="End2$ID$" />
+						<param name="ERPField" value="bmj10" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="承認文號" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+					<mapping>
+						<param name="PLMField" value="${Date}" />
+						<param name="ERPField" value="bmj11" />
+						<param name="defaultValue" value="" />
+						<param name="description" value="承認日期" />
+						<param name="isMandatory" value="" />
+						<param name="maxLength" value="" />
+					</mapping>
+				</table>
+			</class>
+		</ma>
+	</category>
+</root>

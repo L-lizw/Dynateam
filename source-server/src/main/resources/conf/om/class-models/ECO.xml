@@ -1,0 +1,41 @@
+<object-models>
+	<class-model>
+		<class-object name="ECO" superclass="FoundationObject" interface="IECO;IStorage" abstract="false" final="false" system="false" instancestring="Id" lifecycle="" uniquefields="Id" persistent="true">
+			<fields>
+				<field name="remarks" mandatory="false" type="String"/>
+				<field name="ECReason" mandatory="false" type="Code" typevalue="ECReason"/>
+				<field name="ReqApplyFrom" mandatory="false" type="Date"/>
+				<field name="ReqApplyTo" mandatory="false" type="Date"/>
+			</fields>
+		</class-object>
+	</class-model>
+	<ui-model>
+		<ui-object name="baseinfo" businessmodels="R&amp;D Model" title="Base Info;基本信息" type="Form">
+			<fields>
+				<field name="Description" type="String" title="Description;描述" titlevisible="true" readonly="false" column="1" columnSpan="1" row="1" froze="false"/>
+				<field name="EffectiveDate" type="Date" title="EC Effective Date;有效日期" titlevisible="true" readonly="false" column="1" columnSpan="1" row="9" froze="false"/>
+				<field name="remarks" type="String" title="remarks;备注" titlevisible="true" width="400" height="200" readonly="false" column="1" columnSpan="2" row="20" froze="false"/>
+				<field name="ECReason" type="Code" title="ECReason;变更原因" titlevisible="true" readonly="false" column="1" columnSpan="3" row="8" froze="false"/>
+				<field name="ReqApplyFrom" type="Date" title="ReqApplyFrom;开始时间" titlevisible="true" readonly="false" column="1" columnSpan="1" row="10" froze="false"/>
+				<field name="ReqApplyTo" type="Date" title="ReqApplyTo;截止时间" titlevisible="true" readonly="false" column="2" columnSpan="1" row="10" froze="false"/>
+			</fields>
+			<actions/>
+		</ui-object>
+		<ui-object name="MECO" businessmodels="Manufacture Model" title="Base Info;基本信息" type="Form">
+			<fields>
+				<field name="Description" type="String" title="Description;描述" titlevisible="true" readonly="false" column="1" columnSpan="1" row="1" froze="false"/>
+				<field name="remarks" type="String" title="remarks;备注" titlevisible="true" readonly="false" column="1" columnSpan="1" row="7" froze="false"/>
+				<field name="ReqApplyFrom" type="Date" title="ReqApplyFrom;开始时间" titlevisible="true" readonly="false" column="1" columnSpan="1" row="9" froze="false"/>
+				<field name="ReqApplyTo" type="Date" title="ReqApplyTo;截止时间" titlevisible="true" readonly="false" column="1" columnSpan="1" row="12" froze="false"/>
+			</fields>
+			<actions/>
+		</ui-object>
+		<icon>
+			<classicon path="eco.png"/>
+		</icon>
+	</ui-model>
+	<data-model synchorize="true"/>
+	<numbering-model mandatory="false" serialnumberwithfield="true" serialnumberwithdate="true">
+		<numbering-object type="Serial Number" typevalue="5"/>
+	</numbering-model>
+</object-models>

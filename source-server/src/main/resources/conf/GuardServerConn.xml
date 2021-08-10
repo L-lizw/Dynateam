@@ -1,0 +1,10 @@
+<GuardServerConn>
+
+	<!-- 在GuardServer的端口 -->
+	<!-- 設定GrardManager安裝主機的資訊，<host>中需填IP位址(若DigiwinPLM安裝於VM中需設定) -->
+	<service-lookup>
+		<host>127.0.0.1</host>
+		<port>6666</port>
+	</service-lookup>
+	
+</GuardServerConn>

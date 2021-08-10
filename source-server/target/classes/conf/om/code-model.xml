@@ -1,0 +1,88 @@
+<code-model>
+	<code name="ItemSource" description="Item Source" isclassification="false" title="Item Source;物料来源;" type="Tree">
+		<codeitem name="Outsourcing" description="Out sourcing" title="Outsourcing;外协;"/>
+		<codeitem name="Manufacturing" description="Manufacturing" title="Manufacturing;自制;"/>
+	</code>
+	<code name="BOMView" description="BOM View Classification" isclassification="true" title="BOM View Classification;BOM视图种类;" type="List">
+		<codeitem name="EBOM" description="EBOM" title="EBOM;EBOM;"/>
+		<codeitem name="MBOM" description="MBOM" title="MBOM;MBOM;"/>
+	</code>
+	<code name="ProductLine" description="Product tree" isclassification="true" title="Product Tree;产品系列" type="Tree">
+		<codeitem name="P1" title="Whole Product;总成">
+			<codeitem name="P11" description="P11" title="P11"/>
+		</codeitem>
+		<codeitem name="P2" title="Assembly Product;分装"/>
+	</code>
+	<code name="ECReason" isclassification="false" title="EC Reason;变更原因" type="List">
+		<codeitem name="R1" description="Design" title="Design;设计改进"/>
+		<codeitem name="R2" description="Manufacture" title="Manufacture;制造变更"/>
+	</code>
+	<code name="ECSource" isclassification="false" title="EC Source;变更来源" type="List">
+		<codeitem name="S1" description="Customer" title="Cusotmer;客户"/>
+	</code>
+	<code name="ECEffectiveType" isclassification="false" title="EC Effective;变更生效" type="List">
+		<codeitem name="E01" description="Mandatory" title="Mandatory;强制生效"/>
+		<codeitem name="E02" description="Effective Date" title="Effective Date;指定时间"/>
+	</code>
+	<code name="DocumentType" isclassification="true" title="Document Type;文档类别" type="Tree">
+		<codeitem name="D01" description="R&amp;D Document" title="R&amp;D;研发文档"/>
+		<codeitem name="D02" description="Process Document" title="Process Document;工艺文档"/>
+		<codeitem name="D03" description="Standard Document" title="Standard;标准文档"/>
+	</code>
+	<code name="CADFileType" description="图纸类型" isclassification="false" title="CADFileType;图纸类型" type="List">
+		<codeitem name="T01" description="总装配图" title="T01;总装配图"/>
+		<codeitem name="T02" description="部件装配图" title="T02;部件装配图"/>
+	</code>
+	<code name="CADFileSource" description="图纸来源" isclassification="false" title="CADFileSource;图纸来源" type="List">
+		<codeitem name="F01" description="自行设计" title="F01;自行设计"/>
+		<codeitem name="F02" description="合作伙伴" title="F02;合作伙伴"/>
+		<codeitem name="F03" description="供应厂商" title="F03;供应厂商"/>
+		<codeitem name="F04" description="客户" title="F04;客户"/>
+	</code>
+	<code name="GraphSize" description="图幅" isclassification="false" title="GraphSize;图幅" type="List">
+		<codeitem name="A0" description="A0" title="A0"/>
+		<codeitem name="A1" description="A1" title="A1"/>
+		<codeitem name="A2" description="A2" title="A2"/>
+		<codeitem name="A3" description="A3" title="A3"/>
+		<codeitem name="A4" description="A4" title="A4"/>
+	</code>
+	<code name="GraphScale" description="绘图比例" isclassification="false" title="GraphScale;绘图比例" type="List">
+		<codeitem name="GS01" description="不按比例" title="0;不按比例"/>
+		<codeitem name="GS02" description="4:1" title="4:1;4:1"/>
+		<codeitem name="GS03" description="3:1" title="3:1;3:1"/>
+	</code>
+	<code name="Document" description="文档" isclassification="false" title="Document;文档" type="List">
+		<codeitem name="Rou" description="工艺文件" title="Rou;工艺文件"/>
+		<codeitem name="TECH" description="技术文件" title="TECH;技术文件"/>
+	</code>
+	<code name="ECCategory" description="变更单类型" isclassification="false" title="ECCategory;变更单类型" type="List">
+		<codeitem name="ECO" description="更改通知单" title="ECO;更改通知单"/>
+		<codeitem name="EO" description="初次设计发布" title="EO;初次设计发布"/>
+	</code>
+	<code name="Material" description="材质" isclassification="false" title="Material;材质" type="List">
+		<codeitem name="A001" description="不锈钢" title="A001;不锈钢"/>
+		<codeitem name="A002" description="铸铁" title="A002;铸铁"/>
+	</code>
+	<code name="UOM" description="单位" isclassification="false" title="UOM;单位" type="List">
+		<codeitem name="BAG" description="袋" title="BAG;袋;"/>
+		<codeitem name="DUI" description="对" title="DUI;对"/>
+	</code>
+	<code name="RoughPartType" description="毛坯类型" isclassification="false" title="RoughPartType;毛坯类型" type="List">
+		<codeitem name="Du" description="锻件" title="Du;锻件"/>
+		<codeitem name="Raw" description="原材料" title="Raw;原材料"/>
+		<codeitem name="Zh" description="铸件" title="Zh;铸件"/>
+	</code>
+	<code name="surface" description="表面处理" isclassification="false" title="surface;表面处理" type="List">
+		<codeitem name="Ag" description="镀银" title="Ag;镀银"/>
+		<codeitem name="Cd" description="镀镉" title="Cd;镀镉"/>
+	</code>
+	<code name="part_category" description="零部件类型" isclassification="true" title="part_category;零部件类型" type="Tree">
+		<codeitem name="PC001" description="普通件" title="PC001;普通件"/>
+		<codeitem name="PC002" description="标准件" title="PC002;标准件"/>
+	</code>
+	<code name="Production_type" description="生产采购类型" isclassification="false" title="Production_type;生产采购类型" type="List">
+		<codeitem name="E" description="自制" title="E;自制"/>
+		<codeitem name="F" description="外购" title="F;外购"/>
+		<codeitem name="X" description="可自制也可外购" title="X;可自制也可外购"/>
+	</code>
+</code-model>

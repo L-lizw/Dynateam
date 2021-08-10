@@ -1,0 +1,33 @@
+<object-models>
+	<class-model>
+		<class-object name="Project" superclass="Item" abstract="false" final="false" system="false" instancestring="Id" lifecycle="Project" persistent="false">
+			<fields>
+				<field name="name" mandatory="true" type="String"/>
+				<field name="Description" mandatory="false" type="String"/>
+				<field name="createtime" description="名称" mandatory="false" type="Datetime"/>
+			</fields>
+		</class-object>
+	</class-model>
+	<ui-model>
+		<ui-object name="ItemUI" businessmodels="R&amp;D Model;Manufacture Model" title="Item;产品零部件管理" type="Form">
+			<fields>
+				<field name="EnglishDes" type="String" title="EnglishDes;英文描述" titlevisible="true" width="" readonly="false" column="1" columnSpan="1" row="2" froze="false"/>
+				<field name="ERPPrice" type="Float" title="ERPPrice" titlevisible="true" readonly="false" column="1" columnSpan="1" row="3" froze="false"/>
+				<field name="Material" type="Code" title="Material" titlevisible="true" readonly="false" column="1" columnSpan="1" row="5" froze="false"/>
+				<field name="Source" type="Code" title="Item Source" titlevisible="true" readonly="false" column="1" columnSpan="1" row="1" froze="false"/>
+				<field name="weight" type="String" title="weight" titlevisible="true" readonly="false" column="1" columnSpan="1" row="18" froze="false"/>
+			</fields>
+			<actions/>
+		</ui-object>
+		<ui-object name="Baseinfo" businessmodels="TestModel" title="基本信息" type="Form">
+			<fields>
+				<field name="createtime" type="Datetime" title="createtime;创建时间;" titlevisible="true" readonly="false" column="1" columnSpan="1" row="3" froze="false"/>
+				<field name="name" type="String" title="name;名称;" titlevisible="true" readonly="false" column="1" columnSpan="1" row="1" froze="false"/>
+				<field name="Description" type="String" title="Description;描述;" titlevisible="true" readonly="false" column="1" columnSpan="1" row="2" froze="false"/>
+			</fields>
+			<actions/>
+		</ui-object>
+	</ui-model>
+	<data-model synchorize="true"/>
+	<numbering-model mandatory="false" serialnumberwithfield="false" serialnumberwithdate="false"/>
+</object-models>
