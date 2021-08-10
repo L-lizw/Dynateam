@@ -1,21 +1,18 @@
 package dyna.data.service.ec;
 
 import dyna.common.bean.data.ObjectGuid;
-import dyna.common.conf.ServiceDefinition;
 import dyna.common.exception.ServiceRequestException;
-import dyna.data.context.DataServerContext;
 import dyna.data.service.DataRuleService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class ECServiceImpl extends DataRuleService implements ECService
 {
+	@Autowired
 	private DSECStub ecStub;
-
-	public ECServiceImpl(DataServerContext context, ServiceDefinition sd)
-	{
-		super(context, sd);
-	}
 
 	protected DSECStub getECStub()
 	{

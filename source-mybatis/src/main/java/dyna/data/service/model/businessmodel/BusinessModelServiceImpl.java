@@ -8,12 +8,12 @@ package dyna.data.service.model.businessmodel;
 
 import dyna.common.bean.model.bmbo.BusinessModel;
 import dyna.common.bean.model.bmbo.BusinessObject;
-import dyna.common.conf.ServiceDefinition;
 import dyna.common.dto.model.bmbo.BMInfo;
 import dyna.common.dto.model.bmbo.BOInfo;
 import dyna.common.exception.ServiceRequestException;
-import dyna.data.context.DataServerContext;
 import dyna.data.service.DataRuleService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,14 +23,11 @@ import java.util.stream.Collectors;
  *
  * @author xiasheng
  */
+@Service
 public class BusinessModelServiceImpl extends DataRuleService implements BusinessModelService
 {
+	@Autowired
 	private BusinessModelServiceStub modelStub;
-
-	public BusinessModelServiceImpl(DataServerContext context, ServiceDefinition sd)
-	{
-		super(context, sd);
-	}
 
 	public BusinessModelServiceStub getModelStub()
 	{
@@ -38,7 +35,7 @@ public class BusinessModelServiceImpl extends DataRuleService implements Busines
 	}
 
 	@Override
-	protected void init()
+	public void init()
 	{
 		try
 		{

@@ -2,7 +2,6 @@ package dyna.data.service.common;
 
 import dyna.common.SearchCondition;
 import dyna.common.bean.data.FoundationObject;
-import dyna.common.conf.ServiceDefinition;
 import dyna.common.dto.Queue;
 import dyna.common.dto.Session;
 import dyna.common.dto.model.cls.ClassField;
@@ -11,20 +10,18 @@ import dyna.common.sqlbuilder.plmdynamic.select.DynamicSelectParamData;
 import dyna.common.systemenum.FieldTypeEnum;
 import dyna.common.systemenum.ObjectFieldTypeEnum;
 import dyna.common.systemenum.PMSearchTypeEnum;
-import dyna.data.context.DataServerContext;
 import dyna.data.service.DataRuleService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class DSCommonServiceImpl extends DataRuleService implements DSCommonService
 {
-	private DSCommonStub commonStub = null;
-
-	public DSCommonServiceImpl(DataServerContext context, ServiceDefinition sd)
-	{
-		super(context, sd);
-	}
+	@Autowired
+	private DSCommonStub commonStub;
 
 	public DSCommonStub getDSCommonStub()
 	{

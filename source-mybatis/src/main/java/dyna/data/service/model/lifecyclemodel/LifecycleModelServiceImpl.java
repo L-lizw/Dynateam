@@ -7,12 +7,12 @@ package dyna.data.service.model.lifecyclemodel;
 
 import dyna.common.bean.model.lf.Lifecycle;
 import dyna.common.bean.model.lf.LifecyclePhase;
-import dyna.common.conf.ServiceDefinition;
 import dyna.common.dto.model.lf.LifecycleInfo;
 import dyna.common.dto.model.lf.LifecyclePhaseInfo;
 import dyna.common.exception.ServiceRequestException;
-import dyna.data.context.DataServerContext;
 import dyna.data.service.DataRuleService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,17 +23,14 @@ import java.util.stream.Collectors;
  * @author Jiagang
  * 
  */
+@Service
 public class LifecycleModelServiceImpl extends DataRuleService implements LifecycleModelService
 {
-	public LifecycleModelServiceImpl(DataServerContext context, ServiceDefinition sd)
-	{
-		super(context, sd);
-	}
-
+	@Autowired
 	private LifecycleModelServiceStub modelStub;
 
 	@Override
-	protected void init()
+	public void init()
 	{
 		try
 		{

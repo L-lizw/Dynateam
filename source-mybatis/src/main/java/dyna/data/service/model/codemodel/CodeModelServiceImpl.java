@@ -8,7 +8,6 @@ package dyna.data.service.model.codemodel;
 import dyna.common.bean.model.code.CodeItem;
 import dyna.common.bean.model.code.CodeObject;
 import dyna.common.bean.model.ui.ClassificationUIObject;
-import dyna.common.conf.ServiceDefinition;
 import dyna.common.dto.model.cls.ClassField;
 import dyna.common.dto.model.code.CodeItemInfo;
 import dyna.common.dto.model.code.CodeObjectInfo;
@@ -16,8 +15,9 @@ import dyna.common.dto.model.ui.ClassificationUIInfo;
 import dyna.common.dto.model.ui.UIField;
 import dyna.common.exception.ServiceRequestException;
 import dyna.common.systemenum.UITypeEnum;
-import dyna.data.context.DataServerContext;
 import dyna.data.service.DataRuleService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,17 +28,14 @@ import java.util.stream.Collectors;
  * @author Jiagang
  * 
  */
+@Service
 public class CodeModelServiceImpl extends DataRuleService implements CodeModelService
 {
+	@Autowired
 	private CodeModelServiceStub modelStub;
 
-	public CodeModelServiceImpl(DataServerContext context, ServiceDefinition sd)
-	{
-		super(context, sd);
-	}
-
 	@Override
-	protected void init()
+	public void init()
 	{
 		try
 		{

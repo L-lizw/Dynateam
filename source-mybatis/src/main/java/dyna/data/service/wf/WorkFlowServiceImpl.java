@@ -6,14 +6,14 @@
  */
 package dyna.data.service.wf;
 
-import dyna.common.conf.ServiceDefinition;
 import dyna.common.dto.wf.ActivityRuntime;
 import dyna.common.dto.wf.ProcAttach;
 import dyna.common.dto.wf.ProcessRuntime;
 import dyna.common.exception.DynaDataException;
 import dyna.common.systemenum.WorkflowActivityType;
-import dyna.data.context.DataServerContext;
 import dyna.data.service.DataRuleService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -22,14 +22,11 @@ import java.util.List;
  * 
  * @author XiaSheng
  */
+@Service
 public class WorkFlowServiceImpl extends DataRuleService implements WorkFlowService
 {
+	@Autowired
 	private WorkflowStub			workflowStub			= null;
-
-	public WorkFlowServiceImpl(DataServerContext context, ServiceDefinition sd)
-	{
-		super(context, sd);
-	}
 
 	protected WorkflowStub getWorkflowStub()
 	{

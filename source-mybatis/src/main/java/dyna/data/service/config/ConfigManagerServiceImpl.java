@@ -1,20 +1,17 @@
 package dyna.data.service.config;
 
 import dyna.common.bean.data.ObjectGuid;
-import dyna.common.conf.ServiceDefinition;
 import dyna.common.exception.ServiceRequestException;
 import dyna.common.systemenum.ModelInterfaceEnum;
-import dyna.data.context.DataServerContext;
 import dyna.data.service.DataRuleService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ConfigManagerServiceImpl extends DataRuleService implements ConfigManagerService
 {
+	@Autowired
 	private ConfigManagerStub configManagerStub;
-
-	public ConfigManagerServiceImpl(DataServerContext context, ServiceDefinition sd)
-	{
-		super(context, sd);
-	}
 
 	public ConfigManagerStub getConfigManagerStub()
 	{

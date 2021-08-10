@@ -4,21 +4,23 @@ import dyna.common.conf.ServiceDefinition;
 import dyna.common.exception.ServiceNotFoundException;
 import dyna.data.context.DataServerContext;
 import dyna.net.service.Service;
+import org.springframework.beans.factory.annotation.Autowired;
 
-public class DataRuleService implements Service
+public abstract class DataRuleService implements Service
 {
+	@Autowired
 	protected DataServerContext	serviceContext	= null;
 	protected ServiceDefinition	serviceDef		= null;
 
-	public DataRuleService(DataServerContext context, ServiceDefinition sd)
+	@Override public void init()
 	{
-		this.serviceContext = context;
-		this.serviceDef = sd;
-		this.init();
+
 	}
 
-	protected void init()
+	@Override
+	public void setServiceDefinition(ServiceDefinition serviceDef)
 	{
+		this.serviceDef = serviceDef;
 	}
 
 	/**

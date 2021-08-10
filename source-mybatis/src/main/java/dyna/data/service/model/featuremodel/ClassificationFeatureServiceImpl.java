@@ -1,25 +1,22 @@
 package dyna.data.service.model.featuremodel;
 
 import dyna.common.bean.model.code.ClassficationFeatureItem;
-import dyna.common.conf.ServiceDefinition;
 import dyna.common.dto.cfm.ClassficationFeature;
 import dyna.common.dto.cfm.ClassficationFeatureItemInfo;
 import dyna.common.dto.cfm.ClassificationNumberField;
 import dyna.common.exception.DynaDataException;
 import dyna.common.exception.ServiceRequestException;
-import dyna.data.context.DataServerContext;
 import dyna.data.service.DataRuleService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class ClassificationFeatureServiceImpl extends DataRuleService implements ClassificationFeatureService
 {
+	@Autowired
 	private ClassificationFeatureStub featureStub;
-
-	public ClassificationFeatureServiceImpl(DataServerContext context, ServiceDefinition sd)
-	{
-		super(context, sd);
-	}
 
 	public ClassificationFeatureStub getFeatureStub()
 	{

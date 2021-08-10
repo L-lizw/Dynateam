@@ -8,7 +8,6 @@ package dyna.data.service.model.classmodel;
 
 import dyna.common.bean.model.cls.ClassObject;
 import dyna.common.bean.model.ui.UIObject;
-import dyna.common.conf.ServiceDefinition;
 import dyna.common.dto.model.cls.*;
 import dyna.common.dto.model.ui.UIAction;
 import dyna.common.dto.model.ui.UIField;
@@ -18,8 +17,9 @@ import dyna.common.systemenum.ModelInterfaceEnum;
 import dyna.common.systemenum.ReportTypeEnum;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
-import dyna.data.context.DataServerContext;
 import dyna.data.service.DataRuleService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -29,17 +29,14 @@ import java.util.stream.Collectors;
  * 
  * @author xiasheng
  */
+@Service
 public class ClassModelServiceImpl extends DataRuleService implements ClassModelService
 {
+	@Autowired
 	private ClassModelServiceStub modelStub;
 
-	public ClassModelServiceImpl(DataServerContext context, ServiceDefinition sd)
-	{
-		super(context, sd);
-	}
-
 	@Override
-	protected void init()
+	public void init()
 	{
 		try
 		{

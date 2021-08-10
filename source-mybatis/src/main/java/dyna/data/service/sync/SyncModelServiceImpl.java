@@ -1,31 +1,25 @@
 package dyna.data.service.sync;
 
 import dyna.common.bean.configure.ProjectModel;
-import dyna.common.conf.ServiceDefinition;
 import dyna.common.exception.DynaDataException;
 import dyna.common.exception.ServiceRequestException;
 import dyna.common.systemenum.FieldTypeEnum;
-import dyna.data.context.DataServerContext;
 import dyna.data.service.DataRuleService;
 import dyna.dbcommon.function.DatabaseFunctionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
 
-public class SyncModelServiceImpl extends DataRuleService implements SyncModelService
+@Service public class SyncModelServiceImpl extends DataRuleService implements SyncModelService
 {
-	private SDSModelStub		modelStub;
+	private static boolean initialized = false;
 
-	private CodeXMLLoadStub		codeXMLLoadStub;
+	@Autowired private SDSModelStub     modelStub;
+	@Autowired private CodeXMLLoadStub  codeXMLLoadStub;
+	@Autowired private ClassXMLLoadStub classXMLLoadStub;
 
-	private ClassXMLLoadStub	classXMLLoadStub;
-
-	private static boolean		initialized	= false;
-
-	public SyncModelServiceImpl(DataServerContext context, ServiceDefinition sd)
-	{
-		super(context, sd);
-	}
 
 	public SDSModelStub getModelStub()
 	{
@@ -42,8 +36,7 @@ public class SyncModelServiceImpl extends DataRuleService implements SyncModelSe
 		return classXMLLoadStub;
 	}
 
-	@Override
-	protected void init()
+	@Override public void init()
 	{
 		if (initialized)
 		{
@@ -60,14 +53,12 @@ public class SyncModelServiceImpl extends DataRuleService implements SyncModelSe
 	 *
 	 * @see dyna.data.orm.SystemDataService#isModelSync(dyna.common.bean.configure.ProjectModel)
 	 */
-	@Override
-	public boolean isModelSync(ProjectModel projectModel) throws DynaDataException
+	@Override public boolean isModelSync(ProjectModel projectModel) throws DynaDataException
 	{
 		return this.getModelStub().isModelSync(projectModel);
 	}
 
-	@Override
-	public String getCurrentLoginUser()
+	@Override public String getCurrentLoginUser()
 	{
 		return this.getModelStub().getCurrentLoginUser();
 	}
@@ -77,8 +68,7 @@ public class SyncModelServiceImpl extends DataRuleService implements SyncModelSe
 	 *
 	 * @see dyna.data.orm.SystemDataService#getCurrentSyncModel()
 	 */
-	@Override
-	public ProjectModel getCurrentSyncModel() throws DynaDataException
+	@Override public ProjectModel getCurrentSyncModel() throws DynaDataException
 	{
 		return this.getModelStub().getSyncInfo();
 	}
@@ -86,8 +76,7 @@ public class SyncModelServiceImpl extends DataRuleService implements SyncModelSe
 	/**
 	 * 从数据库中生成模型文件
 	 */
-	@Override
-	public ProjectModel makeModelFile(boolean hasClassificationLicense)
+	@Override public ProjectModel makeModelFile(boolean hasClassificationLicense)
 	{
 		this.getModelStub().makeModelFile(hasClassificationLicense);
 		return this.getModelStub().getSyncInfo();
@@ -98,27 +87,23 @@ public class SyncModelServiceImpl extends DataRuleService implements SyncModelSe
 	 *
 	 * @see dyna.data.orm.SystemDataService#isDeployLock()
 	 */
-	@Override
-	public boolean isDeployLock(String sessionId) throws DynaDataException
+	@Override public boolean isDeployLock(String sessionId) throws DynaDataException
 	{
 		return this.getModelStub().isDeployLock(sessionId);
 	}
 
-	@Override
-	public ProjectModel deploy(String sessionId, ProjectModel projectModel, boolean hasClassificationLicense) throws Exception
+	@Override public ProjectModel deploy(String sessionId, ProjectModel projectModel, boolean hasClassificationLicense) throws Exception
 	{
 		return this.getModelStub().deploy(sessionId, projectModel, hasClassificationLicense);
 	}
 
-	@Override
-	public void deployClassificationField(List<Map<String, String>> dataSource,String sessionId) throws ServiceRequestException
+	@Override public void deployClassificationField(List<Map<String, String>> dataSource, String sessionId) throws ServiceRequestException
 	{
-		this.getModelStub().deployClassificationField(dataSource,sessionId);
-		
+		this.getModelStub().deployClassificationField(dataSource, sessionId);
+
 	}
 
-	@Override
-	public String getColumnDBType(FieldTypeEnum fieldTypeEnum, String fieldSize)
+	@Override public String getColumnDBType(FieldTypeEnum fieldTypeEnum, String fieldSize)
 	{
 		return DatabaseFunctionFactory.getColumnTypeFunction().getColumnType(fieldTypeEnum, fieldSize);
 	}

@@ -1,9 +1,9 @@
 package dyna.data.service.ins;
 
+import dyna.common.systemenum.SystemStatusEnum;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import dyna.common.systemenum.SystemStatusEnum;
 
 /**
  * @Description:

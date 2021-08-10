@@ -1,25 +1,22 @@
 package dyna.data.service.folder;
 
 import dyna.common.bean.data.ObjectGuid;
-import dyna.common.conf.ServiceDefinition;
 import dyna.common.dto.Folder;
 import dyna.common.exception.DynaDataException;
 import dyna.common.exception.ServiceRequestException;
-import dyna.data.context.DataServerContext;
 import dyna.data.service.DataRuleService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class FolderServiceImpl extends DataRuleService implements FolderService
 {
+	@Autowired
 	private DSFolderStub			folderStub;
-
+	@Autowired
 	private DSFolderRelationStub	folderRelationStub;
-
-	public FolderServiceImpl(DataServerContext context, ServiceDefinition sd)
-	{
-		super(context, sd);
-	}
 
 	protected DSFolderStub getFolderStub()
 	{

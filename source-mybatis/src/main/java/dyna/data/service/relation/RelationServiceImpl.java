@@ -8,7 +8,6 @@ import dyna.common.bean.data.foundation.BOMView;
 import dyna.common.bean.data.structure.BOMStructure;
 import dyna.common.bean.data.template.BOMTemplate;
 import dyna.common.bean.data.template.RelationTemplate;
-import dyna.common.conf.ServiceDefinition;
 import dyna.common.dto.DataRule;
 import dyna.common.dto.template.bom.BOMReportTemplate;
 import dyna.common.dto.template.bom.BOMTemplateEnd2;
@@ -16,26 +15,26 @@ import dyna.common.dto.template.bom.BOMTemplateInfo;
 import dyna.common.dto.template.relation.RelationTemplateEnd2;
 import dyna.common.dto.template.relation.RelationTemplateInfo;
 import dyna.common.exception.ServiceRequestException;
-import dyna.data.context.DataServerContext;
 import dyna.data.service.DataRuleService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Service
 public class RelationServiceImpl extends DataRuleService implements RelationService
 {
+	@Autowired
 	private DSBOMStub				bomStub;
+	@Autowired
 	private DSStructureStub			structureStub;
+	@Autowired
 	private RelationTemplateStub	relationTemplateStub;
 
-	public RelationServiceImpl(DataServerContext context, ServiceDefinition sd)
-	{
-		super(context, sd);
-	}
-
 	@Override
-	protected void init()
+	public void init()
 	{
 		try
 		{

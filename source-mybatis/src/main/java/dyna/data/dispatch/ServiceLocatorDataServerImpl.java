@@ -10,6 +10,7 @@ import dyna.common.conf.ServiceDefinition;
 import dyna.common.exception.ServiceNotFoundException;
 import dyna.common.log.DynaLogger;
 import dyna.common.util.StringUtils;
+import dyna.data.DataServer;
 import dyna.data.conf.xmlconfig.ConfigurableDataServerImpl;
 import dyna.data.context.DataServerContext;
 import dyna.net.dispatcher.sync.ServiceStateExchanger;
@@ -82,26 +83,21 @@ public class ServiceLocatorDataServerImpl extends AbstractServiceLocator impleme
 				this.serviceBeanMap.put(sd.getServiceInterfaceName(), serviceBean);
 
 				Object service = null;
-				Object delegator = null;
+				Service delegator = null;
 
 				Class<?> interfaceClass = sd.getServiceInterface();
-				Class<?> implClass = sd.getServiceImplClass();
+				//TODO
+				Class<? extends Service> implClass = (Class<? extends Service>) sd.getServiceImplClass();
 				Constructor<?> constructor = null;
 				try
 				{
-					constructor = implClass.getConstructor(DataServerContext.class, ServiceDefinition.class);
-					delegator = constructor.newInstance(this.context, sd);
+					delegator = DataServer.getRepositoryBean(implClass);
+					delegator.setServiceDefinition(sd);
+					delegator.init();
 				}
 				catch (Exception e)
 				{
-					if (!(e instanceof NoSuchMethodException))
-					{
-						throw e;
-					}
-
-					constructor = implClass.getConstructor(ServiceDefinition.class);
-					delegator = constructor.newInstance(sd);
-
+					e.printStackTrace();
 				}
 
 				this.context.putInternalService(interfaceClass, delegator);

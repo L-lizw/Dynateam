@@ -1,13 +1,13 @@
 package dyna.data.service.model.interfacemodel;
 
 import dyna.common.bean.model.itf.InterfaceObject;
-import dyna.common.conf.ServiceDefinition;
 import dyna.common.dto.model.cls.ClassField;
 import dyna.common.exception.ServiceRequestException;
 import dyna.common.systemenum.ModelInterfaceEnum;
-import dyna.data.context.DataServerContext;
 import dyna.data.service.DataRuleService;
 import dyna.data.service.sync.bean.TableIndexModel;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
@@ -17,14 +17,11 @@ import java.util.Map;
  * @author: duanll
  * @date: 2020年3月26日
  */
+@Service
 public class InterfaceModelServiceImpl extends DataRuleService implements InterfaceModelService
 {
+	@Autowired
 	private InterfaceModelServiceStub modelStub;
-
-	public InterfaceModelServiceImpl(DataServerContext context, ServiceDefinition sd)
-	{
-		super(context, sd);
-	}
 
 	public InterfaceModelServiceStub getModelStub()
 	{
@@ -32,7 +29,7 @@ public class InterfaceModelServiceImpl extends DataRuleService implements Interf
 	}
 
 	@Override
-	protected void init()
+	public void init()
 	{
 		this.getModelStub().loadModel();
 	}

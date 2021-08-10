@@ -3,14 +3,13 @@ package dyna.data.service.ins;
 import dyna.common.SearchCondition;
 import dyna.common.bean.data.FoundationObject;
 import dyna.common.bean.data.ObjectGuid;
-import dyna.common.conf.ServiceDefinition;
 import dyna.common.dto.DataRule;
 import dyna.common.dto.model.lf.LifecyclePhaseInfo;
 import dyna.common.exception.DynaDataException;
 import dyna.common.exception.ServiceRequestException;
 import dyna.common.systemenum.SystemStatusEnum;
-import dyna.data.context.DataServerContext;
 import dyna.data.service.DataRuleService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -19,20 +18,24 @@ import java.util.List;
 @Service
 public class InstanceServiceImpl extends DataRuleService implements InstanceService
 {
+	@Autowired
 	private DSIterationStub			iterationStub;
+	@Autowired
 	private DSCheckOutStub			checkOutStub;
+	@Autowired
 	private DSInstanceUpdateStub	foundationStub;
+	@Autowired
 	private NewRevisionRuleStub		revisionRuleStub;
+	@Autowired
 	private DSCancelCheckoutStub	cancelCheckout;
+	@Autowired
 	private DSCheckInStub			checkInStub;
+	@Autowired
 	private DSInstanceGetStub		instanceGetStub;
+	@Autowired
 	private DSQuickQueryStub		quickQueryStub;
+	@Autowired
 	private DSConditionQueryStub	conditionQuery;
-
-	public InstanceServiceImpl(DataServerContext context, ServiceDefinition sd)
-	{
-		super(context, sd);
-	}
 
 	protected DSIterationStub getIterationStub()
 	{

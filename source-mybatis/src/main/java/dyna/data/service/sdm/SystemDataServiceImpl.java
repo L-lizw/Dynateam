@@ -26,6 +26,8 @@ import dyna.data.context.DataServerContext;
 import dyna.data.service.DataRuleService;
 import dyna.dbcommon.exception.DynaDataExceptionAll;
 import dyna.dbcommon.exception.DynaDataNormalException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -38,25 +40,19 @@ import java.util.Map;
  *
  * @author xiasheng
  */
-public class SystemDataServiceImpl extends DataRuleService implements SystemDataService
+@Service public class SystemDataServiceImpl extends DataRuleService implements SystemDataService
 {
-	private static boolean								initialized	= false;
+	private static boolean initialized = false;
 
-	private CacheManagerDelegate<SystemObject>			cacheManager;
-	private SDSOperateDataStub							operateDataStub;
-	private SDSCommonStub								commonStub;
+	@Autowired private CacheManagerDelegate<SystemObject> cacheManager;
+	@Autowired private SDSOperateDataStub                 operateDataStub;
+	@Autowired private SDSCommonStub                      commonStub;
 
-	private Map<String, DynamicTableBean<SystemObject>>	tableBeanMap;
+	private Map<String, DynamicTableBean<SystemObject>> tableBeanMap;
 
-	private Map<Class,Class>                            entryMapperMap;
+	private Map<Class, Class> entryMapperMap;
 
-	public SystemDataServiceImpl(DataServerContext context, ServiceDefinition sd)
-	{
-		super(context, sd);
-	}
-
-	@Override
-	protected void init()
+	@Override public void init()
 	{
 		if (initialized)
 		{
@@ -118,8 +114,7 @@ public class SystemDataServiceImpl extends DataRuleService implements SystemData
 	 *
 	 * @see dyna.data.orm.SystemDataService#delete(java.lang.Class, java.lang.String)
 	 */
-	@Override
-	public <T extends SystemObject> boolean delete(Class<T> systemClass, String guid) throws DynaDataException
+	@Override public <T extends SystemObject> boolean delete(Class<T> systemClass, String guid) throws DynaDataException
 	{
 		boolean result = this.getOperateDataStub().delete(systemClass, guid);
 		if (this.isBeanCache(systemClass) && result)
@@ -129,8 +124,7 @@ public class SystemDataServiceImpl extends DataRuleService implements SystemData
 		return result;
 	}
 
-	@Override
-	public <T extends SystemObject> int deleteBy(Class<T> systemClass, Map<String, Object> paramMap)
+	@Override public <T extends SystemObject> int deleteBy(Class<T> systemClass, Map<String, Object> paramMap)
 	{
 		int result = this.getOperateDataStub().delete(systemClass, paramMap);
 
@@ -148,8 +142,7 @@ public class SystemDataServiceImpl extends DataRuleService implements SystemData
 	 *
 	 * @see dyna.data.orm.SystemDataService#delete(java.lang.Class, java.util.Map)
 	 */
-	@Override
-	public <T extends SystemObject> int delete(Class<T> systemClass, Map<String, Object> paramMap) throws DynaDataException
+	@Override public <T extends SystemObject> int delete(Class<T> systemClass, Map<String, Object> paramMap) throws DynaDataException
 	{
 		if (this.isBeanCache(systemClass))
 		{
@@ -163,8 +156,7 @@ public class SystemDataServiceImpl extends DataRuleService implements SystemData
 	 *
 	 * @see dyna.data.orm.SystemDataService#delete(java.lang.Class, java.util.Map, java.lang.String)
 	 */
-	@Override
-	public <T extends SystemObject> int delete(Class<T> systemClass, Map<String, Object> paramMap, String sqlStatementId) throws DynaDataException
+	@Override public <T extends SystemObject> int delete(Class<T> systemClass, Map<String, Object> paramMap, String sqlStatementId) throws DynaDataException
 	{
 		if (this.isBeanCache(systemClass))
 		{
@@ -178,8 +170,7 @@ public class SystemDataServiceImpl extends DataRuleService implements SystemData
 	 *
 	 * @see dyna.data.orm.SystemDataService#delete(T)
 	 */
-	@Override
-	public <T extends SystemObject> boolean delete(T systemObject) throws DynaDataException
+	@Override public <T extends SystemObject> boolean delete(T systemObject) throws DynaDataException
 	{
 		boolean result = this.getOperateDataStub().delete(systemObject);
 		// 数据库已经没有的数据缓存中同步也不会有，无需删除
@@ -195,8 +186,7 @@ public class SystemDataServiceImpl extends DataRuleService implements SystemData
 	 *
 	 * @see dyna.data.orm.SystemDataService#deploy(java.lang.String)
 	 */
-	@Override
-	public ProjectModel deploy(String sessionId, ProjectModel projectModel) throws SQLException
+	@Override public ProjectModel deploy(String sessionId, ProjectModel projectModel) throws SQLException
 	{
 		// TODO
 		return null;
@@ -207,8 +197,7 @@ public class SystemDataServiceImpl extends DataRuleService implements SystemData
 	 *
 	 * @see dyna.data.orm.SystemDataService#query(java.lang.Class, java.util.Map)
 	 */
-	@Override
-	public <T extends SystemObject> List<T> query(Class<T> systemClass, Map<String, Object> searchConditionMap) throws DynaDataException
+	@Override public <T extends SystemObject> List<T> query(Class<T> systemClass, Map<String, Object> searchConditionMap) throws DynaDataException
 	{
 		if (this.isBeanCache(systemClass))
 		{
@@ -222,8 +211,7 @@ public class SystemDataServiceImpl extends DataRuleService implements SystemData
 	 *
 	 * @see dyna.data.orm.SystemDataService#query(java.lang.Class, java.util.Map, java.lang.String)
 	 */
-	@Override
-	public <T extends SystemObject> List<T> query(Class<T> systemClass, Map<String, Object> searchConditionMap, String sqlStatementId) throws DynaDataException
+	@Override public <T extends SystemObject> List<T> query(Class<T> systemClass, Map<String, Object> searchConditionMap, String sqlStatementId) throws DynaDataException
 	{
 		if (this.isBeanCache(systemClass))
 		{
@@ -237,8 +225,8 @@ public class SystemDataServiceImpl extends DataRuleService implements SystemData
 	 *
 	 * @see dyna.data.orm.SystemDataService#query(java.lang.Class, java.util.Map, java.lang.String, boolean)
 	 */
-	@Override
-	public <T extends SystemObject> List<T> query(Class<T> systemClass, Map<String, Object> searchConditionMap, String orderby, boolean isAscOrder) throws DynaDataException
+	@Override public <T extends SystemObject> List<T> query(Class<T> systemClass, Map<String, Object> searchConditionMap, String orderby, boolean isAscOrder)
+			throws DynaDataException
 	{
 		if (this.isBeanCache(systemClass))
 		{
@@ -252,8 +240,7 @@ public class SystemDataServiceImpl extends DataRuleService implements SystemData
 	 *
 	 * @see dyna.data.orm.SystemDataService#queryObject(java.lang.Class, java.util.Map)
 	 */
-	@Override
-	public <T extends SystemObject> T queryObject(Class<T> systemClass, Map<String, Object> searchConditionMap) throws DynaDataException
+	@Override public <T extends SystemObject> T queryObject(Class<T> systemClass, Map<String, Object> searchConditionMap) throws DynaDataException
 	{
 		if (this.isBeanCache(systemClass))
 		{
@@ -267,8 +254,7 @@ public class SystemDataServiceImpl extends DataRuleService implements SystemData
 	 *
 	 * @see dyna.data.orm.SystemDataService#queryObject(java.lang.Class, java.util.Map, java.lang.String)
 	 */
-	@Override
-	public <T extends SystemObject> T queryObject(Class<T> systemClass, Map<String, Object> searchConditionMap, String sqlStatementId) throws DynaDataException
+	@Override public <T extends SystemObject> T queryObject(Class<T> systemClass, Map<String, Object> searchConditionMap, String sqlStatementId) throws DynaDataException
 	{
 		if (this.isBeanCache(systemClass))
 		{
@@ -282,9 +268,7 @@ public class SystemDataServiceImpl extends DataRuleService implements SystemData
 	 *
 	 * @see dyna.data.orm.SystemDataService#save(dyna.common.bean.data.SystemObject)
 	 */
-	@Override
-	@SuppressWarnings("unchecked")
-	public <T extends SystemObject> String save(T systemObject) throws DynaDataException
+	@Override @SuppressWarnings("unchecked") public <T extends SystemObject> String save(T systemObject) throws DynaDataException
 	{
 		String ret = this.getOperateDataStub().save(systemObject);
 		if (StringUtils.isGuid(ret))
@@ -306,9 +290,7 @@ public class SystemDataServiceImpl extends DataRuleService implements SystemData
 	 *
 	 * @see dyna.data.orm.SystemDataService#save(dyna.common.bean.data.SystemObject, java.lang.String)
 	 */
-	@Override
-	@SuppressWarnings("unchecked")
-	public <T extends SystemObject> String save(T systemObject, String sqlStatementId) throws DynaDataException
+	@Override @SuppressWarnings("unchecked") public <T extends SystemObject> String save(T systemObject, String sqlStatementId) throws DynaDataException
 	{
 		String save = this.getOperateDataStub().save(systemObject, sqlStatementId);
 		if (StringUtils.isGuid(save))
@@ -330,8 +312,7 @@ public class SystemDataServiceImpl extends DataRuleService implements SystemData
 	 *
 	 * @see dyna.data.orm.SystemDataService#save(dyna.common.bean.data.SystemObject, java.lang.String)
 	 */
-	@Override
-	public String save(Map<String, Object> parameterMap, String sqlStatementId, boolean isSaveDynamic) throws DynaDataException
+	@Override public String save(Map<String, Object> parameterMap, String sqlStatementId, boolean isSaveDynamic) throws DynaDataException
 	{
 		return this.getOperateDataStub().save(parameterMap, sqlStatementId, isSaveDynamic);
 	}
@@ -341,9 +322,7 @@ public class SystemDataServiceImpl extends DataRuleService implements SystemData
 	 *
 	 * @see dyna.data.orm.SystemDataService#save(dyna.common.bean.data.SystemObject, java.lang.String, java.lang.String)
 	 */
-	@Override
-	@SuppressWarnings("unchecked")
-	public <T extends SystemObject> String save(T systemObject, String insertId, String updateId) throws DynaDataException
+	@Override @SuppressWarnings("unchecked") public <T extends SystemObject> String save(T systemObject, String insertId, String updateId) throws DynaDataException
 	{
 		String save = this.getOperateDataStub().save(systemObject, insertId, updateId);
 		if (StringUtils.isGuid(save))
@@ -364,8 +343,7 @@ public class SystemDataServiceImpl extends DataRuleService implements SystemData
 	 *
 	 * @see dyna.data.orm.SystemDataService#update(java.lang.Class, java.util.Map, java.lang.String)
 	 */
-	@Override
-	public <T extends SystemObject> int update(Class<T> systemClass, Map<String, Object> paramMap, String sqlStatementId) throws DynaDataException
+	@Override public <T extends SystemObject> int update(Class<T> systemClass, Map<String, Object> paramMap, String sqlStatementId) throws DynaDataException
 	{
 		if (this.isBeanCache(systemClass))
 		{
@@ -374,9 +352,7 @@ public class SystemDataServiceImpl extends DataRuleService implements SystemData
 		return this.getOperateDataStub().update(systemClass, paramMap, sqlStatementId);
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public <T extends SystemObject> String save(T systemObject, boolean isUpdate) throws DynaDataException
+	@SuppressWarnings("unchecked") @Override public <T extends SystemObject> String save(T systemObject, boolean isUpdate) throws DynaDataException
 	{
 		if (!isUpdate)
 		{
@@ -397,15 +373,12 @@ public class SystemDataServiceImpl extends DataRuleService implements SystemData
 		return save;
 	}
 
-	@Override
-	public List<String> executeQueryBySql(String sql) throws DynaDataException
+	@Override public List<String> executeQueryBySql(String sql) throws DynaDataException
 	{
 		return this.getCommonStub().executeQueryBySql(sql);
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public <T extends SystemObject> T get(Class<T> class1, String guid)
+	@SuppressWarnings("unchecked") @Override public <T extends SystemObject> T get(Class<T> class1, String guid)
 	{
 		if (!this.isBeanCache(class1))
 		{
@@ -438,9 +411,7 @@ public class SystemDataServiceImpl extends DataRuleService implements SystemData
 		return this.getOperateDataStub().getObject(class1, guid, null);
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public <T extends SystemObject> T findInCache(Class<T> class1, BeanFilter<T> filter)
+	@SuppressWarnings("unchecked") @Override public <T extends SystemObject> T findInCache(Class<T> class1, BeanFilter<T> filter)
 	{
 		if (!this.isBeanCache(class1))
 		{
@@ -449,9 +420,7 @@ public class SystemDataServiceImpl extends DataRuleService implements SystemData
 		return (T) this.getCacheDelegate().getCacheModel(class1.getName()).getObject((BeanFilter<SystemObject>) filter);
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public <T extends SystemObject> List<T> listFromCache(Class<T> class1, BeanFilter<T> filter)
+	@SuppressWarnings("unchecked") @Override public <T extends SystemObject> List<T> listFromCache(Class<T> class1, BeanFilter<T> filter)
 	{
 		if (!this.isBeanCache(class1))
 		{
@@ -460,9 +429,7 @@ public class SystemDataServiceImpl extends DataRuleService implements SystemData
 		return (List<T>) this.getCacheDelegate().getCacheModel(class1.getName()).listObject((BeanFilter<SystemObject>) filter);
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public <T extends SystemObject> T getObject(Class<T> systemClass, String guid) throws DynaDataException
+	@SuppressWarnings("unchecked") @Override public <T extends SystemObject> T getObject(Class<T> systemClass, String guid) throws DynaDataException
 	{
 		if (!this.isBeanCache(systemClass))
 		{
@@ -476,21 +443,17 @@ public class SystemDataServiceImpl extends DataRuleService implements SystemData
 		}
 	}
 
-	@Override
-	public <T extends SystemObject> T getObjectDirectly(Class<T> systemClass, String guid, String sqlId) throws DynaDataException
+	@Override public <T extends SystemObject> T getObjectDirectly(Class<T> systemClass, String guid, String sqlId) throws DynaDataException
 	{
 		return this.getOperateDataStub().getObject(systemClass, guid, sqlId);
 	}
 
-	@Override
-	public <T extends SystemObject> List<T> listObjectDirectly(Class<T> systemClass) throws DynaDataException
+	@Override public <T extends SystemObject> List<T> listObjectDirectly(Class<T> systemClass) throws DynaDataException
 	{
 		return this.getOperateDataStub().query(systemClass, null, "selectForLoad");
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public <T extends SystemObject> void reloadAllCache(Class<T> class1) throws DynaDataException
+	@SuppressWarnings("unchecked") @Override public <T extends SystemObject> void reloadAllCache(Class<T> class1) throws DynaDataException
 	{
 		if (!this.isBeanCache(class1))
 		{
@@ -509,8 +472,7 @@ public class SystemDataServiceImpl extends DataRuleService implements SystemData
 		this.getCacheDelegate().getCacheModel(class1.getName()).cacheAll((List<SystemObject>) dataList);
 	}
 
-	@Override
-	public <T extends SystemObject> void deleteFromCache(Class<T> class1, BeanFilter<T> filter) throws DynaDataException
+	@Override public <T extends SystemObject> void deleteFromCache(Class<T> class1, BeanFilter<T> filter) throws DynaDataException
 	{
 		List<T> delList = this.listFromCache(class1, filter);
 		if (!SetUtils.isNullList(delList))
@@ -535,8 +497,7 @@ public class SystemDataServiceImpl extends DataRuleService implements SystemData
 		{
 			this.getCacheDelegate().addExecuteListener(new AddCacheEventListener<SystemObject>(data)
 			{
-				@Override
-				public List<SystemObject> addToCache() throws ServiceRequestException
+				@Override public List<SystemObject> addToCache() throws ServiceRequestException
 				{
 					SystemObject cacheData = getCacheData();
 					SystemObject refresh = getCacheDelegate().getCacheModel(clz.getName()).putObject(cacheData.getGuid(), cacheData);
@@ -550,8 +511,7 @@ public class SystemDataServiceImpl extends DataRuleService implements SystemData
 		{
 			this.getCacheDelegate().addExecuteListener(new UpdateCacheEventListener<SystemObject>(data)
 			{
-				@Override
-				public List<SystemObject> updateCache()
+				@Override public List<SystemObject> updateCache()
 				{
 					SystemObject cacheData = getCacheData();
 					SystemObject refresh = getCacheDelegate().getCacheModel(clz.getName()).putObject(cacheData.getGuid(), cacheData);
@@ -568,8 +528,7 @@ public class SystemDataServiceImpl extends DataRuleService implements SystemData
 	{
 		this.getCacheDelegate().addExecuteListener(new RemoveCacheEventListener<SystemObject>(guid)
 		{
-			@Override
-			public List<SystemObject> removeCache()
+			@Override public List<SystemObject> removeCache()
 			{
 				SystemObject remove = getCacheDelegate().getCacheModel(clz.getName()).removeObject(getRemoveGuid());
 				List<SystemObject> dataList = new ArrayList<>();
@@ -584,8 +543,7 @@ public class SystemDataServiceImpl extends DataRuleService implements SystemData
 	{
 		this.getCacheDelegate().addExecuteListener(new RemoveCacheEventListener<SystemObject>(filter)
 		{
-			@Override
-			public List<SystemObject> removeCache()
+			@Override public List<SystemObject> removeCache()
 			{
 				return getCacheDelegate().getCacheModel(clz.getName()).removeObject(getBeanFilter());
 			}
@@ -593,27 +551,24 @@ public class SystemDataServiceImpl extends DataRuleService implements SystemData
 		this.notifyRefreshCacheListeners();
 	}
 
-	@Override
-	public void notifyRefreshCacheListeners()
+	@Override public void notifyRefreshCacheListeners()
 	{
 		// 当操作不在事务中时，马上执行listener，否则在事务结束时通知
 		//TODO
-//		if (DataServer.getTransactionManager().getCountOfNotCommitTranscation() == 0)
+		//		if (DataServer.getTransactionManager().getCountOfNotCommitTranscation() == 0)
 		{
 			DynaLogger.debug("Notify CacheRefreshListener.");
 			this.getCacheDelegate().notifyListeners();
 		}
 	}
 
-	@Override
-	public void clearRefreshCacheListeners()
+	@Override public void clearRefreshCacheListeners()
 	{
 		DynaLogger.debug("Clear CacheRefreshListener.");
 		this.getCacheDelegate().clearEventListener();
 	}
 
-	@Override
-	public <T extends SystemObject> int insertBatch(Class<T> systemClass, List<? extends Map<String, Object>> paramList, String sqlStatementId) throws DynaDataException
+	@Override public <T extends SystemObject> int insertBatch(Class<T> systemClass, List<? extends Map<String, Object>> paramList, String sqlStatementId) throws DynaDataException
 	{
 		if (this.isBeanCache(systemClass))
 		{
@@ -622,8 +577,7 @@ public class SystemDataServiceImpl extends DataRuleService implements SystemData
 		return this.getOperateDataStub().insertBatch(systemClass, paramList, sqlStatementId);
 	}
 
-	@Override
-	public <T extends SystemObject> int updateBatch(Class<T> systemClass, List<? extends Map<String, Object>> paramList, String sqlStatementId) throws DynaDataException
+	@Override public <T extends SystemObject> int updateBatch(Class<T> systemClass, List<? extends Map<String, Object>> paramList, String sqlStatementId) throws DynaDataException
 	{
 		if (this.isBeanCache(systemClass))
 		{
@@ -632,8 +586,7 @@ public class SystemDataServiceImpl extends DataRuleService implements SystemData
 		return this.getOperateDataStub().updateBatch(systemClass, paramList, sqlStatementId);
 	}
 
-	@Override
-	public <T extends SystemObject> int deleteBatch(Class<T> systemClass, List<? extends Map<String, Object>> paramList, String sqlStatementId) throws DynaDataException
+	@Override public <T extends SystemObject> int deleteBatch(Class<T> systemClass, List<? extends Map<String, Object>> paramList, String sqlStatementId) throws DynaDataException
 	{
 		if (this.isBeanCache(systemClass))
 		{

@@ -1,0 +1,25 @@
+20:55:16,935 [INFO ] ***************************************************
+20:55:16,935 [INFO ] *************  DigiWin PLM V2.0.0.0 ***************
+20:55:16,935 [INFO ] ************* Copyright (C)DigiWin ****************
+20:55:16,935 [INFO ] ***************************************************
+20:55:16,935 [INFO ] Data Server initialize...
+20:55:17,715 [INFO ] Loading Service[Listen on 1298]...
+20:55:17,715 [INFO ] 	[SDS]: systemDataService
+20:55:19,572 [INFO ] 	[CODMS]: codeModelService
+20:55:19,591 [INFO ] 	[LMS]: lifecycleModelService
+20:55:19,598 [INFO ] 	[IMS]: interfaceModelService
+20:55:19,761 [INFO ] 	[CMS]: classModelService
+20:55:20,027 [INFO ] 	[BMS]: businessModelService
+20:55:20,038 [INFO ] 	[ACLS]: aclService
+20:55:20,068 [INFO ] 	[DCS]: commonService
+20:55:20,078 [INFO ] 	[CGS]: configService
+20:55:20,078 [INFO ] 	[ECS]: ecService
+20:55:20,088 [INFO ] 	[FODS]: folderService
+20:55:20,088 [INFO ] 	[INS]: instanceService
+20:55:20,096 [INFO ] 	[RLS]: relationService
+20:55:20,106 [INFO ] 	[TLS]: toolService
+20:55:20,116 [INFO ] 	[WF]: workflowService
+20:55:20,116 [INFO ] 	[DCLF]: classificationFeatureService
+20:55:20,126 [INFO ] 	[SYM]: syncModelService
+20:55:20,126 [INFO ] 	[SFS]: syncFileService
+20:55:20,136 [INFO ] Data Server is ready.

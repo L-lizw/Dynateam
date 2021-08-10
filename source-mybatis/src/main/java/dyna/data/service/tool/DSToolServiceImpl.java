@@ -1,21 +1,18 @@
 package dyna.data.service.tool;
 
 import dyna.common.bean.data.FoundationObject;
-import dyna.common.conf.ServiceDefinition;
 import dyna.common.exception.ServiceRequestException;
-import dyna.data.context.DataServerContext;
 import dyna.data.service.DataRuleService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
+@Service
 public class DSToolServiceImpl extends DataRuleService implements DSToolService
 {
+	@Autowired
 	private DSToolStub toolStub;
-
-	public DSToolServiceImpl(DataServerContext context, ServiceDefinition sd)
-	{
-		super(context, sd);
-	}
 
 	protected DSToolStub getDSToolStub()
 	{

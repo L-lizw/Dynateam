@@ -28,7 +28,10 @@
 
 
 	<plugins>
+		<!-- 分页 -->
 		<plugin interceptor="com.github.pagehelper.PageInterceptor"></plugin>
+		<!-- 执行 -->
+		<plugin interceptor="dyna.data.plugin.SqlExecuteInterceptor"></plugin>
 	</plugins>
 
 </configuration>
