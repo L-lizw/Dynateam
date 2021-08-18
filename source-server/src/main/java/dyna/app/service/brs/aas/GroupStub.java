@@ -24,6 +24,7 @@ import dyna.data.service.sdm.SystemDataService;
 import dyna.net.security.signature.UserSignature;
 import dyna.net.service.brs.AAS;
 import org.acegisecurity.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -33,16 +34,9 @@ import java.util.*;
  *
  * @author Wanglei
  */
+@Component
 public class GroupStub extends AbstractServiceStub<AASImpl>
 {
-	/**
-	 * @param context
-	 * @param service
-	 */
-	public GroupStub(ServiceContext context, AASImpl service)
-	{
-		super(context, service);
-	}
 
 	protected void activeGroup(String groupId) throws ServiceRequestException
 	{

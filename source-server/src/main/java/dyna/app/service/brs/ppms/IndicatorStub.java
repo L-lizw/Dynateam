@@ -5,26 +5,8 @@
  */
 package dyna.app.service.brs.ppms;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
-import dyna.common.bean.data.ppms.indicator.DefineIndicator;
-import dyna.common.bean.data.ppms.indicator.FunctionBean;
-import dyna.common.bean.data.ppms.indicator.IndicatorAnalysisVal;
-import dyna.common.bean.data.ppms.indicator.IndicatorConstants;
-import dyna.common.bean.data.ppms.indicator.IndicatorDismension;
-import dyna.common.bean.data.ppms.indicator.IndicatorDismensionFilter;
+import dyna.common.bean.data.ppms.indicator.*;
 import dyna.common.bean.data.ppms.indicator.function.AbstractFunction;
 import dyna.common.bean.data.ppms.indicator.function.FunctionFactory;
 import dyna.common.exception.ServiceRequestException;
@@ -35,6 +17,10 @@ import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Component;
+
+import java.math.BigDecimal;
+import java.util.*;
 
 /**
  * 指标数相关方法
@@ -42,16 +28,9 @@ import dyna.data.service.sdm.SystemDataService;
  * @author duanll
  * 
  */
+@Component
 public class IndicatorStub extends AbstractServiceStub<PPMSImpl>
 {
-	/**
-	 * @param context
-	 * @param service
-	 */
-	protected IndicatorStub(ServiceContext context, PPMSImpl service)
-	{
-		super(context, service);
-	}
 
 	protected Map<String, List<IndicatorAnalysisVal>> listAnalysisValBeforeBaseDate(String indicatorId, Date baseTime, IndicatorTimeRangeEnum timeRange)
 			throws ServiceRequestException

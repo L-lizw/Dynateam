@@ -1,18 +1,13 @@
 package dyna.app.service.brs.wfm;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.common.bean.model.Script;
 import dyna.common.systemenum.EventTypeEnum;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ScriptStub extends AbstractServiceStub<WFMImpl>
 {
-
-	protected ScriptStub(ServiceContext context, WFMImpl service)
-	{
-		super(context, service);
-		// TODO Auto-generated constructor stub
-	}
 
 	public Script getScript(String scriptName)
 	{

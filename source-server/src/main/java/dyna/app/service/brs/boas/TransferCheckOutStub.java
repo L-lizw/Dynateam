@@ -5,10 +5,6 @@
  */
 package dyna.app.service.brs.boas;
 
-import java.util.Arrays;
-import java.util.List;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.bom.BOMSImpl;
 import dyna.app.service.helper.Constants;
@@ -33,22 +29,18 @@ import dyna.data.DataServer;
 import dyna.net.service.brs.EMM;
 import dyna.net.service.brs.SMS;
 import dyna.net.service.das.MSRM;
+import org.springframework.stereotype.Component;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author Wanglei
  * 
  */
+@Component
 public class TransferCheckOutStub extends AbstractServiceStub<BOASImpl>
 {
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	public TransferCheckOutStub(ServiceContext context, BOASImpl service)
-	{
-		super(context, service);
-	}
 
 	private synchronized MSRM getMSRM() throws ServiceRequestException
 	{

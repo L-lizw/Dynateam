@@ -20,6 +20,8 @@ import dyna.common.util.StringUtils;
 import dyna.net.security.signature.SignatureFactory;
 import dyna.net.service.brs.AAS;
 import dyna.net.service.brs.LIC;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Method;
 import java.util.List;
@@ -30,28 +32,22 @@ import java.util.List;
  * @author Wanglei
  * 
  */
+@Service
 public class LICImpl extends BusinessRuleService implements LIC
 {
 	private static boolean	initialized	= false;
-
+	@Autowired
 	private SessionStub		sessionStub	= null;
+	@Autowired
 	private LicenseStub		licenseStub	= null;
 
 	public SessionStub getSessionStub()
 	{
-		if (this.sessionStub == null)
-		{
-			this.sessionStub = new SessionStub(this.serviceContext, this);
-		}
 		return this.sessionStub;
 	}
 
 	public LicenseStub getLicenseStub()
 	{
-		if (this.licenseStub == null)
-		{
-			this.licenseStub = new LicenseStub(this.serviceContext, this);
-		}
 		return this.licenseStub;
 	}
 
@@ -61,7 +57,7 @@ public class LICImpl extends BusinessRuleService implements LIC
 	 * @see dyna.app.service.DataAccessService#init()
 	 */
 	@Override
-	protected void init()
+	public void init()
 	{
 		if (initialized)
 		{

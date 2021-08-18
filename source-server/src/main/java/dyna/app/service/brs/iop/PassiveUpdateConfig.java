@@ -1,6 +1,5 @@
 package dyna.app.service.brs.iop;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.helper.ServiceRequestExceptionWrap;
 import dyna.common.exception.DynaDataException;
@@ -8,6 +7,7 @@ import dyna.common.exception.ServiceRequestException;
 import dyna.common.systemenum.ModelInterfaceEnum;
 import dyna.data.DataServer;
 import dyna.data.service.config.ConfigManagerService;
+import org.springframework.stereotype.Component;
 
 /**
  * 配置参数的被动修改
@@ -16,13 +16,9 @@ import dyna.data.service.config.ConfigManagerService;
  * @author wwx
  * 
  */
+@Component
 public class PassiveUpdateConfig extends AbstractServiceStub<IOPImpl>
 {
-
-	protected PassiveUpdateConfig(ServiceContext context, IOPImpl service)
-	{
-		super(context, service);
-	}
 
 	public void release(String masterGuid, String foundationId) throws ServiceRequestException
 	{

@@ -1,12 +1,11 @@
 package dyna.app.service.brs.wfi.scheduledtask;
 
-import org.acegisecurity.context.SecurityContextHolder;
-
 import dyna.app.core.sch.AbstractScheduledTask;
 import dyna.app.server.context.ServiceContext;
 import dyna.app.service.brs.wfi.WFIImpl;
 import dyna.common.log.DynaLogger;
 import dyna.net.service.brs.WFI;
+import org.acegisecurity.context.SecurityContextHolder;
 
 class NoticeScheduledTask extends AbstractScheduledTask
 {
@@ -22,13 +21,13 @@ class NoticeScheduledTask extends AbstractScheduledTask
 	{
 		DynaLogger.info("WFE notice Scheduled [Class]NoticeScheduledTask , Scheduled Task Start...");
 
-		WFI wfe = null;
+		WFI wfi = null;
 		try
 		{
-			wfe = this.serviceContext.allocatService(WFI.class);
-			((WFIImpl) wfe).setSignature(this.serviceContext.getServerContext().getSystemInternalSignature());
-			((WFIImpl) wfe).getProcessRuntimeStub().noticeDefActrtPerf();
-			((WFIImpl) wfe).getProcessRuntimeStub().noticeAdvActrtPerf();
+			wfi = this.serviceContext.allocatService(WFI.class);
+			((WFIImpl) wfi).setSignature(this.serviceContext.getServerContext().getSystemInternalSignature());
+			((WFIImpl) wfi).getProcessRuntimeStub().noticeDefActrtPerf();
+			((WFIImpl) wfi).getProcessRuntimeStub().noticeAdvActrtPerf();
 		}
 		catch (Throwable e)
 		{
@@ -38,9 +37,9 @@ class NoticeScheduledTask extends AbstractScheduledTask
 		{
 			SecurityContextHolder.clearContext();
 
-			if (wfe != null)
+			if (wfi != null)
 			{
-				this.serviceContext.releaseService(wfe);
+				this.serviceContext.releaseService(wfi);
 			}
 		}
 		DynaLogger.info("WFE notice Scheduled [Class]NoticeScheduledTask , Scheduled Task End...");

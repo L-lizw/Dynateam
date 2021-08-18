@@ -5,24 +5,17 @@
  */
 package dyna.app.service.brs.fbt;
 
-import java.util.List;
-
 import dyna.app.service.BusinessRuleService;
 import dyna.common.bean.data.FoundationObject;
 import dyna.common.bean.data.ObjectGuid;
-import dyna.common.dto.DSSFileInfo;
-import dyna.common.dto.DSSFileTrans;
-import dyna.common.dto.FileOpenConfig;
-import dyna.common.dto.FileOpenItem;
-import dyna.common.dto.FileOpenSubject;
+import dyna.common.dto.*;
 import dyna.common.exception.ServiceRequestException;
 import dyna.common.util.StringUtils;
-import dyna.net.service.brs.AAS;
-import dyna.net.service.brs.BOAS;
-import dyna.net.service.brs.CAD;
-import dyna.net.service.brs.DSS;
-import dyna.net.service.brs.EMM;
-import dyna.net.service.brs.FBTS;
+import dyna.net.service.brs.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * File Browser Tools Service 文件浏览工具服务
@@ -30,13 +23,18 @@ import dyna.net.service.brs.FBTS;
  * @author wangweixia
  * 
  */
+@Service
 public class FBTSImpl extends BusinessRuleService implements FBTS
 {
-
+	@Autowired
 	private FoConfigStub	foConfigStub		= null;
+	@Autowired
 	private FoItemStub		foItemStub			= null;
+	@Autowired
 	private FoSubjectStub	foSubjectStub		= null;
+	@Autowired
 	private FbtStub			fbtStub				= null;
+	@Autowired
 	private WebFbtStub		webFbtStub			= null;
 	private static String	webSerVerInfo		= null;
 	private static String	webServerFilePath	= null;
@@ -46,10 +44,6 @@ public class FBTSImpl extends BusinessRuleService implements FBTS
 	 */
 	protected FoConfigStub getFoConfigStub()
 	{
-		if (this.foConfigStub == null)
-		{
-			this.foConfigStub = new FoConfigStub(this.serviceContext, this);
-		}
 		return this.foConfigStub;
 
 	}
@@ -59,12 +53,7 @@ public class FBTSImpl extends BusinessRuleService implements FBTS
 	 */
 	protected FoItemStub getFoItemStub()
 	{
-		if (this.foItemStub == null)
-		{
-			this.foItemStub = new FoItemStub(this.serviceContext, this);
-		}
 		return this.foItemStub;
-
 	}
 
 	/**
@@ -72,10 +61,6 @@ public class FBTSImpl extends BusinessRuleService implements FBTS
 	 */
 	protected FoSubjectStub getFoSubjectStub()
 	{
-		if (this.foSubjectStub == null)
-		{
-			this.foSubjectStub = new FoSubjectStub(this.serviceContext, this);
-		}
 		return this.foSubjectStub;
 
 	}
@@ -85,10 +70,6 @@ public class FBTSImpl extends BusinessRuleService implements FBTS
 	 */
 	protected WebFbtStub getWebFbtStub()
 	{
-		if (this.webFbtStub == null)
-		{
-			this.webFbtStub = new WebFbtStub(this.serviceContext, this);
-		}
 		return this.webFbtStub;
 
 	}
@@ -98,12 +79,7 @@ public class FBTSImpl extends BusinessRuleService implements FBTS
 	 */
 	protected FbtStub getFbtStub()
 	{
-		if (this.fbtStub == null)
-		{
-			this.fbtStub = new FbtStub(this.serviceContext, this);
-		}
 		return this.fbtStub;
-
 	}
 
 	protected synchronized AAS getAAS() throws ServiceRequestException
@@ -177,7 +153,7 @@ public class FBTSImpl extends BusinessRuleService implements FBTS
 	 * @see dyna.app.service.DataAccessService#init()
 	 */
 	@Override
-	protected void init()
+	public void init()
 	{
 		this.webSerVerInfo = this.getServiceDefinition().getInitParameter("WebServer");
 		this.webServerFilePath = this.getServiceDefinition().getInitParameter("WebServerFilePath");

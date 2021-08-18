@@ -5,10 +5,6 @@
  */
 package dyna.app.service.brs.slc;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.helper.ServiceRequestExceptionWrap;
 import dyna.common.bean.data.SystemObject;
@@ -19,23 +15,19 @@ import dyna.common.systemenum.ReviseSeriesRuleEnum;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Component;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Wanglei
  * 
  */
+@Component
 public class RuleReviseStub extends AbstractServiceStub<SLCImpl>
 {
 	private static ConfigRuleRevise	configRuleRevise	= null;
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	protected RuleReviseStub(ServiceContext context, SLCImpl service)
-	{
-		super(context, service);
-	}
 
 	protected ConfigRuleRevise getConfigRuleRevise() throws ServiceRequestException
 	{

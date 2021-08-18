@@ -1,10 +1,5 @@
 package dyna.app.service.brs.wfi.favoritecomment;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.wfi.WFIImpl;
 import dyna.app.service.helper.ServiceRequestExceptionWrap;
@@ -14,6 +9,11 @@ import dyna.common.exception.DynaDataException;
 import dyna.common.exception.ServiceRequestException;
 import dyna.data.DataServer;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Component;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 常用意见数据操作支持
@@ -22,14 +22,9 @@ import dyna.data.service.sdm.SystemDataService;
  *
  */
 
+@Component
 public class FavoriteCommentDBStub extends AbstractServiceStub<WFIImpl>
 {
-
-	protected FavoriteCommentDBStub(ServiceContext context, WFIImpl service)
-	{
-		super(context, service);
-		// TODO Auto-generated constructor stub
-	}
 
 	protected ProcTrackComm getTrackComm(String guid) throws ServiceRequestException
 	{

@@ -5,7 +5,6 @@
  */
 package dyna.app.service.brs.fts;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.aas.AASImpl;
 import dyna.app.service.helper.ServiceRequestExceptionWrap;
@@ -30,6 +29,7 @@ import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
 import dyna.data.service.sdm.SystemDataService;
 import dyna.net.security.signature.UserSignature;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
@@ -39,17 +39,9 @@ import java.util.*;
  * @author Wanglh
  * 
  */
+@Component
 public class TransformConfigStub extends AbstractServiceStub<FTSImpl>
 {
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	protected TransformConfigStub(ServiceContext context, FTSImpl service)
-	{
-		super(context, service);
-	}
 
 	protected TransformConfig saveTransformConfig(TransformConfig config) throws ServiceRequestException
 	{

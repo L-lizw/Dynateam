@@ -5,22 +5,15 @@
  */
 package dyna.app.service.brs.pos;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
+import org.springframework.stereotype.Component;
 
 /**
  * @author Wanglei
  *
  */
+@Component
 public class WorkingItemStub extends AbstractServiceStub<POSImpl>
 {
 
-	/**
-	 * @param context
-	 * @param service
-	 */
-	public WorkingItemStub(ServiceContext context, POSImpl service)
-	{
-		super(context, service);
-	}
 }

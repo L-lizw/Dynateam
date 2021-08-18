@@ -5,7 +5,6 @@
  */
 package dyna.app.service.brs.wfi.processruntime;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.wfi.WFIImpl;
 import dyna.app.service.brs.wfm.WFMImpl;
@@ -35,6 +34,8 @@ import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
 import java.text.ParseException;
@@ -47,20 +48,11 @@ import java.util.stream.Collectors;
  *
  * @author Wanglei
  */
+@Component
 public class ProcessRuntimeStub extends AbstractServiceStub<WFIImpl>
 {
-
+	@Autowired
 	private ProcessRuntimeDBStub dbStub = null;
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	public ProcessRuntimeStub(ServiceContext context, WFIImpl service)
-	{
-		super(context, service);
-		this.dbStub = new ProcessRuntimeDBStub(context, service);
-	}
 
 	public synchronized ProcessRuntime createProcess(String wfTemplateGuid, String parentProcGuid, String parentActGuid, String description, boolean isCheckAcl,
 			ProcAttach... attachSettings) throws ServiceRequestException

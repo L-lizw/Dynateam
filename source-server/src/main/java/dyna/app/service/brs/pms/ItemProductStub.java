@@ -5,16 +5,7 @@
  */
 package dyna.app.service.brs.pms;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import dyna.app.core.sch.Scheduler;
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.emm.EMMImpl;
 import dyna.app.service.helper.ListProductSummaryUtil;
@@ -39,11 +30,16 @@ import dyna.data.DataServer;
 import dyna.data.service.sdm.SystemDataService;
 import dyna.net.security.signature.UserSignature;
 import dyna.net.service.brs.EMM;
+import org.springframework.stereotype.Component;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author Caogc
  * 
  */
+@Component
 public class ItemProductStub extends AbstractServiceStub<PMSImpl>
 {
 
@@ -83,15 +79,6 @@ public class ItemProductStub extends AbstractServiceStub<PMSImpl>
 		{
 			throw ServiceRequestExceptionWrap.createByDynaDataException(this.stubService, e);
 		}
-	}
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	public ItemProductStub(ServiceContext context, PMSImpl service)
-	{
-		super(context, service);
 	}
 
 	protected void deleteItemProduct(List<String> itemProductGuidList) throws ServiceRequestException

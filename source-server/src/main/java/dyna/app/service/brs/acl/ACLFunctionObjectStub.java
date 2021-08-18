@@ -5,7 +5,6 @@
  */
 package dyna.app.service.brs.acl;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.dto.acl.ACLFunctionItem;
@@ -17,6 +16,7 @@ import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.List;
@@ -25,17 +25,9 @@ import java.util.List;
  * @author Wanglei
  * 
  */
+@Component
 public class ACLFunctionObjectStub extends AbstractServiceStub<ACLImpl>
 {
-	
-	/**
-	 * @param context
-	 * @param service
-	 */
-	protected ACLFunctionObjectStub(ServiceContext context, ACLImpl service)
-	{
-		super(context, service);
-	}
 
 	protected List<ACLFunctionObject> listRootACLFunctionObject() throws ServiceRequestException
 	{

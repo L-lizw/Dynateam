@@ -5,9 +5,6 @@
  */
 package dyna.app.service.brs.boas;
 
-import java.util.List;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.acl.ACLImpl;
 import dyna.app.service.helper.Constants;
@@ -30,21 +27,17 @@ import dyna.common.util.SetUtils;
 import dyna.data.DataServer;
 import dyna.data.service.folder.FolderService;
 import dyna.net.service.brs.EMM;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
- * @author Wanglei
+ * @author Lizw
  * 
  */
+@Component
 public class FFolderStub extends AbstractServiceStub<BOASImpl>
 {
-	/**
-	 * @param context
-	 * @param service
-	 */
-	public FFolderStub(ServiceContext context, BOASImpl service)
-	{
-		super(context, service);
-	}
 
 	public void moveToFolder(ObjectGuid objectGuid, String fromFolderGuid, String toFolderGuid, boolean isCheckAuth) throws ServiceRequestException
 	{

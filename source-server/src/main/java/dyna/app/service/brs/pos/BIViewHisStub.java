@@ -5,17 +5,6 @@
  */
 package dyna.app.service.brs.pos;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.helper.ServiceRequestExceptionWrap;
 import dyna.app.service.helper.decorate.DecoratorFactory;
@@ -32,23 +21,18 @@ import dyna.data.DataServer;
 import dyna.data.service.common.DSCommonService;
 import dyna.data.service.sdm.SystemDataService;
 import dyna.net.service.brs.BOAS;
+import org.springframework.stereotype.Component;
+
+import java.util.*;
 
 /**
  * 与最近访问的对象的历史相关的操作分支
  *
  * @author Caogc
  */
+@Component
 public class BIViewHisStub extends AbstractServiceStub<POSImpl>
 {
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	public BIViewHisStub(ServiceContext context, POSImpl service)
-	{
-		super(context, service);
-	}
 
 	public synchronized BOAS getBOAS() throws ServiceRequestException
 	{

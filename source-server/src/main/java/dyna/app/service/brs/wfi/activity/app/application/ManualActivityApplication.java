@@ -5,9 +5,6 @@
  */
 package dyna.app.service.brs.wfi.activity.app.application;
 
-import java.text.MessageFormat;
-import java.util.List;
-
 import dyna.app.service.brs.wfi.WFIImpl;
 import dyna.app.service.brs.wfi.activity.app.ActivityRuntimeApplication;
 import dyna.common.bean.model.wf.template.WorkflowTemplateAct;
@@ -20,6 +17,11 @@ import dyna.common.systemenum.ActRuntimeModeEnum;
 import dyna.common.systemenum.DecisionEnum;
 import dyna.common.systemenum.LanguageEnum;
 import dyna.common.util.SetUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.text.MessageFormat;
+import java.util.List;
 
 /**
  * 人为活动节点相关操作
@@ -27,14 +29,11 @@ import dyna.common.util.SetUtils;
  * @author lizw
  *
  */
+@Component
 public class ManualActivityApplication implements ActivityRuntimeApplication
 {
+	@Autowired
 	private WFIImpl stubService = null;
-
-	public ManualActivityApplication(WFIImpl wfeImpl)
-	{
-		this.stubService = wfeImpl;
-	}
 
 	@Override
 	public void finishActivity(ActivityRuntime activity, DecisionEnum decide) throws ServiceRequestException

@@ -49,6 +49,7 @@ import dyna.net.service.brs.BOAS;
 import dyna.net.service.brs.DSS;
 import dyna.net.service.brs.FTS;
 import org.acegisecurity.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -63,18 +64,10 @@ import java.util.*;
  * @author Wanglh
  * 
  */
+@Component
 public class TransformStub extends AbstractServiceStub<FTSImpl>
 {
 	private static long checkTime = 30 * 60 * 1000;
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	protected TransformStub(ServiceContext context, FTSImpl service)
-	{
-		super(context, service);
-	}
 
 	protected void createTransformQueue4WF(ActivityRuntime activity) throws ServiceRequestException
 	{

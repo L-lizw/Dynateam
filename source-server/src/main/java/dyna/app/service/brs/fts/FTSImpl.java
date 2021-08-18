@@ -13,20 +13,22 @@ import dyna.common.systemenum.JobStatus;
 import dyna.common.util.SetUtils;
 import dyna.net.service.brs.*;
 import dyna.net.service.das.MSRM;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
 
+@Service
 public class FTSImpl extends BusinessRuleService implements FTS
 {
-
+	@Autowired
 	private TransformStub		transformStub		= null;
-
+	@Autowired
 	private TransformConfigStub	transformConfigStub	= null;
-
+	@Autowired
 	private TransformSignStub	transformSignStub	= null;
-
 	private static boolean		isInit				= false;
 
 	/*
@@ -169,28 +171,16 @@ public class FTSImpl extends BusinessRuleService implements FTS
 
 	public TransformStub getTransformStub()
 	{
-		if (this.transformStub == null)
-		{
-			this.transformStub = new TransformStub(this.serviceContext, this);
-		}
 		return this.transformStub;
 	}
 
 	public TransformConfigStub getTransformConfigStub()
 	{
-		if (this.transformConfigStub == null)
-		{
-			this.transformConfigStub = new TransformConfigStub(this.serviceContext, this);
-		}
 		return this.transformConfigStub;
 	}
 
 	public TransformSignStub getTransformSignStub()
 	{
-		if (this.transformSignStub == null)
-		{
-			this.transformSignStub = new TransformSignStub(this.serviceContext, this);
-		}
 		return this.transformSignStub;
 	}
 
@@ -206,7 +196,7 @@ public class FTSImpl extends BusinessRuleService implements FTS
 	}
 
 	@Override
-	protected void init()
+	public void init()
 	{
 		timingNotice(this.server);
 	}

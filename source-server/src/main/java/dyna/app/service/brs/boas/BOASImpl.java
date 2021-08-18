@@ -5,11 +5,6 @@
  */
 package dyna.app.service.brs.boas;
 
-import java.lang.reflect.Method;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
-
 import dyna.app.core.track.annotation.Tracked;
 import dyna.app.core.track.impl.TRFoundationImpl;
 import dyna.app.core.track.impl.TRSearchConditionImpl;
@@ -40,25 +35,15 @@ import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
 import dyna.data.service.ins.InstanceService;
 import dyna.net.security.signature.UserSignature;
-import dyna.net.service.brs.AAS;
-import dyna.net.service.brs.ACL;
-import dyna.net.service.brs.BOAS;
-import dyna.net.service.brs.BOMS;
-import dyna.net.service.brs.BRM;
-import dyna.net.service.brs.CAD;
-import dyna.net.service.brs.DCR;
-import dyna.net.service.brs.DSS;
-import dyna.net.service.brs.EDAP;
-import dyna.net.service.brs.EMM;
-import dyna.net.service.brs.EOSS;
-import dyna.net.service.brs.FTS;
-import dyna.net.service.brs.LIC;
-import dyna.net.service.brs.POS;
-import dyna.net.service.brs.PPMS;
-import dyna.net.service.brs.SLC;
-import dyna.net.service.brs.SMS;
-import dyna.net.service.brs.WFI;
+import dyna.net.service.brs.*;
 import dyna.net.service.das.MSRM;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.lang.reflect.Method;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Business Object Access Service implementation
@@ -66,28 +51,44 @@ import dyna.net.service.das.MSRM;
  * @author Wanglei
  * 
  */
+@Service
 public class BOASImpl extends BusinessRuleService implements BOAS
 {
 	private static boolean			initialized				= false;
 
+	@Autowired
 	private CheckInStub				checkInStub				= null;
+	@Autowired
 	private CheckOutStub			checkOutStub			= null;
+	@Autowired
 	private CancelCheckOutStub		cancelCheckOutStub		= null;
+	@Autowired
 	private TransferCheckOutStub	transferCheckOutStub	= null;
-
+	@Autowired
 	private FoundationStub			foundationStub			= null;
+	@Autowired
 	private FFolderStub				fFolderStub				= null;
+	@Autowired
 	private FRevisionStub			fRevisionStub			= null;
+	@Autowired
 	private FSaverStub				fSaverStub				= null;
+	@Autowired
 	private FUIStub					fUIStub					= null;
+	@Autowired
 	private FUpdaterStub			fUpdaterStub			= null;
+	@Autowired
 	private IterationStub			iterationStub			= null;
-
+	@Autowired
 	private RelationStub			relationStub			= null;
+	@Autowired
 	private RelationLinkStub		relationLinkStub		= null;
+	@Autowired
 	private RelationUnlinkStub		relationUnlinkStub		= null;
+	@Autowired
 	private StructureStub			structureStub			= null;
+	@Autowired
 	private ClassificationStub		classificationStub		= null;
+	@Autowired
 	private RouteStub				routeStub				= null;
 
 	@Deprecated
@@ -324,46 +325,26 @@ public class BOASImpl extends BusinessRuleService implements BOAS
 
 	public CancelCheckOutStub getCancelCheckOutStub()
 	{
-		if (this.cancelCheckOutStub == null)
-		{
-			this.cancelCheckOutStub = new CancelCheckOutStub(this.serviceContext, this);
-		}
 		return this.cancelCheckOutStub;
 	}
 
 	public ClassificationStub getClassificationStub()
 	{
-		if (this.classificationStub == null)
-		{
-			this.classificationStub = new ClassificationStub(this.serviceContext, this);
-		}
 		return this.classificationStub;
 	}
 
 	public CheckInStub getCheckInStub()
 	{
-		if (this.checkInStub == null)
-		{
-			this.checkInStub = new CheckInStub(this.serviceContext, this);
-		}
 		return this.checkInStub;
 	}
 
 	public CheckOutStub getCheckOutStub()
 	{
-		if (this.checkOutStub == null)
-		{
-			this.checkOutStub = new CheckOutStub(this.serviceContext, this);
-		}
 		return this.checkOutStub;
 	}
 
 	private RouteStub getRouteStub()
 	{
-		if (routeStub == null)
-		{
-			routeStub = new RouteStub(serviceContext, this);
-		}
 		return routeStub;
 	}
 
@@ -372,11 +353,6 @@ public class BOASImpl extends BusinessRuleService implements BOAS
 	 */
 	public FFolderStub getFFolderStub()
 	{
-		if (this.fFolderStub == null)
-		{
-			this.fFolderStub = new FFolderStub(this.serviceContext, this);
-		}
-
 		return this.fFolderStub;
 	}
 
@@ -385,11 +361,6 @@ public class BOASImpl extends BusinessRuleService implements BOAS
 	 */
 	public FoundationStub getFoundationStub()
 	{
-		if (this.foundationStub == null)
-		{
-			this.foundationStub = new FoundationStub(this.serviceContext, this);
-		}
-
 		return this.foundationStub;
 	}
 
@@ -398,10 +369,6 @@ public class BOASImpl extends BusinessRuleService implements BOAS
 	 */
 	public FRevisionStub getFRevisionStub()
 	{
-		if (this.fRevisionStub == null)
-		{
-			this.fRevisionStub = new FRevisionStub(this.serviceContext, this);
-		}
 		return this.fRevisionStub;
 	}
 
@@ -410,10 +377,6 @@ public class BOASImpl extends BusinessRuleService implements BOAS
 	 */
 	public FSaverStub getFSaverStub()
 	{
-		if (this.fSaverStub == null)
-		{
-			this.fSaverStub = new FSaverStub(this.serviceContext, this);
-		}
 		return this.fSaverStub;
 	}
 
@@ -422,10 +385,6 @@ public class BOASImpl extends BusinessRuleService implements BOAS
 	 */
 	public FUIStub getFUIStub()
 	{
-		if (this.fUIStub == null)
-		{
-			this.fUIStub = new FUIStub(this.serviceContext, this);
-		}
 		return this.fUIStub;
 	}
 
@@ -434,10 +393,6 @@ public class BOASImpl extends BusinessRuleService implements BOAS
 	 */
 	public FUpdaterStub getFUpdaterStub()
 	{
-		if (this.fUpdaterStub == null)
-		{
-			this.fUpdaterStub = new FUpdaterStub(this.serviceContext, this);
-		}
 		return this.fUpdaterStub;
 	}
 
@@ -551,10 +506,6 @@ public class BOASImpl extends BusinessRuleService implements BOAS
 	 */
 	public RelationLinkStub getRelationLinkStub()
 	{
-		if (this.relationLinkStub == null)
-		{
-			this.relationLinkStub = new RelationLinkStub(this.serviceContext, this);
-		}
 		return this.relationLinkStub;
 	}
 
@@ -563,10 +514,6 @@ public class BOASImpl extends BusinessRuleService implements BOAS
 	 */
 	public RelationStub getRelationStub()
 	{
-		if (this.relationStub == null)
-		{
-			this.relationStub = new RelationStub(this.serviceContext, this);
-		}
 		return this.relationStub;
 	}
 
@@ -575,10 +522,6 @@ public class BOASImpl extends BusinessRuleService implements BOAS
 	 */
 	public IterationStub getIterationStub()
 	{
-		if (this.iterationStub == null)
-		{
-			this.iterationStub = new IterationStub(this.serviceContext, this);
-		}
 		return this.iterationStub;
 	}
 
@@ -587,10 +530,6 @@ public class BOASImpl extends BusinessRuleService implements BOAS
 	 */
 	public RelationUnlinkStub getRelationUnlinkStub()
 	{
-		if (this.relationUnlinkStub == null)
-		{
-			this.relationUnlinkStub = new RelationUnlinkStub(this.serviceContext, this);
-		}
 		return this.relationUnlinkStub;
 	}
 
@@ -612,19 +551,11 @@ public class BOASImpl extends BusinessRuleService implements BOAS
 	 */
 	public StructureStub getStructureStub()
 	{
-		if (this.structureStub == null)
-		{
-			this.structureStub = new StructureStub(this.serviceContext, this);
-		}
 		return this.structureStub;
 	}
 
 	public TransferCheckOutStub getTransferCheckOutStub()
 	{
-		if (this.transferCheckOutStub == null)
-		{
-			this.transferCheckOutStub = new TransferCheckOutStub(this.serviceContext, this);
-		}
 		return this.transferCheckOutStub;
 	}
 
@@ -634,7 +565,7 @@ public class BOASImpl extends BusinessRuleService implements BOAS
 	 * @see dyna.app.service.DataAccessService#init()
 	 */
 	@Override
-	protected void init()
+	public void init()
 	{
 		if (initialized)
 		{

@@ -67,6 +67,7 @@ import dyna.net.service.brs.BOMS;
 import dyna.net.service.brs.BRM;
 import dyna.net.service.brs.EMM;
 import org.acegisecurity.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -77,20 +78,12 @@ import java.util.*;
  * @author Caogc
  * 
  */
+@Component
 public class FoundationStub extends AbstractServiceStub<BOASImpl>
 {
 	private static TrackerBuilder	startTrackerBuilder		= null;
 	private static TrackerBuilder	stopTrackerBuilder		= null;
 	private static TrackerBuilder	obsoleteTrackerBuilder	= null;
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	protected FoundationStub(ServiceContext context, BOASImpl service)
-	{
-		super(context, service);
-	}
 
 	protected void deleteObject(FoundationObject foundationObject) throws ServiceRequestException
 	{

@@ -5,7 +5,6 @@
  */
 package dyna.app.service.brs.acl;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.helper.Constants;
 import dyna.app.service.helper.ServiceRequestExceptionWrap;
@@ -17,22 +16,15 @@ import dyna.common.systemenum.AuthorityEnum;
 import dyna.common.systemenum.BusinessModelTypeEnum;
 import dyna.data.DataServer;
 import dyna.data.service.acl.AclService;
+import org.springframework.stereotype.Component;
 
 /**
  * @author WangLHB
  * 
  */
+@Component
 public class FoundationACLStub extends AbstractServiceStub<ACLImpl>
 {
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	protected FoundationACLStub(ServiceContext context, ACLImpl service)
-	{
-		super(context, service);
-	}
 
 	protected boolean hasFoundationCreateACL(String boName) throws ServiceRequestException
 	{

@@ -5,7 +5,6 @@
  */
 package dyna.app.service.brs.dss;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.helper.ServiceRequestExceptionWrap;
 import dyna.common.bean.data.FoundationObject;
@@ -21,6 +20,7 @@ import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
@@ -30,16 +30,9 @@ import java.util.*;
  * @author Wanglei
  * 
  */
+@Component
 public class FileInfoStub extends AbstractServiceStub<DSSImpl>
 {
-	/**
-	 * @param context
-	 * @param service
-	 */
-	protected FileInfoStub(ServiceContext context, DSSImpl service)
-	{
-		super(context, service);
-	}
 
 	protected static void init()
 	{

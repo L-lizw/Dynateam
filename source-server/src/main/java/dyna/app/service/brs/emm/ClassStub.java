@@ -5,15 +5,6 @@
  */
 package dyna.app.service.brs.emm;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.DataAccessService;
 import dyna.common.FieldOrignTypeEnum;
@@ -24,11 +15,7 @@ import dyna.common.bean.data.foundation.ViewObject;
 import dyna.common.bean.model.cls.NumberingModel;
 import dyna.common.bean.model.cls.NumberingObject;
 import dyna.common.dto.model.bmbo.BOInfo;
-import dyna.common.dto.model.cls.ClassAction;
-import dyna.common.dto.model.cls.ClassField;
-import dyna.common.dto.model.cls.ClassInfo;
-import dyna.common.dto.model.cls.NumberingModelInfo;
-import dyna.common.dto.model.cls.NumberingObjectInfo;
+import dyna.common.dto.model.cls.*;
 import dyna.common.dto.model.ui.UIField;
 import dyna.common.exception.ServiceNotFoundException;
 import dyna.common.exception.ServiceRequestException;
@@ -39,25 +26,21 @@ import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.data.service.model.classmodel.ClassModelService;
 import dyna.net.service.brs.EMM;
+import org.springframework.stereotype.Component;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 与class 相关的操作分支
  *
  * @author Wanglei
  */
+@Component
 public class ClassStub extends AbstractServiceStub<EMMImpl>
 {
 
 	public static final String FIELD_NAME_SYMBOL = ":";
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	public ClassStub(ServiceContext context, EMMImpl service)
-	{
-		super(context, service);
-	}
 
 	public List<String> getClassNameListImplInterface(ModelInterfaceEnum interfaceEnum) throws ServiceRequestException
 	{

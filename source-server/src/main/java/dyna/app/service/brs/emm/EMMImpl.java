@@ -43,6 +43,8 @@ import dyna.net.security.signature.UserSignature;
 import dyna.net.service.brs.AAS;
 import dyna.net.service.brs.EMM;
 import dyna.net.service.brs.LIC;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Method;
 import java.util.*;
@@ -53,31 +55,32 @@ import java.util.*;
  * @author Wanglei
  * 
  */
+@Service
 public class EMMImpl extends BusinessRuleService implements EMM
 {
 
 	private static boolean			initialized				= false;
-
+	@Autowired
 	private DomainServiceStub		domainServiceStub		= null;
-
+	@Autowired
 	private CodeStub				codeStub				= null;
-
+	@Autowired
 	private BMStub					bmStub					= null;
-
+	@Autowired
 	private ClassStub				classStub				= null;
-
+	@Autowired
 	private LCStub					lcStub					= null;
-
+	@Autowired
 	private UIStub					uiStub					= null;
-
+	@Autowired
 	private ClassificationStub		classificationStub		= null;
-
+	@Autowired
 	private RelationTemplateStub	relationTemplateStub	= null;
-
+	@Autowired
 	private BOMTemplateStub			bomTemplateStub			= null;
-
+	@Autowired
 	private InterfaceStub			interfaceStub			= null;
-
+	@Autowired
 	private ViewModelStub			viewModelStub			= null;
 
 	/*
@@ -95,7 +98,7 @@ public class EMMImpl extends BusinessRuleService implements EMM
 	}
 
 	@Override
-	protected void init()
+	public void init()
 	{
 		try
 		{
@@ -150,37 +153,21 @@ public class EMMImpl extends BusinessRuleService implements EMM
 
 	public DomainServiceStub getDomainServiceStub()
 	{
-		if (this.domainServiceStub == null)
-		{
-			this.domainServiceStub = new DomainServiceStub(this.serviceContext, this);
-		}
 		return this.domainServiceStub;
 	}
 
 	public InterfaceStub getInterfaceStub()
 	{
-		if (this.interfaceStub == null)
-		{
-			this.interfaceStub = new InterfaceStub(this.serviceContext, this);
-		}
 		return this.interfaceStub;
 	}
 
 	public CodeStub getCodeStub()
 	{
-		if (this.codeStub == null)
-		{
-			this.codeStub = new CodeStub(this.serviceContext, this);
-		}
 		return this.codeStub;
 	}
 
 	public ClassificationStub getClassificationStub()
 	{
-		if (this.classificationStub == null)
-		{
-			this.classificationStub = new ClassificationStub(this.serviceContext, this);
-		}
 		return this.classificationStub;
 	}
 
@@ -189,10 +176,6 @@ public class EMMImpl extends BusinessRuleService implements EMM
 	 */
 	public RelationTemplateStub getRelationTemplateStub()
 	{
-		if (this.relationTemplateStub == null)
-		{
-			this.relationTemplateStub = new RelationTemplateStub(this.serviceContext, this);
-		}
 		return this.relationTemplateStub;
 	}
 
@@ -201,55 +184,31 @@ public class EMMImpl extends BusinessRuleService implements EMM
 	 */
 	protected BOMTemplateStub getBomTemplateStub()
 	{
-		if (this.bomTemplateStub == null)
-		{
-			this.bomTemplateStub = new BOMTemplateStub(this.serviceContext, this);
-		}
 		return this.bomTemplateStub;
 	}
 
 	public BMStub getBMStub()
 	{
-		if (this.bmStub == null)
-		{
-			this.bmStub = new BMStub(this.serviceContext, this);
-		}
 		return this.bmStub;
 	}
 
 	public ClassStub getClassStub()
 	{
-		if (this.classStub == null)
-		{
-			this.classStub = new ClassStub(this.serviceContext, this);
-		}
 		return this.classStub;
 	}
 
 	public LCStub getLCStub()
 	{
-		if (this.lcStub == null)
-		{
-			this.lcStub = new LCStub(this.serviceContext, this);
-		}
 		return this.lcStub;
 	}
 
 	public UIStub getUIStub()
 	{
-		if (this.uiStub == null)
-		{
-			this.uiStub = new UIStub(this.serviceContext, this);
-		}
 		return this.uiStub;
 	}
 
 	public ViewModelStub getViewModelStub()
 	{
-		if (this.viewModelStub == null)
-		{
-			this.viewModelStub = new ViewModelStub(this.serviceContext, this);
-		}
 		return this.viewModelStub;
 	}
 

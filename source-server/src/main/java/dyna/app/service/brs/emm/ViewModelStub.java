@@ -1,12 +1,5 @@
 package dyna.app.service.brs.emm;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.common.SearchCondition;
 import dyna.common.SearchConditionFactory;
@@ -19,14 +12,13 @@ import dyna.common.dto.model.ui.UIObjectInfo;
 import dyna.common.exception.ServiceRequestException;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
+import org.springframework.stereotype.Component;
 
+import java.util.*;
+
+@Component
 public class ViewModelStub extends AbstractServiceStub<EMMImpl>
 {
-
-	protected ViewModelStub(ServiceContext context, EMMImpl service)
-	{
-		super(context, service);
-	}
 
 	public ClassInfo getClassInfoByBOGuid(String boGuid) throws ServiceRequestException
 	{

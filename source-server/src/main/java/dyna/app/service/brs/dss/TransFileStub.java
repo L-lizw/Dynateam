@@ -5,7 +5,6 @@
  */
 package dyna.app.service.brs.dss;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.boas.BOASImpl;
 import dyna.app.service.helper.Constants;
@@ -33,6 +32,7 @@ import dyna.data.service.sdm.SystemDataService;
 import dyna.net.security.CredentialManager;
 import dyna.net.security.signature.ModuleSignature;
 import dyna.net.security.signature.Signature;
+import org.springframework.stereotype.Component;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -45,17 +45,9 @@ import java.util.Map;
  * @author Wanglei
  * 
  */
+@Component
 public class TransFileStub extends AbstractServiceStub<DSSImpl>
 {
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	protected TransFileStub(ServiceContext context, DSSImpl service)
-	{
-		super(context, service);
-	}
 
 	public DSSFileInfo getFileInfoByFileType(ObjectGuid objectGuid, int iterationId, String fileType) throws ServiceRequestException
 	{

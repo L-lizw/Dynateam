@@ -5,9 +5,6 @@
  */
 package dyna.app.service.brs.uecs;
 
-import java.util.List;
-import java.util.Map;
-
 import dyna.app.service.BusinessRuleService;
 import dyna.common.SearchCondition;
 import dyna.common.bean.data.FoundationObject;
@@ -20,17 +17,13 @@ import dyna.common.exception.ServiceRequestException;
 import dyna.common.systemenum.ModelInterfaceEnum;
 import dyna.common.util.SetUtils;
 import dyna.common.util.UpdatedECSConstants;
-import dyna.net.service.brs.AAS;
-import dyna.net.service.brs.BOAS;
-import dyna.net.service.brs.BOMS;
-import dyna.net.service.brs.BRM;
-import dyna.net.service.brs.DSS;
-import dyna.net.service.brs.EDAP;
-import dyna.net.service.brs.EMM;
-import dyna.net.service.brs.SMS;
-import dyna.net.service.brs.UECS;
-import dyna.net.service.brs.WFI;
+import dyna.net.service.brs.*;
 import dyna.net.service.das.MSRM;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Engineering Change Service Implement工程变更服务的实现类
@@ -38,15 +31,19 @@ import dyna.net.service.das.MSRM;
  * @author caogc
  * 
  */
+@Service
 public class UECSImpl extends BusinessRuleService implements UECS
 {
-
-	private UECRECPStub		uecrStub		= null;
-
-	private UECSStub		uecsStub		= null;
-	private UECNECOStub		uEcnEcoStub		= null;
-	private UECIStub		uEciStub		= null;
-	private UECQueryStub	uECQueryStub	= null;
+	@Autowired
+	private UECRECPStub		uecrStub		;
+	@Autowired
+	private UECSStub		uecsStub		;
+	@Autowired
+	private UECNECOStub		uEcnEcoStub		;
+	@Autowired
+	private UECIStub		uEciStub		;
+	@Autowired
+	private UECQueryStub	uECQueryStub	;
 	private static boolean	initialized		= false;
 
 	/*
@@ -55,7 +52,7 @@ public class UECSImpl extends BusinessRuleService implements UECS
 	 * @see dyna.app.service.DataAccessService#init()
 	 */
 	@Override
-	protected void init()
+	public void init()
 	{
 		if (initialized == false)
 		{
@@ -96,10 +93,6 @@ public class UECSImpl extends BusinessRuleService implements UECS
 	 */
 	public UECRECPStub getUECRECPStub()
 	{
-		if (this.uecrStub == null)
-		{
-			this.uecrStub = new UECRECPStub(this.serviceContext, this);
-		}
 		return this.uecrStub;
 	}
 
@@ -108,10 +101,6 @@ public class UECSImpl extends BusinessRuleService implements UECS
 	 */
 	public UECNECOStub getUECNECOStub()
 	{
-		if (this.uEcnEcoStub == null)
-		{
-			this.uEcnEcoStub = new UECNECOStub(this.serviceContext, this);
-		}
 		return this.uEcnEcoStub;
 	}
 
@@ -120,10 +109,6 @@ public class UECSImpl extends BusinessRuleService implements UECS
 	 */
 	protected UECIStub getUECIStub()
 	{
-		if (this.uEciStub == null)
-		{
-			this.uEciStub = new UECIStub(this.serviceContext, this);
-		}
 		return this.uEciStub;
 	}
 
@@ -132,19 +117,11 @@ public class UECSImpl extends BusinessRuleService implements UECS
 	 */
 	protected UECQueryStub getUECQueryStub()
 	{
-		if (this.uECQueryStub == null)
-		{
-			this.uECQueryStub = new UECQueryStub(this.serviceContext, this);
-		}
 		return this.uECQueryStub;
 	}
 
 	public UECSStub getUECSStub()
 	{
-		if (this.uecsStub == null)
-		{
-			this.uecsStub = new UECSStub(this.serviceContext, this);
-		}
 		return this.uecsStub;
 	}
 

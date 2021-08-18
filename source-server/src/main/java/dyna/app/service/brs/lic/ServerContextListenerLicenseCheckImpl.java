@@ -6,9 +6,7 @@
 package dyna.app.service.brs.lic;
 
 import dyna.app.core.sch.SessionCheck;
-import dyna.app.server.context.ApplicationServerContext;
 import dyna.app.server.context.ServerContextListener;
-import dyna.app.server.context.ServiceContext;
 import dyna.common.conf.ConfigurableServerImpl;
 
 /**
@@ -22,7 +20,7 @@ public class ServerContextListenerLicenseCheckImpl implements ServerContextListe
 	 * @see dyna.app.server.context.ServerContextListener#contextInitialized(dyna.app.server.context.ServerContext, dyna.app.server.context.ServiceContext)
 	 */
 	@Override
-	public void contextInitialized(ApplicationServerContext serverContext, ServiceContext serviceContext)
+	public void contextInitialized()
 	{
 
 		ConfigurableServerImpl svConfig = serverContext.getServerConfig();

@@ -1,6 +1,5 @@
 package dyna.app.service.brs.mms;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.emm.EMMImpl;
 import dyna.app.service.brs.wfm.WFMImpl;
@@ -19,20 +18,16 @@ import dyna.data.DataServer;
 import dyna.data.service.sdm.FieldValueEqualsFilter;
 import dyna.data.service.sdm.SystemDataService;
 import dyna.net.security.signature.UserSignature;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Component
 public class WorkflowProcessManagerStub extends AbstractServiceStub<MMSImpl>
 {
-
-	protected WorkflowProcessManagerStub(ServiceContext context, MMSImpl service)
-	{
-		super(context, service);
-		// TODO Auto-generated constructor stub
-	}
 
 	protected List<WorkflowProcessInfo> copy4CreateWorkflowProcess(List<WorkflowProcessInfo> sourceWfInfoList) throws ServiceRequestException
 	{

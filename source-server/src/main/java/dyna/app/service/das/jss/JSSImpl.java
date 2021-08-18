@@ -22,6 +22,8 @@ import dyna.net.service.brs.BOAS;
 import dyna.net.service.brs.EMM;
 import dyna.net.service.brs.LIC;
 import dyna.net.service.das.JSS;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Iterator;
 import java.util.List;
@@ -33,13 +35,17 @@ import java.util.Map;
  * @author Wanglei
  * 
  */
+@Service
 public class JSSImpl extends DataAccessService implements JSS
 {
 
 	private static boolean		initialized		= false;
 	private static boolean		runJobQuery		= true;
+	@Autowired
 	private JobQueryStub		jobQueryStub	= null;
+	@Autowired
 	private JobCreationStub		jobCreationStub	= null;
+	@Autowired
 	private JobUpdaterStub		jobUpdaterStub	= null;
 	private ConfigurableJSSImpl	configurableJSS	= null;
 
@@ -74,7 +80,7 @@ public class JSSImpl extends DataAccessService implements JSS
 	 * @see dyna.app.service.DataAccessService#init()
 	 */
 	@Override
-	protected void init()
+	public void init()
 	{
 		runJobQuery = !"false".equalsIgnoreCase(this.getServiceDefinition().getInitParameter("enable"));
 		ConfigLoaderJSSImpl configLoader = GenericServer.getServiceBean(ConfigLoaderFactory.class).getLoader4JSS();
@@ -87,19 +93,11 @@ public class JSSImpl extends DataAccessService implements JSS
 	 */
 	protected JobQueryStub getJobQueryStub() throws ServiceRequestException
 	{
-		if (this.jobQueryStub == null)
-		{
-			this.jobQueryStub = new JobQueryStub(this.serviceContext, this);
-		}
 		return this.jobQueryStub;
 	}
 
 	protected JobCreationStub getJobCreationStub()
 	{
-		if (this.jobCreationStub == null)
-		{
-			this.jobCreationStub = new JobCreationStub(this.serviceContext, this);
-		}
 		return this.jobCreationStub;
 	}
 
@@ -108,10 +106,6 @@ public class JSSImpl extends DataAccessService implements JSS
 	 */
 	protected JobUpdaterStub getJobUpdaterStub()
 	{
-		if (this.jobUpdaterStub == null)
-		{
-			this.jobUpdaterStub = new JobUpdaterStub(this.serviceContext, this);
-		}
 		return this.jobUpdaterStub;
 	}
 

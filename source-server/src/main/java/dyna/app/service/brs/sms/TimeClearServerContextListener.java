@@ -5,12 +5,10 @@
  */
 package dyna.app.service.brs.sms;
 
+import dyna.app.server.context.ServerContextListener;
+
 import java.util.Calendar;
 import java.util.Date;
-
-import dyna.app.server.context.ApplicationServerContext;
-import dyna.app.server.context.ServerContextListener;
-import dyna.app.server.context.ServiceContext;
 
 /**
  * @author wangweixia
@@ -26,7 +24,7 @@ public class TimeClearServerContextListener implements ServerContextListener
 	 * dyna.app.server.context.ServiceContext)
 	 */
 	@Override
-	public void contextInitialized(ApplicationServerContext serverContext, ServiceContext serviceContext)
+	public void contextInitialized()
 	{
 		Date firstTime = new Date();
 		Calendar calendar = Calendar.getInstance();

@@ -5,11 +5,11 @@
  */
 package dyna.app.service.brs.lic;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.common.Version;
 import dyna.common.exception.ServiceRequestException;
 import dyna.common.util.StringUtils;
+import org.springframework.stereotype.Component;
 
 /**
  * 有license信息相关的分支
@@ -17,17 +17,9 @@ import dyna.common.util.StringUtils;
  * @author Wanglei
  * 
  */
+@Component
 public class LicenseStub extends AbstractServiceStub<LICImpl>
 {
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	protected LicenseStub(ServiceContext context, LICImpl service)
-	{
-		super(context, service);
-	}
 
 	protected int[] getLicenseOccupiedNode() throws ServiceRequestException
 	{

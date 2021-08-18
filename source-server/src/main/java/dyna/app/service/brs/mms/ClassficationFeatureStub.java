@@ -1,6 +1,5 @@
 package dyna.app.service.brs.mms;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.helper.ServiceRequestExceptionWrap;
 import dyna.common.bean.data.SystemObject;
@@ -21,16 +20,13 @@ import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
 import dyna.data.service.sdm.FieldValueEqualsFilter;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
+@Component
 public class ClassficationFeatureStub extends AbstractServiceStub<MMSImpl>
 {
-
-	protected ClassficationFeatureStub(ServiceContext context, MMSImpl service)
-	{
-		super(context, service);
-	}
 
 	protected List<ClassficationFeature> listAllClassficationFeature()
 	{

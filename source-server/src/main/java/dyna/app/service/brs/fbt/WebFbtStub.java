@@ -5,7 +5,6 @@
  */
 package dyna.app.service.brs.fbt;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.common.bean.data.FoundationObject;
 import dyna.common.bean.data.ObjectGuid;
@@ -16,6 +15,7 @@ import dyna.common.exception.ServiceRequestException;
 import dyna.common.systemenum.FileOpenToolTypeEnum;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.util.List;
@@ -24,17 +24,9 @@ import java.util.List;
  * @author Qiuxq
  * 
  */
+@Component
 public class WebFbtStub extends AbstractServiceStub<FBTSImpl>
 {
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	protected WebFbtStub(ServiceContext context, FBTSImpl service)
-	{
-		super(context, service);
-	}
 
 	public boolean isFileCompareEnabled() throws ServiceRequestException
 	{

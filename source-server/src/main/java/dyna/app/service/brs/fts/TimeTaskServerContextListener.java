@@ -1,19 +1,17 @@
 package dyna.app.service.brs.fts;
 
-import java.util.Calendar;
-import java.util.Date;
-
-import dyna.app.server.context.ApplicationServerContext;
 import dyna.app.server.context.ServerContextListener;
-import dyna.app.server.context.ServiceContext;
 import dyna.common.exception.DynaDataException;
 import dyna.common.log.DynaLogger;
+
+import java.util.Calendar;
+import java.util.Date;
 
 public class TimeTaskServerContextListener implements ServerContextListener
 {
 
 	@Override
-	public void contextInitialized(ApplicationServerContext serverContext, ServiceContext serviceContext)
+	public void contextInitialized()
 	{
 		Date firstTime = null;
 		try

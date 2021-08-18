@@ -1,6 +1,5 @@
 package dyna.app.service.brs.emm;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.data.DataServer;
 import dyna.data.service.model.businessmodel.BusinessModelService;
@@ -11,14 +10,11 @@ import dyna.data.service.model.interfacemodel.InterfaceModelService;
 import dyna.data.service.model.lifecyclemodel.LifecycleModelService;
 import dyna.data.service.relation.RelationService;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Component;
 
+@Component
 public class DomainServiceStub extends AbstractServiceStub<EMMImpl>
 {
-
-	protected DomainServiceStub(ServiceContext context, EMMImpl service)
-	{
-		super(context, service);
-	}
 
 	public ClassModelService getClassModelService()
 	{

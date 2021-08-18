@@ -5,7 +5,6 @@
  */
 package dyna.app.service.brs.aas;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.helper.Constants;
 import dyna.app.service.helper.ServiceRequestExceptionWrap;
@@ -22,6 +21,7 @@ import dyna.data.DataServer;
 import dyna.data.service.sdm.FieldValueEqualsFilter;
 import dyna.data.service.sdm.SystemDataService;
 import dyna.net.security.signature.UserSignature;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
@@ -31,16 +31,9 @@ import java.util.*;
  * @author Wanglei
  * 
  */
+@Component
 public class RoleStub extends AbstractServiceStub<AASImpl>
 {
-	/**
-	 * @param context
-	 * @param service
-	 */
-	public RoleStub(ServiceContext context, AASImpl service)
-	{
-		super(context, service);
-	}
 
 	protected void activeRole(String roleId) throws ServiceRequestException
 	{

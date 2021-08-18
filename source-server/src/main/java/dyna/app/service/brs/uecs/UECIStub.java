@@ -5,7 +5,6 @@
  */
 package dyna.app.service.brs.uecs;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.boas.BOASImpl;
 import dyna.app.service.brs.bom.BOMSImpl;
@@ -39,6 +38,7 @@ import dyna.common.util.*;
 import dyna.data.DataServer;
 import dyna.data.service.tool.DSToolService;
 import dyna.net.security.signature.UserSignature;
+import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -51,13 +51,9 @@ import java.util.Map.Entry;
  * @author Wanglei
  * 
  */
+@Component
 public class UECIStub extends AbstractServiceStub<UECSImpl>
 {
-
-	protected UECIStub(ServiceContext context, UECSImpl service)
-	{
-		super(context, service);
-	}
 
 	private List<BOMStructure> listBOMByEnd1ForEc(ObjectGuid end1ObjectGuid, DataRule dataRule, String viewName, SearchCondition searchConditionStructure)
 			throws ServiceRequestException

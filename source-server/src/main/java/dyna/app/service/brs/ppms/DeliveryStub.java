@@ -6,12 +6,6 @@
 
 package dyna.app.service.brs.ppms;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.helper.ServiceRequestExceptionWrap;
 import dyna.common.bean.data.FoundationObject;
@@ -33,18 +27,20 @@ import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
 import dyna.data.service.common.DSCommonService;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author WangLHB
  *         交付物管理
  */
+@Component
 public class DeliveryStub extends AbstractServiceStub<PPMSImpl>
 {
-
-	protected DeliveryStub(ServiceContext context, PPMSImpl service)
-	{
-		super(context, service);
-	}
 
 	private void decodeDeliverableItem(DeliverableItem item)
 	{

@@ -5,11 +5,6 @@
  */
 package dyna.app.service.brs.boas;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.emm.ClassStub;
 import dyna.app.service.brs.emm.EMMImpl;
@@ -37,22 +32,19 @@ import dyna.data.DataServer;
 import dyna.data.service.ins.InstanceService;
 import dyna.data.service.model.interfacemodel.InterfaceModelService;
 import dyna.net.service.brs.EMM;
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author Wanglei
  * 
  */
+@Component
 public class CheckOutStub extends AbstractServiceStub<BOASImpl>
 {
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	public CheckOutStub(ServiceContext context, BOASImpl service)
-	{
-		super(context, service);
-	}
 
 	public FoundationObject checkOut(FoundationObject foundationObject, String checkOutUserGuid, boolean isCheckAuth) throws ServiceRequestException
 	{

@@ -5,14 +5,6 @@
  */
 package dyna.app.service.brs.emm;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.common.SearchCondition;
 import dyna.common.SearchConditionFactory;
@@ -25,6 +17,9 @@ import dyna.common.systemenum.ModelInterfaceEnum;
 import dyna.common.systemenum.UITypeEnum;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
+import org.springframework.stereotype.Component;
+
+import java.util.*;
 
 /**
  * 与 ui model 相关的操作分支
@@ -32,6 +27,7 @@ import dyna.common.util.StringUtils;
  * @author Wanglei
  * 
  */
+@Component
 public class UIStub extends AbstractServiceStub<EMMImpl>
 {
 
@@ -40,14 +36,6 @@ public class UIStub extends AbstractServiceStub<EMMImpl>
 	public static List<String>	BomTreeUINameList		= Arrays.asList("ListUIForBOM1", "ListUIForBOM2", "ListUIForBOM3", "ListUIForBOM4", "ListUIForBOM5", "ListUIForBOM6",
 			"ListUIForBOM7", "ListUIForBOM8", "ListUIForBOM9");
 
-	/**
-	 * @param context
-	 * @param service
-	 */
-	public UIStub(ServiceContext context, EMMImpl service)
-	{
-		super(context, service);
-	}
 
 	/**
 	 * 获取当前业务模型内, 指定UI类型的UI对象(如UI对象存在多个, 则默认取第一个)<br>

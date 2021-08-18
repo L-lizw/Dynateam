@@ -1,32 +1,10 @@
 package dyna.app.service.brs.cpb;
 
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.List;
-import java.util.HashMap;
-import java.util.regex.Pattern;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.common.bean.data.FoundationObject;
 import dyna.common.bean.data.ObjectGuid;
 import dyna.common.bean.data.StructureObject;
-import dyna.common.bean.data.configparamter.ConfigCalculateVar;
-import dyna.common.bean.data.configparamter.ConfigParameterConstants;
-import dyna.common.bean.data.configparamter.ConfigVariable;
-import dyna.common.bean.data.configparamter.DynamicColumnTitle;
-import dyna.common.bean.data.configparamter.DynamicOfColumn;
-import dyna.common.bean.data.configparamter.DynamicOfMultiVariable;
-import dyna.common.bean.data.configparamter.InputVariableValueSelectEnum;
-import dyna.common.bean.data.configparamter.TableOfDefineCondition;
-import dyna.common.bean.data.configparamter.TableOfExpression;
-import dyna.common.bean.data.configparamter.TableOfGroup;
-import dyna.common.bean.data.configparamter.TableOfInputVariable;
-import dyna.common.bean.data.configparamter.TableOfList;
-import dyna.common.bean.data.configparamter.TableOfMark;
-import dyna.common.bean.data.configparamter.TableOfMultiCondition;
-import dyna.common.bean.data.configparamter.TableOfParameter;
-import dyna.common.bean.data.configparamter.TableOfRegion;
+import dyna.common.bean.data.configparamter.*;
 import dyna.common.dto.DataRule;
 import dyna.common.dto.model.cls.ClassInfo;
 import dyna.common.dto.model.code.CodeItemInfo;
@@ -36,13 +14,17 @@ import dyna.common.systemenum.ModelInterfaceEnum;
 import dyna.common.util.ConfigUtil;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
+import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Pattern;
+
+@Component
 public class ConfigCheckStub extends AbstractServiceStub<CPBImpl>
 {
-	protected ConfigCheckStub(ServiceContext context, CPBImpl service)
-	{
-		super(context, service);
-	}
 
 	protected List<String> checkAllValuesOfTabs(ObjectGuid end1ObjectGuid, DataRule dataRule) throws ServiceRequestException
 	{

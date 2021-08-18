@@ -5,7 +5,6 @@
  */
 package dyna.app.service.brs.brm;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.boas.BOASImpl;
 import dyna.app.service.brs.boas.RelationStub;
@@ -33,6 +32,7 @@ import dyna.common.systemenum.*;
 import dyna.common.util.*;
 import dyna.data.DataServer;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -42,18 +42,9 @@ import java.util.List;
  * @author wangweixia
  *         取替代关系新建、删除、修改
  */
+@Component
 public class ReplaceObjectStub extends AbstractServiceStub<BRMImpl>
 {
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	protected ReplaceObjectStub(ServiceContext context, BRMImpl service)
-	{
-		super(context, service);
-
-	}
 
 	/**
 	 * 往foundationObject里面放置classguid和MasterGuid字段

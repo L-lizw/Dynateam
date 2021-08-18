@@ -5,12 +5,6 @@
  */
 package dyna.app.service.brs.eoss;
 
-import java.util.Arrays;
-import java.util.List;
-
-import javax.script.ScriptException;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.brs.wfm.WFMImpl;
 import dyna.common.bean.data.InputObject;
 import dyna.common.bean.data.input.InputObjectWrokflowActionImpl;
@@ -21,6 +15,11 @@ import dyna.common.context.ScriptContext;
 import dyna.common.exception.ServiceRequestException;
 import dyna.common.systemenum.EventTypeEnum;
 import dyna.common.util.SetUtils;
+import org.springframework.stereotype.Component;
+
+import javax.script.ScriptException;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * 与模型类相关的脚本执行操作
@@ -28,17 +27,9 @@ import dyna.common.util.SetUtils;
  * @author Wanglei
  * 
  */
+@Component
 public class WorkflowScriptStub extends AbstractScriptServiceStub
 {
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	public WorkflowScriptStub(ServiceContext context, EOSSImpl service)
-	{
-		super(context, service);
-	}
 
 	protected Script getWorkflowActionScript(String workflowName, String activityName, int... segments) throws ServiceRequestException
 	{

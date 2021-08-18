@@ -5,7 +5,6 @@
  */
 package dyna.app.service.brs.fbt;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.dss.DSSImpl;
 import dyna.common.bean.data.FoundationObject;
@@ -23,6 +22,7 @@ import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -35,21 +35,12 @@ import java.util.Set;
  * @author wangweixia
  * 
  */
+@Component
 public class FbtStub extends AbstractServiceStub<FBTSImpl>
 {
 
 	private static final String	SUFFIXEDELIMITER	= ";";
 	private static final String	STRINGDELIMITER		= ",";
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	protected FbtStub(ServiceContext context, FBTSImpl service)
-	{
-		super(context, service);
-
-	}
 
 	/**
 	 * @param fileOpenSubject

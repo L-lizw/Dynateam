@@ -6,7 +6,6 @@ import dyna.app.core.track.TrackerBuilder;
 import dyna.app.core.track.TrackerPersistence;
 import dyna.app.core.track.impl.DefaultTrackerBuilderImpl;
 import dyna.app.core.track.impl.TRViewLinkImpl;
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.boas.BOASImpl;
 import dyna.app.service.brs.emm.ClassStub;
@@ -41,17 +40,15 @@ import dyna.data.common.exception.DynaDataExceptionAll;
 import dyna.data.service.ins.InstanceService;
 import dyna.data.service.relation.RelationService;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
+@Component
 public class CPBStub extends AbstractServiceStub<CPBImpl>
 {
 	private static TrackerBuilder trackerBuilder = null;
 
-	public CPBStub(ServiceContext context, CPBImpl service)
-	{
-		super(context, service);
-	}
 
 	@SuppressWarnings("unchecked")
 	protected List<TableOfGroup> saveTableOfGroup(ObjectGuid end1ObjectGuid, Date ruleTime, List<TableOfGroup> groupList, List<DynamicColumnTitle> columnTitleList,

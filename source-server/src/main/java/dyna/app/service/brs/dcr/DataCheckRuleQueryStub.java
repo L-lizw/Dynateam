@@ -1,15 +1,5 @@
 package dyna.app.service.brs.dcr;
 
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Map;
-import java.util.Iterator;
-import java.util.List;
-import java.util.HashMap;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.common.bean.data.checkrule.CheckRule;
 import dyna.common.bean.data.checkrule.ClassConditionData;
@@ -20,16 +10,17 @@ import dyna.common.dto.model.cls.ClassInfo;
 import dyna.common.dto.model.code.CodeItemInfo;
 import dyna.common.dto.model.lf.LifecyclePhaseInfo;
 import dyna.common.exception.ServiceRequestException;
-import dyna.common.systemenum.FieldTypeEnum;
-import dyna.common.systemenum.OperateSignEnum;
-import dyna.common.systemenum.RuleTypeEnum;
-import dyna.common.systemenum.SystemClassFieldEnum;
-import dyna.common.systemenum.SystemStatusEnum;
+import dyna.common.systemenum.*;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Component;
 
+import java.text.MessageFormat;
+import java.util.*;
+
+@Component
 public class DataCheckRuleQueryStub extends AbstractServiceStub<DCRImpl>
 {
 	protected static Map<String, ClassConditionData>	CONDITION_GUID_CACHE		= Collections.synchronizedMap(new HashMap<String, ClassConditionData>());
@@ -41,11 +32,6 @@ public class DataCheckRuleQueryStub extends AbstractServiceStub<DCRImpl>
 	protected static Map<String, End2CheckRule>			END2_RULE_GUID_CACHE		= Collections.synchronizedMap(new HashMap<String, End2CheckRule>());
 
 	protected static Map<String, List<String>>			END2_RULE_GUID_LIST_CACHE	= Collections.synchronizedMap(new HashMap<String, List<String>>());
-
-	protected DataCheckRuleQueryStub(ServiceContext context, DCRImpl service)
-	{
-		super(context, service);
-	}
 
 	protected static void init()
 	{

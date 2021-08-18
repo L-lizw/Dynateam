@@ -5,7 +5,6 @@
  */
 package dyna.app.service.brs.erpi;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.boas.BOASImpl;
 import dyna.app.service.brs.emm.ClassStub;
@@ -58,6 +57,7 @@ import dyna.net.service.brs.UECS;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.util.*;
@@ -65,6 +65,7 @@ import java.util.*;
 /**
  * @author wangweixia
  */
+@Component
 public class ERPStub extends AbstractServiceStub<ERPIImpl>
 {
 	/**
@@ -89,15 +90,6 @@ public class ERPStub extends AbstractServiceStub<ERPIImpl>
 	 */
 	public static       int                 objectBatchSize = 50;
 
-	/**
-	 * @param context
-	 * @param service
-	 */
-	protected ERPStub(ServiceContext context, ERPIImpl service)
-	{
-		super(context, service);
-
-	}
 
 	public Document getDocument(String fileName) throws Exception
 	{
@@ -140,7 +132,7 @@ public class ERPStub extends AbstractServiceStub<ERPIImpl>
 	 */
 	private ERPYFTransferStub getErpYFStub() throws Exception
 	{
-		return new ERPYFTransferStub(this.serviceContext, this.stubService, this.getDocument("yfconf.xml"));
+		return new ERPYFTransferStub(this.getDocument("yfconf.xml"));
 	}
 
 	/**
@@ -150,7 +142,7 @@ public class ERPStub extends AbstractServiceStub<ERPIImpl>
 	 */
 	private ERPWFTransferStub getErpWFStub() throws Exception
 	{
-		return new ERPWFTransferStub(this.serviceContext, this.stubService, this.getDocument("wfconf.xml"));
+		return new ERPWFTransferStub(this.getDocument("wfconf.xml"));
 	}
 
 	/**
@@ -160,7 +152,8 @@ public class ERPStub extends AbstractServiceStub<ERPIImpl>
 	 */
 	private ERPYTTransferStub getErpYTStub() throws Exception
 	{
-		return new ERPYTTransferStub(this.serviceContext, this.stubService, this.getDocument("ytconf.xml"));
+		//TODO
+		return new ERPYTTransferStub(this.getDocument("ytconf.xml"));
 	}
 
 	/**
@@ -170,27 +163,27 @@ public class ERPStub extends AbstractServiceStub<ERPIImpl>
 	 */
 	private ERPE10TransferStub getErpE10Stub() throws Exception
 	{
-		return new ERPE10TransferStub(this.serviceContext, this.stubService, this.getDocument("e10conf.xml"));
+		return new ERPE10TransferStub(this.getDocument("e10conf.xml"));
 	}
 
 	private ERPSMTransferStub getErpSMStub() throws Exception
 	{
-		return new ERPSMTransferStub(this.serviceContext, this.stubService, this.getDocument("smconf.xml"));
+		return new ERPSMTransferStub(this.getDocument("smconf.xml"));
 	}
 
 	private ERPT100TransferStub getErpT100Stub() throws Exception
 	{
-		return new ERPT100TransferStub(this.serviceContext, this.stubService, this.getDocument("t100conf.xml"));
+		return new ERPT100TransferStub(this.getDocument("t100conf.xml"));
 	}
 
 	private ERPT100OldTransferStub getErpT100OldStub() throws Exception
 	{
-		return new ERPT100OldTransferStub(this.serviceContext, this.stubService, this.getDocument("t100conf.xml"));
+		return new ERPT100OldTransferStub(this.getDocument("t100conf.xml"));
 	}
 
 	private ERPT100DBTransferStub getErpT100DBStub() throws Exception
 	{
-		return new ERPT100DBTransferStub(this.serviceContext, this.stubService, this.getDocument("t100_dbconf.xml"));
+		return new ERPT100DBTransferStub(this.getDocument("t100_dbconf.xml"));
 	}
 
 	public BooleanResult setERPJobStatus(String jobId, String userId, String jobStatusVal, String message) throws ServiceRequestException

@@ -76,24 +76,17 @@ import dyna.data.service.acl.AclService;
 import dyna.data.service.relation.RelationService;
 import dyna.net.service.brs.BOMS;
 import dyna.net.service.brs.EOSS;
+import org.springframework.stereotype.Component;
 
 /**
- * @author Wanglei
+ * @author Lizw
  * 
  */
+@Component
 public class BOMEditStub extends AbstractServiceStub<BOMSImpl>
 {
 	private static TrackerBuilder	trackerBuilder			= null;
 	private static TrackerBuilder	unLinktrackerBuilder	= null;
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	public BOMEditStub(ServiceContext context, BOMSImpl service)
-	{
-		super(context, service);
-	}
 
 	private void unlinkBOMInner(BOMView viewObject, BOMStructure bomStructure, boolean isCheckACL) throws ServiceRequestException
 	{

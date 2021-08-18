@@ -5,31 +5,23 @@
  */
 package dyna.app.service.brs.dss;
 
-import java.util.List;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.common.bean.serv.DSStorage;
 import dyna.common.dto.Folder;
 import dyna.common.dto.aas.Group;
 import dyna.common.exception.ServiceRequestException;
 import dyna.common.util.StringUtils;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * @author Wanglei
  *
  */
+@Component
 public class StorageStub extends AbstractServiceStub<DSSImpl>
 {
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	protected StorageStub(ServiceContext context, DSSImpl service)
-	{
-		super(context, service);
-	}
 
 	public List<DSStorage> listStorage() throws ServiceRequestException
 	{

@@ -1,14 +1,5 @@
 package dyna.app.service.brs.iop;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.common.bean.data.ObjectGuid;
 import dyna.common.bean.data.iopconfigparamter.IOPColumnTitle;
@@ -21,13 +12,13 @@ import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Component;
 
+import java.util.*;
+
+@Component
 public class IOPConfigParameterStub extends AbstractServiceStub<IOPImpl>
 {
-	public IOPConfigParameterStub(ServiceContext context, IOPImpl service)
-	{
-		super(context, service);
-	}
 
 	public List<IOPConfigParameter> listIOPConfigParameter(String masterGuid, Date end1ReleaseTime) throws ServiceRequestException
 	{

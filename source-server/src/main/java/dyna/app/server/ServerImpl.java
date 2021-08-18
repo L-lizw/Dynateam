@@ -160,7 +160,7 @@ import java.util.List;
 		// do server context listener
 		for (ServerContextListener listener : this.serverCtxListeners)
 		{
-			listener.contextInitialized(this.serverContext, this.scContext);
+			listener.contextInitialized();
 		}
 
 		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable()

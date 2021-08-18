@@ -5,25 +5,16 @@
  */
 package dyna.app.service.brs.edap;
 
-import java.util.List;
-
 import dyna.app.service.BusinessRuleService;
-import dyna.common.SearchCondition;
-import dyna.common.bean.data.ObjectGuid;
 import dyna.common.dto.Folder;
 import dyna.common.dto.acl.SaAclFolderLibConf;
 import dyna.common.exception.ServiceRequestException;
-import dyna.net.service.brs.AAS;
-import dyna.net.service.brs.ACL;
-import dyna.net.service.brs.BOAS;
-import dyna.net.service.brs.BOMS;
-import dyna.net.service.brs.EDAP;
-import dyna.net.service.brs.EMM;
-import dyna.net.service.brs.EOSS;
-import dyna.net.service.brs.SLC;
-import dyna.net.service.brs.SMS;
+import dyna.net.service.brs.*;
 import dyna.net.service.das.MSRM;
-import org.apache.axis.transport.jms.Subscription;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * 企业目录访问协议
@@ -31,10 +22,12 @@ import org.apache.axis.transport.jms.Subscription;
  * @author Wanglei
  * 
  */
+@Service
 public class EDAPImpl extends BusinessRuleService implements EDAP
 {
-
+	@Autowired
 	private FolderStub			folderStub			= null;
+	@Autowired
 	private LibraryStub			libraryStub			= null;
 
 	/**
@@ -42,10 +35,6 @@ public class EDAPImpl extends BusinessRuleService implements EDAP
 	 */
 	public FolderStub getFolderStub()
 	{
-		if (this.folderStub == null)
-		{
-			this.folderStub = new FolderStub(this.serviceContext, this);
-		}
 		return this.folderStub;
 	}
 
@@ -54,10 +43,6 @@ public class EDAPImpl extends BusinessRuleService implements EDAP
 	 */
 	public LibraryStub getLibraryStub()
 	{
-		if (this.libraryStub == null)
-		{
-			this.libraryStub = new LibraryStub(this.serviceContext, this);
-		}
 		return this.libraryStub;
 	}
 

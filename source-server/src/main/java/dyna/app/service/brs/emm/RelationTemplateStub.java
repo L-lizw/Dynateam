@@ -5,42 +5,29 @@
  */
 package dyna.app.service.brs.emm;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.common.bean.data.ObjectGuid;
 import dyna.common.bean.data.template.RelationTemplate;
 import dyna.common.dto.model.bmbo.BMInfo;
 import dyna.common.dto.model.bmbo.BOInfo;
-import dyna.common.dto.model.cls.ClassInfo;
 import dyna.common.dto.template.relation.RelationTemplateEnd2;
 import dyna.common.dto.template.relation.RelationTemplateInfo;
 import dyna.common.exception.ServiceRequestException;
 import dyna.common.log.DynaLogger;
 import dyna.common.systemenum.BuiltinRelationNameEnum;
-import dyna.common.systemenum.ModelInterfaceEnum;
 import dyna.common.systemenum.RelationTemplateTypeEnum;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
+import org.springframework.stereotype.Component;
+
+import java.util.*;
 
 /**
  * @author Wanglei
  */
+@Component
 public class RelationTemplateStub extends AbstractServiceStub<EMMImpl> implements Comparator<RelationTemplateInfo>
 {
-	/**
-	 * @param context
-	 * @param service
-	 */
-	public RelationTemplateStub(ServiceContext context, EMMImpl service)
-	{
-		super(context, service);
-	}
 
 	public RelationTemplate getRelationTemplate(String relationTemplateGuid) throws ServiceRequestException
 	{

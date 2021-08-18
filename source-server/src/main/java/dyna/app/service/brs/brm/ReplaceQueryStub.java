@@ -5,11 +5,6 @@
  */
 package dyna.app.service.brs.brm;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.boas.BOASImpl;
 import dyna.common.SearchCondition;
@@ -22,34 +17,21 @@ import dyna.common.dto.model.cls.ClassInfo;
 import dyna.common.dto.model.code.CodeItemInfo;
 import dyna.common.exception.ServiceRequestException;
 import dyna.common.log.DynaLogger;
-import dyna.common.systemenum.ModelInterfaceEnum;
-import dyna.common.systemenum.OperateSignEnum;
-import dyna.common.systemenum.ReplaceRangeEnum;
-import dyna.common.systemenum.ReplaceStatusEnum;
-import dyna.common.systemenum.ReplaceTypeEnum;
-import dyna.common.systemenum.SearchRevisionTypeEnum;
-import dyna.common.util.BooleanUtils;
-import dyna.common.util.DateFormat;
-import dyna.common.util.ReplaceSubstituteConstants;
-import dyna.common.util.SetUtils;
-import dyna.common.util.StringUtils;
+import dyna.common.systemenum.*;
+import dyna.common.util.*;
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author wangweixia
  *         取替代关系查询
  */
+@Component
 public class ReplaceQueryStub extends AbstractServiceStub<BRMImpl>
 {
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	protected ReplaceQueryStub(ServiceContext context, BRMImpl service)
-	{
-		super(context, service);
-
-	}
 
 	/**
 	 * @param replaceSearchConf

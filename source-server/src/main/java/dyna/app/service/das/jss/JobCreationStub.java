@@ -5,11 +5,6 @@
  */
 package dyna.app.service.das.jss;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.helper.ServiceRequestExceptionWrap;
 import dyna.common.conf.JobDefinition;
@@ -23,22 +18,19 @@ import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
 import dyna.data.service.common.DSCommonService;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author Wanglei
  * 
  */
+@Component
 public class JobCreationStub extends AbstractServiceStub<JSSImpl>
 {
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	protected JobCreationStub(ServiceContext context, JSSImpl service)
-	{
-		super(context, service);
-	}
 
 	protected Queue createJob(Queue fo) throws ServiceRequestException
 	{

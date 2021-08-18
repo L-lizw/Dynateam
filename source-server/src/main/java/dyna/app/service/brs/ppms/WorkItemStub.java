@@ -6,7 +6,6 @@
 
 package dyna.app.service.brs.ppms;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.boas.BOASImpl;
 import dyna.app.service.helper.ServiceRequestExceptionWrap;
@@ -30,6 +29,7 @@ import dyna.data.DataServer;
 import dyna.data.service.sdm.SystemDataService;
 import dyna.net.security.signature.Signature;
 import dyna.net.service.brs.AAS;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -41,14 +41,9 @@ import java.util.Map;
  *         工作项处理
  * 
  */
+@Component
 public class WorkItemStub extends AbstractServiceStub<PPMSImpl>
 {
-
-	protected WorkItemStub(ServiceContext context, PPMSImpl service)
-	{
-		super(context, service);
-
-	}
 
 	protected WorkItemAuthEnum getWorkItemAuth(ObjectGuid objectGuid, boolean isFile) throws ServiceRequestException
 	{

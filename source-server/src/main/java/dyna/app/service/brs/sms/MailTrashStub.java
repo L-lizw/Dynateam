@@ -5,13 +5,6 @@
  */
 package dyna.app.service.brs.sms;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.pos.POSImpl;
 import dyna.app.service.helper.ServiceRequestExceptionWrap;
@@ -30,22 +23,17 @@ import dyna.data.DataServer;
 import dyna.data.service.common.DSCommonService;
 import dyna.data.service.sdm.FieldValueEqualsFilter;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Component;
+
+import java.util.*;
 
 /**
  * @author Wanglei
  * 
  */
+@Component
 public class MailTrashStub extends AbstractServiceStub<SMSImpl>
 {
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	protected MailTrashStub(ServiceContext context, SMSImpl service)
-	{
-		super(context, service);
-	}
 
 	protected void clearTrash() throws ServiceRequestException
 	{

@@ -5,7 +5,6 @@
  */
 package dyna.app.net;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.common.Poolable;
 import dyna.common.conf.ServiceDefinition;
 
@@ -16,13 +15,11 @@ import dyna.common.conf.ServiceDefinition;
 public class ServiceFactoryDefaultImpl implements ServiceFactory
 {
 	private Class<?>			serviceImpl			= null;
-	private ServiceContext		serviceContext		= null;
 	private ServiceDefinition	serviceDefinition	= null;
 
-	public ServiceFactoryDefaultImpl(Class<?> serviceImpl, ServiceContext serviceContext, ServiceDefinition serviceDefinition)
+	public ServiceFactoryDefaultImpl(Class<?> serviceImpl , ServiceDefinition serviceDefinition)
 	{
 		this.serviceImpl = serviceImpl;
-		this.serviceContext = serviceContext;
 		this.serviceDefinition = serviceDefinition;
 	}
 
@@ -36,7 +33,7 @@ public class ServiceFactoryDefaultImpl implements ServiceFactory
 	{
 		Object obj = this.serviceImpl.newInstance();
 
-		((Poolable) obj).initObject(this.serviceContext, this.serviceDefinition);
+		((Poolable) obj).initObject(this.serviceDefinition);
 
 		return obj;
 	}

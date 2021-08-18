@@ -1,6 +1,5 @@
 package dyna.app.service.brs.wfm;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.common.bean.model.EventScript;
 import dyna.common.bean.model.Implementation;
@@ -22,11 +21,14 @@ import dyna.data.DataServer;
 import dyna.data.common.exception.DynaDataSqlException;
 import dyna.data.service.sdm.FieldValueEqualsFilter;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Component
 public class WorkflowModelCacheStub extends AbstractServiceStub<WFMImpl>
 {
 
@@ -43,17 +45,8 @@ public class WorkflowModelCacheStub extends AbstractServiceStub<WFMImpl>
 	// 模型节点guid-模型name
 	private static final Map<String, String>			ACTIVITY_PROCESS_MAP	= Collections.synchronizedMap(new HashMap<>());
 
-	private AppServerCacheInfo							cacheInfo				= null;
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	protected WorkflowModelCacheStub(ServiceContext context, WFMImpl service)
-	{
-		super(context, service);
-		this.cacheInfo = new WorkflowModelCacheInfo();
-	}
+	@Qualifier("workflowModelCacheInfo")
+	private AppServerCacheInfo							cacheInfo				;
 
 	public void loadModel()
 	{
@@ -614,6 +607,7 @@ public class WorkflowModelCacheStub extends AbstractServiceStub<WFMImpl>
 		return workflowActionList;
 	}
 
+	@Component("workflowModelCacheInfo")
 	class WorkflowModelCacheInfo extends AppServerCacheInfo
 	{
 

@@ -5,9 +5,6 @@
  */
 package dyna.app.service.brs.pms;
 
-import java.lang.reflect.Method;
-import java.util.List;
-
 import dyna.app.service.BusinessRuleService;
 import dyna.common.SearchCondition;
 import dyna.common.bean.data.FoundationObject;
@@ -16,12 +13,12 @@ import dyna.common.dto.ItemProduct;
 import dyna.common.dto.template.relation.RelationTemplateInfo;
 import dyna.common.exception.AuthorizeException;
 import dyna.common.exception.ServiceRequestException;
-import dyna.net.service.brs.AAS;
-import dyna.net.service.brs.BOAS;
-import dyna.net.service.brs.BOMS;
-import dyna.net.service.brs.EMM;
-import dyna.net.service.brs.PMS;
-import dyna.net.service.brs.POS;
+import dyna.net.service.brs.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.lang.reflect.Method;
+import java.util.List;
 
 /**
  * Engineering Change Service Implement工程变更服务的实现类
@@ -29,6 +26,7 @@ import dyna.net.service.brs.POS;
  * @author caogc
  * 
  */
+@Service
 public class PMSImpl extends BusinessRuleService implements PMS
 {
 	private static boolean	initialized	= false;
@@ -45,6 +43,7 @@ public class PMSImpl extends BusinessRuleService implements PMS
 
 	}
 
+	@Autowired
 	private ItemProductStub		itemProductStub		= null;
 
 	/*
@@ -107,10 +106,6 @@ public class PMSImpl extends BusinessRuleService implements PMS
 	 */
 	public ItemProductStub getItemProductStub()
 	{
-		if (this.itemProductStub == null)
-		{
-			this.itemProductStub = new ItemProductStub(this.serviceContext, this);
-		}
 		return this.itemProductStub;
 	}
 
@@ -146,7 +141,7 @@ public class PMSImpl extends BusinessRuleService implements PMS
 	 * @see dyna.app.service.DataAccessService#init()
 	 */
 	@Override
-	protected void init()
+	public void init()
 	{
 		syncInit();
 	}

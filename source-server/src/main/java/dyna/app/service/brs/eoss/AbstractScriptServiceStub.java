@@ -5,13 +5,6 @@
  */
 package dyna.app.service.brs.eoss;
 
-import java.io.File;
-import java.text.MessageFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.common.bean.data.InputObject;
 import dyna.common.bean.extra.ScriptEvalResult;
@@ -24,6 +17,12 @@ import dyna.common.util.FileUtils;
 import dyna.common.util.StringUtils;
 import dyna.net.script.ScriptExecutors;
 
+import java.io.File;
+import java.text.MessageFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 脚本服务分支的虚类
  * 
@@ -34,15 +33,6 @@ public abstract class AbstractScriptServiceStub extends AbstractServiceStub<EOSS
 {
 	private static final Map<String, Long>		scriptUpdateMap		= new HashMap<String, Long>();
 	private static final Map<String, String>	scriptContentMap	= new HashMap<String, String>();
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	public AbstractScriptServiceStub(ServiceContext context, EOSSImpl service)
-	{
-		super(context, service);
-	}
 
 	/**
 	 * 获取脚本异常信息

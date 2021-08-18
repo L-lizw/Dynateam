@@ -1,35 +1,12 @@
 package dyna.app.service.brs.cpb;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Date;
-import java.util.List;
-
-import org.jdom.Document;
-import org.jdom.JDOMException;
-import org.jdom.input.SAXBuilder;
-
 import dyna.app.service.BusinessRuleService;
 import dyna.app.service.brs.boas.BOASImpl;
 import dyna.common.SearchCondition;
 import dyna.common.bean.data.FoundationObject;
 import dyna.common.bean.data.ObjectGuid;
 import dyna.common.bean.data.StructureObject;
-import dyna.common.bean.data.configparamter.ConfigVariable;
-import dyna.common.bean.data.configparamter.DetailPositionEnum;
-import dyna.common.bean.data.configparamter.DocumentMark;
-import dyna.common.bean.data.configparamter.DrivenResult;
-import dyna.common.bean.data.configparamter.DynamicColumnTitle;
-import dyna.common.bean.data.configparamter.DynamicOfColumn;
-import dyna.common.bean.data.configparamter.TableOfExpression;
-import dyna.common.bean.data.configparamter.TableOfGroup;
-import dyna.common.bean.data.configparamter.TableOfInputVariable;
-import dyna.common.bean.data.configparamter.TableOfList;
-import dyna.common.bean.data.configparamter.TableOfMark;
-import dyna.common.bean.data.configparamter.TableOfMultiCondition;
-import dyna.common.bean.data.configparamter.TableOfParameter;
-import dyna.common.bean.data.configparamter.TableOfRegion;
-import dyna.common.bean.data.configparamter.TestHistory;
+import dyna.common.bean.data.configparamter.*;
 import dyna.common.bean.data.foundation.ViewObject;
 import dyna.common.bean.data.structure.BOMStructure;
 import dyna.common.dto.DataRule;
@@ -46,23 +23,43 @@ import dyna.net.service.brs.EDAP;
 import dyna.net.service.brs.EMM;
 import dyna.net.service.das.JSS;
 import dyna.net.service.das.MSRM;
+import org.jdom.Document;
+import org.jdom.JDOMException;
+import org.jdom.input.SAXBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Date;
+import java.util.List;
+
+@Service
 public class CPBImpl extends BusinessRuleService implements CPB
 {
-	private CPBStub				cpbStub				= null;
-	private OrderConfigureStub	orderConfigureStub	= null;
-	private DrivenStub			drivenStub			= null;
-	private ConfigCheckStub		configCheckStub		= null;
-	private DrivenHistoryStub	drivenHistoryStub	= null;
-	private ConfigQueryStub		configQueryStub		= null;
-	private VarCalculateStub	varCalculateStub	= null;
 	private DetailPositionEnum	detailPosition		= DetailPositionEnum.Right;
 	private int					columns				= 10;
 
-	public DocumentMark			exportDocument		= null;
+
+	@Autowired
+	private CPBStub				cpbStub				;
+	@Autowired
+	private OrderConfigureStub	orderConfigureStub	;
+	@Autowired
+	private DrivenStub			drivenStub			;
+	@Autowired
+	private ConfigCheckStub		configCheckStub		;
+	@Autowired
+	private DrivenHistoryStub	drivenHistoryStub	;
+	@Autowired
+	private ConfigQueryStub		configQueryStub		;
+	@Autowired
+	private VarCalculateStub	varCalculateStub	;
+
+	public DocumentMark			exportDocument		;
 
 	@Override
-	protected void init()
+	public void init()
 	{
 		this.initParam();
 		this.initExportConfigFile();
@@ -113,10 +110,6 @@ public class CPBImpl extends BusinessRuleService implements CPB
 	 */
 	public CPBStub getCPBStub()
 	{
-		if (this.cpbStub == null)
-		{
-			this.cpbStub = new CPBStub(this.serviceContext, this);
-		}
 		return this.cpbStub;
 	}
 
@@ -125,19 +118,11 @@ public class CPBImpl extends BusinessRuleService implements CPB
 	 */
 	public OrderConfigureStub getOrderConfigureStub()
 	{
-		if (this.orderConfigureStub == null)
-		{
-			this.orderConfigureStub = new OrderConfigureStub(this.serviceContext, this);
-		}
 		return this.orderConfigureStub;
 	}
 
 	public ConfigQueryStub getConfigQueryStub()
 	{
-		if (this.configQueryStub == null)
-		{
-			this.configQueryStub = new ConfigQueryStub(this.serviceContext, this);
-		}
 		return this.configQueryStub;
 	}
 
@@ -146,19 +131,11 @@ public class CPBImpl extends BusinessRuleService implements CPB
 	 */
 	public ConfigCheckStub getConfigCheckStub()
 	{
-		if (this.configCheckStub == null)
-		{
-			this.configCheckStub = new ConfigCheckStub(this.serviceContext, this);
-		}
 		return this.configCheckStub;
 	}
 
 	public VarCalculateStub getVarCalculateStub()
 	{
-		if (varCalculateStub == null)
-		{
-			varCalculateStub = new VarCalculateStub(this.serviceContext, this);
-		}
 		return varCalculateStub;
 	}
 
@@ -167,10 +144,6 @@ public class CPBImpl extends BusinessRuleService implements CPB
 	 */
 	public DrivenStub getDrivenStub()
 	{
-		if (this.drivenStub == null)
-		{
-			this.drivenStub = new DrivenStub(this.serviceContext, this);
-		}
 		return this.drivenStub;
 	}
 
@@ -179,10 +152,6 @@ public class CPBImpl extends BusinessRuleService implements CPB
 	 */
 	public DrivenHistoryStub getDrivenHistoryStub()
 	{
-		if (this.drivenHistoryStub == null)
-		{
-			this.drivenHistoryStub = new DrivenHistoryStub(this.serviceContext, this);
-		}
 		return this.drivenHistoryStub;
 	}
 

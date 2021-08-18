@@ -18,6 +18,7 @@ import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
 import dyna.data.service.sdm.FieldValueEqualsFilter;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,17 +29,9 @@ import java.util.List;
  * @author Wanglei
  * 
  */
+@Component
 public class OrgStub extends AbstractServiceStub<AASImpl>
 {
-	/**
-	 * @param context
-	 * @param service
-	 */
-	public OrgStub(ServiceContext context, AASImpl service)
-	{
-		super(context, service);
-	}
-
 	protected String assignRoleToGroup(String roleGuid, String groupGuid) throws ServiceRequestException
 	{
 		SystemDataService sds = DataServer.getSystemDataService();

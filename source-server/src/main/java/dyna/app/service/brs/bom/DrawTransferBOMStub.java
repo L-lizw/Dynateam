@@ -1,6 +1,5 @@
 package dyna.app.service.brs.bom;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.boas.numbering.NumberAllocate;
 import dyna.app.service.brs.emm.ClassStub;
@@ -26,17 +25,14 @@ import dyna.common.systemenum.*;
 import dyna.common.util.BooleanUtils;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class DrawTransferBOMStub extends AbstractServiceStub<BOMSImpl>
 {
-
-	protected DrawTransferBOMStub(ServiceContext context, BOMSImpl service)
-	{
-		super(context, service);
-	}
 
 	protected void transferBOM(ObjectGuid objectGuid, String bomTemplateName, String procRtGuid) throws ServiceRequestException
 	{

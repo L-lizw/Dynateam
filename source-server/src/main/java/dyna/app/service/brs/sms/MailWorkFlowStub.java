@@ -5,17 +5,6 @@
  */
 package dyna.app.service.brs.sms;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.helper.FilterBuilder;
 import dyna.app.service.helper.ServiceRequestExceptionWrap;
@@ -36,22 +25,17 @@ import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Component;
+
+import java.util.*;
 
 /**
  * @author wangweixia
  * 
  */
+@Component
 public class MailWorkFlowStub extends AbstractServiceStub<SMSImpl>
 {
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	protected MailWorkFlowStub(ServiceContext context, SMSImpl service)
-	{
-		super(context, service);
-	}
 
 	/**
 	 * @param searchCondition

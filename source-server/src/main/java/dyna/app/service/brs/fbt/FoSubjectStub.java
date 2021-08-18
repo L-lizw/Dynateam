@@ -5,14 +5,6 @@
  */
 package dyna.app.service.brs.fbt;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.common.dto.FileOpenSubject;
 import dyna.common.exception.DynaDataException;
@@ -21,6 +13,9 @@ import dyna.common.util.SetUtils;
 import dyna.data.DataServer;
 import dyna.data.service.sdm.FieldValueEqualsFilter;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Component;
+
+import java.util.*;
 
 /**
  * 对应FileOpenSubject的相关操作
@@ -28,18 +23,9 @@ import dyna.data.service.sdm.SystemDataService;
  * @author wangweixia
  * 
  */
+@Component
 public class FoSubjectStub extends AbstractServiceStub<FBTSImpl>
 {
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	protected FoSubjectStub(ServiceContext context, FBTSImpl service)
-	{
-		super(context, service);
-
-	}
 
 	/**
 	 * @param subjectGuid

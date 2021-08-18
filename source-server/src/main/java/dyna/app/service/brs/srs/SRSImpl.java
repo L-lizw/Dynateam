@@ -41,6 +41,8 @@ import jxl.write.DateTime;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JRPropertiesMap;
 import net.sf.jasperreports.engine.util.JRFontNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -55,37 +57,30 @@ import java.util.*;
  * @author Wanglei
  * 
  */
+@Service
 public class SRSImpl extends DataAccessService implements SRS
 {
-	private CommonReportStub	commonReportStub	= null;
-	private BOMReportStub		bomReportStub		= null;
 	private final String		reportConfigFile	= EnvUtils.getConfRootPath() + "conf/comment/report/report_template.xml";
+
+	@Autowired
+	private CommonReportStub	commonReportStub	= null;
+	@Autowired
+	private BOMReportStub		bomReportStub		= null;
+	@Autowired
 	private ReportConfigStub	reportConfigStub	= null;
 
 	public BOMReportStub getBOMReportStub()
 	{
-		if (this.bomReportStub == null)
-		{
-			this.bomReportStub = new BOMReportStub(this.serviceContext, this);
-		}
 		return this.bomReportStub;
 	}
 
 	public ReportConfigStub getReportConfigStub()
 	{
-		if (this.reportConfigStub == null)
-		{
-			this.reportConfigStub = new ReportConfigStub(this.serviceContext, this);
-		}
 		return this.reportConfigStub;
 	}
 
 	public CommonReportStub getCommonReportStub()
 	{
-		if (this.commonReportStub == null)
-		{
-			this.commonReportStub = new CommonReportStub(this.serviceContext, this);
-		}
 		return this.commonReportStub;
 	}
 

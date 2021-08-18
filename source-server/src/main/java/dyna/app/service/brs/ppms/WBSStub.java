@@ -6,7 +6,6 @@
 
 package dyna.app.service.brs.ppms;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.boas.BOASImpl;
 import dyna.app.service.helper.ServiceRequestExceptionWrap;
@@ -33,6 +32,7 @@ import dyna.common.systemenum.ppms.*;
 import dyna.common.util.PMConstans;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
@@ -41,13 +41,9 @@ import java.util.*;
  *         任务分解
  * 
  */
+@Component
 public class WBSStub extends AbstractServiceStub<PPMSImpl>
 {
-
-	protected WBSStub(ServiceContext context, PPMSImpl service)
-	{
-		super(context, service);
-	}
 
 	@SuppressWarnings("rawtypes")
 	public CodeItemInfo getCodeItemByEnum(Enum enumType) throws ServiceRequestException

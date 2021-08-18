@@ -4,21 +4,6 @@
  */
 package dyna.app.service.brs.erpi;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.rmi.Remote;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import javax.xml.rpc.ServiceException;
-
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.JDOMException;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.brs.erpi.cross.util.CrossConfigureManager;
 import dyna.app.service.brs.erpi.cross.util.XMLUtil;
 import dyna.app.service.brs.erpi.dataExport.IntegrateE10;
@@ -33,7 +18,21 @@ import dyna.common.systemenum.ERPE10OperationEnum;
 import dyna.common.systemenum.ERPServerType;
 import dyna.common.util.Base64Util;
 import dyna.common.util.StringUtils;
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.JDOMException;
+import org.springframework.stereotype.Component;
 
+import javax.xml.rpc.ServiceException;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.rmi.Remote;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+@Component
 public class ERPE10TransferStub extends ERPTransferStub<ERPE10OperationEnum>
 {
 	/**
@@ -41,9 +40,8 @@ public class ERPE10TransferStub extends ERPTransferStub<ERPE10OperationEnum>
 	 * @param service
 	 * @throws Exception
 	 */
-	public ERPE10TransferStub(ServiceContext context, ERPIImpl service, Document document) throws Exception
+	public ERPE10TransferStub(Document document) throws Exception
 	{
-		super(context, service);
 		this.ERPType = ERPServerType.ERPE10;
 		this.integrate = new IntegrateE10(this, document);
 		operationPollingTime = this.integrate.getOperationPollingTime();

@@ -5,11 +5,6 @@
  */
 package dyna.app.service.brs.edap;
 
-import java.util.Comparator;
-import java.util.List;
-
-import org.acegisecurity.context.SecurityContextHolder;
-
 import dyna.app.core.sch.AbstractScheduledTask;
 import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
@@ -39,23 +34,20 @@ import dyna.data.service.folder.FolderService;
 import dyna.data.service.sdm.SystemDataService;
 import dyna.net.security.signature.UserSignature;
 import dyna.net.service.brs.EDAP;
+import org.acegisecurity.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * 与Folder相关的操作分支
  *
  * @author Caogc
  */
+@Component
 public class FolderStub extends AbstractServiceStub<EDAPImpl>
 {
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	protected FolderStub(ServiceContext context, EDAPImpl service)
-	{
-		super(context, service);
-	}
 
 	/**
 	 * 删除指定文件夹

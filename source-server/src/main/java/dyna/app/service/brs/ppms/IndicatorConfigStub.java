@@ -5,7 +5,6 @@
  */
 package dyna.app.service.brs.ppms;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.common.bean.data.ppms.indicator.*;
 import dyna.common.bean.data.ppms.indicator.chart.IndicatorView;
@@ -18,6 +17,7 @@ import dyna.common.systemenum.ppms.ChartTypeEnum;
 import dyna.common.systemenum.ppms.ChartValueTypeEnum;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.util.*;
@@ -28,6 +28,7 @@ import java.util.*;
  * @author duanll
  * 
  */
+@Component
 public class IndicatorConfigStub extends AbstractServiceStub<PPMSImpl>
 {
 	// 配置文件修改时间
@@ -43,15 +44,6 @@ public class IndicatorConfigStub extends AbstractServiceStub<PPMSImpl>
 
 	// 函数
 	private static List<FunctionBean>		FUNCTION_CACHE				= Collections.synchronizedList(new ArrayList<FunctionBean>());
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	protected IndicatorConfigStub(ServiceContext context, PPMSImpl service)
-	{
-		super(context, service);
-	}
 
 	protected static void init()
 	{

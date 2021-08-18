@@ -13,20 +13,16 @@ import dyna.data.DataServer;
 import dyna.data.service.sdm.FieldValueEqualsFilter;
 import dyna.data.service.sdm.SystemDataService;
 import dyna.net.security.signature.UserSignature;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+@Component
 public class BMBOManagerStub extends AbstractServiceStub<MMSImpl>
 {
-
-	protected BMBOManagerStub(ServiceContext context, MMSImpl service)
-	{
-		super(context, service);
-		// TODO Auto-generated constructor stub
-	}
 
 	protected void checkAndReBuildBusinessModel() throws ServiceRequestException
 	{

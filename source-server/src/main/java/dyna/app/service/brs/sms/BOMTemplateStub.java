@@ -5,7 +5,6 @@
  */
 package dyna.app.service.brs.sms;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.helper.Constants;
 import dyna.app.service.helper.ServiceRequestExceptionWrap;
@@ -26,6 +25,7 @@ import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,16 +33,9 @@ import java.util.stream.Collectors;
 /**
  * @author Wanglei
  */
+@Component
 public class BOMTemplateStub extends AbstractServiceStub<SMSImpl>
 {
-	/**
-	 * @param context
-	 * @param service
-	 */
-	public BOMTemplateStub(ServiceContext context, SMSImpl service)
-	{
-		super(context, service);
-	}
 
 	protected void deleteBOMTemplate(String bomTemplateGuid) throws ServiceRequestException
 	{

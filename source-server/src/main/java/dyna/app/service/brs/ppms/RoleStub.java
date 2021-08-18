@@ -6,7 +6,6 @@
 
 package dyna.app.service.brs.ppms;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.boas.BOASImpl;
 import dyna.app.service.helper.ServiceRequestExceptionWrap;
@@ -23,6 +22,7 @@ import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,13 +34,9 @@ import java.util.Map;
  *         角色管理
  * 
  */
+@Component
 public class RoleStub extends AbstractServiceStub<PPMSImpl>
 {
-
-	protected RoleStub(ServiceContext context, PPMSImpl service)
-	{
-		super(context, service);
-	}
 
 	public List<RoleMembers> listUserInProjectRole(String projectRoleGuid) throws ServiceRequestException
 	{

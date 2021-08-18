@@ -1,23 +1,5 @@
 package dyna.app.service.brs.erpi;
 
-import java.io.IOException;
-import java.io.StringReader;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Iterator;
-import java.util.List;
-import java.util.HashMap;
-
-import javax.xml.rpc.ServiceException;
-
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.JDOMException;
-import org.jdom.input.SAXBuilder;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.brs.erpi.cross.util.XMLUtil;
 import dyna.app.service.brs.erpi.dataExport.IntegrateERP;
 import dyna.app.service.brs.erpi.dataExport.IntegrateSM;
@@ -36,6 +18,17 @@ import dyna.common.systemenum.ERPServerType;
 import dyna.common.systemenum.LanguageEnum;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.JDOMException;
+import org.jdom.input.SAXBuilder;
+
+import javax.xml.rpc.ServiceException;
+import java.io.IOException;
+import java.io.StringReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.*;
 
 /**
  * @author lufeia
@@ -61,9 +54,9 @@ public class ERPSMTransferStub extends ERPTransferStub<ERPSMOperationEnum>
 	 * @throws IOException
 	 * @throws JDOMException
 	 */
-	protected ERPSMTransferStub(ServiceContext context, ERPIImpl service, Document document) throws Exception
+	protected ERPSMTransferStub(Document document) throws Exception
 	{
-		super(context, service);
+		super();
 		this.ERPType = ERPServerType.ERPSM;
 		this.integrate = new IntegrateSM(this, document);
 		this.operationLiveTime = this.integrate.getOperationLiveTime();

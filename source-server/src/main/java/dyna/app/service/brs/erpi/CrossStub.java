@@ -5,26 +5,6 @@
  */
 package dyna.app.service.brs.erpi;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.StringReader;
-import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.xml.namespace.QName;
-import javax.xml.rpc.ServiceException;
-
-import org.apache.axis.client.Call;
-import org.apache.axis.client.Service;
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.JDOMException;
-import org.jdom.input.SAXBuilder;
-import org.jdom.output.XMLOutputter;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.erpi.cross.util.CrossConfigureManager;
 import dyna.app.service.brs.erpi.cross.util.XMLUtil;
@@ -35,11 +15,30 @@ import dyna.common.exception.ServiceRequestException;
 import dyna.common.log.DynaLogger;
 import dyna.common.util.EnvUtils;
 import dyna.common.util.StringUtils;
+import org.apache.axis.client.Call;
+import org.apache.axis.client.Service;
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.JDOMException;
+import org.jdom.input.SAXBuilder;
+import org.jdom.output.XMLOutputter;
+import org.springframework.stereotype.Component;
+
+import javax.xml.namespace.QName;
+import javax.xml.rpc.ServiceException;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.StringReader;
+import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author WangLHB
  * 
  */
+@Component
 public class CrossStub extends AbstractServiceStub<ERPIImpl>
 {
 
@@ -54,14 +53,6 @@ public class CrossStub extends AbstractServiceStub<ERPIImpl>
 	public static final String	WSMethodName	= "exportDataToErp";
 	public static final String	CROSS_FILE_PATH	= "conf" + File.separator + "crossconf.xml";
 
-	/**
-	 * @param context
-	 * @param service
-	 */
-	protected CrossStub(ServiceContext context, ERPIImpl service)
-	{
-		super(context, service);
-	}
 
 	protected String getProdRegInfo(String ip, String uid) throws ServiceRequestException
 	{

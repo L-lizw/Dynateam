@@ -14,15 +14,13 @@ import dyna.common.dto.*;
 import dyna.common.dto.model.bmbo.BOInfo;
 import dyna.common.dto.template.wft.WorkFlowPerference;
 import dyna.common.exception.ServiceRequestException;
-import dyna.common.systemenum.FilePreferenceEnum;
-import dyna.common.systemenum.PMSearchTypeEnum;
-import dyna.common.systemenum.PreferenceTypeEnum;
-import dyna.common.systemenum.SearchRevisionTypeEnum;
-import dyna.common.systemenum.SearchTypeEnum;
+import dyna.common.systemenum.*;
 import dyna.net.service.brs.AAS;
 import dyna.net.service.brs.EDAP;
 import dyna.net.service.brs.EMM;
 import dyna.net.service.brs.POS;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
@@ -34,21 +32,27 @@ import java.util.List;
  * @author caogc
  * 
  */
+@Service
 public class POSImpl extends BusinessRuleService implements POS
 {
+	@Autowired
 	private BIViewHisStub			biViewHisStub		= null;
+	@Autowired
 	private MyScheduleStub			myScheduleStub		= null;
+	@Autowired
 	private MySearchStub			mySearchStub		= null;
+	@Autowired
 	private PreferenceStub			preferenceStub		= null;
+	@Autowired
 	private WorkingItemStub			workingItemStub		= null;
-
+	@Autowired
 	private MySearchConditionStub	searchConditionStub	= null;
-
+	@Autowired
 	private MyCustomColumnsStub		customColumnsStub	= null;
 	private static boolean		isInit				= false;
 
 	@Override
-	protected void init()
+	public void init()
 	{
 		if (isInit)
 		{
@@ -74,28 +78,16 @@ public class POSImpl extends BusinessRuleService implements POS
 
 	protected MySearchConditionStub getMySearchConditionStub()
 	{
-		if (this.searchConditionStub == null)
-		{
-			this.searchConditionStub = new MySearchConditionStub(this.serviceContext, this);
-		}
 		return this.searchConditionStub;
 	}
 
 	protected MyCustomColumnsStub getMyCustomColumnsStub()
 	{
-		if (this.customColumnsStub == null)
-		{
-			this.customColumnsStub = new MyCustomColumnsStub(this.serviceContext, this);
-		}
 		return this.customColumnsStub;
 	}
 
 	protected BIViewHisStub getBIViewHisStub()
 	{
-		if (this.biViewHisStub == null)
-		{
-			this.biViewHisStub = new BIViewHisStub(this.serviceContext, this);
-		}
 		return this.biViewHisStub;
 	}
 
@@ -145,28 +137,16 @@ public class POSImpl extends BusinessRuleService implements POS
 
 	protected MyScheduleStub getMyScheduleStub()
 	{
-		if (this.myScheduleStub == null)
-		{
-			this.myScheduleStub = new MyScheduleStub(this.serviceContext, this);
-		}
 		return this.myScheduleStub;
 	}
 
 	public MySearchStub getMySearchStub()
 	{
-		if (this.mySearchStub == null)
-		{
-			this.mySearchStub = new MySearchStub(this.serviceContext, this);
-		}
 		return this.mySearchStub;
 	}
 
 	protected PreferenceStub getPreferenceStub()
 	{
-		if (this.preferenceStub == null)
-		{
-			this.preferenceStub = new PreferenceStub(this.serviceContext, this);
-		}
 		return this.preferenceStub;
 	}
 
@@ -184,10 +164,6 @@ public class POSImpl extends BusinessRuleService implements POS
 
 	protected WorkingItemStub getWorkingItemStub()
 	{
-		if (this.workingItemStub == null)
-		{
-			this.workingItemStub = new WorkingItemStub(this.serviceContext, this);
-		}
 		return this.workingItemStub;
 	}
 

@@ -5,13 +5,6 @@
  */
 package dyna.app.service.brs.wfm;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.common.bean.model.wf.WorkflowActivity;
 import dyna.common.bean.model.wf.WorkflowProcess;
@@ -23,22 +16,17 @@ import dyna.common.exception.ServiceRequestException;
 import dyna.common.systemenum.WorkflowActivityType;
 import dyna.common.systemenum.WorkflowRouteType;
 import dyna.common.util.SetUtils;
+import org.springframework.stereotype.Component;
+
+import java.util.*;
 
 /**
  * @author Wanglei
  * 
  */
+@Component
 public class WFGraphStub extends AbstractServiceStub<WFMImpl>
 {
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	protected WFGraphStub(ServiceContext context, WFMImpl service)
-	{
-		super(context, service);
-	}
 
 	protected List<GraphTransition> listGraphTransition(String procName) throws ServiceRequestException
 	{

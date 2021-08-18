@@ -32,104 +32,76 @@ import dyna.common.exception.AuthorizeException;
 import dyna.common.exception.ServiceRequestException;
 import dyna.net.security.signature.ModuleSignature;
 import dyna.net.service.brs.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
 
+@Service
 public class MMSImpl extends BusinessRuleService implements MMS
 {
+	@Autowired
 	private ModelManageStub				modelManageStub				= null;
-
+	@Autowired
 	private CodeManageStub				codeManageStub				= null;
-
+	@Autowired
 	private UIManageStub				uiManageStub				= null;
-
+	@Autowired
 	private ModelDeployStub				modelDeployStub				= null;
-
+	@Autowired
 	private SystemObjectManagerStub		soManagerStub				= null;
-
+	@Autowired
 	private BMBOManagerStub				bmboManagerStub				= null;
-
+	@Autowired
 	private LifecycleManagerStub		lifecycleManagerStub		= null;
-
+	@Autowired
 	private WorkflowProcessManagerStub	wfProcessManagerStub		= null;
-
+	@Autowired
 	private ClassficationFeatureStub	classficationFeatureStub	= null;
-
+	@Autowired
 	private RelationTemplateStub		relationTemplateStub		= null;
-
+	@Autowired
 	private BOMTemplateStub				bomTemplateStub				= null;
 
 	public ModelManageStub getModelManageStub()
 	{
-		if (this.modelManageStub == null)
-		{
-			this.modelManageStub = new ModelManageStub(this.serviceContext, this);
-		}
 		return this.modelManageStub;
 	}
 
 	public ModelDeployStub getModelDeployStub()
 	{
-		if (this.modelDeployStub == null)
-		{
-			this.modelDeployStub = new ModelDeployStub(this.serviceContext, this);
-		}
 		return this.modelDeployStub;
 	}
 
 	public UIManageStub getUIManageStub()
 	{
-		if (this.uiManageStub == null)
-		{
-			this.uiManageStub = new UIManageStub(this.serviceContext, this);
-		}
 		return this.uiManageStub;
 	}
 
 	public SystemObjectManagerStub getSoManagerStub()
 	{
-		if (this.soManagerStub == null)
-		{
-			this.soManagerStub = new SystemObjectManagerStub(this.serviceContext, this);
-		}
 		return this.soManagerStub;
 	}
 
 	public BMBOManagerStub getBMBOManagerStub()
 	{
-		if (this.bmboManagerStub == null)
-		{
-			this.bmboManagerStub = new BMBOManagerStub(this.serviceContext, this);
-		}
 		return this.bmboManagerStub;
 	}
 
 	public CodeManageStub getCodeManagerStub()
 	{
-		if (this.codeManageStub == null)
-		{
-			this.codeManageStub = new CodeManageStub(this.serviceContext, this);
-		}
 		return this.codeManageStub;
 	}
 
 	public LifecycleManagerStub getLifecycleManagerStub()
 	{
-		if (this.lifecycleManagerStub == null)
-		{
-			this.lifecycleManagerStub = new LifecycleManagerStub(this.serviceContext, this);
-		}
 		return this.lifecycleManagerStub;
 	}
 
 	public WorkflowProcessManagerStub getWfProcessManagerStub()
 	{
-		if (this.wfProcessManagerStub == null)
-		{
-			this.wfProcessManagerStub = new WorkflowProcessManagerStub(this.serviceContext, this);
-		}
 		return this.wfProcessManagerStub;
 	}
 
@@ -138,10 +110,6 @@ public class MMSImpl extends BusinessRuleService implements MMS
 	 */
 	public RelationTemplateStub getRelationTemplateStub()
 	{
-		if (this.relationTemplateStub == null)
-		{
-			this.relationTemplateStub = new RelationTemplateStub(this.serviceContext, this);
-		}
 		return this.relationTemplateStub;
 	}
 
@@ -150,19 +118,11 @@ public class MMSImpl extends BusinessRuleService implements MMS
 	 */
 	protected BOMTemplateStub getBomTemplateStub()
 	{
-		if (this.bomTemplateStub == null)
-		{
-			this.bomTemplateStub = new BOMTemplateStub(this.serviceContext, this);
-		}
 		return this.bomTemplateStub;
 	}
 
 	public ClassficationFeatureStub getClassficationFeatureStub()
 	{
-		if (this.classficationFeatureStub == null)
-		{
-			this.classficationFeatureStub = new ClassficationFeatureStub(this.serviceContext, this);
-		}
 		return this.classficationFeatureStub;
 	}
 

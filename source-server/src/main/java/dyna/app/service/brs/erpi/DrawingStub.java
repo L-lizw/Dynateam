@@ -1,6 +1,5 @@
 package dyna.app.service.brs.erpi;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.boas.BOASImpl;
 import dyna.app.service.brs.erpi.cross.util.XMLUtil;
@@ -25,6 +24,7 @@ import org.jdom.Attribute;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.util.*;
@@ -34,6 +34,7 @@ import java.util.*;
  * @date 2015-7-20 下午2:36:21
  * @return
  */
+@Component
 public class DrawingStub extends AbstractServiceStub<ERPIImpl>
 {
 	private static final String				MODELCLASSCODE_ASM	= "asm";					// 装配图
@@ -51,11 +52,6 @@ public class DrawingStub extends AbstractServiceStub<ERPIImpl>
 	private Map<String, List<String>>		fileGuids;
 	private Map<String, List<DSSFileInfo>>	fileInfos1;
 	private String							local;
-
-	protected DrawingStub(ServiceContext context, ERPIImpl service)
-	{
-		super(context, service);
-	}
 
 	/**
 	 * 获得文件数据

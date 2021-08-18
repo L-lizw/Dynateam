@@ -1,6 +1,5 @@
 package dyna.app.service.brs.cpb;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.emm.ClassStub;
 import dyna.app.service.helper.ServiceRequestExceptionWrap;
@@ -27,15 +26,13 @@ import dyna.common.systemenum.*;
 import dyna.common.util.*;
 import dyna.data.DataServer;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
+@Component
 public class OrderConfigureStub extends AbstractServiceStub<CPBImpl>
 {
-	protected OrderConfigureStub(ServiceContext context, CPBImpl service)
-	{
-		super(context, service);
-	}
 
 	public List<BOInfo> listOrderBoinfo() throws ServiceRequestException
 	{

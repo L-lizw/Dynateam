@@ -1,26 +1,5 @@
 package dyna.app.service.brs.erpi;
 
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.TimeZone;
-
-import javax.xml.rpc.ServiceException;
-
-import org.jdom.CDATA;
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.JDOMException;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.brs.erpi.cross.util.CrossConfigureManager;
 import dyna.app.service.brs.erpi.cross.util.XMLUtil;
 import dyna.app.service.brs.erpi.dataExport.IntegrateT100;
@@ -44,6 +23,18 @@ import dyna.common.util.DateFormat;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.net.service.das.MSRM;
+import org.jdom.CDATA;
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.JDOMException;
+
+import javax.xml.rpc.ServiceException;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.UnknownHostException;
+import java.util.*;
 
 public class ERPT100TransferStub extends ERPTransferStub<ERPT100OperationEnum>
 {
@@ -54,9 +45,9 @@ public class ERPT100TransferStub extends ERPTransferStub<ERPT100OperationEnum>
 	private Map<String, String>		dblinkInfoMap		= null;
 	private DBLinkStub				dbLinkStub			= null;
 
-	protected ERPT100TransferStub(ServiceContext context, ERPIImpl service, Document document) throws Exception
+	protected ERPT100TransferStub(Document document) throws Exception
 	{
-		super(context, service);
+		super();
 		this.ERPType = ERPServerType.ERPT100;
 		this.dbLinkStub = new DBLinkStub();
 		this.integrate = new IntegrateT100(this, document, this.dbLinkStub);

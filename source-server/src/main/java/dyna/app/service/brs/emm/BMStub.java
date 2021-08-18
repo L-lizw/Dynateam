@@ -5,12 +5,6 @@
  */
 package dyna.app.service.brs.emm;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.common.dto.model.bmbo.BMInfo;
 import dyna.common.dto.model.bmbo.BOInfo;
@@ -20,22 +14,21 @@ import dyna.common.systemenum.BusinessModelTypeEnum;
 import dyna.common.systemenum.ModelInterfaceEnum;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * 与业务模型相关的操作分支
  *
  * @author Wanglei
  */
+@Component
 public class BMStub extends AbstractServiceStub<EMMImpl>
 {
-	/**
-	 * @param context
-	 * @param service
-	 */
-	public BMStub(ServiceContext context, EMMImpl service)
-	{
-		super(context, service);
-	}
 
 	protected BMInfo getCurrentBizModel() throws ServiceRequestException
 	{

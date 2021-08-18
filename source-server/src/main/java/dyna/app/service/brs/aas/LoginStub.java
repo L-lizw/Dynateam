@@ -35,6 +35,7 @@ import dyna.net.security.signature.Signature;
 import dyna.net.security.signature.SignatureFactory;
 import org.acegisecurity.Authentication;
 import org.acegisecurity.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 
 import java.rmi.server.RemoteServer;
 import java.rmi.server.ServerNotActiveException;
@@ -46,17 +47,9 @@ import java.util.List;
  *
  * @author Wanglei
  */
+@Component
 public class LoginStub extends AbstractServiceStub<AASImpl>
 {
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	public LoginStub(ServiceContext context, AASImpl service)
-	{
-		super(context, service);
-	}
 
 	public String login(String userId, String groupId, String roleId, LanguageEnum lang) throws ServiceRequestException
 	{

@@ -6,7 +6,6 @@
 
 package dyna.app.service.brs.ppms;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.boas.BOASImpl;
 import dyna.app.service.brs.ppms.app.EventApp;
@@ -41,6 +40,7 @@ import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,13 +52,9 @@ import java.util.Map;
  *         预警管理
  * 
  */
+@Component
 public class WarningNoticeStub extends AbstractServiceStub<PPMSImpl>
 {
-
-	protected WarningNoticeStub(ServiceContext context, PPMSImpl service)
-	{
-		super(context, service);
-	}
 
 	public EarlyWarning saveEarlyWarning(EarlyWarning earlyWarning) throws ServiceRequestException
 	{

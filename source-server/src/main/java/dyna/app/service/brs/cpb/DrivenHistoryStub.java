@@ -1,8 +1,5 @@
 package dyna.app.service.brs.cpb;
 
-import java.util.List;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.common.bean.data.configparamter.ConfigParameterConstants;
 import dyna.common.bean.data.configparamter.TestHistory;
@@ -11,13 +8,13 @@ import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Component;
 
+import java.util.List;
+
+@Component
 public class DrivenHistoryStub extends AbstractServiceStub<CPBImpl>
 {
-	protected DrivenHistoryStub(ServiceContext context, CPBImpl service)
-	{
-		super(context, service);
-	}
 
 	/**
 	 * 保存驱动测试参数输入值

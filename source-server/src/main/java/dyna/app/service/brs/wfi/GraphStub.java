@@ -5,13 +5,6 @@
  */
 package dyna.app.service.brs.wfi;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.common.dto.wf.ActivityRuntime;
 import dyna.common.dto.wf.GraphRuntimeActivity;
@@ -22,6 +15,9 @@ import dyna.common.systemenum.WorkflowActivityType;
 import dyna.common.systemenum.WorkflowRouteModeType;
 import dyna.common.systemenum.WorkflowRouteType;
 import dyna.common.util.SetUtils;
+import org.springframework.stereotype.Component;
+
+import java.util.*;
 
 /**
  * 流程图操作分支
@@ -29,16 +25,9 @@ import dyna.common.util.SetUtils;
  * @author zhanghj
  * 
  */
+@Component
 public class GraphStub extends AbstractServiceStub<WFIImpl>
 {
-	/**
-	 * @param context
-	 * @param service
-	 */
-	protected GraphStub(ServiceContext context, WFIImpl service)
-	{
-		super(context, service);
-	}
 
 	protected List<Object> listAllGraphActivity(String procRtGuid) throws ServiceRequestException
 	{

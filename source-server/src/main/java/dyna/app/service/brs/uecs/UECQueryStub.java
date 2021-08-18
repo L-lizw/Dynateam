@@ -5,15 +5,6 @@
  */
 package dyna.app.service.brs.uecs;
 
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashSet;
-import java.util.List;
-import java.util.HashMap;
-import java.util.Map.Entry;
-import java.util.Set;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.boas.BOASImpl;
 import dyna.app.service.brs.bom.BOMSImpl;
@@ -50,17 +41,18 @@ import dyna.common.util.JsonUtils;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.common.util.UpdatedECSConstants;
+import org.springframework.stereotype.Component;
+
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * @author Wanglei
  * 
  */
+@Component
 public class UECQueryStub extends AbstractServiceStub<UECSImpl>
 {
-	protected UECQueryStub(ServiceContext context, UECSImpl service)
-	{
-		super(context, service);
-	}
 
 	public FoundationObject getBatchECPorECOFoundation(ObjectGuid ObjectGuid) throws ServiceRequestException
 	{

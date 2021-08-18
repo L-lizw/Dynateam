@@ -37,7 +37,7 @@ public abstract class DataAccessService extends SignableAdapter implements Poola
 	protected ServiceContext						serviceContext		= null;
 	@Autowired
 	protected Server                                server              = null;
-	protected ServiceDefinition						serviceDef			= null;
+	protected ServiceDefinition						serviceDefinition			= null;
 
 	private String									moduleID			= null;
 	private String									serviceCredential	= null;
@@ -214,7 +214,7 @@ public abstract class DataAccessService extends SignableAdapter implements Poola
 
 	public ServiceDefinition getServiceDefinition()
 	{
-		return this.serviceDef;
+		return this.serviceDefinition;
 	}
 
 	public String getServiceModuleID()
@@ -246,7 +246,7 @@ public abstract class DataAccessService extends SignableAdapter implements Poola
 	public final void init(ServiceContext serviceContext, ServiceDefinition serviceDef)
 	{
 		this.serviceContext = serviceContext;
-		this.serviceDef = serviceDef;
+		this.serviceDefinition = serviceDef;
 
 		this.moduleID = serviceDef.getServcieName();
 
@@ -335,10 +335,6 @@ public abstract class DataAccessService extends SignableAdapter implements Poola
 	@Override
 	public synchronized void setFixedTransactionId(String transactionId)
 	{
-		// if (StringUtils.isGuid(this.transactionId))
-		// {
-		// return;
-		// }
 		this.transactionId = transactionId;
 	}
 
@@ -374,4 +370,8 @@ public abstract class DataAccessService extends SignableAdapter implements Poola
 		return this.serviceUID;
 	}
 
+	@Override public void setServiceDefinition(ServiceDefinition serviceDefinition)
+	{
+		this.serviceDefinition = serviceDefinition;
+	}
 }

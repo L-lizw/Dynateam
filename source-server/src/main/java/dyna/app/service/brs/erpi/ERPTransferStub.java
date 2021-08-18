@@ -131,10 +131,6 @@ public abstract class ERPTransferStub<T extends Enum<?>> extends AbstractService
 
 	public MSRM							msrm					= null;
 
-	protected ERPTransferStub(ServiceContext context, ERPIImpl service)
-	{
-		super(context, service);
-	}
 
 	/**
 	 * 向ERP传数据，此方法不捕捉异常。最后一定要记住要调用destroy()方法清空资源 <br/>

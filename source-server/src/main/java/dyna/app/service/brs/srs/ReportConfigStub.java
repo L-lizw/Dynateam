@@ -5,40 +5,29 @@
  */
 package dyna.app.service.brs.srs;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.List;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
+import dyna.app.service.AbstractServiceStub;
+import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import dyna.app.server.context.ServiceContext;
-import dyna.app.service.AbstractServiceStub;
-import dyna.common.exception.ServiceRequestException;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author cuilei
  *
  */
+@Component
 public class ReportConfigStub extends AbstractServiceStub<SRSImpl>
 {
-	/**
-	 * @param context
-	 * @param service
-	 * @throws ServiceRequestException
-	 */
-	protected ReportConfigStub(ServiceContext context, SRSImpl service)
-	{
-		super(context, service);
-	}
 
 	List<Map<String, String>> getConfigList(String reportConfigFile, String type)
 	{

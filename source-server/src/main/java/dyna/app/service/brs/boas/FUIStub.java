@@ -5,9 +5,6 @@
  */
 package dyna.app.service.brs.boas;
 
-import java.util.List;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.emm.ClassStub;
 import dyna.common.SearchCondition;
@@ -20,32 +17,22 @@ import dyna.common.dto.model.cls.ClassInfo;
 import dyna.common.dto.model.ui.UIField;
 import dyna.common.dto.model.ui.UIObjectInfo;
 import dyna.common.exception.ServiceRequestException;
-import dyna.common.systemenum.FieldTypeEnum;
-import dyna.common.systemenum.LanguageEnum;
-import dyna.common.systemenum.ModelInterfaceEnum;
-import dyna.common.systemenum.SystemClassFieldEnum;
-import dyna.common.systemenum.SystemStatusEnum;
-import dyna.common.systemenum.UITypeEnum;
+import dyna.common.systemenum.*;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.net.service.brs.EMM;
 import dyna.net.service.brs.POS;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * @author Wanglei
  * 
  */
+@Component
 public class FUIStub extends AbstractServiceStub<BOASImpl>
 {
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	public FUIStub(ServiceContext context, BOASImpl service)
-	{
-		super(context, service);
-	}
 
 	private synchronized POS getPOS() throws ServiceRequestException
 	{

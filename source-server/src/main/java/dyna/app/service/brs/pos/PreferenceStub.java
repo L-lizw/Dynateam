@@ -5,7 +5,6 @@
  */
 package dyna.app.service.brs.pos;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.edap.EDAPImpl;
 import dyna.app.service.helper.ServiceRequestExceptionWrap;
@@ -25,23 +24,16 @@ import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
 /**
  * @author Wanglei
  */
+@Component
 public class PreferenceStub extends AbstractServiceStub<POSImpl>
 {
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	public PreferenceStub(ServiceContext context, POSImpl service)
-	{
-		super(context, service);
-	}
 
 	protected Preference getPreference(PreferenceTypeEnum preferenceTypeEnum, String operatorGuid) throws ServiceRequestException
 	{

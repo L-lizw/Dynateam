@@ -6,7 +6,6 @@
 
 package dyna.app.service.brs.pos;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.helper.ServiceRequestExceptionWrap;
 import dyna.common.bean.data.SystemObject;
@@ -18,6 +17,7 @@ import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,13 +30,9 @@ import java.util.Map;
  * @author WangLHB
  * 
  */
+@Component
 public class MySearchConditionStub extends AbstractServiceStub<POSImpl>
 {
-
-	protected MySearchConditionStub(ServiceContext context, POSImpl service)
-	{
-		super(context, service);
-	}
 
 	protected List<SaQueryPreferenceDetail> saveMySearchCondition(String classGuid, List<SaQueryPreferenceDetail> detailList) throws ServiceRequestException
 	{

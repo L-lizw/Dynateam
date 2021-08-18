@@ -5,15 +5,15 @@
  */
 package dyna.app.service.brs.eoss;
 
-import java.util.Arrays;
-import java.util.List;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.common.bean.model.Script;
 import dyna.common.exception.ServiceRequestException;
 import dyna.common.systemenum.EventTypeEnum;
 import dyna.common.util.SetUtils;
+import org.springframework.stereotype.Component;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * 与模型类相关的脚本执行操作
@@ -21,17 +21,9 @@ import dyna.common.util.SetUtils;
  * @author Wanglei
  * 
  */
+@Component
 public class ClassScriptStub extends AbstractServiceStub<EOSSImpl>
 {
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	public ClassScriptStub(ServiceContext context, EOSSImpl service)
-	{
-		super(context, service);
-	}
 
 	protected Script getActionScript(String className, String scriptName, int... segments) throws ServiceRequestException
 	{

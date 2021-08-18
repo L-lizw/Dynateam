@@ -5,7 +5,6 @@
  */
 package dyna.app.service.brs.slc;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.helper.ServiceRequestExceptionWrap;
 import dyna.common.bean.data.SystemObject;
@@ -22,6 +21,7 @@ import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -34,16 +34,9 @@ import java.util.Map;
  * @author caogc
  * 
  */
+@Component
 public class ConfigRuleBOLMStub extends AbstractServiceStub<SLCImpl>
 {
-	/**
-	 * @param context
-	 * @param service
-	 */
-	protected ConfigRuleBOLMStub(ServiceContext context, SLCImpl service)
-	{
-		super(context, service);
-	}
 
 	protected void init()
 	{

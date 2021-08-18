@@ -5,9 +5,6 @@
  */
 package dyna.app.service.brs.sms;
 
-import java.util.List;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.helper.ServiceRequestExceptionWrap;
 import dyna.common.dto.Mail;
@@ -18,22 +15,17 @@ import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * @author Wanglei
  * 
  */
+@Component
 public class MailUpdaterStub extends AbstractServiceStub<SMSImpl>
 {
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	protected MailUpdaterStub(ServiceContext context, SMSImpl service)
-	{
-		super(context, service);
-	}
 
 	/**
 	 * 把指定邮件列表从数据库中删除

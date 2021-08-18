@@ -5,7 +5,6 @@
  */
 package dyna.app.service.brs.boas;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.boas.numbering.NumberAllocate;
 import dyna.app.service.brs.bom.BOMSImpl;
@@ -50,6 +49,7 @@ import dyna.common.util.*;
 import dyna.data.DataServer;
 import dyna.net.service.brs.BOMS;
 import dyna.net.service.brs.EMM;
+import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
@@ -60,18 +60,10 @@ import java.util.regex.Pattern;
  * @author Wanglei
  * 
  */
+@Component
 public class FSaverStub extends AbstractServiceStub<BOASImpl>
 {
 	public static final String CHECKOUT_ERROR_ID = "CHECKOUTERRORID";
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	public FSaverStub(ServiceContext context, BOASImpl service)
-	{
-		super(context, service);
-	}
 
 	/**
 	 * 根据编码规则生成对象的ID

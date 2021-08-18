@@ -5,12 +5,6 @@
  */
 package dyna.app.service.brs.pos;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.List;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.helper.ServiceRequestExceptionWrap;
 import dyna.common.dto.MySchedule;
@@ -20,6 +14,12 @@ import dyna.common.util.DateFormat;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Component;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 与MyScheduleStub相关的操作分支
@@ -27,17 +27,9 @@ import dyna.data.service.sdm.SystemDataService;
  * @author Caogc
  * 
  */
+@Component
 public class MyScheduleStub extends AbstractServiceStub<POSImpl>
 {
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	public MyScheduleStub(ServiceContext context, POSImpl service)
-	{
-		super(context, service);
-	}
 
 	protected void deleteMySchedule(String guid) throws ServiceRequestException
 	{

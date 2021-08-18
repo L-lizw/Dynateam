@@ -5,7 +5,6 @@
  */
 package dyna.app.service.brs.pos;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.edap.EDAPImpl;
 import dyna.app.service.helper.Constants;
@@ -35,6 +34,7 @@ import dyna.data.service.acl.AclService;
 import dyna.data.service.common.DSCommonService;
 import dyna.data.service.sdm.SystemDataService;
 import dyna.net.service.brs.EMM;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -43,17 +43,9 @@ import java.util.*;
  * @author Wanglei
  * 
  */
+@Component
 public class MySearchStub extends AbstractServiceStub<POSImpl>
 {
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	public MySearchStub(ServiceContext context, POSImpl service)
-	{
-		super(context, service);
-	}
 
 	protected void deleteSearch(String searchGuid) throws ServiceRequestException
 	{

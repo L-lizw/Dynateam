@@ -1,6 +1,5 @@
 package dyna.app.service.brs.dcr;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.helper.ServiceRequestExceptionWrap;
 import dyna.common.bean.data.checkrule.CheckRule;
@@ -13,18 +12,16 @@ import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Component
 public class DataCheckRuleSaveStub extends AbstractServiceStub<DCRImpl>
 {
-	protected DataCheckRuleSaveStub(ServiceContext context, DCRImpl service)
-	{
-		super(context, service);
-	}
 
 	protected CheckRule saveRule(CheckRule rule) throws ServiceRequestException
 	{

@@ -20,6 +20,8 @@ import dyna.common.dto.template.bom.BOMCompare;
 import dyna.common.exception.AuthorizeException;
 import dyna.common.exception.ServiceRequestException;
 import dyna.net.service.brs.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
@@ -33,18 +35,28 @@ import java.util.Map;
  * @author caogc
  * 
  */
+@Service
 public class BOMSImpl extends BusinessRuleService implements BOMS
 {
 	private static boolean				initialized					= false;
 
+	@Autowired
 	private BOMStub						bomStub						= null;
+	@Autowired
 	private BOMViewStub					bomViewStub					= null;
+	@Autowired
 	private BOMEditStub					bomEditStub					= null;
+	@Autowired
 	private BOMCompareStub				bomCompareStub				= null;
+	@Autowired
 	private BOMViewCheckInStub			bomViewCheckInStub			= null;
+	@Autowired
 	private BOMViewCheckOutStub			bomViewCheckOutStub			= null;
+	@Autowired
 	private BOMViewCancelCheckOutStub	bomViewCancelCheckOutStub	= null;
+	@Autowired
 	private BOMViewTransferCheckOutStub	bomViewTransferCheckOutStub	= null;
+	@Autowired
 	private DrawTransferBOMStub			drawTransferBOMStub			= null;
 	private BOMS						boms						= null;
 
@@ -71,7 +83,7 @@ public class BOMSImpl extends BusinessRuleService implements BOMS
 	 * @see dyna.app.service.DataAccessService#init()
 	 */
 	@Override
-	protected void init()
+	public void init()
 	{
 		if (initialized)
 		{
@@ -164,10 +176,6 @@ public class BOMSImpl extends BusinessRuleService implements BOMS
 	 */
 	public BOMCompareStub getBomCompareStub()
 	{
-		if (this.bomCompareStub == null)
-		{
-			this.bomCompareStub = new BOMCompareStub(this.serviceContext, this);
-		}
 		return this.bomCompareStub;
 	}
 
@@ -176,10 +184,6 @@ public class BOMSImpl extends BusinessRuleService implements BOMS
 	 */
 	public BOMEditStub getBomEditStub()
 	{
-		if (this.bomEditStub == null)
-		{
-			this.bomEditStub = new BOMEditStub(this.serviceContext, this);
-		}
 		return this.bomEditStub;
 	}
 
@@ -188,10 +192,6 @@ public class BOMSImpl extends BusinessRuleService implements BOMS
 	 */
 	public BOMStub getBomStub()
 	{
-		if (this.bomStub == null)
-		{
-			this.bomStub = new BOMStub(this.serviceContext, this);
-		}
 		return this.bomStub;
 	}
 
@@ -200,19 +200,11 @@ public class BOMSImpl extends BusinessRuleService implements BOMS
 	 */
 	public BOMViewStub getBomViewStub()
 	{
-		if (this.bomViewStub == null)
-		{
-			this.bomViewStub = new BOMViewStub(this.serviceContext, this);
-		}
 		return this.bomViewStub;
 	}
 
 	public DrawTransferBOMStub getDrawTransferBOMStub()
 	{
-		if (this.drawTransferBOMStub == null)
-		{
-			this.drawTransferBOMStub = new DrawTransferBOMStub(this.serviceContext, this);
-		}
 		return this.drawTransferBOMStub;
 	}
 
@@ -247,10 +239,6 @@ public class BOMSImpl extends BusinessRuleService implements BOMS
 	 */
 	public BOMViewCheckInStub getBOMViewCheckInStub()
 	{
-		if (this.bomViewCheckInStub == null)
-		{
-			this.bomViewCheckInStub = new BOMViewCheckInStub(this.serviceContext, this);
-		}
 		return this.bomViewCheckInStub;
 	}
 
@@ -259,10 +247,6 @@ public class BOMSImpl extends BusinessRuleService implements BOMS
 	 */
 	public BOMViewCancelCheckOutStub getBomViewCancelCheckOutStub()
 	{
-		if (this.bomViewCancelCheckOutStub == null)
-		{
-			this.bomViewCancelCheckOutStub = new BOMViewCancelCheckOutStub(this.serviceContext, this);
-		}
 		return this.bomViewCancelCheckOutStub;
 	}
 
@@ -271,10 +255,6 @@ public class BOMSImpl extends BusinessRuleService implements BOMS
 	 */
 	public BOMViewTransferCheckOutStub getBomViewTransferCheckOutStub()
 	{
-		if (this.bomViewTransferCheckOutStub == null)
-		{
-			this.bomViewTransferCheckOutStub = new BOMViewTransferCheckOutStub(this.serviceContext, this);
-		}
 		return this.bomViewTransferCheckOutStub;
 	}
 
@@ -283,10 +263,6 @@ public class BOMSImpl extends BusinessRuleService implements BOMS
 	 */
 	public BOMViewCheckOutStub getBOMViewCheckOutStub()
 	{
-		if (this.bomViewCheckOutStub == null)
-		{
-			this.bomViewCheckOutStub = new BOMViewCheckOutStub(this.serviceContext, this);
-		}
 		return this.bomViewCheckOutStub;
 	}
 

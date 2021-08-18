@@ -5,9 +5,6 @@
  */
 package dyna.app.service.brs.wfi.favoritecomment;
 
-import java.util.List;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.wfi.WFIImpl;
 import dyna.app.service.helper.ServiceRequestExceptionWrap;
@@ -15,6 +12,10 @@ import dyna.common.dto.wf.ProcTrackComm;
 import dyna.common.exception.DynaDataException;
 import dyna.common.exception.ServiceRequestException;
 import dyna.common.util.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * 常用意见操作分支
@@ -22,19 +23,11 @@ import dyna.common.util.StringUtils;
  * @author zhanghj
  * 
  */
+@Component
 public class FavoriteCommentStub extends AbstractServiceStub<WFIImpl>
 {
+	@Autowired
 	private FavoriteCommentDBStub dbStub = null;
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	public FavoriteCommentStub(ServiceContext context, WFIImpl service)
-	{
-		super(context, service);
-		this.dbStub = new FavoriteCommentDBStub(context, service);
-	}
 
 	public ProcTrackComm saveTrackComm(ProcTrackComm procComm) throws ServiceRequestException
 	{

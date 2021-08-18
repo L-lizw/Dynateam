@@ -10,6 +10,8 @@ import dyna.app.service.brs.wfi.activity.app.ActivityRuntimeApplication;
 import dyna.common.dto.wf.ActivityRuntime;
 import dyna.common.exception.ServiceRequestException;
 import dyna.common.systemenum.DecisionEnum;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * 开始节点相关操作
@@ -17,15 +19,11 @@ import dyna.common.systemenum.DecisionEnum;
  * @author lizw
  *
  */
+@Component
 public class BeginActivityApplication implements ActivityRuntimeApplication
 {
-
-	private WFIImpl stubService = null;
-
-	public BeginActivityApplication(WFIImpl wfeImpl)
-	{
-		this.stubService = wfeImpl;
-	}
+	@Autowired
+	private WFIImpl stubService;
 
 	@Override
 	public void finishActivity(ActivityRuntime activity, DecisionEnum decide) throws ServiceRequestException

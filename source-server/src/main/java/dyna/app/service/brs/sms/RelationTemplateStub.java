@@ -5,7 +5,6 @@
  */
 package dyna.app.service.brs.sms;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.helper.ServiceRequestExceptionWrap;
 import dyna.common.bean.data.SystemObject;
@@ -24,6 +23,7 @@ import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,16 +31,9 @@ import java.util.stream.Collectors;
 /**
  * @author Wanglei
  */
+@Component
 public class RelationTemplateStub extends AbstractServiceStub<SMSImpl>
 {
-	/**
-	 * @param context
-	 * @param service
-	 */
-	public RelationTemplateStub(ServiceContext context, SMSImpl service)
-	{
-		super(context, service);
-	}
 
 	protected void obsoleteRelationTemplateByName(String templateName) throws ServiceRequestException
 	{

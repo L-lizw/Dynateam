@@ -5,11 +5,6 @@
  */
 package dyna.app.service.brs.boas;
 
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Set;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.emm.ClassStub;
 import dyna.app.service.brs.emm.EMMImpl;
@@ -24,33 +19,24 @@ import dyna.common.dto.model.ui.UIObjectInfo;
 import dyna.common.exception.DecorateException;
 import dyna.common.exception.DynaDataException;
 import dyna.common.exception.ServiceRequestException;
-import dyna.common.systemenum.DataExceptionEnum;
-import dyna.common.systemenum.OperateSignEnum;
-import dyna.common.systemenum.SearchRevisionTypeEnum;
-import dyna.common.systemenum.SystemClassFieldEnum;
-import dyna.common.systemenum.SystemStatusEnum;
-import dyna.common.systemenum.UITypeEnum;
+import dyna.common.systemenum.*;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
 import dyna.net.service.brs.EMM;
+import org.springframework.stereotype.Component;
+
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author Wanglei
  * 
  */
+@Component
 public class FRevisionStub extends AbstractServiceStub<BOASImpl>
 {
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	public FRevisionStub(ServiceContext context, BOASImpl service)
-	{
-		super(context, service);
-	}
-
 	public String getInitRevisionId(int startRevisionIdSequence) throws ServiceRequestException
 	{
 		return DataServer.getInstanceService().getFirstRevisionId(startRevisionIdSequence);

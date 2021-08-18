@@ -32,6 +32,9 @@ import dyna.data.DataServer;
 import dyna.data.service.sdm.SystemDataService;
 import dyna.net.service.brs.*;
 import org.acegisecurity.context.SecurityContextHolder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Method;
 import java.util.*;
@@ -42,15 +45,22 @@ import java.util.*;
  * @author Wanglei
  * 
  */
+@Service
 public class DSSImpl extends BusinessRuleService implements DSS
 {
 	private static boolean		initialized			= false;
-	private FileInfoStub		fileInfoStub		= null;
-	private InstFileStub		instFileStub		= null;
-	private ProcFileStub		procFileStub		= null;
-	private TransFileStub		transFileStub		= null;
-	private StorageStub			storageStub			= null;
-	private AnyTableFileStub	anyTableFileStub	= null;
+	@Autowired
+	private FileInfoStub		fileInfoStub		;
+	@Autowired
+	private InstFileStub		instFileStub		;
+	@Autowired
+	private ProcFileStub		procFileStub		;
+	@Autowired
+	private TransFileStub		transFileStub		;
+	@Autowired
+	private StorageStub			storageStub			;
+	@Autowired
+	private AnyTableFileStub	anyTableFileStub	;
 
 	public static final String	FILE_TYPE_WF		= "C";
 	public static final String	FILE_TYPE_ANYTABLE	= "A";
@@ -67,7 +77,7 @@ public class DSSImpl extends BusinessRuleService implements DSS
 	 * @see dyna.app.service.DataAccessService#init()
 	 */
 	@Override
-	protected void init()
+	public void init()
 	{
 		syncInit();
 		// timingNotice(this.serviceContext);
@@ -95,26 +105,11 @@ public class DSSImpl extends BusinessRuleService implements DSS
 		initialized = true;
 	}
 
-	// private synchronized static void timingNotice(ServiceContext serviceContext)
-	// {
-	// if (isInit)
-	// {
-	// return;
-	// }
-	// isInit = true;
-	//
-	// serviceContext.getServerContext().addServerContextListener(new TimeTaskServerContextListener());
-	// }
-
 	/**
 	 * @return the anyTableFileStub
 	 */
 	public AnyTableFileStub getAnyTableFileStub()
 	{
-		if (this.anyTableFileStub == null)
-		{
-			this.anyTableFileStub = new AnyTableFileStub(this.serviceContext, this);
-		}
 		return this.anyTableFileStub;
 	}
 
@@ -123,10 +118,6 @@ public class DSSImpl extends BusinessRuleService implements DSS
 	 */
 	protected StorageStub getStorageStub()
 	{
-		if (this.storageStub == null)
-		{
-			this.storageStub = new StorageStub(this.serviceContext, this);
-		}
 		return this.storageStub;
 	}
 
@@ -135,10 +126,6 @@ public class DSSImpl extends BusinessRuleService implements DSS
 	 */
 	public FileInfoStub getFileInfoStub()
 	{
-		if (this.fileInfoStub == null)
-		{
-			this.fileInfoStub = new FileInfoStub(this.serviceContext, this);
-		}
 		return this.fileInfoStub;
 	}
 
@@ -147,10 +134,6 @@ public class DSSImpl extends BusinessRuleService implements DSS
 	 */
 	public InstFileStub getInstFileStub()
 	{
-		if (this.instFileStub == null)
-		{
-			this.instFileStub = new InstFileStub(this.serviceContext, this);
-		}
 		return this.instFileStub;
 	}
 
@@ -159,10 +142,6 @@ public class DSSImpl extends BusinessRuleService implements DSS
 	 */
 	protected ProcFileStub getProcFileStub()
 	{
-		if (this.procFileStub == null)
-		{
-			this.procFileStub = new ProcFileStub(this.serviceContext, this);
-		}
 		return this.procFileStub;
 	}
 
@@ -171,10 +150,6 @@ public class DSSImpl extends BusinessRuleService implements DSS
 	 */
 	public TransFileStub getTransFileStub()
 	{
-		if (this.transFileStub == null)
-		{
-			this.transFileStub = new TransFileStub(this.serviceContext, this);
-		}
 		return this.transFileStub;
 	}
 
@@ -896,9 +871,14 @@ public class DSSImpl extends BusinessRuleService implements DSS
 
 }
 
+@Component
 class TimeClearServerContextListener implements ServerContextListener
 {
 	private boolean isDeleteByLogic = true;
+	@Autowired
+	private ApplicationServerContext serverContext;
+	@Autowired
+	private ServiceContext serviceContext;
 
 	public TimeClearServerContextListener(boolean isDeleteByLogic)
 	{
@@ -912,7 +892,7 @@ class TimeClearServerContextListener implements ServerContextListener
 	 * dyna.app.server.context.ServiceContext)
 	 */
 	@Override
-	public void contextInitialized(ApplicationServerContext serverContext, ServiceContext serviceContext)
+	public void contextInitialized()
 	{
 		Date firstTime = new Date();
 		Calendar calendar = Calendar.getInstance();

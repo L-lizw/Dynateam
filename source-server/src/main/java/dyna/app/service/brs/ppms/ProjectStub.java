@@ -43,6 +43,7 @@ import dyna.data.service.ins.InstanceService;
 import dyna.net.service.brs.EMM;
 import dyna.net.service.brs.PPMS;
 import org.acegisecurity.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
 import java.util.*;
@@ -51,13 +52,9 @@ import java.util.*;
  * @author WangLHB
  *         项目的查询，新建
  */
+@Component
 public class ProjectStub extends AbstractServiceStub<PPMSImpl>
 {
-
-	protected ProjectStub(ServiceContext context, PPMSImpl service)
-	{
-		super(context, service);
-	}
 
 	/**
 	 * @param foundationObject

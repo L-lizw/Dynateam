@@ -1,14 +1,5 @@
 package dyna.app.service.brs.cpb;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.boas.BOASImpl;
 import dyna.app.service.brs.emm.ClassStub;
@@ -19,19 +10,7 @@ import dyna.common.SearchConditionFactory;
 import dyna.common.bean.data.FoundationObject;
 import dyna.common.bean.data.ObjectGuid;
 import dyna.common.bean.data.StructureObject;
-import dyna.common.bean.data.configparamter.ConfigParameterConstants;
-import dyna.common.bean.data.configparamter.DynamicColumnTitle;
-import dyna.common.bean.data.configparamter.DynamicOfColumn;
-import dyna.common.bean.data.configparamter.DynamicOfMultiVariable;
-import dyna.common.bean.data.configparamter.TableOfDefineCondition;
-import dyna.common.bean.data.configparamter.TableOfExpression;
-import dyna.common.bean.data.configparamter.TableOfGroup;
-import dyna.common.bean.data.configparamter.TableOfInputVariable;
-import dyna.common.bean.data.configparamter.TableOfList;
-import dyna.common.bean.data.configparamter.TableOfMark;
-import dyna.common.bean.data.configparamter.TableOfMultiCondition;
-import dyna.common.bean.data.configparamter.TableOfParameter;
-import dyna.common.bean.data.configparamter.TableOfRegion;
+import dyna.common.bean.data.configparamter.*;
 import dyna.common.bean.data.foundation.ViewObject;
 import dyna.common.dto.DataRule;
 import dyna.common.dto.model.cls.ClassField;
@@ -45,21 +24,17 @@ import dyna.common.exception.ServiceRequestException;
 import dyna.common.systemenum.ConfigParameterTableType;
 import dyna.common.systemenum.ModelInterfaceEnum;
 import dyna.common.systemenum.SystemStatusEnum;
-import dyna.common.util.ConfigUtil;
-import dyna.common.util.DateFormat;
-import dyna.common.util.JsonUtils;
-import dyna.common.util.SetUtils;
-import dyna.common.util.StringUtils;
+import dyna.common.util.*;
 import dyna.data.DataServer;
 import dyna.data.service.relation.RelationService;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Component;
 
+import java.util.*;
+
+@Component
 public class ConfigQueryStub extends AbstractServiceStub<CPBImpl>
 {
-	protected ConfigQueryStub(ServiceContext context, CPBImpl service)
-	{
-		super(context, service);
-	}
 
 	/**
 	 * 通过表类型取得动态列头

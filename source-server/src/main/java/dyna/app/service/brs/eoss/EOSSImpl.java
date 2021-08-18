@@ -5,12 +5,6 @@
  */
 package dyna.app.service.brs.eoss;
 
-import java.math.BigDecimal;
-
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
-
 import dyna.app.service.BusinessRuleService;
 import dyna.common.bean.data.FoundationObject;
 import dyna.common.bean.data.InputObject;
@@ -25,6 +19,11 @@ import dyna.common.util.StringUtils;
 import dyna.net.service.brs.EOSS;
 import dyna.net.service.brs.WFI;
 import dyna.net.service.brs.WFM;
+
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
+import java.math.BigDecimal;
 
 /**
  * Enterprise Object Script Service 企业对象脚本服务实现
@@ -48,53 +47,33 @@ public class EOSSImpl extends BusinessRuleService implements EOSS
 	 * @see dyna.app.service.DataAccessService#init()
 	 */
 	@Override
-	protected void init()
+	public void init()
 	{
 		// do nothing
 	}
 
 	protected ClassScriptStub getClassScriptStub()
 	{
-		if (this.classScriptStub == null)
-		{
-			this.classScriptStub = new ClassScriptStub(this.serviceContext, this);
-		}
 		return this.classScriptStub;
 	}
 
 	protected WorkflowScriptStub getWorkflowScriptStub()
 	{
-		if (this.workflowScriptStub == null)
-		{
-			this.workflowScriptStub = new WorkflowScriptStub(this.serviceContext, this);
-		}
 		return this.workflowScriptStub;
 	}
 
 	protected ActionExecuteStub getActionExecuteStub()
 	{
-		if (this.actionExecuteStub == null)
-		{
-			this.actionExecuteStub = new ActionExecuteStub(this.serviceContext, this);
-		}
 		return this.actionExecuteStub;
 	}
 
 	protected InstEventExecuteStub getInstEventExecuteStub()
 	{
-		if (this.instEventExecuteStub == null)
-		{
-			this.instEventExecuteStub = new InstEventExecuteStub(this.serviceContext, this);
-		}
 		return this.instEventExecuteStub;
 	}
 
 	protected WorkflowEventExecuteStub getWorkflowEventExecuteStub()
 	{
-		if (this.workflowEventExecuteStub == null)
-		{
-			this.workflowEventExecuteStub = new WorkflowEventExecuteStub(this.serviceContext, this);
-		}
 		return this.workflowEventExecuteStub;
 	}
 

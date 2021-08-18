@@ -5,23 +5,6 @@
  */
 package dyna.app.service.brs.sms;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-
-import javax.mail.Authenticator;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeUtility;
-
-import org.acegisecurity.context.SecurityContextHolder;
-
 import dyna.app.core.sch.AbstractScheduledTask;
 import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
@@ -43,22 +26,22 @@ import dyna.net.service.brs.AAS;
 import dyna.net.service.brs.POS;
 import dyna.net.service.brs.SMS;
 import dyna.net.service.das.MSRM;
+import org.acegisecurity.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeUtility;
+import java.util.*;
 
 /**
  * @author WangLHB
  *
  */
+@Component
 public class EmailStub extends AbstractServiceStub<SMSImpl>
 {
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	protected EmailStub(ServiceContext context, SMSImpl service)
-	{
-		super(context, service);
-	}
 
 	protected EmailServer saveEmailServer(EmailServer emailServer) throws ServiceRequestException
 	{

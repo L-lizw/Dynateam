@@ -1,6 +1,5 @@
 package dyna.app.service.brs.mms;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.common.bean.configure.ProjectModel;
 import dyna.common.bean.data.SystemObject;
@@ -26,6 +25,7 @@ import dyna.data.DataServer;
 import dyna.data.service.sdm.FieldValueEqualsFilter;
 import dyna.data.service.sdm.SystemDataService;
 import dyna.net.security.signature.UserSignature;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -38,12 +38,9 @@ import java.util.Map;
  * @author: duanll
  * @date: 2020年3月26日
  */
+@Component
 public class ModelManageStub extends AbstractServiceStub<MMSImpl>
 {
-	protected ModelManageStub(ServiceContext context, MMSImpl service)
-	{
-		super(context, service);
-	}
 
 	@SuppressWarnings("unchecked")
 	protected <T extends SystemObject> T saveModel(T model) throws ServiceRequestException

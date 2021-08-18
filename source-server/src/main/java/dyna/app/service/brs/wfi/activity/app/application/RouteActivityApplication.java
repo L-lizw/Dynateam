@@ -1,20 +1,18 @@
 package dyna.app.service.brs.wfi.activity.app.application;
 
-import java.util.List;
-import java.util.Stack;
-
 import dyna.app.service.brs.wfi.WFIImpl;
 import dyna.app.service.brs.wfi.activity.app.ActivityRuntimeApplication;
 import dyna.common.dto.wf.ActivityRuntime;
 import dyna.common.dto.wf.TransRestriction;
 import dyna.common.exception.ServiceRequestException;
-import dyna.common.systemenum.ActRuntimeModeEnum;
-import dyna.common.systemenum.DecisionEnum;
-import dyna.common.systemenum.WorkflowActivityType;
-import dyna.common.systemenum.WorkflowRouteModeType;
-import dyna.common.systemenum.WorkflowRouteType;
+import dyna.common.systemenum.*;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.Stack;
 
 /**
  * 路由节点
@@ -22,15 +20,11 @@ import dyna.common.util.StringUtils;
  * @author lizw
  *
  */
-
+@Component
 public class RouteActivityApplication implements ActivityRuntimeApplication
 {
-	private WFIImpl stubService = null;
-
-	public RouteActivityApplication(WFIImpl wfeImpl)
-	{
-		this.stubService = wfeImpl;
-	}
+	@Autowired
+	private WFIImpl stubService ;
 
 	@Override
 	public void finishActivity(ActivityRuntime activity, DecisionEnum decide) throws ServiceRequestException

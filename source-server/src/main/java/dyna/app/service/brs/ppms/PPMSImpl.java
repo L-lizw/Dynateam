@@ -26,6 +26,8 @@ import dyna.common.systemenum.ppms.PMAuthorityEnum;
 import dyna.common.systemenum.ppms.WorkItemAuthEnum;
 import dyna.net.service.brs.*;
 import dyna.net.service.das.MSRM;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
@@ -37,33 +39,46 @@ import java.util.Map;
  * @author WangLH
  * 
  */
+@Service
 public class PPMSImpl extends BusinessRuleService implements PPMS
 {
+	@Autowired
 	private BaseConfigStub		baseConfigStub		= null;
+	@Autowired
 	private DeliveryStub		deliveryStub		= null;
+	@Autowired
 	private ProjectStub			projectStub			= null;
+	@Autowired
 	private TaskStub			taskStub			= null;
+	@Autowired
 	private RoleStub			roleStub			= null;
+	@Autowired
 	private WorkItemStub		workItemStub		= null;
+	@Autowired
 	private TaskMemberStub		taskMemberStub		= null;
+	@Autowired
 	private PMAuthorityStub		pmAuthorityStub		= null;
+	@Autowired
 	private PMReportStub		pmReportStub		= null;	// add by fanjq
+	@Autowired
 	private NoticeStub			noticeStub			= null;
+	@Autowired
 	private IndicatorStub		indicatorStub		= null;
+	@Autowired
 	private IndicatorConfigStub	indicatorConfigStub	= null;
-
+	@Autowired
 	private WBSStub				wbsStub				= null;
-
+	@Autowired
 	private CalendarStub		calendarStub		= null;
-
+	@Autowired
 	private PMChangeStub		pmChangeStub		= null;
-
+	@Autowired
 	private WarningNoticeStub	warningNoticeStub	= null;
 
 	private static boolean		isInit				= false;
 
 	@Override
-	protected void init()
+	public void init()
 	{
 		if (isInit)
 		{
@@ -118,146 +133,82 @@ public class PPMSImpl extends BusinessRuleService implements PPMS
 
 	public WarningNoticeStub getWarningNoticeStub()
 	{
-		if (this.warningNoticeStub == null)
-		{
-			this.warningNoticeStub = new WarningNoticeStub(this.serviceContext, this);
-		}
 		return this.warningNoticeStub;
 	}
 
 	protected PMAuthorityStub getPMAuthorityStub()
 	{
-		if (this.pmAuthorityStub == null)
-		{
-			this.pmAuthorityStub = new PMAuthorityStub(this.serviceContext, this);
-		}
 		return this.pmAuthorityStub;
 	}
 
 	protected BaseConfigStub getBaseConfigStub()
 	{
-		if (this.baseConfigStub == null)
-		{
-			this.baseConfigStub = new BaseConfigStub(this.serviceContext, this);
-		}
 		return this.baseConfigStub;
 	}
 
 	public TaskMemberStub getTaskMemberStub()
 	{
-		if (this.taskMemberStub == null)
-		{
-			this.taskMemberStub = new TaskMemberStub(this.serviceContext, this);
-		}
 		return this.taskMemberStub;
 	}
 
 	public NoticeStub getNoticeStub()
 	{
-		if (this.noticeStub == null)
-		{
-			this.noticeStub = new NoticeStub(this.serviceContext, this);
-		}
 		return this.noticeStub;
 	}
 
 	// add by fanjq
 	protected PMReportStub getPMReportStub()
 	{
-		if (this.pmReportStub == null)
-		{
-			this.pmReportStub = new PMReportStub(this.serviceContext, this);
-		}
 		return this.pmReportStub;
 	}
 
 	public WBSStub getWBSStub()
 	{
-		if (this.wbsStub == null)
-		{
-			this.wbsStub = new WBSStub(this.serviceContext, this);
-		}
 		return this.wbsStub;
 	}
 
 	protected CalendarStub getCalendarStub()
 	{
-		if (this.calendarStub == null)
-		{
-			this.calendarStub = new CalendarStub(this.serviceContext, this);
-		}
 		return this.calendarStub;
 	}
 
 	public WorkItemStub getWorkItemStub()
 	{
-		if (this.workItemStub == null)
-		{
-			this.workItemStub = new WorkItemStub(this.serviceContext, this);
-		}
 		return this.workItemStub;
 	}
 
 	public RoleStub getRoleStub()
 	{
-		if (this.roleStub == null)
-		{
-			this.roleStub = new RoleStub(this.serviceContext, this);
-		}
 		return this.roleStub;
 	}
 
 	public TaskStub getTaskStub()
 	{
-		if (this.taskStub == null)
-		{
-			this.taskStub = new TaskStub(this.serviceContext, this);
-		}
 		return this.taskStub;
 	}
 
 	public ProjectStub getProjectStub()
 	{
-		if (this.projectStub == null)
-		{
-			this.projectStub = new ProjectStub(this.serviceContext, this);
-		}
 		return this.projectStub;
 	}
 
 	public PMChangeStub getPMChangeStub()
 	{
-		if (this.pmChangeStub == null)
-		{
-			this.pmChangeStub = new PMChangeStub(this.serviceContext, this);
-		}
 		return this.pmChangeStub;
 	}
 
 	protected DeliveryStub getDeliveryStub()
 	{
-		if (this.deliveryStub == null)
-		{
-			this.deliveryStub = new DeliveryStub(this.serviceContext, this);
-		}
 		return this.deliveryStub;
 	}
 
 	public IndicatorStub getIndicatorStub()
 	{
-		if (this.indicatorStub == null)
-		{
-			this.indicatorStub = new IndicatorStub(this.serviceContext, this);
-		}
 		return this.indicatorStub;
 	}
 
 	public IndicatorConfigStub getIndicatorConfigStub()
 	{
-		if (this.indicatorConfigStub == null)
-		{
-			this.indicatorConfigStub = new IndicatorConfigStub(this.serviceContext, this);
-		}
 		return this.indicatorConfigStub;
 	}
 

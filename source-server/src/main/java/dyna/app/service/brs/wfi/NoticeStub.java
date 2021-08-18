@@ -5,15 +5,6 @@
  */
 package dyna.app.service.brs.wfi;
 
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.helper.ServiceRequestExceptionWrap;
 import dyna.common.dto.aas.User;
@@ -22,34 +13,26 @@ import dyna.common.dto.wf.Performer;
 import dyna.common.dto.wf.ProcessRuntime;
 import dyna.common.exception.DynaDataException;
 import dyna.common.exception.ServiceRequestException;
-import dyna.common.systemenum.DecisionEnum;
-import dyna.common.systemenum.LanguageEnum;
-import dyna.common.systemenum.MailCategoryEnum;
-import dyna.common.systemenum.MailMessageType;
-import dyna.common.systemenum.PerformerTypeEnum;
-import dyna.common.systemenum.ProcessStatusEnum;
+import dyna.common.systemenum.*;
 import dyna.common.util.DateFormat;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
-import dyna.data.DataServer;
-import dyna.data.service.wf.WorkFlowService;
 import dyna.net.service.brs.AAS;
+import org.springframework.stereotype.Component;
+
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author WangLHB
  * 
  */
+@Component
 public class NoticeStub extends AbstractServiceStub<WFIImpl>
 {
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	protected NoticeStub(ServiceContext context, WFIImpl service)
-	{
-		super(context, service);
-	}
 
 	public void activiteCompleteNotice(ActivityRuntime activity, DecisionEnum decide) throws ServiceRequestException
 	{

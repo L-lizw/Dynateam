@@ -5,23 +5,6 @@
  */
 package dyna.app.service.brs.erpi;
 
-import java.io.IOException;
-import java.lang.reflect.Method;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.List;
-
-import javax.xml.rpc.ServiceException;
-
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.JDOMException;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.brs.erpi.cross.util.CrossConfigureManager;
 import dyna.app.service.brs.erpi.cross.util.XMLUtil;
 import dyna.app.service.brs.erpi.dataExport.IntegrateYT;
@@ -39,6 +22,20 @@ import dyna.common.systemenum.ERPYTOperationEnum;
 import dyna.common.systemenum.LanguageEnum;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.JDOMException;
+
+import javax.xml.rpc.ServiceException;
+import java.io.IOException;
+import java.lang.reflect.Method;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author wangweixia
@@ -50,9 +47,9 @@ public class ERPYTTransferStub extends ERPTransferStub<ERPYTOperationEnum>
 	// 易拓wsdl生成的java文件所在包地址
 	private final String	packageName	= "dyna.app.service.brs.erpi.ytIntegrateService";
 
-	protected ERPYTTransferStub(ServiceContext context, ERPIImpl service, Document document) throws Exception
+	protected ERPYTTransferStub(Document document) throws Exception
 	{
-		super(context, service);
+		super();
 		this.ERPType = ERPServerType.ERPTIPTOP;
 		this.integrate = new IntegrateYT(this, document);
 		operationPollingTime = this.integrate.getOperationPollingTime();

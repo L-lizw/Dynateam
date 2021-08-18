@@ -1,12 +1,5 @@
 package dyna.app.service.brs.boas;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.helper.decorate.DecoratorFactory;
 import dyna.common.SearchCondition;
@@ -24,15 +17,13 @@ import dyna.data.DataServer;
 import dyna.data.service.ins.InstanceService;
 import dyna.data.service.sdm.SystemDataService;
 import dyna.net.service.brs.EMM;
+import org.springframework.stereotype.Component;
 
+import java.util.*;
+
+@Component
 public class ClassificationStub extends AbstractServiceStub<BOASImpl>
 {
-
-	protected ClassificationStub(ServiceContext context, BOASImpl service)
-	{
-		super(context, service);
-
-	}
 
 	protected void makeClassificationFoundation(FoundationObject foundationObject, SearchCondition searchCondition, String bmGuid, String iterationId)
 			throws ServiceRequestException

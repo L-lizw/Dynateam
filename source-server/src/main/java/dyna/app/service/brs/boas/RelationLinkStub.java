@@ -5,15 +5,6 @@
  */
 package dyna.app.service.brs.boas;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.regex.Pattern;
-
-import org.acegisecurity.context.SecurityContextHolder;
-
 import dyna.app.core.sch.AbstractScheduledTask;
 import dyna.app.core.sch.Scheduler;
 import dyna.app.core.track.ScheduledTaskTrackImpl;
@@ -45,13 +36,7 @@ import dyna.common.dto.template.relation.RelationTemplateInfo;
 import dyna.common.exception.DynaDataException;
 import dyna.common.exception.ServiceRequestException;
 import dyna.common.log.DynaLogger;
-import dyna.common.systemenum.BuiltinRelationNameEnum;
-import dyna.common.systemenum.DataExceptionEnum;
-import dyna.common.systemenum.FieldTypeEnum;
-import dyna.common.systemenum.RelationTemplateActionEnum;
-import dyna.common.systemenum.RelationTemplateTypeEnum;
-import dyna.common.systemenum.RuleTypeEnum;
-import dyna.common.systemenum.SystemStatusEnum;
+import dyna.common.systemenum.*;
 import dyna.common.util.DateFormat;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
@@ -59,23 +44,20 @@ import dyna.data.DataServer;
 import dyna.data.common.exception.DynaDataExceptionAll;
 import dyna.net.service.brs.BOAS;
 import dyna.net.service.brs.EOSS;
+import org.acegisecurity.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+
+import java.util.*;
+import java.util.regex.Pattern;
 
 /**
  * @author Wanglei
  * 
  */
+@Component
 public class RelationLinkStub extends AbstractServiceStub<BOASImpl>
 {
 	private static TrackerBuilder trackerBuilder = null;
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	public RelationLinkStub(ServiceContext context, BOASImpl service)
-	{
-		super(context, service);
-	}
 
 	public StructureObject linkInner(ViewObject viewObject, FoundationObject end1FoundationObject, ObjectGuid end2FoundationObjectGuid, StructureObject structureObject,
 			boolean isCheckAcl, String procRtGuid) throws ServiceRequestException

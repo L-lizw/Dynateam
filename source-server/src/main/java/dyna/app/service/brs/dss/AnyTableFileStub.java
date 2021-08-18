@@ -5,7 +5,6 @@
  */
 package dyna.app.service.brs.dss;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.helper.ServiceRequestExceptionWrap;
 import dyna.common.bean.data.SystemObject;
@@ -18,6 +17,7 @@ import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
@@ -25,17 +25,9 @@ import java.util.*;
  * @author Wanglei
  * 
  */
+@Component
 public class AnyTableFileStub extends AbstractServiceStub<DSSImpl>
 {
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	protected AnyTableFileStub(ServiceContext context, DSSImpl service)
-	{
-		super(context, service);
-	}
 
 	public void copyFile4Tab(String srcTabName, String srcFkGuid, String destTabName, String destFkGuid) throws ServiceRequestException
 	{

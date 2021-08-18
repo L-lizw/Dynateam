@@ -1,9 +1,5 @@
 package dyna.app.service.brs.iop;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
 import dyna.app.service.BusinessRuleService;
 import dyna.common.SearchCondition;
 import dyna.common.bean.data.ObjectGuid;
@@ -17,12 +13,21 @@ import dyna.common.exception.ServiceRequestException;
 import dyna.net.service.brs.BOAS;
 import dyna.net.service.brs.IOP;
 import dyna.net.service.das.MSRM;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+@Service
 public class IOPImpl extends BusinessRuleService implements IOP
 {
-
+	@Autowired
 	private IOPConfigParameterStub iopConfigParameterStub = null;
+	@Autowired
 	private DrivenTestStub			drivenTestStub			= null;
+	@Autowired
 	private PassiveUpdateConfig		passiveUpdateConfigStub	= null;
 	
 	/**
@@ -30,28 +35,16 @@ public class IOPImpl extends BusinessRuleService implements IOP
 	 */
 	public IOPConfigParameterStub getIOPStub()
 	{
-		if (this.iopConfigParameterStub == null)
-		{
-			this.iopConfigParameterStub = new IOPConfigParameterStub(this.serviceContext, this);
-		}
 		return this.iopConfigParameterStub;
 	}
 
 	public DrivenTestStub getDrivenTestStub()
 	{
-		if (this.drivenTestStub == null)
-		{
-			this.drivenTestStub = new DrivenTestStub(this.serviceContext, this);
-		}
 		return this.drivenTestStub;
 	}
 
 	public PassiveUpdateConfig getPassiveUpdateConfigStub()
 	{
-		if (this.passiveUpdateConfigStub == null)
-		{
-			this.passiveUpdateConfigStub = new PassiveUpdateConfig(this.serviceContext, this);
-		}
 		return this.passiveUpdateConfigStub;
 	}
 	public synchronized BOAS getBOAS() throws ServiceRequestException

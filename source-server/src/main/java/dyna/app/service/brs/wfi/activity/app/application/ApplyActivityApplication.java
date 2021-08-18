@@ -10,6 +10,8 @@ import dyna.common.systemenum.ActRuntimeModeEnum;
 import dyna.common.systemenum.DecisionEnum;
 import dyna.common.systemenum.WorkflowActivityType;
 import dyna.common.systemenum.WorkflowApplicationType;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * 应用类型节点相关操作
@@ -17,14 +19,11 @@ import dyna.common.systemenum.WorkflowApplicationType;
  * @author lizw
  *
  */
+@Component
 public class ApplyActivityApplication implements ActivityRuntimeApplication
 {
-	private WFIImpl stubService = null;
-
-	public ApplyActivityApplication(WFIImpl wfeImpl)
-	{
-		this.stubService = wfeImpl;
-	}
+	@Autowired
+	private WFIImpl stubService ;
 
 	@Override
 	public void finishActivity(ActivityRuntime activity, DecisionEnum decide) throws ServiceRequestException

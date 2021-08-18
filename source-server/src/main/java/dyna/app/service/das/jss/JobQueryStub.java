@@ -5,11 +5,6 @@
  */
 package dyna.app.service.das.jss;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.helper.ServiceRequestExceptionWrap;
 import dyna.common.bean.data.SystemObject;
@@ -22,22 +17,19 @@ import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Component;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Wanglei
  * 
  */
+@Component
 public class JobQueryStub extends AbstractServiceStub<JSSImpl>
 {
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	protected JobQueryStub(ServiceContext context, JSSImpl service)
-	{
-		super(context, service);
-	}
 
 	protected Queue getJob(String jobObjectGuid) throws ServiceRequestException
 	{

@@ -5,23 +5,9 @@
  */
 package dyna.app.service.brs.wfm;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
-import dyna.common.bean.model.wf.WorkflowActionActivity;
-import dyna.common.bean.model.wf.WorkflowActivity;
-import dyna.common.bean.model.wf.WorkflowChangePhaseActivity;
-import dyna.common.bean.model.wf.WorkflowChangeStatusActivity;
-import dyna.common.bean.model.wf.WorkflowProcess;
-import dyna.common.dto.model.wf.WorkflowActivityInfo;
-import dyna.common.dto.model.wf.WorkflowActrtActionInfo;
-import dyna.common.dto.model.wf.WorkflowActrtLifecyclePhaseInfo;
-import dyna.common.dto.model.wf.WorkflowActrtStatusInfo;
-import dyna.common.dto.model.wf.WorkflowPhaseChangeInfo;
-import dyna.common.dto.model.wf.WorkflowProcessInfo;
-import dyna.common.dto.model.wf.WorkflowTransitionInfo;
+import dyna.common.bean.model.wf.*;
+import dyna.common.dto.model.wf.*;
 import dyna.common.exception.ServiceRequestException;
 import dyna.common.systemenum.WorkflowActivityType;
 import dyna.common.systemenum.WorkflowApplicationType;
@@ -29,22 +15,18 @@ import dyna.common.systemenum.WorkflowTransitionConditionType;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.data.common.exception.DynaDataSqlException;
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Wanglei
  * 
  */
+@Component
 public class ActivitiyStub extends AbstractServiceStub<WFMImpl>
 {
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	protected ActivitiyStub(ServiceContext context, WFMImpl service)
-	{
-		super(context, service);
-	}
 
 	protected WorkflowProcess getWorkflowProcessByName(String processName)
 	{

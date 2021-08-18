@@ -1,6 +1,5 @@
 package dyna.app.service.brs.pos;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.helper.ServiceRequestExceptionWrap;
 import dyna.common.bean.data.SystemObject;
@@ -11,16 +10,13 @@ import dyna.common.exception.ServiceRequestException;
 import dyna.common.util.SetUtils;
 import dyna.data.DataServer;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
+@Component
 public class MyCustomColumnsStub extends AbstractServiceStub<POSImpl>
 {
-
-	protected MyCustomColumnsStub(ServiceContext context, POSImpl service)
-	{
-		super(context, service);
-	}
 
 	protected List<SaCustomColumnsPreferenceDetail> saveMyCustomColumns(String tableType, List<SaCustomColumnsPreferenceDetail> detailList, String classifFK, String classFK)
 			throws ServiceRequestException

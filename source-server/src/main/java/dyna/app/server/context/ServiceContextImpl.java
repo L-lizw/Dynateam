@@ -85,42 +85,42 @@ public class ServiceContextImpl extends AbstractSvContext implements ServiceCont
 
 	private void loadServices()
 	{
-		ServiceDefinition sd = null;
+		ServiceDefinition serviceDefinition = null;
 		Class<?> serviceInterface = null;
 		Class<?> serviceImpl = null;
 
 		for (Iterator<ServiceDefinition> iter = this.serviceConfig.getServiceDefinitions(); iter.hasNext();)
 		{
-			sd = iter.next();
+			serviceDefinition = iter.next();
 			// 传递RMI IP
-			sd.setDispatchIP(this.serverContext.getServerConfig().getServerIP());
+			serviceDefinition.setDispatchIP(this.serverContext.getServerConfig().getServerIP());
 			this.scObservable.setChanged();
-			this.scObservable.notifyObservers(sd);
+			this.scObservable.notifyObservers(serviceDefinition);
 
 			try
 			{
-				serviceInterface = sd.getServiceInterface();
-				serviceImpl = sd.getServiceImplClass();
+				serviceInterface = serviceDefinition.getServiceInterface();
+				serviceImpl = serviceDefinition.getServiceImplClass();
 
-				DynaLogger.info("\t" + sd.getServcieName() + "[" + sd.getServcieID() + "]: " + sd.getServcieDescription());
+				DynaLogger.info("\t" + serviceDefinition.getServcieName() + "[" + serviceDefinition.getServcieID() + "]: " + serviceDefinition.getServcieDescription());
 
 				this.buildTrackedMethod(serviceInterface, serviceImpl);
 
-				ObjectPool dynaObjectPool = ObjectPoolFactory.createDynaObjectPool(serviceInterface, new ServiceFactoryDefaultImpl(serviceImpl, this, sd));
+				ObjectPool dynaObjectPool = ObjectPoolFactory.createDynaObjectPool(serviceInterface, new ServiceFactoryDefaultImpl(serviceImpl, serviceDefinition));
 
 				this.serverContext.getPoolManager().addPool(dynaObjectPool);
 
 				serviceActiveRecordMap.put(serviceInterface.getSimpleName(), new ConcurrentHashMap<String, Poolable>());
 
-				this.exportService(sd);
+				this.exportService(serviceDefinition);
 			}
 			catch (ClassNotFoundException e)
 			{
-				DynaLogger.info("Service class not found: " + sd.getServiceImplName(), e.fillInStackTrace());
+				DynaLogger.info("Service class not found: " + serviceDefinition.getServiceImplName(), e.fillInStackTrace());
 			}
 			finally
 			{
-				sd = null;
+				serviceDefinition = null;
 				serviceImpl = null;
 			}
 		}

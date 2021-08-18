@@ -5,11 +5,6 @@
  */
 package dyna.app.service.brs.ppms;
 
-import java.util.Map;
-import java.util.HashMap;
-import java.util.List;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.helper.ServiceRequestExceptionWrap;
 import dyna.common.bean.data.SystemObject;
@@ -25,6 +20,11 @@ import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Component;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 项目日历相关方法
@@ -32,17 +32,9 @@ import dyna.data.service.sdm.SystemDataService;
  * @author WangLHB
  * 
  */
+@Component
 public class CalendarStub extends AbstractServiceStub<PPMSImpl>
 {
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	protected CalendarStub(ServiceContext context, PPMSImpl service)
-	{
-		super(context, service);
-	}
 
 	protected PMCalendar obsoleteCalendar(String pmCalendarGuid) throws ServiceRequestException
 	{

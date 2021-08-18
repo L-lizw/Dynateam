@@ -5,9 +5,6 @@
  */
 package dyna.app.service.brs.eoss;
 
-import javax.script.ScriptException;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.brs.emm.ClassStub;
 import dyna.common.bean.data.FoundationObject;
 import dyna.common.bean.data.InputObject;
@@ -18,7 +15,9 @@ import dyna.common.bean.extra.ScriptEvalResult;
 import dyna.common.bean.model.Script;
 import dyna.common.context.ScriptContext;
 import dyna.common.exception.ServiceRequestException;
-import dyna.data.DataServer;
+import org.springframework.stereotype.Component;
+
+import javax.script.ScriptException;
 
 /**
  * 与Action相关的脚本执行操作
@@ -26,17 +25,9 @@ import dyna.data.DataServer;
  * @author Wanglei
  * 
  */
+@Component
 public class ActionExecuteStub extends AbstractScriptServiceStub
 {
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	public ActionExecuteStub(ServiceContext context, EOSSImpl service)
-	{
-		super(context, service);
-	}
 
 	private ScriptEvalResult executeAction(InputObject object, String className, String scriptName) throws ServiceRequestException
 	{

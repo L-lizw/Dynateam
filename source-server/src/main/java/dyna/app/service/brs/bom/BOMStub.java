@@ -63,6 +63,7 @@ import dyna.data.service.ins.InstanceService;
 import dyna.data.service.relation.RelationService;
 import dyna.net.service.brs.EMM;
 import dyna.net.service.brs.EOSS;
+import org.springframework.stereotype.Component;
 
 /**
  * 与BOMStructure相关的操作分支
@@ -70,17 +71,9 @@ import dyna.net.service.brs.EOSS;
  * @author Caogc
  * 
  */
+@Component
 public class BOMStub extends AbstractServiceStub<BOMSImpl>
 {
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	public BOMStub(ServiceContext context, BOMSImpl service)
-	{
-		super(context, service);
-	}
 
 	public BOMStructure getBOM(ObjectGuid objectGuid, SearchCondition searchCondition, boolean isCheckAcl, DataRule dataRule) throws ServiceRequestException
 	{

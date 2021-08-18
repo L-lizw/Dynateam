@@ -1,7 +1,5 @@
 package dyna.app.service.brs.dcr;
 
-import java.util.List;
-
 import dyna.app.service.BusinessRuleService;
 import dyna.common.bean.data.FoundationObject;
 import dyna.common.bean.data.ObjectGuid;
@@ -13,25 +11,26 @@ import dyna.common.dto.wf.ProcAttach;
 import dyna.common.exception.ServiceNotFoundException;
 import dyna.common.exception.ServiceRequestException;
 import dyna.common.systemenum.RuleTypeEnum;
-import dyna.net.service.brs.BOAS;
-import dyna.net.service.brs.BOMS;
-import dyna.net.service.brs.DCR;
-import dyna.net.service.brs.EMM;
-import dyna.net.service.brs.WFI;
+import dyna.net.service.brs.*;
 import dyna.net.service.das.MSRM;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import java.util.List;
+
+@Service
 public class DCRImpl extends BusinessRuleService implements DCR
 {
 	private static boolean			initialized			= false;
-
+	@Autowired
 	private DataCheckRuleQueryStub	checkRuleQueryStub	= null;
-
+	@Autowired
 	private DataCheckStub			checkStub			= null;
-
+	@Autowired
 	private DataCheckRuleSaveStub	checkRuleSaveStub	= null;
 
 	@Override
-	protected void init()
+	public void init()
 	{
 		if (initialized)
 		{
@@ -39,6 +38,7 @@ public class DCRImpl extends BusinessRuleService implements DCR
 		}
 
 		DataCheckRuleQueryStub.init();
+		DataCheckRuleFactory.init(this);
 
 		initialized = true;
 	}
@@ -48,10 +48,6 @@ public class DCRImpl extends BusinessRuleService implements DCR
 	 */
 	public DataCheckRuleQueryStub getDataCheckRuleQueryStub()
 	{
-		if (this.checkRuleQueryStub == null)
-		{
-			this.checkRuleQueryStub = new DataCheckRuleQueryStub(this.serviceContext, this);
-		}
 		return this.checkRuleQueryStub;
 	}
 
@@ -60,10 +56,6 @@ public class DCRImpl extends BusinessRuleService implements DCR
 	 */
 	public DataCheckStub getDataCheckStub()
 	{
-		if (this.checkStub == null)
-		{
-			this.checkStub = new DataCheckStub(this.serviceContext, this);
-		}
 		return this.checkStub;
 	}
 
@@ -72,10 +64,6 @@ public class DCRImpl extends BusinessRuleService implements DCR
 	 */
 	public DataCheckRuleSaveStub getDataCheckRuleSaveStub()
 	{
-		if (this.checkRuleSaveStub == null)
-		{
-			this.checkRuleSaveStub = new DataCheckRuleSaveStub(this.serviceContext, this);
-		}
 		return this.checkRuleSaveStub;
 	}
 

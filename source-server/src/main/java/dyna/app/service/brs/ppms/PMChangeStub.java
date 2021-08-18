@@ -6,7 +6,6 @@
 
 package dyna.app.service.brs.ppms;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.boas.BOASImpl;
 import dyna.common.SearchCondition;
@@ -31,6 +30,7 @@ import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
 import dyna.data.service.ins.InstanceService;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.List;
@@ -41,13 +41,9 @@ import java.util.Map;
  *         变更管理
  * 
  */
+@Component
 public class PMChangeStub extends AbstractServiceStub<PPMSImpl>
 {
-
-	protected PMChangeStub(ServiceContext context, PPMSImpl service)
-	{
-		super(context, service);
-	}
 
 	protected BOInfo getPMChangeBoInfo() throws ServiceRequestException
 	{

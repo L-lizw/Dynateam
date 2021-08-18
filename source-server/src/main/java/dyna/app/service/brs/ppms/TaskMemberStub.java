@@ -6,7 +6,6 @@
 
 package dyna.app.service.brs.ppms;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.helper.ServiceRequestExceptionWrap;
 import dyna.common.bean.data.FoundationObject;
@@ -22,6 +21,7 @@ import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.List;
@@ -32,13 +32,9 @@ import java.util.Map;
  *         项目的查询，新建
  * 
  */
+@Component
 public class TaskMemberStub extends AbstractServiceStub<PPMSImpl>
 {
-
-	protected TaskMemberStub(ServiceContext context, PPMSImpl service)
-	{
-		super(context, service);
-	}
 
 	protected List<TaskMember> listTaskMemberByRole(String roleGuid) throws ServiceRequestException
 	{

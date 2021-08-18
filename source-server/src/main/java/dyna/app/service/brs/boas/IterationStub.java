@@ -5,15 +5,11 @@
  */
 package dyna.app.service.brs.boas;
 
-import java.util.List;
-import java.util.Set;
-
 import dyna.app.core.track.ScheduledTaskTrackImpl;
 import dyna.app.core.track.TrackerBuilder;
 import dyna.app.core.track.TrackerPersistence;
 import dyna.app.core.track.impl.DefaultTrackerBuilderImpl;
 import dyna.app.core.track.impl.TRFoundationImpl;
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.dss.DSSImpl;
 import dyna.app.service.brs.emm.ClassStub;
@@ -35,6 +31,10 @@ import dyna.common.systemenum.UITypeEnum;
 import dyna.common.util.SetUtils;
 import dyna.data.DataServer;
 import dyna.net.service.brs.EMM;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.Set;
 
 /**
  * 与FoundationObject-Iteration相关的基本操作分支
@@ -42,19 +42,11 @@ import dyna.net.service.brs.EMM;
  * @author Caogc
  * 
  */
+@Component
 public class IterationStub extends AbstractServiceStub<BOASImpl>
 {
 	private static TrackerBuilder	trackerBuilder	= null;
 	ServiceRequestException			returnObj		= null;
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	protected IterationStub(ServiceContext context, BOASImpl service)
-	{
-		super(context, service);
-	}
 
 	public List<FoundationObject> listObjectIteration(ObjectGuid objectGuid, Integer iterationId, boolean isNeedAuthority) throws ServiceRequestException
 	{

@@ -5,9 +5,6 @@
  */
 package dyna.app.service.brs.ppms;
 
-import java.util.List;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.boas.BOASImpl;
 import dyna.common.bean.data.FoundationObject;
@@ -17,19 +14,18 @@ import dyna.common.bean.data.ppms.TaskMember;
 import dyna.common.bean.data.ppms.wbs.AuthorityCheck;
 import dyna.common.exception.ServiceRequestException;
 import dyna.common.systemenum.ppms.PMAuthorityEnum;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * @author WangLHB
  * 
  */
+@Component
 public class PMAuthorityStub extends AbstractServiceStub<PPMSImpl>
 {
 	AuthorityCheck	check	= null;
-
-	protected PMAuthorityStub(ServiceContext context, PPMSImpl service)
-	{
-		super(context, service);
-	}
 
 	protected AuthorityCheck getAuthorityCheck()
 	{

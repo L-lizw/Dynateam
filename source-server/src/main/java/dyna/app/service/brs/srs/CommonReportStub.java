@@ -5,13 +5,10 @@
  */
 package dyna.app.service.brs.srs;
 
-import java.util.Map;
-
 import dyna.app.report.DynaReportBuilderFactory;
 import dyna.app.report.GenericDynaReportBuilder;
 import dyna.app.report.ReportConfiguration;
 import dyna.app.report.ReportDataProvider;
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.common.bean.data.DynaObject;
 import dyna.common.dto.model.cls.ClassInfo;
@@ -19,24 +16,19 @@ import dyna.common.exception.ServiceRequestException;
 import dyna.common.log.DynaLogger;
 import dyna.common.util.StringUtils;
 import dyna.customization.report.ReportBuilder;
+import org.springframework.stereotype.Component;
+
+import java.util.Map;
 
 /**
  * @author Wanglei
  *
  */
+@Component
 public class CommonReportStub extends AbstractServiceStub<SRSImpl>
 {
 
 	public static final String REPORT_PACKAGE_BASE = "dyna.customization.report";
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	protected CommonReportStub(ServiceContext context, SRSImpl service)
-	{
-		super(context, service);
-	}
 
 	/**
 	 * 获取报表创建器

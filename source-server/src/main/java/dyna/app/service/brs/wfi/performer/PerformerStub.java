@@ -5,18 +5,6 @@
  */
 package dyna.app.service.brs.wfi.performer;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.wfi.WFIImpl;
 import dyna.app.service.helper.ServiceRequestExceptionWrap;
@@ -24,11 +12,7 @@ import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.extra.ProcessSetting;
 import dyna.common.bean.model.wf.template.WorkflowTemplateAct;
 import dyna.common.bean.model.wf.template.WorkflowTemplateVo;
-import dyna.common.dto.aas.Group;
-import dyna.common.dto.aas.RIG;
-import dyna.common.dto.aas.Role;
-import dyna.common.dto.aas.URIG;
-import dyna.common.dto.aas.User;
+import dyna.common.dto.aas.*;
 import dyna.common.dto.template.wft.WorkflowTemplateActPerformerInfo;
 import dyna.common.dto.wf.ActivityRuntime;
 import dyna.common.dto.wf.Performer;
@@ -47,6 +31,11 @@ import dyna.data.DataServer;
 import dyna.data.service.sdm.FieldValueEqualsFilter;
 import dyna.data.service.sdm.SystemDataService;
 import dyna.net.service.brs.AAS;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * 执行人操作分支
@@ -54,20 +43,11 @@ import dyna.net.service.brs.AAS;
  * @author Wanglei
  * 
  */
+@Component
 public class PerformerStub extends AbstractServiceStub<WFIImpl>
 {
-
+	@Autowired
 	private PerformerDBStub dbStub = null;
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	public PerformerStub(ServiceContext context, WFIImpl service)
-	{
-		super(context, service);
-		this.dbStub = new PerformerDBStub(context, service);
-	}
 
 	public boolean performed(String procRtGuid, String actRtGuid, String performerGuid) throws ServiceRequestException
 	{

@@ -5,7 +5,6 @@
  */
 package dyna.app.service.brs.wfm;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.helper.ServiceRequestExceptionWrap;
 import dyna.common.bean.data.SystemObject;
@@ -25,6 +24,7 @@ import dyna.data.DataServer;
 import dyna.data.service.sdm.FieldValueEqualsFilter;
 import dyna.data.service.sdm.SystemDataService;
 import dyna.net.security.signature.UserSignature;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,17 +35,9 @@ import java.util.Map;
  * @author zhanghj
  * 
  */
+@Component
 public class ApproveTemplateStub extends AbstractServiceStub<WFMImpl>
 {
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	protected ApproveTemplateStub(ServiceContext context, WFMImpl service)
-	{
-		super(context, service);
-	}
 
 	protected void batchSaveApproveTemplate(List<ApproveTemplate> addApproveTemplateList, List<ApproveTemplate> updateApproveTemplateList) throws ServiceRequestException
 	{

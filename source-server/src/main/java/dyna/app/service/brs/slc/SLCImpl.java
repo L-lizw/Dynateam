@@ -12,6 +12,8 @@ import dyna.common.exception.ServiceRequestException;
 import dyna.net.service.brs.EDAP;
 import dyna.net.service.brs.EMM;
 import dyna.net.service.brs.SLC;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * SLC System Logical Configuration Implement(系统配置服务)
@@ -19,10 +21,12 @@ import dyna.net.service.brs.SLC;
  * @author caogc
  * 
  */
+@Service
 public class SLCImpl extends BusinessRuleService implements SLC
 {
-
+	@Autowired
 	private ConfigRuleBOLMStub	configRuleBOLMStub	= null;
+	@Autowired
 	private RuleReviseStub		ruleReviseStub		= null;
 
 	private static boolean		initialized			= false;
@@ -32,10 +36,6 @@ public class SLCImpl extends BusinessRuleService implements SLC
 	 */
 	public ConfigRuleBOLMStub getConfigRuleBOLMStub()
 	{
-		if (this.configRuleBOLMStub == null)
-		{
-			this.configRuleBOLMStub = new ConfigRuleBOLMStub(this.serviceContext, this);
-		}
 		return this.configRuleBOLMStub;
 	}
 
@@ -44,10 +44,6 @@ public class SLCImpl extends BusinessRuleService implements SLC
 	 */
 	protected RuleReviseStub getRuleReviseStub()
 	{
-		if (this.ruleReviseStub == null)
-		{
-			this.ruleReviseStub = new RuleReviseStub(this.serviceContext, this);
-		}
 		return this.ruleReviseStub;
 	}
 
@@ -57,7 +53,7 @@ public class SLCImpl extends BusinessRuleService implements SLC
 	 * @see dyna.app.service.DataAccessService#init()
 	 */
 	@Override
-	protected void init()
+	public void init()
 	{
 		if (initialized)
 		{

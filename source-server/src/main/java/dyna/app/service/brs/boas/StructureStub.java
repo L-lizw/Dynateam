@@ -6,7 +6,6 @@
 package dyna.app.service.brs.boas;
 
 import dyna.app.core.sch.Scheduler;
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.emm.ClassStub;
 import dyna.app.service.helper.CheckConnectUtil;
@@ -35,6 +34,7 @@ import dyna.data.DataServer;
 import dyna.data.common.exception.DynaDataExceptionAll;
 import dyna.net.service.brs.EMM;
 import dyna.net.service.brs.EOSS;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,16 +45,9 @@ import java.util.regex.Pattern;
  * @author Wanglei
  * 
  */
+@Component
 public class StructureStub extends AbstractServiceStub<BOASImpl>
 {
-	/**
-	 * @param context
-	 * @param service
-	 */
-	public StructureStub(ServiceContext context, BOASImpl service)
-	{
-		super(context, service);
-	}
 
 	public List<StructureObject> listStructureObject(ObjectGuid viewObjectGuid, ObjectGuid end2ObjectGuid, boolean isCheckAcl) throws ServiceRequestException
 	{

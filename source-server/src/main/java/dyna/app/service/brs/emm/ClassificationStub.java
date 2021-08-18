@@ -1,12 +1,5 @@
 package dyna.app.service.brs.emm;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.common.bean.data.ObjectGuid;
 import dyna.common.bean.model.code.ClassficationFeatureItem;
@@ -25,16 +18,15 @@ import dyna.common.util.SetUtils;
 import dyna.data.DataServer;
 import dyna.data.service.sdm.FieldValueEqualsFilter;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Component;
 
+import java.util.*;
+
+@Component
 public class ClassificationStub extends AbstractServiceStub<EMMImpl>
 {
 	public static final String	FOUNDATION_GUID		= "FOUNDATIONGUID";
 	public static final String	CLASSIFICATION_FK	= "CFITEMFK";
-
-	protected ClassificationStub(ServiceContext context, EMMImpl service)
-	{
-		super(context, service);
-	}
 
 	protected List<UIField> listUIFieldByUIGuid(String uiGuid) throws ServiceRequestException
 	{

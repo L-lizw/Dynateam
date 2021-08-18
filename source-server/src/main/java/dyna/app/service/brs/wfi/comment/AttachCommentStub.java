@@ -5,9 +5,6 @@
  */
 package dyna.app.service.brs.wfi.comment;
 
-import java.util.List;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.wfi.WFIImpl;
 import dyna.app.service.helper.ServiceRequestExceptionWrap;
@@ -18,6 +15,10 @@ import dyna.common.exception.DynaDataException;
 import dyna.common.exception.ServiceRequestException;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * 附件意见 操作分支
@@ -25,20 +26,11 @@ import dyna.common.util.StringUtils;
  * @author Wanglei
  * 
  */
+@Component
 public class AttachCommentStub extends AbstractServiceStub<WFIImpl>
 {
-
+	@Autowired
 	private AttachCommentDBStub dbStub = null;
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	public AttachCommentStub(ServiceContext context, WFIImpl service)
-	{
-		super(context, service);
-		this.dbStub = new AttachCommentDBStub(context, service);
-	}
 
 	public List<ProcTrackAttach> listProcAttachComment(String procRtGuid, String actRtGuid, String attachGuid) throws ServiceRequestException
 	{

@@ -5,31 +5,10 @@
  */
 package dyna.app.service.brs.ppms;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.helper.ServiceRequestExceptionWrap;
 import dyna.common.bean.data.SystemObjectImpl;
-import dyna.common.bean.data.ppms.RptDeliverable;
-import dyna.common.bean.data.ppms.RptDeptStat;
-import dyna.common.bean.data.ppms.RptManagerStat;
-import dyna.common.bean.data.ppms.RptMilestone;
-import dyna.common.bean.data.ppms.RptProject;
-import dyna.common.bean.data.ppms.RptTask;
-import dyna.common.bean.data.ppms.RptTaskDeptStat;
-import dyna.common.bean.data.ppms.RptTaskExecStateStat;
-import dyna.common.bean.data.ppms.RptTaskExecutorStat;
-import dyna.common.bean.data.ppms.RptWorkItem;
-import dyna.common.bean.data.ppms.RptWorkItemDeptStat;
-import dyna.common.bean.data.ppms.RptWorkItemExecStateStat;
-import dyna.common.bean.data.ppms.RptWorkItemExecutorStat;
+import dyna.common.bean.data.ppms.*;
 import dyna.common.dto.aas.Group;
 import dyna.common.dto.aas.RIG;
 import dyna.common.dto.aas.Role;
@@ -47,22 +26,19 @@ import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
 import dyna.data.service.common.DSCommonService;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Component;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.*;
 
 /**
  * @author fanjq
  * 
  */
+@Component
 public class PMReportStub extends AbstractServiceStub<PPMSImpl>
 {
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	protected PMReportStub(ServiceContext context, PPMSImpl service)
-	{
-		super(context, service);
-	}
 
 	/**
 	 * @param taskObjectGuid

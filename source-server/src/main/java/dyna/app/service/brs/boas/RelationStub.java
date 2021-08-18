@@ -5,15 +5,6 @@
  */
 package dyna.app.service.brs.boas;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.emm.ClassStub;
 import dyna.app.service.brs.wfi.WFIImpl;
@@ -42,18 +33,14 @@ import dyna.common.dto.wf.ProcessRuntime;
 import dyna.common.exception.DecorateException;
 import dyna.common.exception.DynaDataException;
 import dyna.common.exception.ServiceRequestException;
-import dyna.common.systemenum.BuiltinRelationNameEnum;
-import dyna.common.systemenum.ModelInterfaceEnum;
-import dyna.common.systemenum.OperateSignEnum;
-import dyna.common.systemenum.RelationTemplateTypeEnum;
-import dyna.common.systemenum.SearchRevisionTypeEnum;
-import dyna.common.systemenum.SystemClassFieldEnum;
-import dyna.common.systemenum.SystemStatusEnum;
-import dyna.common.systemenum.UITypeEnum;
+import dyna.common.systemenum.*;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
 import dyna.net.service.brs.EMM;
+import org.springframework.stereotype.Component;
+
+import java.util.*;
 
 /**
  * 与relation相关的操作分支
@@ -61,17 +48,9 @@ import dyna.net.service.brs.EMM;
  * @author Caogc
  * 
  */
+@Component
 public class RelationStub extends AbstractServiceStub<BOASImpl>
 {
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	public RelationStub(ServiceContext context, BOASImpl service)
-	{
-		super(context, service);
-	}
 
 	protected void deleteRelation(ViewObject relation) throws ServiceRequestException
 	{

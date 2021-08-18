@@ -5,22 +5,6 @@
  */
 package dyna.app.service.brs.erpi;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.xml.rpc.ServiceException;
-
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.JDOMException;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.brs.erpi.cross.util.XMLUtil;
 import dyna.app.service.brs.erpi.dataExport.IntegrateYF;
 import dyna.app.service.brs.erpi.yfIntegrateService.IYiFeiGatewayEx;
@@ -32,6 +16,19 @@ import dyna.common.dto.erp.ERPServiceConfig;
 import dyna.common.systemenum.ERPServerType;
 import dyna.common.systemenum.ERPYFOperationEnum;
 import dyna.common.util.SetUtils;
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.JDOMException;
+
+import javax.xml.rpc.ServiceException;
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * @author WangLHB
@@ -41,9 +38,9 @@ public class ERPYFTransferStub extends ERPTransferStub<ERPYFOperationEnum>
 {
 	private String	writebackFileName;
 
-	protected ERPYFTransferStub(ServiceContext context, ERPIImpl service, Document document) throws Exception
+	protected ERPYFTransferStub(Document document) throws Exception
 	{
-		super(context, service);
+		super();
 		this.ERPType = ERPServerType.ERPYF;
 		this.integrate = new IntegrateYF(this, document);
 		this.operationPollingTime = this.integrate.getOperationPollingTime();

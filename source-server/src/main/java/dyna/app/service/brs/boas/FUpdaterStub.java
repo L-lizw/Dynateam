@@ -5,15 +5,10 @@
  */
 package dyna.app.service.brs.boas;
 
-import java.text.MessageFormat;
-import java.util.Date;
-import java.util.List;
-
 import dyna.app.core.track.ScheduledTaskTrackImpl;
 import dyna.app.core.track.TrackerBuilder;
 import dyna.app.core.track.TrackerPersistence;
 import dyna.app.core.track.impl.DefaultTrackerBuilderImpl;
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.boas.tracked.TRUpdateOwnerImpl;
 import dyna.app.service.brs.emm.ClassStub;
@@ -30,32 +25,25 @@ import dyna.common.dto.model.cls.ClassInfo;
 import dyna.common.dto.model.lf.LifecyclePhaseInfo;
 import dyna.common.exception.DynaDataException;
 import dyna.common.exception.ServiceRequestException;
-import dyna.common.systemenum.LanguageEnum;
-import dyna.common.systemenum.MailCategoryEnum;
-import dyna.common.systemenum.MailMessageType;
-import dyna.common.systemenum.ModelInterfaceEnum;
-import dyna.common.systemenum.SystemStatusEnum;
+import dyna.common.systemenum.*;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
 import dyna.net.service.brs.EMM;
+import org.springframework.stereotype.Component;
+
+import java.text.MessageFormat;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author Wanglei
  * 
  */
+@Component
 public class FUpdaterStub extends AbstractServiceStub<BOASImpl>
 {
 	private static TrackerBuilder updateUserTrackerBuilder = null;
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	public FUpdaterStub(ServiceContext context, BOASImpl service)
-	{
-		super(context, service);
-	}
 
 	public FoundationObject update(ObjectGuid objectGuid, String ownerUserGuid, String ownerGroupGuid, String revisionId, Date updatetime, LifecyclePhaseInfo fromLifeCyclePhase,
 			LifecyclePhaseInfo toLifeCyclePhase, String rlsUserGuid, boolean isCheckAcl, SystemStatusEnum systemStatusEnum) throws ServiceRequestException

@@ -5,11 +5,6 @@
  */
 package dyna.app.service.das.jss;
 
-import java.math.BigDecimal;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.helper.ServiceRequestExceptionWrap;
 import dyna.common.dto.Queue;
@@ -19,22 +14,19 @@ import dyna.common.systemenum.JobStatus;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Component;
+
+import java.math.BigDecimal;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author Wanglei
  * 
  */
+@Component
 public class JobUpdaterStub extends AbstractServiceStub<JSSImpl>
 {
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	protected JobUpdaterStub(ServiceContext context, JSSImpl service)
-	{
-		super(context, service);
-	}
 
 	public Queue saveJob(Queue fo, boolean isERPNotify) throws ServiceRequestException
 	{

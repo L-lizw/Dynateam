@@ -38,6 +38,7 @@ import dyna.data.service.ec.ECService;
 import dyna.data.service.ins.InstanceService;
 import dyna.net.service.brs.BOMS;
 import org.acegisecurity.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 
 import java.io.UnsupportedEncodingException;
 import java.util.*;
@@ -46,15 +47,11 @@ import java.util.*;
  * @author Wanglei
  * 
  */
+@Component
 public class UECNECOStub extends AbstractServiceStub<UECSImpl>
 {
 	// 缓存正在start的eco，startECO过程中再次start会造成数据异常
 	private static Set<String> runningECOSet = new HashSet<String>();
-
-	protected UECNECOStub(ServiceContext context, UECSImpl service)
-	{
-		super(context, service);
-	}
 
 	/**
 	 * 批量ECO页面时,批量增加变更项 所有的变更项都关联ECO

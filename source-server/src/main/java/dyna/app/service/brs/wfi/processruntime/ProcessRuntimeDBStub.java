@@ -1,10 +1,5 @@
 package dyna.app.service.brs.wfi.processruntime;
 
-import java.util.Map;
-import java.util.HashMap;
-import java.util.List;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.wfi.WFIImpl;
 import dyna.app.service.helper.FilterBuilder;
@@ -18,15 +13,15 @@ import dyna.common.exception.DynaDataException;
 import dyna.common.exception.ServiceRequestException;
 import dyna.data.DataServer;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+@Component
 public class ProcessRuntimeDBStub extends AbstractServiceStub<WFIImpl>
 {
-
-	protected ProcessRuntimeDBStub(ServiceContext context, WFIImpl service)
-	{
-		super(context, service);
-		// TODO Auto-generated constructor stub
-	}
 
 	/**
 	 * 根据条件更新流程实例

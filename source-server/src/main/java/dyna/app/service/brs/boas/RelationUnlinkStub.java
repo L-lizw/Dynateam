@@ -10,7 +10,6 @@ import dyna.app.core.track.TrackerBuilder;
 import dyna.app.core.track.TrackerPersistence;
 import dyna.app.core.track.impl.DefaultTrackerBuilderImpl;
 import dyna.app.core.track.impl.TRViewLinkImpl;
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.helper.Constants;
 import dyna.app.service.helper.ServiceRequestExceptionWrap;
@@ -27,6 +26,7 @@ import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
 import dyna.net.service.brs.EOSS;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,18 +35,10 @@ import java.util.List;
  * @author Wanglei
  * 
  */
+@Component
 public class RelationUnlinkStub extends AbstractServiceStub<BOASImpl>
 {
 	private static TrackerBuilder trackerBuilder = null;
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	public RelationUnlinkStub(ServiceContext context, BOASImpl service)
-	{
-		super(context, service);
-	}
 
 	private TrackerBuilder getTrackerBuilder()
 	{

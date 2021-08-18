@@ -1,25 +1,22 @@
 package dyna.app.service.brs.mms;
 
-import java.util.List;
-import java.util.Map;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.common.bean.configure.ProjectModel;
 import dyna.common.exception.DynaDataException;
 import dyna.common.exception.ServiceRequestException;
 import dyna.common.systemenum.ApplicationTypeEnum;
 import dyna.data.DataServer;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author duanll
  */
+@Component
 public class ModelDeployStub extends AbstractServiceStub<MMSImpl>
 {
-	protected ModelDeployStub(ServiceContext context, MMSImpl service)
-	{
-		super(context, service);
-	}
 
 	protected ProjectModel deploy(ProjectModel projectModel) throws ServiceRequestException
 	{

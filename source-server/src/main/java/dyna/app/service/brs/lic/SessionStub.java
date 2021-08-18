@@ -5,11 +5,6 @@
  */
 package dyna.app.service.brs.lic;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.helper.ServiceRequestExceptionWrap;
 import dyna.common.conf.ConfigurableServerImpl;
@@ -29,22 +24,19 @@ import dyna.data.service.sdm.SystemDataService;
 import dyna.net.security.CredentialManager;
 import dyna.net.security.signature.ModuleSignature;
 import dyna.net.security.signature.Signature;
+import org.springframework.stereotype.Component;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author Wanglei
  * 
  */
+@Component
 public class SessionStub extends AbstractServiceStub<LICImpl>
 {
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	protected SessionStub(ServiceContext context, LICImpl service)
-	{
-		super(context, service);
-	}
 
 	protected boolean hasLicence(String moduleName) throws ServiceRequestException
 	{

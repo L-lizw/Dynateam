@@ -5,7 +5,6 @@
  */
 package dyna.app.service.brs.wfi.activity;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.boas.BOASImpl;
 import dyna.app.service.brs.wfi.WFIImpl;
@@ -27,6 +26,8 @@ import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
 import java.util.*;
@@ -34,24 +35,16 @@ import java.util.*;
 /**
  * 活动操作分支
  * 
- * @author Wanglei
+ * @author Lizw
  * 
  */
+@Component
 public class ActivityRuntimeStub extends AbstractServiceStub<WFIImpl>
 {
+	@Autowired
 	private ActivityRuntimeAppFactory	applicationFactory	= null;
+	@Autowired
 	private ActivityRuntimeDBStub		dbStub				= null;
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	public ActivityRuntimeStub(ServiceContext context, WFIImpl service)
-	{
-		super(context, service);
-		this.applicationFactory = new ActivityRuntimeAppFactory(context, service);
-		this.dbStub = new ActivityRuntimeDBStub(context, service);
-	}
 
 	public ActivityRuntime performActivityRuntime(String actRtGuid, String comment, DecisionEnum decide, String rejectToActRtGuid, String performerGuid,
 			ProcessSetting processSetting, boolean isAutoblockPerform) throws ServiceRequestException

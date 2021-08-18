@@ -23,6 +23,7 @@ import dyna.common.util.*;
 import dyna.data.DataServer;
 import dyna.data.service.sdm.FieldValueEqualsFilter;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
@@ -32,16 +33,9 @@ import java.util.*;
  * @author Wanglei
  * 
  */
+@Component
 public class UserStub extends AbstractServiceStub<AASImpl>
 {
-	/**
-	 * @param context
-	 * @param service
-	 */
-	public UserStub(ServiceContext context, AASImpl service)
-	{
-		super(context, service);
-	}
 
 	protected void activeUser(String userId) throws ServiceRequestException
 	{

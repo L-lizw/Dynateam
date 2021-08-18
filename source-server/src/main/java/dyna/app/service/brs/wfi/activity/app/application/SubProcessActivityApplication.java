@@ -1,7 +1,5 @@
 package dyna.app.service.brs.wfi.activity.app.application;
 
-import java.util.List;
-
 import dyna.app.service.brs.wfi.WFIImpl;
 import dyna.app.service.brs.wfi.activity.app.ActivityRuntimeApplication;
 import dyna.common.dto.wf.ActivityRuntime;
@@ -10,6 +8,10 @@ import dyna.common.exception.ServiceRequestException;
 import dyna.common.systemenum.ActRuntimeModeEnum;
 import dyna.common.systemenum.DecisionEnum;
 import dyna.common.util.SetUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * 子流程
@@ -17,27 +19,22 @@ import dyna.common.util.SetUtils;
  * @author lizw
  *
  */
-
+@Component
 public class SubProcessActivityApplication implements ActivityRuntimeApplication
 {
-	private WFIImpl stubService = null;
-
-	public SubProcessActivityApplication(WFIImpl wfeImpl)
-	{
-		this.stubService = wfeImpl;
-	}
+	@Autowired
+	private WFIImpl stubService;
 
 	@Override
 	public void finishActivity(ActivityRuntime activity, DecisionEnum decide) throws ServiceRequestException
 	{
-		// TODO Auto-generated method stub
+		//do nothing
 		return;
 	}
 
 	@Override
 	public ActivityRuntime fireNextAcceptActivity(ActivityRuntime nextActRt) throws ServiceRequestException
 	{
-		// TODO Auto-generated method stub
 		ActivityRuntime returnActrt = null;
 
 		List<Performer> listPerformer = this.stubService.listPerformer(nextActRt.getGuid());

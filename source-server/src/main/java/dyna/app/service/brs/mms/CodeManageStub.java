@@ -19,18 +19,16 @@ import dyna.data.service.sdm.SystemDataService;
 import dyna.net.security.signature.UserSignature;
 import dyna.net.service.brs.EMM;
 import org.acegisecurity.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Component
 public class CodeManageStub extends AbstractServiceStub<MMSImpl>
 {
-	protected CodeManageStub(ServiceContext context, MMSImpl service)
-	{
-		super(context, service);
-	}
 
 	protected List<CodeObjectInfo> copy4CreateCodeObject(List<CodeObjectInfo> sourceCodeObjectInfoList, boolean isCut) throws ServiceRequestException
 	{

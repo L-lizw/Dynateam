@@ -5,10 +5,6 @@
  */
 package dyna.app.service.brs.fbt;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.common.dto.FileItemAndConfig;
 import dyna.common.dto.FileOpenConfig;
@@ -21,6 +17,10 @@ import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
 import dyna.data.service.sdm.FieldValueEqualsFilter;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 对应FileOpenItem中的相关操作
@@ -28,17 +28,9 @@ import dyna.data.service.sdm.SystemDataService;
  * @author wangweixia
  * 
  */
+@Component
 public class FoItemStub extends AbstractServiceStub<FBTSImpl>
 {
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	protected FoItemStub(ServiceContext context, FBTSImpl service)
-	{
-		super(context, service);
-	}
 
 	/**
 	 * @param fileOpenSubjectGuid

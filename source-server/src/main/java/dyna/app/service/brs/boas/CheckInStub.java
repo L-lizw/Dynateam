@@ -5,9 +5,6 @@
  */
 package dyna.app.service.brs.boas;
 
-import java.util.List;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.helper.Constants;
 import dyna.app.service.helper.ServiceRequestExceptionWrap;
@@ -28,6 +25,9 @@ import dyna.common.util.SetUtils;
 import dyna.data.DataServer;
 import dyna.data.service.ins.InstanceService;
 import dyna.net.service.brs.EMM;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * 与checkIn相关的操作分支
@@ -35,17 +35,9 @@ import dyna.net.service.brs.EMM;
  * @author Caogc
  * 
  */
+@Component
 public class CheckInStub extends AbstractServiceStub<BOASImpl>
 {
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	public CheckInStub(ServiceContext context, BOASImpl service)
-	{
-		super(context, service);
-	}
 
 	public FoundationObject checkIn(FoundationObject foundationObject, boolean isDealBom, boolean isCheckAuth) throws ServiceRequestException
 	{

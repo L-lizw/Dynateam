@@ -5,7 +5,6 @@
  */
 package dyna.app.service.brs.fbt;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.common.dto.FileOpenConfig;
 import dyna.common.exception.DynaDataException;
@@ -14,6 +13,7 @@ import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,20 +26,11 @@ import java.util.Map;
  * @author wangweixia
  * 
  */
+@Component
 public class FoConfigStub extends AbstractServiceStub<FBTSImpl>
 {
 
 	private static final String SUFFIXEDELIMITER = ";";
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	protected FoConfigStub(ServiceContext context, FBTSImpl service)
-	{
-		super(context, service);
-
-	}
 
 	/**
 	 * @param addFileOpenConfigList

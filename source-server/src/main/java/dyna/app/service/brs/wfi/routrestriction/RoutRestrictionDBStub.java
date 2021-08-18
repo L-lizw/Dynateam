@@ -1,9 +1,5 @@
 package dyna.app.service.brs.wfi.routrestriction;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.wfi.WFIImpl;
 import dyna.app.service.helper.ServiceRequestExceptionWrap;
@@ -12,20 +8,19 @@ import dyna.common.exception.DynaDataException;
 import dyna.common.exception.ServiceRequestException;
 import dyna.data.DataServer;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Component;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 流程变迁数据层交互支持
  * @author lizw
  *
  */
+@Component
 public class RoutRestrictionDBStub extends AbstractServiceStub<WFIImpl>
 {
-	
-	protected RoutRestrictionDBStub(ServiceContext context, WFIImpl service)
-	{
-		super(context, service);
-		// TODO Auto-generated constructor stub
-	}
 	
 	protected TransRestriction getRoutRestriction(String actRtGuid) throws ServiceRequestException
 	{

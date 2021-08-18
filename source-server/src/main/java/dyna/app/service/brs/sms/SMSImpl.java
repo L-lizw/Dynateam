@@ -16,6 +16,8 @@ import dyna.common.systemenum.MailCategoryEnum;
 import dyna.common.systemenum.MailMessageType;
 import dyna.net.service.brs.*;
 import dyna.net.service.das.MSRM;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -25,15 +27,22 @@ import java.util.List;
  * @author caogc
  * 
  */
+@Service
 public class SMSImpl extends BusinessRuleService implements SMS
 {
+	@Autowired
 	private MailStub			mailStub			= null;
+	@Autowired
 	private MailInboxStub		mailInboxStub		= null;
+	@Autowired
 	private MailWorkFlowStub	mailworkflowstub	= null;
-	// private final MailNotifyStub mailNotifyStub = null;
+	@Autowired
 	private MailSentStub		mailSentStub		= null;
+	@Autowired
 	private MailTrashStub		mailTrashStub		= null;
+	@Autowired
 	private MailUpdaterStub		mailUpdaterStub		= null;
+	@Autowired
 	private EmailStub			emailStub			= null;
 	private static boolean		isInit				= false;
 
@@ -43,7 +52,7 @@ public class SMSImpl extends BusinessRuleService implements SMS
 	 * @see dyna.app.service.DataAccessService#init()
 	 */
 	@Override
-	protected void init()
+	public void init()
 	{
 		if (isInit)
 		{
@@ -180,10 +189,6 @@ public class SMSImpl extends BusinessRuleService implements SMS
 	 */
 	protected MailInboxStub getMailInboxStub()
 	{
-		if (this.mailInboxStub == null)
-		{
-			this.mailInboxStub = new MailInboxStub(this.serviceContext, this);
-		}
 		return this.mailInboxStub;
 	}
 
@@ -192,10 +197,6 @@ public class SMSImpl extends BusinessRuleService implements SMS
 	 */
 	protected MailWorkFlowStub getMailWorkFlowStub()
 	{
-		if (this.mailworkflowstub == null)
-		{
-			this.mailworkflowstub = new MailWorkFlowStub(this.serviceContext, this);
-		}
 		return this.mailworkflowstub;
 	}
 
@@ -204,34 +205,14 @@ public class SMSImpl extends BusinessRuleService implements SMS
 	 */
 	protected EmailStub getEmailStub()
 	{
-		if (this.emailStub == null)
-		{
-			this.emailStub = new EmailStub(this.serviceContext, this);
-		}
 		return this.emailStub;
 	}
-
-	// /**
-	// * @return the mailNotifyStub
-	// */
-	// public MailNotifyStub getMailNotifyStub()
-	// {
-	// if (this.mailNotifyStub == null)
-	// {
-	// this.mailNotifyStub = new MailNotifyStub(this.serviceContext, this);
-	// }
-	// return this.mailNotifyStub;
-	// }
 
 	/**
 	 * @return the mailSentStub
 	 */
 	public MailSentStub getMailSentStub()
 	{
-		if (this.mailSentStub == null)
-		{
-			this.mailSentStub = new MailSentStub(this.serviceContext, this);
-		}
 		return this.mailSentStub;
 	}
 
@@ -240,10 +221,6 @@ public class SMSImpl extends BusinessRuleService implements SMS
 	 */
 	protected MailStub getMailStub()
 	{
-		if (this.mailStub == null)
-		{
-			this.mailStub = new MailStub(this.serviceContext, this);
-		}
 		return this.mailStub;
 	}
 
@@ -252,10 +229,6 @@ public class SMSImpl extends BusinessRuleService implements SMS
 	 */
 	protected MailTrashStub getMailTrashStub()
 	{
-		if (this.mailTrashStub == null)
-		{
-			this.mailTrashStub = new MailTrashStub(this.serviceContext, this);
-		}
 		return this.mailTrashStub;
 	}
 
@@ -264,10 +237,6 @@ public class SMSImpl extends BusinessRuleService implements SMS
 	 */
 	protected MailUpdaterStub getMailUpdaterStub()
 	{
-		if (this.mailUpdaterStub == null)
-		{
-			this.mailUpdaterStub = new MailUpdaterStub(this.serviceContext, this);
-		}
 		return this.mailUpdaterStub;
 	}
 

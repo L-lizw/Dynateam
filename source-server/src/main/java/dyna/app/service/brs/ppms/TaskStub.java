@@ -6,7 +6,6 @@
 
 package dyna.app.service.brs.ppms;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.boas.BOASImpl;
 import dyna.app.service.helper.ServiceRequestExceptionWrap;
@@ -33,6 +32,7 @@ import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Component;
 
 import java.text.NumberFormat;
 import java.util.*;
@@ -41,13 +41,9 @@ import java.util.*;
  * @author WangLHB
  *         任务实例
  */
+@Component
 public class TaskStub extends AbstractServiceStub<PPMSImpl>
 {
-
-	protected TaskStub(ServiceContext context, PPMSImpl service)
-	{
-		super(context, service);
-	}
 
 	protected List<FoundationObject> listTask(SearchCondition searchCondition) throws ServiceRequestException
 	{

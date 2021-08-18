@@ -5,7 +5,6 @@
  */
 package dyna.app.service.brs.bom;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.helper.Constants;
 import dyna.app.service.helper.ServiceRequestExceptionWrap;
@@ -14,22 +13,15 @@ import dyna.common.exception.DynaDataException;
 import dyna.common.exception.ServiceRequestException;
 import dyna.data.DataServer;
 import dyna.data.service.ins.InstanceService;
+import org.springframework.stereotype.Component;
 
 /**
  * @author caogc
  * 
  */
+@Component
 public class BOMViewCancelCheckOutStub extends AbstractServiceStub<BOMSImpl>
 {
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	public BOMViewCancelCheckOutStub(ServiceContext context, BOMSImpl service)
-	{
-		super(context, service);
-	}
 
 	protected BOMView cancelCheckOut(BOMView bomView) throws ServiceRequestException
 	{

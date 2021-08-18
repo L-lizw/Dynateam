@@ -1,6 +1,5 @@
 package dyna.app.service.brs.cpb;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.emm.ClassStub;
 import dyna.app.service.helper.ServiceRequestExceptionWrap;
@@ -23,16 +22,14 @@ import dyna.common.exception.DynaDataException;
 import dyna.common.exception.ServiceRequestException;
 import dyna.common.systemenum.*;
 import dyna.common.util.*;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.*;
 
+@Component
 public class DrivenStub extends AbstractServiceStub<CPBImpl>
 {
-	protected DrivenStub(ServiceContext context, CPBImpl service)
-	{
-		super(context, service);
-	}
 
 	protected DrivenResult drivenTestByConfigRulesAll(FoundationObject end1, SearchCondition strucSearchCondition, SearchCondition end2SearchCondition, DataRule dataRule,
 			String gNumber, String lNumbers, String inptVarriables) throws ServiceRequestException

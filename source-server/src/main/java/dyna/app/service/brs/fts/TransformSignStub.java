@@ -1,6 +1,5 @@
 package dyna.app.service.brs.fts;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.boas.BOASImpl;
 import dyna.app.service.brs.emm.ClassStub;
@@ -28,17 +27,13 @@ import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
+@Component
 public class TransformSignStub extends AbstractServiceStub<FTSImpl>
 {
-
-	protected TransformSignStub(ServiceContext context, FTSImpl service)
-	{
-		super(context, service);
-
-	}
 
 	protected TransformSign saveTransSign(TransformSign sign) throws ServiceRequestException
 	{

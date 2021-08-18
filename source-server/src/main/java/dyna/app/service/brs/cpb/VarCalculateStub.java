@@ -1,39 +1,21 @@
 package dyna.app.service.brs.cpb;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Map;
-import java.util.List;
-import java.util.HashMap;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.common.bean.data.ObjectGuid;
-import dyna.common.bean.data.configparamter.ConfigCalculateVar;
-import dyna.common.bean.data.configparamter.DynamicOfColumn;
-import dyna.common.bean.data.configparamter.TableOfDefineCondition;
-import dyna.common.bean.data.configparamter.TableOfExpression;
-import dyna.common.bean.data.configparamter.TableOfList;
-import dyna.common.bean.data.configparamter.TableOfMultiCondition;
-import dyna.common.bean.data.configparamter.TableOfRegion;
+import dyna.common.bean.data.configparamter.*;
 import dyna.common.exception.DynaDataException;
 import dyna.common.exception.ServiceRequestException;
-import dyna.common.util.BooleanUtils;
-import dyna.common.util.ConfigUtil;
-import dyna.common.util.NumberUtils;
-import dyna.common.util.SetUtils;
-import dyna.common.util.StringUtils;
+import dyna.common.util.*;
 import dyna.data.DataServer;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+import java.util.*;
+
+@Component
 public class VarCalculateStub extends AbstractServiceStub<CPBImpl>
 {
-
-	public VarCalculateStub(ServiceContext context, CPBImpl service)
-	{
-		super(context, service);
-	}
 
 	// 取得所有变量的值
 	public Map<String, String> listAllVariableValue(ObjectGuid objectGuid, Date ruleTime, ConfigCalculateVar configVariable) throws ServiceRequestException

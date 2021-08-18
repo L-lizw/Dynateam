@@ -5,24 +5,7 @@
  */
 package dyna.app.service.brs.srs;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import dyna.app.report.DetailColumnInfo;
-import dyna.app.report.GenericDynaReportBuilder;
-import dyna.app.report.GenericDynaReportBuilderImpl;
-import dyna.app.report.GenericReportParams;
-import dyna.app.report.GenericReportUtil;
-import dyna.app.report.ParameterColumnInfo;
-import dyna.app.report.ReportConfiguration;
-import dyna.app.report.ReportDataProvider;
-import dyna.app.report.ReportFieldValueDecorater;
-import dyna.app.report.ResolveReportTemplateField;
-import dyna.app.server.context.ServiceContext;
+import dyna.app.report.*;
 import dyna.app.service.AbstractServiceStub;
 import dyna.common.SearchCondition;
 import dyna.common.bean.data.DynaObject;
@@ -41,25 +24,22 @@ import dyna.common.util.StringUtils;
 import dyna.customization.report.ReportBuilder;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.util.JRFontNotFoundException;
+import org.springframework.stereotype.Component;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Wanglei
  * 
  */
+@Component
 public class BOMReportStub extends AbstractServiceStub<SRSImpl>
 {
-	private SRSImpl	service	= null;
-
-	/**
-	 * @param context
-	 * @param service
-	 * @throws ServiceRequestException
-	 */
-	protected BOMReportStub(ServiceContext context, SRSImpl service)
-	{
-		super(context, service);
-		this.service = service;
-	}
 
 	protected Map<String, Object> reportBOM(ObjectGuid bomViewObjectGuid, int level, SearchCondition bomSearchCondition, String bomScriptFileName, ReportTypeEnum exportFileType,
 			String bomReportName, String exportType, String levelStyle, String groupStyle) throws ServiceRequestException
@@ -122,7 +102,7 @@ public class BOMReportStub extends AbstractServiceStub<SRSImpl>
 		otherParams.put("classGuids", classGuids);
 		otherParams.put("isContainRepf", BooleanUtils.getBooleanStringYN(isContainRepf));
 
-		GenericReportParams params = service.createGenericReportParamsWithService();
+		GenericReportParams params = this.stubService.createGenericReportParamsWithService();
 		params.setLang(lang);
 		params.setUiObject(null);
 		params.setHeaderColumnList(parameters);
@@ -149,7 +129,7 @@ public class BOMReportStub extends AbstractServiceStub<SRSImpl>
 			DynaLogger.error(e);
 			if (e instanceof JRFontNotFoundException)
 			{
-				String message = this.service.getMSRM().getMSRString("ID_APP_EXPORT_REPORT_ERROR_FONT", lang.toString());
+				String message = this.stubService.getMSRM().getMSRString("ID_APP_EXPORT_REPORT_ERROR_FONT", lang.toString());
 				e = new Exception(message, e);
 
 				throw new ServiceRequestException("ID_APP_EXPORT_REPORT_ERROR_FONT", "," + e.getMessage());
@@ -157,26 +137,26 @@ public class BOMReportStub extends AbstractServiceStub<SRSImpl>
 			else if (e.getMessage().contains("Error evaluating expression"))
 			{
 				String message = e.getMessage();
-				message = this.service.getMSRM().getMSRString("ID_APP_EXPORT_REPORT_ERROR", lang.toString()) + "("
+				message = this.stubService.getMSRM().getMSRString("ID_APP_EXPORT_REPORT_ERROR", lang.toString()) + "("
 						+ e.getMessage().substring(message.indexOf("{") + 1, message.length() - 1) + ")";
 				e = new Exception(message, e);
 				throw new ServiceRequestException("ID_APP_EXPORT_REPORT_ERROR", "," + e.getMessage());
 			}
 			else if (e.getCause() instanceof FileNotFoundException)
 			{
-				String message = this.service.getMSRM().getMSRString("ID_APP_NOTFOUND_REPORT_TEMPLATE", lang.toString());
+				String message = this.stubService.getMSRM().getMSRString("ID_APP_NOTFOUND_REPORT_TEMPLATE", lang.toString());
 				e = new Exception(message, e);
 				throw new ServiceRequestException("ID_APP_NOTFOUND_REPORT_TEMPLATE", "," + e.getMessage());
 			}
 			else if (e.toString().contains("jasperreports"))
 			{
-				String message = this.service.getMSRM().getMSRString("ID_APP_EXPORT_REPORT_TEMPLATE_ERROR", lang.toString());
+				String message = this.stubService.getMSRM().getMSRString("ID_APP_EXPORT_REPORT_TEMPLATE_ERROR", lang.toString());
 				e = new Exception(message, e);
 				throw new ServiceRequestException("ID_APP_EXPORT_REPORT_TEMPLATE_ERROR", "," + e.getMessage());
 			}
 			else
 			{
-				String message = this.service.getMSRM().getMSRString("ID_APP_EXPORT_REPORT_ERROR", lang.toString());
+				String message = this.stubService.getMSRM().getMSRString("ID_APP_EXPORT_REPORT_ERROR", lang.toString());
 				e = new Exception(message, e);
 				throw new ServiceRequestException("ID_APP_EXPORT_REPORT_ERROR", "," + e.getMessage());
 			}

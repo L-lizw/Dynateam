@@ -9,7 +9,6 @@ import dyna.app.core.track.ScheduledTaskTrackImpl;
 import dyna.app.core.track.TrackerBuilder;
 import dyna.app.core.track.TrackerPersistence;
 import dyna.app.core.track.impl.DefaultTrackerBuilderImpl;
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.boas.BOASImpl;
 import dyna.app.service.brs.dss.tracked.TRDSSFileInfoImpl;
@@ -38,6 +37,7 @@ import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
 import dyna.data.service.ins.InstanceService;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
@@ -45,6 +45,7 @@ import java.util.*;
  * @author Wanglei
  * 
  */
+@Component
 public class InstFileStub extends AbstractServiceStub<DSSImpl>
 {
 
@@ -53,15 +54,6 @@ public class InstFileStub extends AbstractServiceStub<DSSImpl>
 	 */
 	private static final List<String>	PREVIEW_FILE_EXT_LIST	= Arrays.asList("gif", "jpg", "jpeg", "bmp", "png");
 	private static TrackerBuilder		trackerBuilder			= null;
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	protected InstFileStub(ServiceContext context, DSSImpl service)
-	{
-		super(context, service);
-	}
 
 	private TrackerBuilder getTrackerBuilder()
 	{

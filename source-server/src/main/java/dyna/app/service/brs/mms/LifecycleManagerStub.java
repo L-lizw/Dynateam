@@ -1,6 +1,5 @@
 package dyna.app.service.brs.mms;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.common.bean.model.lf.Lifecycle;
 import dyna.common.bean.model.lf.LifecyclePhase;
@@ -16,20 +15,16 @@ import dyna.data.DataServer;
 import dyna.data.service.sdm.FieldValueEqualsFilter;
 import dyna.data.service.sdm.SystemDataService;
 import dyna.net.security.signature.UserSignature;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Component
 public class LifecycleManagerStub extends AbstractServiceStub<MMSImpl>
 {
-
-	protected LifecycleManagerStub(ServiceContext context, MMSImpl service)
-	{
-		super(context, service);
-		// TODO Auto-generated constructor stub
-	}
 
 	protected List<LifecycleInfo> copy4CreateLifecycle(List<LifecycleInfo> lifecycleInfoList) throws ServiceRequestException
 	{

@@ -1,10 +1,5 @@
 package dyna.app.service.brs.wfi.activity;
 
-import java.util.Map;
-import java.util.HashMap;
-import java.util.List;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.wfi.WFIImpl;
 import dyna.app.service.helper.ServiceRequestExceptionWrap;
@@ -17,14 +12,15 @@ import dyna.common.systemenum.ActRuntimeModeEnum;
 import dyna.common.systemenum.WorkflowTransitionConditionType;
 import dyna.data.DataServer;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+@Component
 public class ActivityRuntimeDBStub extends AbstractServiceStub<WFIImpl>
 {
-	protected ActivityRuntimeDBStub(ServiceContext context, WFIImpl service)
-	{
-		super(context, service);
-		// TODO Auto-generated constructor stub
-	}
 
 	protected ActivityRuntime getActivityRuntime(String actRtGuid) throws ServiceRequestException
 	{

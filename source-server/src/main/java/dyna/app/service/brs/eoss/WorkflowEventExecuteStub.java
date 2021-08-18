@@ -5,7 +5,6 @@
  */
 package dyna.app.service.brs.eoss;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.brs.wfm.WFMImpl;
 import dyna.common.bean.data.InputObject;
 import dyna.common.bean.data.input.InputObjectWrokflowEventImpl;
@@ -15,6 +14,7 @@ import dyna.common.context.ScriptContext;
 import dyna.common.exception.ServiceRequestException;
 import dyna.common.systemenum.EventTypeEnum;
 import dyna.common.util.StringUtils;
+import org.springframework.stereotype.Component;
 
 /**
  * 与对象实例相关的脚本执行操作
@@ -22,17 +22,9 @@ import dyna.common.util.StringUtils;
  * @author Wanglei
  * 
  */
+@Component
 public class WorkflowEventExecuteStub extends AbstractScriptServiceStub
 {
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	public WorkflowEventExecuteStub(ServiceContext context, EOSSImpl service)
-	{
-		super(context, service);
-	}
 
 	protected ScriptEvalResult executeScript(InputObject inputObject, EventTypeEnum eventType, boolean isFromUI) throws ServiceRequestException
 	{

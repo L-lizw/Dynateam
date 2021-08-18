@@ -5,15 +5,7 @@
  */
 package dyna.app.service.brs.sms;
 
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.List;
-import java.util.UUID;
-
 import dyna.app.core.sch.Scheduler;
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.boas.BOASImpl;
 import dyna.app.service.helper.ServiceRequestExceptionWrap;
@@ -21,11 +13,7 @@ import dyna.common.SearchCondition;
 import dyna.common.bean.data.FoundationObject;
 import dyna.common.bean.data.ObjectGuid;
 import dyna.common.bean.data.SystemObject;
-import dyna.common.dto.DSSFileInfo;
-import dyna.common.dto.DSSFileTrans;
-import dyna.common.dto.Mail;
-import dyna.common.dto.MailAttachment;
-import dyna.common.dto.MailReceiveUser;
+import dyna.common.dto.*;
 import dyna.common.dto.aas.User;
 import dyna.common.exception.DynaDataException;
 import dyna.common.exception.ServiceRequestException;
@@ -36,22 +24,18 @@ import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
 import dyna.data.service.sdm.SystemDataService;
 import dyna.net.service.brs.DSS;
+import org.springframework.stereotype.Component;
+
+import java.io.UnsupportedEncodingException;
+import java.util.*;
 
 /**
  * @author Wanglei
  * 
  */
+@Component
 public class MailSentStub extends AbstractServiceStub<SMSImpl>
 {
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	protected MailSentStub(ServiceContext context, SMSImpl service)
-	{
-		super(context, service);
-	}
 
 	protected List<Mail> listSent(SearchCondition searchCondition) throws ServiceRequestException
 	{

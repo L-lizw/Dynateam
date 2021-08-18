@@ -5,12 +5,6 @@
  */
 package dyna.app.service.brs.wfi;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.List;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.helper.ServiceRequestExceptionWrap;
 import dyna.common.bean.data.ObjectGuid;
@@ -22,6 +16,12 @@ import dyna.common.systemenum.DataExceptionEnum;
 import dyna.common.util.SetUtils;
 import dyna.data.DataServer;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 附件锁操作分支
@@ -29,17 +29,9 @@ import dyna.data.service.sdm.SystemDataService;
  * @author Wanglei
  * 
  */
+@Component
 public class LockStub extends AbstractServiceStub<WFIImpl>
 {
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	protected LockStub(ServiceContext context, WFIImpl service)
-	{
-		super(context, service);
-	}
 
 	protected String isLock(ObjectGuid attachment) throws ServiceRequestException
 	{

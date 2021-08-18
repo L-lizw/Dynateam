@@ -1,24 +1,20 @@
 package dyna.app.service.brs.emm;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.common.bean.model.itf.InterfaceObject;
 import dyna.common.dto.model.cls.ClassField;
 import dyna.common.exception.ServiceRequestException;
 import dyna.common.systemenum.ModelInterfaceEnum;
 import dyna.common.util.SetUtils;
+import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+@Component
 public class InterfaceStub extends AbstractServiceStub<EMMImpl>
 {
-
-	protected InterfaceStub(ServiceContext context, EMMImpl service)
-	{
-		super(context, service);
-	}
 
 	protected InterfaceObject getInterfaceObjectByName(ModelInterfaceEnum interfaceEnum) throws ServiceRequestException
 	{

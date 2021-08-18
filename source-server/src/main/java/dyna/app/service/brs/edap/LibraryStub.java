@@ -5,9 +5,6 @@
  */
 package dyna.app.service.brs.edap;
 
-import java.util.List;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.helper.Constants;
 import dyna.app.service.helper.ServiceRequestExceptionWrap;
@@ -23,22 +20,17 @@ import dyna.common.util.SetUtils;
 import dyna.data.DataServer;
 import dyna.data.service.folder.FolderService;
 import dyna.data.service.ins.InstanceService;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * @author Wanglei
  * 
  */
+@Component
 public class LibraryStub extends AbstractServiceStub<EDAPImpl>
 {
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	protected LibraryStub(ServiceContext context, EDAPImpl service)
-	{
-		super(context, service);
-	}
 
 	protected List<Folder> listLibrary() throws ServiceRequestException
 	{

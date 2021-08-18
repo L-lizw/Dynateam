@@ -5,7 +5,6 @@
  */
 package dyna.app.service.brs.wfi;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.emm.EMMImpl;
 import dyna.app.service.helper.ServiceRequestExceptionWrap;
@@ -34,6 +33,7 @@ import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
 import dyna.data.service.sdm.FieldValueEqualsFilter;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -44,16 +44,9 @@ import java.util.stream.Collectors;
  * @author WangLHB
  * 
  */
+@Component
 public class WorkflowTemplateStub extends AbstractServiceStub<WFIImpl>
 {
-	/**
-	 * @param context
-	 * @param service
-	 */
-	protected WorkflowTemplateStub(ServiceContext context, WFIImpl service)
-	{
-		super(context, service);
-	}
 
 	protected WorkflowTemplateVo saveWorkflowTemplate(WorkflowTemplateVo workflowTemplateVo) throws ServiceRequestException
 	{

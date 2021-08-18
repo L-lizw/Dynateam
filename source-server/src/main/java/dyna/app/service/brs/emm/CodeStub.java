@@ -5,18 +5,18 @@
  */
 package dyna.app.service.brs.emm;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.common.dto.model.code.CodeItemInfo;
 import dyna.common.dto.model.code.CodeObjectInfo;
 import dyna.common.exception.ServiceRequestException;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * 与code 管理相关的操作分支
@@ -24,17 +24,9 @@ import dyna.common.util.StringUtils;
  * @author Wanglei
  * 
  */
+@Component
 public class CodeStub extends AbstractServiceStub<EMMImpl>
 {
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	public CodeStub(ServiceContext context, EMMImpl service)
-	{
-		super(context, service);
-	}
 
 	protected void init(boolean hasLicense) throws ServiceRequestException
 	{

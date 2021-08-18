@@ -5,7 +5,6 @@
  */
 package dyna.app.service.brs.acl;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.dto.Folder;
@@ -18,6 +17,7 @@ import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
 import dyna.data.service.sdm.FieldValueEqualsFilter;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -25,17 +25,9 @@ import java.util.List;
  * @author Wanglei
  * 
  */
+@Component
 public class SharedFolderACLStub extends AbstractServiceStub<ACLImpl>
 {
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	protected SharedFolderACLStub(ServiceContext context, ACLImpl service)
-	{
-		super(context, service);
-	}
 
 	protected ShareFolderACLItem saveShareFolderACLItem(ShareFolderACLItem aclItem) throws ServiceRequestException
 	{

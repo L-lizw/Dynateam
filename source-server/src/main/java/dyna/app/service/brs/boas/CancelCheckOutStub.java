@@ -5,14 +5,11 @@
  */
 package dyna.app.service.brs.boas;
 
-import java.util.List;
-
 import dyna.app.core.track.ScheduledTaskTrackImpl;
 import dyna.app.core.track.TrackerBuilder;
 import dyna.app.core.track.TrackerPersistence;
 import dyna.app.core.track.impl.DefaultTrackerBuilderImpl;
 import dyna.app.core.track.impl.TRFoundationImpl;
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.dss.DSSImpl;
 import dyna.app.service.helper.Constants;
@@ -34,23 +31,18 @@ import dyna.common.util.SetUtils;
 import dyna.data.DataServer;
 import dyna.data.service.ins.InstanceService;
 import dyna.net.service.brs.EMM;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * @author Wanglei
  * 
  */
+@Component
 public class CancelCheckOutStub extends AbstractServiceStub<BOASImpl>
 {
 	private static TrackerBuilder	updateUserTrackerBuilder	= null;
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	public CancelCheckOutStub(ServiceContext context, BOASImpl service)
-	{
-		super(context, service);
-	}
 
 	public FoundationObject cancelCheckOutNoCascade(FoundationObject foundationObject) throws ServiceRequestException
 	{

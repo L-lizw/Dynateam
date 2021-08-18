@@ -1,6 +1,5 @@
 package dyna.app.service.brs.wfi;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.wfm.WFMImpl;
 import dyna.common.bean.model.wf.WorkflowActivity;
@@ -19,6 +18,8 @@ import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
 import dyna.data.service.sdm.FieldValueEqualsFilter;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
@@ -29,6 +30,7 @@ import java.util.*;
  *
  */
 
+@Component
 public class WorkflowTemplateCacheStub extends AbstractServiceStub<WFIImpl>
 {
 
@@ -39,17 +41,8 @@ public class WorkflowTemplateCacheStub extends AbstractServiceStub<WFIImpl>
 
 	private static Map<String, WorkflowTemplateActClass>	ACT_CLASS_GUID_CACHE		= Collections.synchronizedMap(new HashMap<>());
 
-	private AppServerCacheInfo								cacheInfo					= null;
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	protected WorkflowTemplateCacheStub(ServiceContext context, WFIImpl service)
-	{
-		super(context, service);
-		this.cacheInfo = new WorkflowTemplateCacheInfo();
-	}
+	@Qualifier("workflowTemplateCacheInfo")
+	private AppServerCacheInfo								cacheInfo					;
 
 	// @Override
 	public void loadModel()
@@ -387,6 +380,7 @@ public class WorkflowTemplateCacheStub extends AbstractServiceStub<WFIImpl>
 		return dataDtoList;
 	}
 
+	@Component("workflowTemplateCacheInfo")
 	class WorkflowTemplateCacheInfo extends AppServerCacheInfo
 	{
 		private static final long serialVersionUID = -4650755908711482731L;

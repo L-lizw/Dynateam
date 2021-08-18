@@ -5,25 +5,22 @@
  */
 package dyna.app.service.brs.brm;
 
-import java.util.Date;
-import java.util.List;
-
 import dyna.app.service.BusinessRuleService;
 import dyna.common.bean.data.FoundationObject;
 import dyna.common.bean.data.ObjectGuid;
 import dyna.common.dto.ReplaceConfig;
 import dyna.common.dto.ReplaceSearchConf;
-import dyna.common.dto.model.bmbo.BOInfo;
 import dyna.common.exception.ServiceRequestException;
 import dyna.common.systemenum.ReplaceRangeEnum;
 import dyna.common.systemenum.ReplaceStatusEnum;
 import dyna.common.systemenum.ReplaceTypeEnum;
-import dyna.net.service.brs.BOAS;
-import dyna.net.service.brs.BOMS;
-import dyna.net.service.brs.BRM;
-import dyna.net.service.brs.EMM;
-import dyna.net.service.brs.WFI;
+import dyna.net.service.brs.*;
 import dyna.net.service.das.MSRM;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * BRM BOM REPLACE MANAGER :bom 取/替代管理
@@ -31,14 +28,17 @@ import dyna.net.service.das.MSRM;
  * @author wangweixia
  * 
  */
+@Service
 public class BRMImpl extends BusinessRuleService implements BRM
 {
-	private ReplaceQueryStub	replaceQueryStub	= null;
-	private ReplaceObjectStub	replaceObjectStub	= null;
+	@Autowired
+	private ReplaceQueryStub	replaceQueryStub	;
+	@Autowired
+	private ReplaceObjectStub	replaceObjectStub	;
 	private boolean				replaceControl;			// 取替代管控
 
 	@Override
-	protected void init()
+	public void init()
 	{
 		super.init();
 		replaceControl = "true".equalsIgnoreCase(this.getServiceDefinition().getInitParameter("ReplaceControl"));
@@ -49,10 +49,6 @@ public class BRMImpl extends BusinessRuleService implements BRM
 	 */
 	public ReplaceQueryStub getReplaceQueryStub()
 	{
-		if (this.replaceQueryStub == null)
-		{
-			this.replaceQueryStub = new ReplaceQueryStub(this.serviceContext, this);
-		}
 		return replaceQueryStub;
 	}
 
@@ -61,10 +57,6 @@ public class BRMImpl extends BusinessRuleService implements BRM
 	 */
 	public ReplaceObjectStub getReplaceObjectStub()
 	{
-		if (this.replaceObjectStub == null)
-		{
-			this.replaceObjectStub = new ReplaceObjectStub(this.serviceContext, this);
-		}
 		return replaceObjectStub;
 	}
 

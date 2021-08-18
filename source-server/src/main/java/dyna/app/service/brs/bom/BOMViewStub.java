@@ -49,6 +49,7 @@ import dyna.net.service.brs.BOAS;
 import dyna.net.service.brs.BOMS;
 import dyna.net.service.brs.EMM;
 import org.acegisecurity.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
@@ -56,19 +57,11 @@ import java.util.*;
  * @author Wanglei
  * 
  */
+@Component
 public class BOMViewStub extends AbstractServiceStub<BOMSImpl>
 {
 	private static TrackerBuilder	trackerBuilder		= null;
 	private static TrackerBuilder	delTrackerBuilder	= null;
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	public BOMViewStub(ServiceContext context, BOMSImpl service)
-	{
-		super(context, service);
-	}
 
 	private BOMView decorateViewByTemplate(BOMView viewObject) throws ServiceRequestException
 	{

@@ -6,6 +6,7 @@
 package dyna.app.service;
 
 import dyna.app.server.context.ServiceContext;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * 服务分支
@@ -15,13 +16,8 @@ import dyna.app.server.context.ServiceContext;
  */
 public abstract class AbstractServiceStub<T extends DataAccessService>
 {
+	@Autowired
 	protected ServiceContext	serviceContext	= null;
+	@Autowired
 	protected T					stubService		= null;
-
-	protected AbstractServiceStub(ServiceContext context, T service)
-	{
-		this.serviceContext = context;
-		this.stubService = service;
-	}
-
 }

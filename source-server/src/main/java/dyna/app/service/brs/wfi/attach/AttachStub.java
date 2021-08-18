@@ -6,7 +6,6 @@
 package dyna.app.service.brs.wfi.attach;
 
 import dyna.app.core.sch.Scheduler;
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.boas.BOASImpl;
 import dyna.app.service.brs.bom.BOMSImpl;
@@ -61,6 +60,8 @@ import dyna.data.DataServer;
 import dyna.data.common.exception.DynaDataExceptionAll;
 import dyna.data.service.sdm.SystemDataService;
 import dyna.net.service.brs.EMM;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.sql.SQLException;
 import java.util.*;
@@ -72,19 +73,11 @@ import java.util.Map.Entry;
  * @author Wanglei
  * 
  */
+@Component
 public class AttachStub extends AbstractServiceStub<WFIImpl>
 {
+	@Autowired
 	private AttachDBStub dbStub = null;
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	public AttachStub(ServiceContext context, WFIImpl service)
-	{
-		super(context, service);
-		this.dbStub = new AttachDBStub(context, service);
-	}
 
 	/**
 	 * 附件改变阶段

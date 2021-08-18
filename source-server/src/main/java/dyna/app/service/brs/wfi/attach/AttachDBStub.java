@@ -1,10 +1,5 @@
 package dyna.app.service.brs.wfi.attach;
 
-import java.util.Map;
-import java.util.HashMap;
-import java.util.List;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.wfi.WFIImpl;
 import dyna.app.service.helper.ServiceRequestExceptionWrap;
@@ -14,6 +9,11 @@ import dyna.common.exception.ServiceRequestException;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Component;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 流程附件操作支持
@@ -21,15 +21,9 @@ import dyna.data.service.sdm.SystemDataService;
  * @author lizw
  *
  */
-
+@Component
 public class AttachDBStub extends AbstractServiceStub<WFIImpl>
 {
-
-	protected AttachDBStub(ServiceContext context, WFIImpl service)
-	{
-		super(context, service);
-		// TODO Auto-generated constructor stub
-	}
 
 	/**
 	 * 查詢流程附件

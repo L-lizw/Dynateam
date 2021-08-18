@@ -5,7 +5,6 @@
  */
 package dyna.app.service.brs.acl;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.helper.Constants;
 import dyna.common.bean.xml.UpperKeyMap;
@@ -26,23 +25,16 @@ import dyna.data.service.acl.AclService;
 import dyna.data.service.sdm.FieldValueEqualsFilter;
 import dyna.data.service.sdm.SystemDataService;
 import dyna.net.security.signature.UserSignature;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 /**
- * @author Wanglei
+ * @author Lizw
  */
+@Component
 public class FolderACLStub extends AbstractServiceStub<ACLImpl>
 {
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	protected FolderACLStub(ServiceContext context, ACLImpl service)
-	{
-		super(context, service);
-	}
 
 	protected FolderACLItem getACLFolderItemByFolder(String folderGuid) throws ServiceRequestException
 	{

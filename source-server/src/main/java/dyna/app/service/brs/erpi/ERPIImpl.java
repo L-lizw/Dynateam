@@ -65,37 +65,21 @@ public class ERPIImpl extends BusinessRuleService implements ERPI
 
 	protected CrossStub getCrossStub()
 	{
-		if (this.crossStub == null)
-		{
-			this.crossStub = new CrossStub(this.serviceContext, this);
-		}
 		return this.crossStub;
 	}
 
 	public ERPStub getERPStub()
 	{
-		if (this.erpStub == null)
-		{
-			this.erpStub = new ERPStub(this.serviceContext, this);
-		}
 		return this.erpStub;
 	}
 
 	public DrawingStub getDrawingStub()
 	{
-		if (this.drawingStub == null)
-		{
-			this.drawingStub = new DrawingStub(this.serviceContext, this);
-		}
 		return this.drawingStub;
 	}
 
 	protected PortalStub getPortalStub()
 	{
-		if (this.portalStub == null)
-		{
-			this.portalStub = new PortalStub(this.serviceContext, this);
-		}
 		return this.portalStub;
 	}
 

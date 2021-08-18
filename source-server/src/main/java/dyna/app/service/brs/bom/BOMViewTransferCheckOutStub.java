@@ -5,7 +5,6 @@
  */
 package dyna.app.service.brs.bom;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.helper.Constants;
 import dyna.app.service.helper.ServiceRequestExceptionWrap;
@@ -14,22 +13,15 @@ import dyna.common.exception.DynaDataException;
 import dyna.common.exception.ServiceRequestException;
 import dyna.data.DataServer;
 import dyna.data.service.ins.InstanceService;
+import org.springframework.stereotype.Component;
 
 /**
  * @author caogc
  *
  */
+@Component
 public class BOMViewTransferCheckOutStub extends AbstractServiceStub<BOMSImpl>
 {
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	public BOMViewTransferCheckOutStub(ServiceContext context, BOMSImpl service)
-	{
-		super(context, service);
-	}
 
 	public BOMView transferCheckout(BOMView bomView, String toUserGuid, boolean isCheckAuth) throws ServiceRequestException
 	{

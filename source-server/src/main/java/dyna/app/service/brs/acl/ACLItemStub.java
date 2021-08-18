@@ -5,13 +5,6 @@
  */
 package dyna.app.service.brs.acl;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.common.bean.data.ObjectGuid;
 import dyna.common.bean.data.SystemObject;
@@ -32,22 +25,17 @@ import dyna.data.service.acl.AclService;
 import dyna.data.service.sdm.FieldValueEqualsFilter;
 import dyna.data.service.sdm.SystemDataService;
 import dyna.net.service.brs.AAS;
+import org.springframework.stereotype.Component;
+
+import java.util.*;
 
 /**
  * @author Wanglei
  * 
  */
+@Component
 public class ACLItemStub extends AbstractServiceStub<ACLImpl>
 {
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	protected ACLItemStub(ServiceContext context, ACLImpl service)
-	{
-		super(context, service);
-	}
 
 	protected ACLItem getACLItemForObjectByUser(ObjectGuid objectGuid, String userId, String groupId, String roleId) throws ServiceRequestException
 	{

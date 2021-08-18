@@ -57,6 +57,8 @@ import dyna.common.systemenum.RelationTemplateTypeEnum;
 import dyna.common.util.SetUtils;
 import dyna.net.service.brs.*;
 import dyna.net.service.das.MSRM;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -69,20 +71,34 @@ import java.util.Map;
  * @author Wanglei
  * 
  */
+@Service
 public class WFIImpl extends BusinessRuleService implements WFI
 {
+	@Autowired
 	private ActivityRuntimeStub			activityRuntimeStub	= null;
+	@Autowired
 	private AttachStub					attachStub			= null;
+	@Autowired
 	private FavoriteCommentStub			favoriteCommentStub	= null;
+	@Autowired
 	private AttachCommentStub			attachCommentStub	= null;
+	@Autowired
 	private GraphStub					graphStub			= null;
+	@Autowired
 	private LockStub					lockStub			= null;
+	@Autowired
 	private PerformerStub				performerStub		= null;
+	@Autowired
 	private ProcessRuntimeStub			processRuntimeStub	= null;
+	@Autowired
 	private RoutRestrictionStub			routRestrictionStub	= null;
+	@Autowired
 	private TrackStub					trackStub			= null;
+	@Autowired
 	private WorkflowTemplateStub		templateStub		= null;
+	@Autowired
 	private NoticeStub					noticeStub			= null;
+	@Autowired
 	private WorkflowTemplateCacheStub	wfTemplateCacheStub	= null;
 	private static boolean				isInit				= false;
 
@@ -109,7 +125,7 @@ public class WFIImpl extends BusinessRuleService implements WFI
 	}
 
 	@Override
-	protected void init()
+	public void init()
 	{
 		timingNotice(this.server);
 
@@ -122,10 +138,6 @@ public class WFIImpl extends BusinessRuleService implements WFI
 	 */
 	public ActivityRuntimeStub getActivityRuntimeStub()
 	{
-		if (this.activityRuntimeStub == null)
-		{
-			this.activityRuntimeStub = new ActivityRuntimeStub(this.serviceContext, this);
-		}
 		return this.activityRuntimeStub;
 	}
 
@@ -134,10 +146,6 @@ public class WFIImpl extends BusinessRuleService implements WFI
 	 */
 	public AttachStub getAttachStub()
 	{
-		if (this.attachStub == null)
-		{
-			this.attachStub = new AttachStub(this.serviceContext, this);
-		}
 		return this.attachStub;
 	}
 
@@ -146,10 +154,6 @@ public class WFIImpl extends BusinessRuleService implements WFI
 	 */
 	public NoticeStub getNoticeStub()
 	{
-		if (this.noticeStub == null)
-		{
-			this.noticeStub = new NoticeStub(this.serviceContext, this);
-		}
 		return this.noticeStub;
 	}
 
@@ -158,10 +162,6 @@ public class WFIImpl extends BusinessRuleService implements WFI
 	 */
 	public WorkflowTemplateStub getTemplateStub()
 	{
-		if (this.templateStub == null)
-		{
-			this.templateStub = new WorkflowTemplateStub(this.serviceContext, this);
-		}
 		return this.templateStub;
 	}
 
@@ -170,10 +170,6 @@ public class WFIImpl extends BusinessRuleService implements WFI
 	 */
 	protected FavoriteCommentStub getFavoriteCommentStub()
 	{
-		if (this.favoriteCommentStub == null)
-		{
-			this.favoriteCommentStub = new FavoriteCommentStub(this.serviceContext, this);
-		}
 		return this.favoriteCommentStub;
 	}
 
@@ -182,10 +178,6 @@ public class WFIImpl extends BusinessRuleService implements WFI
 	 */
 	protected AttachCommentStub getAttachCommentStub()
 	{
-		if (this.attachCommentStub == null)
-		{
-			this.attachCommentStub = new AttachCommentStub(this.serviceContext, this);
-		}
 		return this.attachCommentStub;
 	}
 
@@ -194,10 +186,6 @@ public class WFIImpl extends BusinessRuleService implements WFI
 	 */
 	protected GraphStub getGraphStub()
 	{
-		if (this.graphStub == null)
-		{
-			this.graphStub = new GraphStub(this.serviceContext, this);
-		}
 		return this.graphStub;
 	}
 
@@ -206,10 +194,6 @@ public class WFIImpl extends BusinessRuleService implements WFI
 	 */
 	public LockStub getLockStub()
 	{
-		if (this.lockStub == null)
-		{
-			this.lockStub = new LockStub(this.serviceContext, this);
-		}
 		return this.lockStub;
 	}
 
@@ -218,10 +202,6 @@ public class WFIImpl extends BusinessRuleService implements WFI
 	 */
 	public PerformerStub getPerformerStub()
 	{
-		if (this.performerStub == null)
-		{
-			this.performerStub = new PerformerStub(this.serviceContext, this);
-		}
 		return this.performerStub;
 	}
 
@@ -230,10 +210,6 @@ public class WFIImpl extends BusinessRuleService implements WFI
 	 */
 	public ProcessRuntimeStub getProcessRuntimeStub()
 	{
-		if (this.processRuntimeStub == null)
-		{
-			this.processRuntimeStub = new ProcessRuntimeStub(this.serviceContext, this);
-		}
 		return this.processRuntimeStub;
 	}
 
@@ -242,10 +218,6 @@ public class WFIImpl extends BusinessRuleService implements WFI
 	 */
 	public RoutRestrictionStub getRoutRestrictionStub()
 	{
-		if (this.routRestrictionStub == null)
-		{
-			this.routRestrictionStub = new RoutRestrictionStub(this.serviceContext, this);
-		}
 		return this.routRestrictionStub;
 	}
 
@@ -254,19 +226,11 @@ public class WFIImpl extends BusinessRuleService implements WFI
 	 */
 	public TrackStub getTrackStub()
 	{
-		if (this.trackStub == null)
-		{
-			this.trackStub = new TrackStub(this.serviceContext, this);
-		}
 		return this.trackStub;
 	}
 
 	public WorkflowTemplateCacheStub getWfTemplateCacheStub()
 	{
-		if (this.wfTemplateCacheStub == null)
-		{
-			this.wfTemplateCacheStub = new WorkflowTemplateCacheStub(this.serviceContext, this);
-		}
 		return this.wfTemplateCacheStub;
 	}
 
@@ -1485,105 +1449,90 @@ public class WFIImpl extends BusinessRuleService implements WFI
 	@Override
 	public List<WorkflowTemplateActPerformerInfo> listAllPerformerOfAct(String wfTemplateActGuid) throws ServiceRequestException
 	{
-		// TODO Auto-generated method stub
 		return this.getTemplateStub().listAllPerformerOfAct(wfTemplateActGuid, null);
 	}
 
 	@Override
 	public List<WorkflowTemplateActPerformerInfo> listPerFormerOfActByType(String wfTemplateActGuid, String noticeType) throws ServiceRequestException
 	{
-		// TODO Auto-generated method stub
 		return this.getTemplateStub().listAllPerformerOfAct(wfTemplateActGuid, noticeType);
 	}
 
 	@Override
 	public Map<String, WorkflowTemplateActAdvnoticeInfo> getAllAdvnoticeSetInfoOfAct(String wfTemplateActGuid) throws ServiceRequestException
 	{
-		// TODO Auto-generated method stub
 		return this.getTemplateStub().getAllAdvnoticeSetInfoOfAct(wfTemplateActGuid);
 	}
 
 	@Override
 	public WorkflowTemplateActAdvnoticeInfo getAdvnoticeSetInfoByType(String wfTemplateActGuid, String noticeType) throws ServiceRequestException
 	{
-		// TODO Auto-generated method stub
 		return this.getTemplateStub().getAdvnoticeSetInfoByType(wfTemplateActGuid, noticeType);
 	}
 
 	@Override
 	public List<WorkflowTemplateActCompanyInfo> listWorkflowTemplateActCompanyInfoOfAct(String wfTemplateActGuid) throws ServiceRequestException
 	{
-		// TODO Auto-generated method stub
 		return this.getTemplateStub().listWorkflowTemplateActCompanyInfoOfAct(wfTemplateActGuid);
 	}
 
 	@Override
 	public WorkflowTemplateActClassInfo getWorkflowTemplateActClassInfo(String actClassguid) throws ServiceRequestException
 	{
-		// TODO Auto-generated method stub
 		return this.getTemplateStub().getWorkflowTemplateActClassInfo(actClassguid);
 	}
 
 	@Override
 	public List<WorkflowTemplateActClassUIInfo> listUIInfoOfWfActClass(String actClassguid) throws ServiceRequestException
 	{
-		// TODO Auto-generated method stub
 		return this.getTemplateStub().listUIInfoOfWfActClass(actClassguid);
 	}
 
 	@Override
 	public List<WorkflowTemplateActClassRelationInfo> listRelationInfoOfWfActClass(String actClassguid) throws ServiceRequestException
 	{
-		// TODO Auto-generated method stub
 		return this.getTemplateStub().listRelationInfoOfWfActClass(actClassguid);
 	}
 
 	@Override
 	public List<WorkflowTemplateActPerformerInfo> listAllPerformerOfTemplate(String wfTemplateGuid) throws ServiceRequestException
 	{
-		// TODO Auto-generated method stub
 		return this.getTemplateStub().listAllPerformerOfTemplate(wfTemplateGuid);
 	}
 
 	@Override
 	public List<WorkflowTemplateActPerformerInfo> listPerFormerOfTemplateByType(String wfTemplateGuid, String noticeType) throws ServiceRequestException
 	{
-		// TODO Auto-generated method stub
 		return this.getTemplateStub().listPerFormerOfTemplateByType(wfTemplateGuid, noticeType);
 	}
 
 	@Override
 	public Map<String, WorkflowTemplateActAdvnoticeInfo> getAllAdvnoticeSetInfoOfTemplate(String wfTemplateGuid) throws ServiceRequestException
 	{
-		// TODO Auto-generated method stub
 		return this.getTemplateStub().getAllAdvnoticeSetInfoOfTemplate(wfTemplateGuid);
 	}
 
 	@Override
 	public List<WorkflowTemplateScopeBoInfo> listScopeBoCanLaunchOfTemplate(String wfTemplateguid) throws ServiceRequestException
 	{
-		// TODO Auto-generated method stub
 		return this.getTemplateStub().listScopeBoCanLaunchOfTemplate(wfTemplateguid);
 	}
 
 	@Override
 	public List<WorkflowTemplateScopeBoInfo> listScopeBoOfTemplate(String wfTemplateguid) throws ServiceRequestException
 	{
-		// TODO Auto-generated method stub
 		return this.getTemplateStub().listScopeBoOfTemplate(wfTemplateguid);
 	}
 
 	@Override
 	public List<WorkflowTemplateScopeRTInfo> listScoperRelationTemplateOfTemplate(String wfTemplateguid) throws ServiceRequestException
 	{
-		// TODO Auto-generated method stub
 		return this.getTemplateStub().listScoperRelationTemplateOfTemplate(wfTemplateguid);
 	}
 
 	@Override
 	public boolean isCurrentActivityApprover(String procRtGuid, String actrtName) throws ServiceRequestException
 	{
-		// TODO Auto-generated method stub
 		List<ActivityRuntime> activityList = this.listCurrentActivityRuntime(procRtGuid);
 		if (SetUtils.isNullList(activityList))
 		{

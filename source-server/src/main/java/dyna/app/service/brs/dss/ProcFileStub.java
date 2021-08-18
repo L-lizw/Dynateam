@@ -5,7 +5,6 @@
  */
 package dyna.app.service.brs.dss;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.helper.ServiceRequestExceptionWrap;
 import dyna.common.bean.data.SystemObject;
@@ -18,6 +17,7 @@ import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.List;
@@ -27,17 +27,9 @@ import java.util.Map;
  * @author Wanglei
  * 
  */
+@Component
 public class ProcFileStub extends AbstractServiceStub<DSSImpl>
 {
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	protected ProcFileStub(ServiceContext context, DSSImpl service)
-	{
-		super(context, service);
-	}
 
 	protected List<DSSFileInfo> listProcessFile(String procRtGuid, String actrtGuid, int startNumber, String createUserGuid) throws ServiceRequestException
 	{

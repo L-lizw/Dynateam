@@ -1,14 +1,5 @@
 package dyna.app.service.brs.mms;
 
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.boas.numbering.NumberAllocate;
 import dyna.app.service.brs.emm.ClassStub;
@@ -40,17 +31,17 @@ import dyna.data.DataServer;
 import dyna.data.common.util.Constants;
 import dyna.data.service.sdm.SystemDataService;
 import dyna.net.security.signature.UserSignature;
+import org.springframework.stereotype.Component;
 
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+@Component
 public class SystemObjectManagerStub extends AbstractServiceStub<MMSImpl>
 {
 
 	private Map<String, Long> maxSerialIdMap = new HashMap<String, Long>();
-
-	protected SystemObjectManagerStub(ServiceContext context, MMSImpl service)
-	{
-		super(context, service);
-		// TODO Auto-generated constructor stub
-	}
 
 	protected <T extends SystemObject> String saveSystemObject(T systemObject) throws ServiceRequestException
 	{

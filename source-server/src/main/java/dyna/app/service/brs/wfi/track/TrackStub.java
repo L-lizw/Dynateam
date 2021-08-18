@@ -5,11 +5,6 @@
  */
 package dyna.app.service.brs.wfi.track;
 
-import java.util.Map;
-import java.util.HashMap;
-import java.util.List;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.wfi.WFIImpl;
 import dyna.app.service.helper.ServiceRequestExceptionWrap;
@@ -23,6 +18,12 @@ import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 流程意见操作分支
@@ -30,20 +31,11 @@ import dyna.data.service.sdm.SystemDataService;
  * @author Wanglei
  * 
  */
+@Component
 public class TrackStub extends AbstractServiceStub<WFIImpl>
 {
-
+	@Autowired
 	private TrackDBStub dbStub = null;
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	public TrackStub(ServiceContext context, WFIImpl service)
-	{
-		super(context, service);
-		this.dbStub = new TrackDBStub(context, service);
-	}
 
 	public void doTrack(String procRtGuid, String actRtGuid, DecisionEnum decide, String comments, String performerGuid, int startNumber, String agentGuid)
 			throws ServiceRequestException

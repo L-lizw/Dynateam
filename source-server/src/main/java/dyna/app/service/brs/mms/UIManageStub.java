@@ -1,6 +1,5 @@
 package dyna.app.service.brs.mms;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.common.bean.model.ui.UIObject;
 import dyna.common.bean.xml.UpperKeyMap;
@@ -17,18 +16,16 @@ import dyna.data.DataServer;
 import dyna.data.service.sdm.FieldValueEqualsFilter;
 import dyna.data.service.sdm.SystemDataService;
 import dyna.net.security.signature.UserSignature;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Component
 public class UIManageStub extends AbstractServiceStub<MMSImpl>
 {
-	protected UIManageStub(ServiceContext context, MMSImpl service)
-	{
-		super(context, service);
-	}
 
 	protected List<UIObjectInfo> copy4CreateUIObjct(List<UIObjectInfo> sourceUIList, String toclassGuid, boolean isCut) throws ServiceRequestException
 	{

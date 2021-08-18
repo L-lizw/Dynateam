@@ -1,8 +1,5 @@
 package dyna.app.service.brs.dcr;
 
-import java.util.List;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.dcr.checkrule.ERPRule;
 import dyna.app.service.brs.dcr.checkrule.RelationRule;
@@ -20,15 +17,13 @@ import dyna.common.systemenum.ModelInterfaceEnum;
 import dyna.common.systemenum.RuleTypeEnum;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
+import org.springframework.stereotype.Component;
 
+import java.util.List;
+
+@Component
 public class DataCheckStub extends AbstractServiceStub<DCRImpl>
 {
-
-	protected DataCheckStub(ServiceContext context, DCRImpl service)
-	{
-		super(context, service);
-		DataCheckRuleFactory.init(this.stubService);
-	}
 
 	/**
 	 * BOM/关联关系检查

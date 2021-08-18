@@ -5,30 +5,22 @@
  */
 package dyna.app.service.brs.wfm;
 
-import java.util.List;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.common.bean.model.wf.WorkflowProcess;
 import dyna.common.dto.model.wf.WorkflowProcessInfo;
 import dyna.common.dto.model.wf.WorkflowTransitionInfo;
 import dyna.common.exception.ServiceRequestException;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * @author Wanglei
  *
  */
+@Component
 public class TransitionStub extends AbstractServiceStub<WFMImpl>
 {
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	protected TransitionStub(ServiceContext context, WFMImpl service)
-	{
-		super(context, service);
-	}
 
 	protected List<WorkflowTransitionInfo> listTransition(String procGuid, String procName) throws ServiceRequestException
 	{

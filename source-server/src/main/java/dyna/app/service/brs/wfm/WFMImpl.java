@@ -5,35 +5,22 @@
  */
 package dyna.app.service.brs.wfm;
 
-import java.lang.reflect.Method;
-import java.util.List;
-
 import dyna.app.service.BusinessRuleService;
 import dyna.common.bean.data.ObjectGuid;
 import dyna.common.dto.SystemWorkflowActivity;
 import dyna.common.dto.model.bmbo.BOInfo;
 import dyna.common.dto.model.cls.ClassInfo;
-import dyna.common.dto.model.wf.WorkflowActivityInfo;
-import dyna.common.dto.model.wf.WorkflowActrtActionInfo;
-import dyna.common.dto.model.wf.WorkflowActrtLifecyclePhaseInfo;
-import dyna.common.dto.model.wf.WorkflowActrtStatusInfo;
-import dyna.common.dto.model.wf.WorkflowEventInfo;
-import dyna.common.dto.model.wf.WorkflowLifecyclePhaseInfo;
-import dyna.common.dto.model.wf.WorkflowPhaseChangeInfo;
-import dyna.common.dto.model.wf.WorkflowProcessInfo;
-import dyna.common.dto.model.wf.WorkflowTransitionInfo;
+import dyna.common.dto.model.wf.*;
 import dyna.common.dto.template.wft.WorkflowTemplateInfo;
 import dyna.common.dto.wf.ApproveTemplate;
 import dyna.common.dto.wf.ApproveTemplateDetail;
 import dyna.common.dto.wf.GraphTransition;
 import dyna.common.exception.AuthorizeException;
 import dyna.common.exception.ServiceRequestException;
-import dyna.net.service.brs.AAS;
-import dyna.net.service.brs.BOAS;
-import dyna.net.service.brs.BOMS;
-import dyna.net.service.brs.EMM;
-import dyna.net.service.brs.WFI;
-import dyna.net.service.brs.WFM;
+import dyna.net.service.brs.*;
+
+import java.lang.reflect.Method;
+import java.util.List;
 
 /**
  * WFM 实现类
@@ -53,7 +40,7 @@ public class WFMImpl extends BusinessRuleService implements WFM
 	private ScriptStub				scriptStub			= null;
 
 	@Override
-	protected void init()
+	public void init()
 	{
 		// TODO Auto-generated method stub
 		super.init();
@@ -65,10 +52,6 @@ public class WFMImpl extends BusinessRuleService implements WFM
 	 */
 	public ActivitiyStub getActivitiyStub()
 	{
-		if (this.activitiyStub == null)
-		{
-			this.activitiyStub = new ActivitiyStub(this.serviceContext, this);
-		}
 		return this.activitiyStub;
 	}
 
@@ -77,10 +60,6 @@ public class WFMImpl extends BusinessRuleService implements WFM
 	 */
 	protected ApproveTemplateStub getProcessTemplateStub()
 	{
-		if (this.processTemplateStub == null)
-		{
-			this.processTemplateStub = new ApproveTemplateStub(this.serviceContext, this);
-		}
 		return this.processTemplateStub;
 	}
 
@@ -89,10 +68,6 @@ public class WFMImpl extends BusinessRuleService implements WFM
 	 */
 	public ProcessStub getProcessStub()
 	{
-		if (this.processStub == null)
-		{
-			this.processStub = new ProcessStub(this.serviceContext, this);
-		}
 		return this.processStub;
 	}
 
@@ -101,10 +76,6 @@ public class WFMImpl extends BusinessRuleService implements WFM
 	 */
 	protected TransitionStub getTransitionStub()
 	{
-		if (this.transitionStub == null)
-		{
-			this.transitionStub = new TransitionStub(this.serviceContext, this);
-		}
 		return this.transitionStub;
 	}
 
@@ -113,10 +84,6 @@ public class WFMImpl extends BusinessRuleService implements WFM
 	 */
 	protected WFGraphStub getWfGraphStub()
 	{
-		if (this.wfGraphStub == null)
-		{
-			this.wfGraphStub = new WFGraphStub(this.serviceContext, this);
-		}
 		return this.wfGraphStub;
 	}
 
@@ -125,19 +92,11 @@ public class WFMImpl extends BusinessRuleService implements WFM
 	 */
 	public WorkflowModelCacheStub getWfModelCacheStub()
 	{
-		if (this.wfModelCacheStub == null)
-		{
-			this.wfModelCacheStub = new WorkflowModelCacheStub(this.serviceContext, this);
-		}
 		return this.wfModelCacheStub;
 	}
 
 	public ScriptStub getWfScriptStub()
 	{
-		if (this.scriptStub == null)
-		{
-			this.scriptStub = new ScriptStub(this.serviceContext, this);
-		}
 		return this.scriptStub;
 	}
 

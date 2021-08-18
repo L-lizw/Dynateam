@@ -5,7 +5,6 @@
  */
 package dyna.app.service.brs.uecs;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.boas.BOASImpl;
 import dyna.app.service.helper.ServiceRequestExceptionWrap;
@@ -27,6 +26,7 @@ import dyna.common.systemenum.uecs.*;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.common.util.UpdatedECSConstants;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,13 +35,9 @@ import java.util.List;
  * @author Wanglei
  * 
  */
+@Component
 public class UECRECPStub extends AbstractServiceStub<UECSImpl>
 {
-
-	protected UECRECPStub(ServiceContext context, UECSImpl service)
-	{
-		super(context, service);
-	}
 
 	/**
 	 * @param ecpfoundation

@@ -5,24 +5,6 @@
  */
 package dyna.app.service.brs.erpi;
 
-import java.io.IOException;
-import java.io.StringReader;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Iterator;
-import java.util.List;
-import java.util.HashMap;
-
-import javax.xml.rpc.ServiceException;
-
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.JDOMException;
-import org.jdom.input.SAXBuilder;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.brs.erpi.cross.util.XMLUtil;
 import dyna.app.service.brs.erpi.dataExport.IntegrateERP;
 import dyna.app.service.brs.erpi.dataExport.IntegrateWF;
@@ -41,6 +23,17 @@ import dyna.common.systemenum.ERPWFOperationEnum;
 import dyna.common.systemenum.LanguageEnum;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.JDOMException;
+import org.jdom.input.SAXBuilder;
+
+import javax.xml.rpc.ServiceException;
+import java.io.IOException;
+import java.io.StringReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.*;
 
 /**
  * @author wangweixia
@@ -64,9 +57,9 @@ public class ERPWFTransferStub extends ERPTransferStub<ERPWFOperationEnum>
 	 * @throws IOException
 	 * @throws JDOMException
 	 */
-	protected ERPWFTransferStub(ServiceContext context, ERPIImpl service, Document document) throws Exception
+	protected ERPWFTransferStub(Document document) throws Exception
 	{
-		super(context, service);
+		super();
 		this.ERPType = ERPServerType.ERPWORKFLOW;
 		this.integrate = new IntegrateWF(this, document);
 		this.operationLiveTime = this.integrate.getOperationLiveTime();

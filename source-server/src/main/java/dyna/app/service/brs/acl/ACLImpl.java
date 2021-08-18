@@ -5,19 +5,10 @@
  */
 package dyna.app.service.brs.acl;
 
-import java.lang.reflect.Method;
-import java.util.List;
-
 import dyna.app.service.BusinessRuleService;
 import dyna.common.bean.data.ObjectGuid;
 import dyna.common.dto.aas.Group;
-import dyna.common.dto.acl.ACLFunctionItem;
-import dyna.common.dto.acl.ACLFunctionObject;
-import dyna.common.dto.acl.ACLItem;
-import dyna.common.dto.acl.ACLSubject;
-import dyna.common.dto.acl.FolderACLItem;
-import dyna.common.dto.acl.PublicSearchACLItem;
-import dyna.common.dto.acl.ShareFolderACLItem;
+import dyna.common.dto.acl.*;
 import dyna.common.exception.AuthorizeException;
 import dyna.common.exception.ServiceRequestException;
 import dyna.common.systemenum.AccessTypeEnum;
@@ -26,11 +17,12 @@ import dyna.common.systemenum.ModulEnum;
 import dyna.common.systemenum.PermissibleEnum;
 import dyna.common.util.SetUtils;
 import dyna.net.security.signature.UserSignature;
-import dyna.net.service.brs.AAS;
-import dyna.net.service.brs.ACL;
-import dyna.net.service.brs.BOAS;
-import dyna.net.service.brs.EDAP;
-import dyna.net.service.brs.EMM;
+import dyna.net.service.brs.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.lang.reflect.Method;
+import java.util.List;
 
 /**
  * Access Control List Service implementation
@@ -38,6 +30,7 @@ import dyna.net.service.brs.EMM;
  * @author Wanglei
  * 
  */
+@Service
 public class ACLImpl extends BusinessRuleService implements ACL
 {
 	private static boolean initialized = false;
@@ -55,17 +48,24 @@ public class ACLImpl extends BusinessRuleService implements ACL
 		ACLSubjectStub.init();
 	}
 
-	private ACLStub					aclStub					= null;
-	private ACLSubjectStub			aclSubjectStub			= null;
-	private ACLItemStub				aclItemStub				= null;
-	private FolderACLStub			folderACLStub			= null;
-	private SharedFolderACLStub		sharedFolderACLStub		= null;
-
-	private PublicSearchACLStub		publicSearchACLStub		= null;
-	private FoundationACLStub		foundationACLStub		= null;
-
-	private ACLFunctionObjectStub	aclFunctionObjectStub	= null;
-	private ACLFunctionItemStub		aclFunctionItemStub		= null;
+	@Autowired
+	private ACLStub					aclStub					;
+	@Autowired
+	private ACLSubjectStub			aclSubjectStub			;
+	@Autowired
+	private ACLItemStub				aclItemStub				;
+	@Autowired
+	private FolderACLStub			folderACLStub			;
+	@Autowired
+	private SharedFolderACLStub		sharedFolderACLStub		;
+	@Autowired
+	private PublicSearchACLStub		publicSearchACLStub		;
+	@Autowired
+	private FoundationACLStub		foundationACLStub		;
+	@Autowired
+	private ACLFunctionObjectStub	aclFunctionObjectStub	;
+	@Autowired
+	private ACLFunctionItemStub		aclFunctionItemStub		;
 
 	/*
 	 * (non-Javadoc)
@@ -73,7 +73,7 @@ public class ACLImpl extends BusinessRuleService implements ACL
 	 * @see dyna.app.service.DataAccessService#init()
 	 */
 	@Override
-	protected void init()
+	public void init()
 	{
 		syncInit();
 	}
@@ -146,10 +146,6 @@ public class ACLImpl extends BusinessRuleService implements ACL
 	 */
 	protected ACLStub getAclStub()
 	{
-		if (this.aclStub == null)
-		{
-			this.aclStub = new ACLStub(this.serviceContext, this);
-		}
 		return this.aclStub;
 	}
 
@@ -158,10 +154,6 @@ public class ACLImpl extends BusinessRuleService implements ACL
 	 */
 	protected ACLItemStub getAclItemStub()
 	{
-		if (this.aclItemStub == null)
-		{
-			this.aclItemStub = new ACLItemStub(this.serviceContext, this);
-		}
 		return this.aclItemStub;
 	}
 
@@ -170,10 +162,6 @@ public class ACLImpl extends BusinessRuleService implements ACL
 	 */
 	protected ACLSubjectStub getAclSubjectStub()
 	{
-		if (this.aclSubjectStub == null)
-		{
-			this.aclSubjectStub = new ACLSubjectStub(this.serviceContext, this);
-		}
 		return this.aclSubjectStub;
 	}
 
@@ -182,10 +170,6 @@ public class ACLImpl extends BusinessRuleService implements ACL
 	 */
 	protected FoundationACLStub getFoundationACLStub()
 	{
-		if (this.foundationACLStub == null)
-		{
-			this.foundationACLStub = new FoundationACLStub(this.serviceContext, this);
-		}
 		return this.foundationACLStub;
 	}
 
@@ -194,10 +178,6 @@ public class ACLImpl extends BusinessRuleService implements ACL
 	 */
 	protected ACLFunctionItemStub getAclFunctionItemStub()
 	{
-		if (this.aclFunctionItemStub == null)
-		{
-			this.aclFunctionItemStub = new ACLFunctionItemStub(this.serviceContext, this);
-		}
 		return this.aclFunctionItemStub;
 	}
 
@@ -206,10 +186,6 @@ public class ACLImpl extends BusinessRuleService implements ACL
 	 */
 	protected ACLFunctionObjectStub getAclFunctionObjectStub()
 	{
-		if (this.aclFunctionObjectStub == null)
-		{
-			this.aclFunctionObjectStub = new ACLFunctionObjectStub(this.serviceContext, this);
-		}
 		return this.aclFunctionObjectStub;
 	}
 
@@ -218,10 +194,6 @@ public class ACLImpl extends BusinessRuleService implements ACL
 	 */
 	protected PublicSearchACLStub getPublicSearchACLStub()
 	{
-		if (this.publicSearchACLStub == null)
-		{
-			this.publicSearchACLStub = new PublicSearchACLStub(this.serviceContext, this);
-		}
 		return this.publicSearchACLStub;
 	}
 
@@ -230,10 +202,6 @@ public class ACLImpl extends BusinessRuleService implements ACL
 	 */
 	public FolderACLStub getFolderACLStub()
 	{
-		if (this.folderACLStub == null)
-		{
-			this.folderACLStub = new FolderACLStub(this.serviceContext, this);
-		}
 		return this.folderACLStub;
 	}
 
@@ -242,10 +210,6 @@ public class ACLImpl extends BusinessRuleService implements ACL
 	 */
 	public SharedFolderACLStub getSharedFolderACLStub()
 	{
-		if (this.sharedFolderACLStub == null)
-		{
-			this.sharedFolderACLStub = new SharedFolderACLStub(this.serviceContext, this);
-		}
 		return this.sharedFolderACLStub;
 	}
 

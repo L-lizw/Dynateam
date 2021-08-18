@@ -1,14 +1,5 @@
 package dyna.app.service.brs.iop;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.List;
-import java.util.HashMap;
-import java.util.Set;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.common.SearchCondition;
 import dyna.common.bean.data.FoundationObject;
@@ -23,19 +14,20 @@ import dyna.common.dto.DataRule;
 import dyna.common.exception.ServiceRequestException;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
+import org.springframework.stereotype.Component;
 import parsii.eval.Expression;
 import parsii.eval.Parser;
 import parsii.eval.Scope;
 import parsii.eval.Variable;
 import parsii.tokenizer.ParseException;
 
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.*;
+
+@Component
 public class DrivenTestStub extends AbstractServiceStub<IOPImpl>
 {
-
-	protected DrivenTestStub(ServiceContext context, IOPImpl service)
-	{
-		super(context, service);
-	}
 
 	public DrivenResult drivenTest(ObjectGuid objectGuid, SearchCondition searchCondition, SearchCondition end2SearchCondition, DataRule dataRule, String codeValue,
 			boolean isAppend) throws ServiceRequestException

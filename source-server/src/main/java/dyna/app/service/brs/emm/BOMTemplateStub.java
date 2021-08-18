@@ -5,14 +5,6 @@
  */
 package dyna.app.service.brs.emm;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.common.bean.data.ObjectGuid;
 import dyna.common.bean.data.template.BOMTemplate;
@@ -27,20 +19,21 @@ import dyna.common.log.DynaLogger;
 import dyna.common.util.EnvUtils;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
+import org.springframework.stereotype.Component;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author Wanglei
  */
+@Component
 public class BOMTemplateStub extends AbstractServiceStub<EMMImpl>
 {
-	/**
-	 * @param context
-	 * @param service
-	 */
-	public BOMTemplateStub(ServiceContext context, EMMImpl service)
-	{
-		super(context, service);
-	}
 
 	protected List<BOMTemplateInfo> listAllBOMTemplate(boolean isContainInValid) throws ServiceRequestException
 	{

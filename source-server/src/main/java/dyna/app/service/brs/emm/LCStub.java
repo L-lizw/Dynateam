@@ -5,15 +5,15 @@
  */
 package dyna.app.service.brs.emm;
 
-import java.util.List;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.common.dto.model.cls.ClassInfo;
 import dyna.common.dto.model.lf.LifecycleInfo;
 import dyna.common.dto.model.lf.LifecyclePhaseInfo;
 import dyna.common.exception.ServiceRequestException;
 import dyna.common.util.SetUtils;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * Life Cycle Service Implement 生命周期服务的实现类
@@ -21,16 +21,9 @@ import dyna.common.util.SetUtils;
  * @author caogc
  * 
  */
+@Component
 public class LCStub extends AbstractServiceStub<EMMImpl>
 {
-	/**
-	 * @param context
-	 * @param service
-	 */
-	public LCStub(ServiceContext context, EMMImpl service)
-	{
-		super(context, service);
-	}
 
 	public LifecyclePhaseInfo getLifecyclePhaseInfo(String lifecyclePhaseInfoGuid) throws ServiceRequestException
 	{

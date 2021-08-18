@@ -1,6 +1,5 @@
 package dyna.app.service.brs.boas;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.dss.DSSImpl;
 import dyna.app.service.helper.ServiceRequestExceptionWrap;
@@ -20,19 +19,15 @@ import dyna.common.systemenum.ModelInterfaceEnum;
 import dyna.common.util.CloneUtils;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@Component
 public class RouteStub extends AbstractServiceStub<BOASImpl>
 {
-
-	protected RouteStub(ServiceContext context, BOASImpl service)
-	{
-		super(context, service);
-	}
-
 	/**
 	 * 通过模板复制创建工艺流程或者工序
 	 * 

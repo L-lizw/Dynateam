@@ -5,14 +5,6 @@
  */
 package dyna.app.service.brs.bom;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.bom.comparator.BOMComparator;
 import dyna.common.SearchCondition;
@@ -30,22 +22,17 @@ import dyna.common.exception.ServiceRequestException;
 import dyna.common.systemenum.ECOperateTypeEnum;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
+import org.springframework.stereotype.Component;
+
+import java.util.*;
 
 /**
  * @author Wanglei
  * 
  */
+@Component
 public class BOMCompareStub extends AbstractServiceStub<BOMSImpl>
 {
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	public BOMCompareStub(ServiceContext context, BOMSImpl service)
-	{
-		super(context, service);
-	}
 
 	protected List<BOMCompare> compareBOMByObject(ObjectGuid leftBOMViewObjectGuid, DataRule leftDataRule, ObjectGuid rightBOMViewObjectGuid, DataRule rightDataRule)
 			throws ServiceRequestException

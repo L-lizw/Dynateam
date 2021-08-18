@@ -5,14 +5,6 @@
  */
 package dyna.app.service.brs.ppms;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.boas.BOASImpl;
 import dyna.app.service.helper.ServiceRequestExceptionWrap;
@@ -21,11 +13,7 @@ import dyna.common.SearchConditionFactory;
 import dyna.common.bean.data.FoundationObject;
 import dyna.common.bean.data.ObjectGuid;
 import dyna.common.bean.data.SystemObject;
-import dyna.common.bean.data.ppms.CheckpointConfig;
-import dyna.common.bean.data.ppms.LaborHourConfig;
-import dyna.common.bean.data.ppms.PPMConstans;
-import dyna.common.bean.data.ppms.PPMFoundationObjectUtil;
-import dyna.common.bean.data.ppms.ProjectRole;
+import dyna.common.bean.data.ppms.*;
 import dyna.common.dto.model.bmbo.BOInfo;
 import dyna.common.dto.model.cls.ClassField;
 import dyna.common.dto.model.cls.ClassInfo;
@@ -35,29 +23,23 @@ import dyna.common.exception.ServiceRequestException;
 import dyna.common.systemenum.ModelInterfaceEnum;
 import dyna.common.systemenum.OperateSignEnum;
 import dyna.common.systemenum.SystemClassFieldEnum;
-import dyna.common.systemenum.ppms.CodeNameEnum;
-import dyna.common.systemenum.ppms.DurationUnitEnum;
-import dyna.common.systemenum.ppms.ProjectStatusEnum;
-import dyna.common.systemenum.ppms.TaskDependEnum;
-import dyna.common.systemenum.ppms.TaskStatusEnum;
-import dyna.common.systemenum.ppms.TaskTypeEnum;
+import dyna.common.systemenum.ppms.*;
 import dyna.common.util.PMConstans;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Component;
+
+import java.util.*;
 
 /**
  * @author WangLHB
  * 
  */
+@Component
 public class BaseConfigStub extends AbstractServiceStub<PPMSImpl>
 {
-
-	protected BaseConfigStub(ServiceContext context, PPMSImpl service)
-	{
-		super(context, service);
-	}
 
 	protected List<FoundationObject> listProjectType() throws ServiceRequestException
 	{

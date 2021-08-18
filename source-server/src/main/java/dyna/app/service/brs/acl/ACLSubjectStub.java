@@ -5,7 +5,6 @@
  */
 package dyna.app.service.brs.acl;
 
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.common.bean.data.SystemObject;
 import dyna.common.bean.xml.UpperKeyMap;
@@ -18,23 +17,17 @@ import dyna.data.DataServer;
 import dyna.data.service.acl.AclService;
 import dyna.data.service.sdm.FieldValueEqualsFilter;
 import dyna.data.service.sdm.SystemDataService;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
 /**
- * @author Wanglei
+ * @author Lizw
  * 
  */
+@Component
 public class ACLSubjectStub extends AbstractServiceStub<ACLImpl>
 {
-	/**
-	 * @param context
-	 * @param service
-	 */
-	protected ACLSubjectStub(ServiceContext context, ACLImpl service)
-	{
-		super(context, service);
-	}
 
 	protected static void init()
 	{

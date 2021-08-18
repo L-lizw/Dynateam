@@ -5,11 +5,6 @@
  */
 package dyna.app.service.das.jss;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
 import dyna.app.server.context.ApplicationServerContext;
 import dyna.app.server.context.ServerContextListener;
 import dyna.app.server.context.ServiceContext;
@@ -30,6 +25,11 @@ import dyna.net.service.brs.SMS;
 import dyna.net.service.das.JSS;
 import dyna.net.service.das.MSRM;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
 /**
  * 工作任务轮询监听器, 添加轮询机制
  *
@@ -46,7 +46,7 @@ public class ServerContextListenerJobPollingImpl implements ServerContextListene
 	 * dyna.app.server.context.ServiceContext)
 	 */
 	@Override
-	public void contextInitialized(ApplicationServerContext serverContext, ServiceContext serviceContext)
+	public void contextInitialized()
 	{
 		ServiceDefinition definition = serviceContext.getServiceConfig().getServiceDefinition("JSS");
 		String jobPollingTimeStr = definition.getInitParameter("jobPollingTime");

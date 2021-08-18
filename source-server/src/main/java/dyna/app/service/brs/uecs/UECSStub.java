@@ -5,14 +5,6 @@
  */
 package dyna.app.service.brs.uecs;
 
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.boas.BOASImpl;
 import dyna.app.service.brs.boas.RelationStub;
@@ -32,18 +24,17 @@ import dyna.common.dto.template.relation.RelationTemplateInfo;
 import dyna.common.dto.wf.ProcAttach;
 import dyna.common.exception.ServiceRequestException;
 import dyna.common.log.DynaLogger;
-import dyna.common.systemenum.DataExceptionEnum;
-import dyna.common.systemenum.LanguageEnum;
-import dyna.common.systemenum.MailCategoryEnum;
-import dyna.common.systemenum.MailMessageType;
-import dyna.common.systemenum.ModelInterfaceEnum;
-import dyna.common.systemenum.SystemStatusEnum;
+import dyna.common.systemenum.*;
 import dyna.common.systemenum.uecs.ECNLifecyclePhaseEnum;
 import dyna.common.systemenum.uecs.ECOLifecyclePhaseEnum;
 import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.common.util.UpdatedECSConstants;
 import dyna.net.service.brs.EMM;
+import org.springframework.stereotype.Component;
+
+import java.text.MessageFormat;
+import java.util.*;
 
 /**
  * ECS的公共方法
@@ -51,17 +42,9 @@ import dyna.net.service.brs.EMM;
  * @author wangweixia
  * 
  */
+@Component
 public class UECSStub extends AbstractServiceStub<UECSImpl>
 {
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	protected UECSStub(ServiceContext context, UECSImpl service)
-	{
-		super(context, service);
-	}
 
 	protected void getKeyFromObjectGuid(ObjectGuid object, String sid, DynaObject foundationObject) throws ServiceRequestException
 	{

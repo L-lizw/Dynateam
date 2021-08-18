@@ -5,23 +5,12 @@
  */
 package dyna.app.service.brs.wfm;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
-
-import dyna.app.server.context.ServiceContext;
 import dyna.app.service.AbstractServiceStub;
 import dyna.app.service.brs.aas.AASImpl;
 import dyna.app.service.brs.emm.EMMImpl;
 import dyna.app.service.brs.wfi.WFIImpl;
 import dyna.common.bean.data.ObjectGuid;
-import dyna.common.bean.model.wf.WorkflowActivity;
-import dyna.common.bean.model.wf.WorkflowApplicationActivity;
-import dyna.common.bean.model.wf.WorkflowManualActivity;
-import dyna.common.bean.model.wf.WorkflowNotifyActivity;
-import dyna.common.bean.model.wf.WorkflowProcess;
-import dyna.common.bean.model.wf.WorkflowSubProcessActivity;
+import dyna.common.bean.model.wf.*;
 import dyna.common.bean.model.wf.template.WorkflowTemplate;
 import dyna.common.dto.SystemWorkflowActivity;
 import dyna.common.dto.aas.User;
@@ -45,22 +34,20 @@ import dyna.common.util.SetUtils;
 import dyna.common.util.StringUtils;
 import dyna.data.DataServer;
 import dyna.data.common.exception.DynaDataSqlException;
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * @author Wanglei
  * 
  */
+@Component
 public class ProcessStub extends AbstractServiceStub<WFMImpl>
 {
-
-	/**
-	 * @param context
-	 * @param service
-	 */
-	protected ProcessStub(ServiceContext context, WFMImpl service)
-	{
-		super(context, service);
-	}
 
 	public WorkflowProcess getProcess(String procName) throws ServiceRequestException
 	{
